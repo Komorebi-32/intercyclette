@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercyclette — Randovélo + Train</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <header class="site-header">
+    <span class="logo">🚲 Intercyclette</span>
+    <span class="tagline">Trouvez votre randovélo en train</span>
+  </header>
+
+  <div class="app-layout">
+    <!-- ── Left panel: search form ── -->
+    <aside class="panel-left">
+      <form id="search-form">
+
+        <!-- Departure city -->
+        <div class="form-group">
+          <label for="departure-input">Ville de départ</label>
+          <input
+            type="text"
+            id="departure-input"
+            placeholder="Ex: Paris Gare de Lyon…"
+            autocomplete="off"
+            required
+          />
+          <input type="hidden" id="departure-uic" />
+          <ul id="autocomplete-list" class="autocomplete-dropdown" hidden></ul>
+        </div>
+
+        <!-- Number of days -->
+        <div class="form-group">
+          <label for="days-select">Nombre de jours</label>
+          <select id="days-select">
+            {% for d in range(1, 16) %}
+            <option value="{{ d }}" {% if d == 3 %}selected{% endif %}>{{ d }} jour{% if d > 1 %}s{% endif %}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Biking rhythm -->
+        <div class="form-group">
+          <label>Rythme de pédalage</label>
+          <div class="rhythm-options">
+            {% for key, r in rhythms.items() %}
+            <label class="rhythm-label">
+              <input
+                type="radio"
+                name="rhythm"
+                value="{{ key }}"
+                {% if key == 'randonneur' %}checked{% endif %}
+              />
+              <span class="rhythm-text">
+                <span class="rhythm-name">{{ r.label }}</span>
+                <span class="rhythm-detail">~{{ (r.speed_kmh * r.hours_per_day)|int }} km/jour</span>
+              </span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Eurovelo routes -->
+        <div class="form-group">
+          <label>Routes Eurovelo</label>
+          <div class="route-select-all">
+            <label>
+              <input type="checkbox" id="select-all-routes" />
+              Tout sélectionner / Tout désélectionner
+            </label>
+          </div>
+          <div class="route-checkboxes">
+            {% for route_id, route in eurovelo_routes.items() %}
+            <label class="route-label">
+              <input
+                type="checkbox"
+                class="route-checkbox"
+                value="{{ route_id }}"
+                checked
+              />
+              {{ route.name }}
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Travel date -->
+        <div class="form-group">
+          <label for="travel-date">Date de départ</label>
+          <input type="date" id="travel-date" />
+        </div>
+
+        <button type="submit" id="search-btn" class="btn-search">
+          Rechercher des itinéraires
+        </button>
+
+        <div id="search-status" class="search-status" hidden></div>
+      </form>
+    </aside>
+
+    <!-- ── Right panel: results + map ── -->
+    <main class="panel-right">
+      <div id="results-container" class="results-container">
+        <div class="results-placeholder">
+          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.</p>
+        </div>
+      </div>
+      <div id="map" class="map-container"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search.js') }}"></script>
+</body>
+</html>

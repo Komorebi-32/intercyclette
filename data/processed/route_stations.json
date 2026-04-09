@@ -1,0 +1,7380 @@
+{
+  "generated_at": "2026-04-09T12:12:40.720296+00:00",
+  "max_distance_km": 5.0,
+  "routes": {
+    "EV3": {
+      "route_id": "EV3",
+      "name": "La Scandibérique",
+      "total_km": 1800.885,
+      "stations": [
+        {
+          "nom": "Jeumont",
+          "libellecourt": "JTJ",
+          "codes_uic": [
+            "87295014"
+          ],
+          "lat": 50.29606,
+          "lon": 4.08645,
+          "distance_to_route_km": 0.379,
+          "cumulative_km": 21.8
+        },
+        {
+          "nom": "Recquignies",
+          "libellecourt": "RCQ",
+          "codes_uic": [
+            "87295022"
+          ],
+          "lat": 50.2840466,
+          "lon": 4.0445029,
+          "distance_to_route_km": 0.371,
+          "cumulative_km": 25.466
+        },
+        {
+          "nom": "Les Bons Pères",
+          "libellecourt": "BJP",
+          "codes_uic": [
+            "87297515"
+          ],
+          "lat": 50.2798638,
+          "lon": 4.010967,
+          "distance_to_route_km": 0.508,
+          "cumulative_km": 28.557
+        },
+        {
+          "nom": "Hautmont",
+          "libellecourt": "HAT",
+          "codes_uic": [
+            "87295568"
+          ],
+          "lat": 50.25398,
+          "lon": 3.91522,
+          "distance_to_route_km": 4.355,
+          "cumulative_km": 32.975
+        },
+        {
+          "nom": "Louvroil",
+          "libellecourt": "LWF",
+          "codes_uic": [
+            "87295535"
+          ],
+          "lat": 50.2683469,
+          "lon": 3.9535768,
+          "distance_to_route_km": 1.195,
+          "cumulative_km": 32.975
+        },
+        {
+          "nom": "Maubeuge",
+          "libellecourt": "MBG",
+          "codes_uic": [
+            "87295006"
+          ],
+          "lat": 50.27298,
+          "lon": 3.96677,
+          "distance_to_route_km": 0.126,
+          "cumulative_km": 32.975
+        },
+        {
+          "nom": "Sous le Bois",
+          "libellecourt": "SBS",
+          "codes_uic": [
+            "87295543"
+          ],
+          "lat": 50.2655833,
+          "lon": 3.93961,
+          "distance_to_route_km": 2.221,
+          "cumulative_km": 32.975
+        },
+        {
+          "nom": "Sains-du-Nord",
+          "libellecourt": "SAW",
+          "codes_uic": [
+            "87295709"
+          ],
+          "lat": 50.0889485,
+          "lon": 4.0016955,
+          "distance_to_route_km": 4.235,
+          "cumulative_km": 62.242
+        },
+        {
+          "nom": "Fourmies",
+          "libellecourt": "FMI",
+          "codes_uic": [
+            "87295048"
+          ],
+          "lat": 50.01541,
+          "lon": 4.05357,
+          "distance_to_route_km": 0.029,
+          "cumulative_km": 77.216
+        },
+        {
+          "nom": "Anor",
+          "libellecourt": "ANO",
+          "codes_uic": [
+            "87295055"
+          ],
+          "lat": 49.984892,
+          "lon": 4.0929803,
+          "distance_to_route_km": 0.384,
+          "cumulative_km": 86.89
+        },
+        {
+          "nom": "Hirson Écoles",
+          "libellecourt": "HSO",
+          "codes_uic": [
+            "87324335"
+          ],
+          "lat": 49.9288321,
+          "lon": 4.0861491,
+          "distance_to_route_km": 0.405,
+          "cumulative_km": 94.749
+        },
+        {
+          "nom": "Hirson",
+          "libellecourt": "HIQ",
+          "codes_uic": [
+            "87295063"
+          ],
+          "lat": 49.91455,
+          "lon": 4.08432,
+          "distance_to_route_km": 0.029,
+          "cumulative_km": 97.414
+        },
+        {
+          "nom": "La Fère",
+          "libellecourt": "FER",
+          "codes_uic": [
+            "87296632"
+          ],
+          "lat": 49.65802,
+          "lon": 3.36981,
+          "distance_to_route_km": 1.415,
+          "cumulative_km": 182.042
+        },
+        {
+          "nom": "Tergnier",
+          "libellecourt": "TGR",
+          "codes_uic": [
+            "87296442"
+          ],
+          "lat": 49.6591862,
+          "lon": 3.2972491,
+          "distance_to_route_km": 0.411,
+          "cumulative_km": 187.118
+        },
+        {
+          "nom": "Mennessis",
+          "libellecourt": "MKI",
+          "codes_uic": [
+            "87296434"
+          ],
+          "lat": 49.6915989,
+          "lon": 3.2711145,
+          "distance_to_route_km": 4.43,
+          "cumulative_km": 187.126
+        },
+        {
+          "nom": "Viry-Noureuil",
+          "libellecourt": "VWN",
+          "codes_uic": [
+            "87297051"
+          ],
+          "lat": 49.6274493,
+          "lon": 3.2503611,
+          "distance_to_route_km": 0.521,
+          "cumulative_km": 192.731
+        },
+        {
+          "nom": "Chauny",
+          "libellecourt": "CNY",
+          "codes_uic": [
+            "87296616"
+          ],
+          "lat": 49.61119,
+          "lon": 3.22354,
+          "distance_to_route_km": 0.407,
+          "cumulative_km": 195.533
+        },
+        {
+          "nom": "Appilly",
+          "libellecourt": "APP",
+          "codes_uic": [
+            "87296459"
+          ],
+          "lat": 49.5808826,
+          "lon": 3.1221903,
+          "distance_to_route_km": 0.259,
+          "cumulative_km": 203.951
+        },
+        {
+          "nom": "Noyon",
+          "libellecourt": "NOY",
+          "codes_uic": [
+            "87276782"
+          ],
+          "lat": 49.57736,
+          "lon": 3.00641,
+          "distance_to_route_km": 1.536,
+          "cumulative_km": 212.411
+        },
+        {
+          "nom": "Ourscamp",
+          "libellecourt": "OUA",
+          "codes_uic": [
+            "87276774"
+          ],
+          "lat": 49.5341405,
+          "lon": 2.9540017,
+          "distance_to_route_km": 0.052,
+          "cumulative_km": 218.871
+        },
+        {
+          "nom": "Ribécourt-Dreslincourt",
+          "libellecourt": "RIB",
+          "codes_uic": [
+            "87276766"
+          ],
+          "lat": 49.50633,
+          "lon": 2.92714,
+          "distance_to_route_km": 1.692,
+          "cumulative_km": 221.806
+        },
+        {
+          "nom": "Thourotte",
+          "libellecourt": "LTC",
+          "codes_uic": [
+            "87276741"
+          ],
+          "lat": 49.4760722,
+          "lon": 2.8830021,
+          "distance_to_route_km": 2.151,
+          "cumulative_km": 230.887
+        },
+        {
+          "nom": "Longueil-Annel",
+          "libellecourt": "LPK",
+          "codes_uic": [
+            "87272195"
+          ],
+          "lat": 49.4672441,
+          "lon": 2.8634086,
+          "distance_to_route_km": 3.243,
+          "cumulative_km": 230.909
+        },
+        {
+          "nom": "Compiègne",
+          "libellecourt": "CPE",
+          "codes_uic": [
+            "87276691"
+          ],
+          "lat": 49.422005,
+          "lon": 2.823679,
+          "distance_to_route_km": 0.214,
+          "cumulative_km": 240.458
+        },
+        {
+          "nom": "Jaux",
+          "libellecourt": "JAX",
+          "codes_uic": [
+            "87272013"
+          ],
+          "lat": 49.3868029,
+          "lon": 2.777316,
+          "distance_to_route_km": 0.198,
+          "cumulative_km": 245.922
+        },
+        {
+          "nom": "Le Meux - La Croix-Saint-Ouen",
+          "libellecourt": "LXS",
+          "codes_uic": [
+            "87276733"
+          ],
+          "lat": 49.3594029,
+          "lon": 2.7532645,
+          "distance_to_route_km": 0.897,
+          "cumulative_km": 249.03
+        },
+        {
+          "nom": "Longueil-Sainte-Marie",
+          "libellecourt": "LUE",
+          "codes_uic": [
+            "87276303"
+          ],
+          "lat": 49.3425377,
+          "lon": 2.7175537,
+          "distance_to_route_km": 2.0,
+          "cumulative_km": 254.134
+        },
+        {
+          "nom": "Chevrières",
+          "libellecourt": "CGB",
+          "codes_uic": [
+            "87276311"
+          ],
+          "lat": 49.3373064,
+          "lon": 2.6828025,
+          "distance_to_route_km": 2.508,
+          "cumulative_km": 262.188
+        },
+        {
+          "nom": "Pont-Sainte-Maxence",
+          "libellecourt": "PXE",
+          "codes_uic": [
+            "87276329"
+          ],
+          "lat": 49.30974,
+          "lon": 2.60289,
+          "distance_to_route_km": 0.986,
+          "cumulative_km": 269.422
+        },
+        {
+          "nom": "Le Plessis-Belleville",
+          "libellecourt": "PLB",
+          "codes_uic": [
+            "87271551"
+          ],
+          "lat": 49.0959033,
+          "lon": 2.7448073,
+          "distance_to_route_km": 4.595,
+          "cumulative_km": 300.943
+        },
+        {
+          "nom": "Dammartin - Juilly - Saint-Mard",
+          "libellecourt": "DAM",
+          "codes_uic": [
+            "87271536"
+          ],
+          "lat": 49.03219,
+          "lon": 2.69887,
+          "distance_to_route_km": 2.877,
+          "cumulative_km": 317.037
+        },
+        {
+          "nom": "Thieux - Nantouillet",
+          "libellecourt": "TNT",
+          "codes_uic": [
+            "87272054"
+          ],
+          "lat": 49.0084346,
+          "lon": 2.6805271,
+          "distance_to_route_km": 0.79,
+          "cumulative_km": 318.729
+        },
+        {
+          "nom": "Compans",
+          "libellecourt": "COJ",
+          "codes_uic": [
+            "87272047"
+          ],
+          "lat": 48.9915767,
+          "lon": 2.6652718,
+          "distance_to_route_km": 0.078,
+          "cumulative_km": 320.623
+        },
+        {
+          "nom": "Mitry - Claye",
+          "libellecourt": "MYV",
+          "codes_uic": [
+            "87271528"
+          ],
+          "lat": 48.97569,
+          "lon": 2.64247,
+          "distance_to_route_km": 1.891,
+          "cumulative_km": 322.581
+        },
+        {
+          "nom": "Villeparisis - Mitry-le-Neuf",
+          "libellecourt": "VII",
+          "codes_uic": [
+            "87271510"
+          ],
+          "lat": 48.95325,
+          "lon": 2.60243,
+          "distance_to_route_km": 0.091,
+          "cumulative_km": 330.399
+        },
+        {
+          "nom": "Vert Galant",
+          "libellecourt": "VGL",
+          "codes_uic": [
+            "87271437"
+          ],
+          "lat": 48.94467,
+          "lon": 2.5667,
+          "distance_to_route_km": 0.158,
+          "cumulative_km": 333.185
+        },
+        {
+          "nom": "Parc des Expositions",
+          "libellecourt": "PEX",
+          "codes_uic": [
+            "87271486"
+          ],
+          "lat": 48.97334,
+          "lon": 2.51382,
+          "distance_to_route_km": 4.524,
+          "cumulative_km": 335.576
+        },
+        {
+          "nom": "Sevran - Livry",
+          "libellecourt": "SEV",
+          "codes_uic": [
+            "87271429"
+          ],
+          "lat": 48.93601,
+          "lon": 2.53484,
+          "distance_to_route_km": 0.094,
+          "cumulative_km": 335.82
+        },
+        {
+          "nom": "Sevran Beaudottes",
+          "libellecourt": "BDE",
+          "codes_uic": [
+            "87271445"
+          ],
+          "lat": 48.94743,
+          "lon": 2.52474,
+          "distance_to_route_km": 1.562,
+          "cumulative_km": 336.323
+        },
+        {
+          "nom": "Villepinte",
+          "libellecourt": "VPN",
+          "codes_uic": [
+            "87271452"
+          ],
+          "lat": 48.96292,
+          "lon": 2.51205,
+          "distance_to_route_km": 3.475,
+          "cumulative_km": 336.323
+        },
+        {
+          "nom": "Rougemont Chanteloup",
+          "libellecourt": "ROU",
+          "codes_uic": [
+            "87431791"
+          ],
+          "lat": 48.930895,
+          "lon": 2.51502,
+          "distance_to_route_km": 0.313,
+          "cumulative_km": 337.266
+        },
+        {
+          "nom": "Freinville Sevran",
+          "libellecourt": "FSV",
+          "codes_uic": [
+            "87113894"
+          ],
+          "lat": 48.926637,
+          "lon": 2.519019,
+          "distance_to_route_km": 0.221,
+          "cumulative_km": 337.357
+        },
+        {
+          "nom": "Aulnay-sous-Bois",
+          "libellecourt": "ABM",
+          "codes_uic": [
+            "87271411"
+          ],
+          "lat": 48.93179,
+          "lon": 2.49431,
+          "distance_to_route_km": 1.65,
+          "cumulative_km": 337.619
+        },
+        {
+          "nom": "L'Abbaye",
+          "libellecourt": "ABJ",
+          "codes_uic": [
+            "87113886"
+          ],
+          "lat": 48.922211,
+          "lon": 2.516874,
+          "distance_to_route_km": 0.395,
+          "cumulative_km": 337.779
+        },
+        {
+          "nom": "Lycée Henri Sellier",
+          "libellecourt": "LHS",
+          "codes_uic": [
+            "87988717"
+          ],
+          "lat": 48.91646,
+          "lon": 2.51504,
+          "distance_to_route_km": 0.643,
+          "cumulative_km": 338.674
+        },
+        {
+          "nom": "Le Blanc-Mesnil",
+          "libellecourt": "BAM",
+          "codes_uic": [
+            "87271478"
+          ],
+          "lat": 48.93248,
+          "lon": 2.47747,
+          "distance_to_route_km": 2.642,
+          "cumulative_km": 338.683
+        },
+        {
+          "nom": "Gargan",
+          "libellecourt": "GAF",
+          "codes_uic": [
+            "87113860"
+          ],
+          "lat": 48.908159,
+          "lon": 2.517109,
+          "distance_to_route_km": 1.298,
+          "cumulative_km": 339.26
+        },
+        {
+          "nom": "Les Pavillons-sous-Bois",
+          "libellecourt": "PVB",
+          "codes_uic": [
+            "87113852"
+          ],
+          "lat": 48.902418,
+          "lon": 2.511781,
+          "distance_to_route_km": 1.39,
+          "cumulative_km": 339.667
+        },
+        {
+          "nom": "Gagny",
+          "libellecourt": "GNQ",
+          "codes_uic": [
+            "87113514"
+          ],
+          "lat": 48.883125,
+          "lon": 2.527106,
+          "distance_to_route_km": 3.767,
+          "cumulative_km": 339.749
+        },
+        {
+          "nom": "Allée de la Tour Rendez-Vous",
+          "libellecourt": "AET",
+          "codes_uic": [
+            "87113878"
+          ],
+          "lat": 48.897109,
+          "lon": 2.506475,
+          "distance_to_route_km": 1.654,
+          "cumulative_km": 339.903
+        },
+        {
+          "nom": "Le Raincy - Villemomble - Montfermeil",
+          "libellecourt": "RVM",
+          "codes_uic": [
+            "87113472"
+          ],
+          "lat": 48.889325,
+          "lon": 2.512062,
+          "distance_to_route_km": 2.61,
+          "cumulative_km": 339.903
+        },
+        {
+          "nom": "Les Coquetiers",
+          "libellecourt": "LQT",
+          "codes_uic": [
+            "87113845"
+          ],
+          "lat": 48.89244,
+          "lon": 2.499415,
+          "distance_to_route_km": 1.958,
+          "cumulative_km": 340.323
+        },
+        {
+          "nom": "Remise à Jorelle",
+          "libellecourt": "RJL",
+          "codes_uic": [
+            "87988709"
+          ],
+          "lat": 48.89317,
+          "lon": 2.487751,
+          "distance_to_route_km": 1.661,
+          "cumulative_km": 340.786
+        },
+        {
+          "nom": "Bondy",
+          "libellecourt": "BDY",
+          "codes_uic": [
+            "87113407"
+          ],
+          "lat": 48.894208,
+          "lon": 2.4786,
+          "distance_to_route_km": 1.331,
+          "cumulative_km": 341.6
+        },
+        {
+          "nom": "Rosny Bois Perrier",
+          "libellecourt": "RBI",
+          "codes_uic": [
+            "87113696"
+          ],
+          "lat": 48.882568,
+          "lon": 2.480987,
+          "distance_to_route_km": 2.632,
+          "cumulative_km": 341.6
+        },
+        {
+          "nom": "Rosny-sous-Bois",
+          "libellecourt": "RSB",
+          "codes_uic": [
+            "87113704"
+          ],
+          "lat": 48.87099,
+          "lon": 2.48559,
+          "distance_to_route_km": 3.961,
+          "cumulative_km": 341.6
+        },
+        {
+          "nom": "Drancy",
+          "libellecourt": "DRN",
+          "codes_uic": [
+            "87271403"
+          ],
+          "lat": 48.93298,
+          "lon": 2.45497,
+          "distance_to_route_km": 3.249,
+          "cumulative_km": 342.14
+        },
+        {
+          "nom": "Noisy-le-Sec",
+          "libellecourt": "NSY",
+          "codes_uic": [
+            "87113217"
+          ],
+          "lat": 48.896288,
+          "lon": 2.459306,
+          "distance_to_route_km": 0.744,
+          "cumulative_km": 342.843
+        },
+        {
+          "nom": "Le Bourget",
+          "libellecourt": "LBT",
+          "codes_uic": [
+            "87271395"
+          ],
+          "lat": 48.93096,
+          "lon": 2.42571,
+          "distance_to_route_km": 3.689,
+          "cumulative_km": 343.98
+        },
+        {
+          "nom": "Le Bourget T11",
+          "libellecourt": "BOT",
+          "codes_uic": [
+            "87697359"
+          ],
+          "lat": 48.93086,
+          "lon": 2.42571,
+          "distance_to_route_km": 3.679,
+          "cumulative_km": 343.98
+        },
+        {
+          "nom": "Pantin",
+          "libellecourt": "PAN",
+          "codes_uic": [
+            "87113209"
+          ],
+          "lat": 48.898096,
+          "lon": 2.400685,
+          "distance_to_route_km": 0.246,
+          "cumulative_km": 347.308
+        },
+        {
+          "nom": "La Courneuve - Aubervilliers",
+          "libellecourt": "ALC",
+          "codes_uic": [
+            "87271304"
+          ],
+          "lat": 48.9242,
+          "lon": 2.38443,
+          "distance_to_route_km": 3.267,
+          "cumulative_km": 347.732
+        },
+        {
+          "nom": "La Plaine Stade de France - Saint-Denis - Aubervilliers",
+          "libellecourt": "LPN",
+          "codes_uic": [
+            "87164798"
+          ],
+          "lat": 48.91839,
+          "lon": 2.36257,
+          "distance_to_route_km": 3.418,
+          "cumulative_km": 348.065
+        },
+        {
+          "nom": "Rosa Parks",
+          "libellecourt": "ROK",
+          "codes_uic": [
+            "87654798"
+          ],
+          "lat": 48.89602,
+          "lon": 2.37397,
+          "distance_to_route_km": 0.942,
+          "cumulative_km": 348.863
+        },
+        {
+          "nom": "Stade de France Saint-Denis",
+          "libellecourt": "SFD",
+          "codes_uic": [
+            "87164780"
+          ],
+          "lat": 48.91779,
+          "lon": 2.35134,
+          "distance_to_route_km": 3.868,
+          "cumulative_km": 348.863
+        },
+        {
+          "nom": "Saint-Ouen",
+          "libellecourt": "SOS",
+          "codes_uic": [
+            "87271247"
+          ],
+          "lat": 48.90531,
+          "lon": 2.32257,
+          "distance_to_route_km": 4.244,
+          "cumulative_km": 350.205
+        },
+        {
+          "nom": "Magenta",
+          "libellecourt": "MAG",
+          "codes_uic": [
+            "87281873"
+          ],
+          "lat": 48.87986,
+          "lon": 2.35835,
+          "distance_to_route_km": 0.567,
+          "cumulative_km": 350.813
+        },
+        {
+          "nom": "Paris Gare du Nord",
+          "libellecourt": "PNO",
+          "codes_uic": [
+            "87271023",
+            "87271031",
+            "87271007"
+          ],
+          "lat": 48.880185,
+          "lon": 2.355151,
+          "distance_to_route_km": 0.79,
+          "cumulative_km": 351.001
+        },
+        {
+          "nom": "Paris Est",
+          "libellecourt": "PES",
+          "codes_uic": [
+            "87113001"
+          ],
+          "lat": 48.876742,
+          "lon": 2.358424,
+          "distance_to_route_km": 0.391,
+          "cumulative_km": 351.12
+        },
+        {
+          "nom": "Porte de Clichy",
+          "libellecourt": "PCL",
+          "codes_uic": [
+            "87111278"
+          ],
+          "lat": 48.89399,
+          "lon": 2.31462,
+          "distance_to_route_km": 4.121,
+          "cumulative_km": 351.12
+        },
+        {
+          "nom": "Haussmann Saint-Lazare",
+          "libellecourt": "HSL",
+          "codes_uic": [
+            "87281899"
+          ],
+          "lat": 48.87478,
+          "lon": 2.32862,
+          "distance_to_route_km": 2.029,
+          "cumulative_km": 353.195
+        },
+        {
+          "nom": "Paris Saint-Lazare",
+          "libellecourt": "PSL",
+          "codes_uic": [
+            "87384008"
+          ],
+          "lat": 48.876242,
+          "lon": 2.325331,
+          "distance_to_route_km": 2.319,
+          "cumulative_km": 353.195
+        },
+        {
+          "nom": "Péreire - Levallois",
+          "libellecourt": "PRR",
+          "codes_uic": [
+            "87381012"
+          ],
+          "lat": 48.8853581,
+          "lon": 2.2979465,
+          "distance_to_route_km": 4.553,
+          "cumulative_km": 353.195
+        },
+        {
+          "nom": "Pont Cardinet",
+          "libellecourt": "PTC",
+          "codes_uic": [
+            "87381111"
+          ],
+          "lat": 48.88755,
+          "lon": 2.31425,
+          "distance_to_route_km": 3.745,
+          "cumulative_km": 353.195
+        },
+        {
+          "nom": "Avenue du Président Kennedy Maison de Radio France",
+          "libellecourt": "APK",
+          "codes_uic": [
+            "87543207"
+          ],
+          "lat": 48.853322,
+          "lon": 2.279969,
+          "distance_to_route_km": 4.707,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Champ de Mars Tour Eiffel",
+          "libellecourt": "CPM",
+          "codes_uic": [
+            "87393058"
+          ],
+          "lat": 48.8551134,
+          "lon": 2.2892141,
+          "distance_to_route_km": 4.033,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Invalides",
+          "libellecourt": "INV",
+          "codes_uic": [
+            "87393033"
+          ],
+          "lat": 48.8619133,
+          "lon": 2.3150151,
+          "distance_to_route_km": 2.326,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Musée d'Orsay",
+          "libellecourt": "MDS",
+          "codes_uic": [
+            "87547307"
+          ],
+          "lat": 48.86079,
+          "lon": 2.325671,
+          "distance_to_route_km": 1.57,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Paris Montparnasse",
+          "libellecourt": "PMP",
+          "codes_uic": [
+            "87391011",
+            "87391003",
+            "87391102"
+          ],
+          "lat": 48.841172,
+          "lon": 2.320514,
+          "distance_to_route_km": 2.234,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Pont de l'Alma",
+          "libellecourt": "PDM",
+          "codes_uic": [
+            "87393041"
+          ],
+          "lat": 48.8625705,
+          "lon": 2.3010287,
+          "distance_to_route_km": 3.313,
+          "cumulative_km": 354.498
+        },
+        {
+          "nom": "Saint-Michel Notre-Dame",
+          "libellecourt": "SHL",
+          "codes_uic": [
+            "87547315"
+          ],
+          "lat": 48.85348,
+          "lon": 2.34545,
+          "distance_to_route_km": 0.003,
+          "cumulative_km": 354.589
+        },
+        {
+          "nom": "Paris Austerlitz",
+          "libellecourt": "PAZ",
+          "codes_uic": [
+            "87547026",
+            "87547000"
+          ],
+          "lat": 48.842285,
+          "lon": 2.364891,
+          "distance_to_route_km": 0.333,
+          "cumulative_km": 357.116
+        },
+        {
+          "nom": "Paris Gare de Lyon",
+          "libellecourt": "PLY",
+          "codes_uic": [
+            "87686006",
+            "87686030"
+          ],
+          "lat": 48.844888,
+          "lon": 2.37352,
+          "distance_to_route_km": 0.321,
+          "cumulative_km": 357.237
+        },
+        {
+          "nom": "Paris Bercy Bourgogne - Pays d'Auvergne",
+          "libellecourt": "PBY",
+          "codes_uic": [
+            "87686667"
+          ],
+          "lat": 48.83917,
+          "lon": 2.38278,
+          "distance_to_route_km": 0.449,
+          "cumulative_km": 358.201
+        },
+        {
+          "nom": "Bibliothèque François Mitterrand",
+          "libellecourt": "BFM",
+          "codes_uic": [
+            "87328328"
+          ],
+          "lat": 48.82984,
+          "lon": 2.37684,
+          "distance_to_route_km": 0.559,
+          "cumulative_km": 358.686
+        },
+        {
+          "nom": "Ivry-sur-Seine",
+          "libellecourt": "IVN",
+          "codes_uic": [
+            "87545301"
+          ],
+          "lat": 48.814371,
+          "lon": 2.39099,
+          "distance_to_route_km": 0.781,
+          "cumulative_km": 361.101
+        },
+        {
+          "nom": "Vitry-sur-Seine",
+          "libellecourt": "VYB",
+          "codes_uic": [
+            "87545293"
+          ],
+          "lat": 48.800768,
+          "lon": 2.402229,
+          "distance_to_route_km": 0.612,
+          "cumulative_km": 363.013
+        },
+        {
+          "nom": "Maisons-Alfort - Alfortville",
+          "libellecourt": "MFA",
+          "codes_uic": [
+            "87681155"
+          ],
+          "lat": 48.802071,
+          "lon": 2.426977,
+          "distance_to_route_km": 0.9,
+          "cumulative_km": 364.084
+        },
+        {
+          "nom": "Le Vert de Maisons",
+          "libellecourt": "VDP",
+          "codes_uic": [
+            "87681247"
+          ],
+          "lat": 48.78934,
+          "lon": 2.43148,
+          "distance_to_route_km": 0.723,
+          "cumulative_km": 364.89
+        },
+        {
+          "nom": "Les Ardoines",
+          "libellecourt": "LAD",
+          "codes_uic": [
+            "87492108"
+          ],
+          "lat": 48.782945,
+          "lon": 2.409046,
+          "distance_to_route_km": 0.569,
+          "cumulative_km": 365.936
+        },
+        {
+          "nom": "Créteil Pompadour",
+          "libellecourt": "CTP",
+          "codes_uic": [
+            "87608802"
+          ],
+          "lat": 48.7715403,
+          "lon": 2.4352763,
+          "distance_to_route_km": 1.709,
+          "cumulative_km": 366.305
+        },
+        {
+          "nom": "Choisy-le-Roi",
+          "libellecourt": "CLR",
+          "codes_uic": [
+            "87545285"
+          ],
+          "lat": 48.763974,
+          "lon": 2.411102,
+          "distance_to_route_km": 0.123,
+          "cumulative_km": 367.96
+        },
+        {
+          "nom": "Pont de Rungis Aéroport d'Orly",
+          "libellecourt": "PRU",
+          "codes_uic": [
+            "87546192"
+          ],
+          "lat": 48.748163,
+          "lon": 2.372792,
+          "distance_to_route_km": 3.431,
+          "cumulative_km": 367.96
+        },
+        {
+          "nom": "Orly Ville",
+          "libellecourt": "OYI",
+          "codes_uic": [
+            "87546200"
+          ],
+          "lat": 48.741815,
+          "lon": 2.40265,
+          "distance_to_route_km": 1.931,
+          "cumulative_km": 369.459
+        },
+        {
+          "nom": "Les Saules",
+          "libellecourt": "LSW",
+          "codes_uic": [
+            "87546226"
+          ],
+          "lat": 48.7454924,
+          "lon": 2.417366,
+          "distance_to_route_km": 0.854,
+          "cumulative_km": 369.761
+        },
+        {
+          "nom": "Villeneuve Triage",
+          "libellecourt": "VSG",
+          "codes_uic": [
+            "87681809"
+          ],
+          "lat": 48.745198,
+          "lon": 2.438192,
+          "distance_to_route_km": 0.168,
+          "cumulative_km": 370.804
+        },
+        {
+          "nom": "Villeneuve-le-Roi",
+          "libellecourt": "VRI",
+          "codes_uic": [
+            "87545277"
+          ],
+          "lat": 48.739908,
+          "lon": 2.426084,
+          "distance_to_route_km": 0.881,
+          "cumulative_km": 370.976
+        },
+        {
+          "nom": "Villeneuve-Saint-Georges",
+          "libellecourt": "VSB",
+          "codes_uic": [
+            "87681825"
+          ],
+          "lat": 48.730113,
+          "lon": 2.446011,
+          "distance_to_route_km": 0.176,
+          "cumulative_km": 372.565
+        },
+        {
+          "nom": "Yerres",
+          "libellecourt": "YES",
+          "codes_uic": [
+            "87682112"
+          ],
+          "lat": 48.706759,
+          "lon": 2.48337,
+          "distance_to_route_km": 3.804,
+          "cumulative_km": 372.909
+        },
+        {
+          "nom": "Montgeron - Crosne",
+          "libellecourt": "KRW",
+          "codes_uic": [
+            "87682104"
+          ],
+          "lat": 48.708094,
+          "lon": 2.462224,
+          "distance_to_route_km": 2.59,
+          "cumulative_km": 373.039
+        },
+        {
+          "nom": "Ablon-sur-Seine",
+          "libellecourt": "ABL",
+          "codes_uic": [
+            "87545269"
+          ],
+          "lat": 48.725468,
+          "lon": 2.419151,
+          "distance_to_route_km": 0.388,
+          "cumulative_km": 374.514
+        },
+        {
+          "nom": "Vigneux-sur-Seine",
+          "libellecourt": "VGS",
+          "codes_uic": [
+            "87681304"
+          ],
+          "lat": 48.70816,
+          "lon": 2.41446,
+          "distance_to_route_km": 0.197,
+          "cumulative_km": 376.356
+        },
+        {
+          "nom": "Athis-Mons",
+          "libellecourt": "ATH",
+          "codes_uic": [
+            "87545251"
+          ],
+          "lat": 48.712557,
+          "lon": 2.403749,
+          "distance_to_route_km": 0.642,
+          "cumulative_km": 376.546
+        },
+        {
+          "nom": "Juvisy-sur-Orge",
+          "libellecourt": "JYS",
+          "codes_uic": [
+            "87545244"
+          ],
+          "lat": 48.68917,
+          "lon": 2.38267,
+          "distance_to_route_km": 0.255,
+          "cumulative_km": 380.783
+        },
+        {
+          "nom": "Gravigny Balizy",
+          "libellecourt": "GBI",
+          "codes_uic": [
+            "87393645"
+          ],
+          "lat": 48.6851718,
+          "lon": 2.317846,
+          "distance_to_route_km": 4.769,
+          "cumulative_km": 382.375
+        },
+        {
+          "nom": "Petit Vaux",
+          "libellecourt": "PVY",
+          "codes_uic": [
+            "87393652"
+          ],
+          "lat": 48.675859,
+          "lon": 2.3339755,
+          "distance_to_route_km": 3.542,
+          "cumulative_km": 382.375
+        },
+        {
+          "nom": "Savigny-sur-Orge",
+          "libellecourt": "SAO",
+          "codes_uic": [
+            "87545236"
+          ],
+          "lat": 48.67614,
+          "lon": 2.35173,
+          "distance_to_route_km": 2.242,
+          "cumulative_km": 382.375
+        },
+        {
+          "nom": "Épinay-sur-Orge",
+          "libellecourt": "EYO",
+          "codes_uic": [
+            "87545228"
+          ],
+          "lat": 48.66952,
+          "lon": 2.33182,
+          "distance_to_route_km": 3.822,
+          "cumulative_km": 382.381
+        },
+        {
+          "nom": "Viry-Châtillon",
+          "libellecourt": "VWC",
+          "codes_uic": [
+            "87681312"
+          ],
+          "lat": 48.676182,
+          "lon": 2.386391,
+          "distance_to_route_km": 0.084,
+          "cumulative_km": 382.78
+        },
+        {
+          "nom": "Grigny Centre",
+          "libellecourt": "GGG",
+          "codes_uic": [
+            "87681379"
+          ],
+          "lat": 48.65343,
+          "lon": 2.395797,
+          "distance_to_route_km": 0.932,
+          "cumulative_km": 385.737
+        },
+        {
+          "nom": "Orangis Bois de l'Épine",
+          "libellecourt": "OBP",
+          "codes_uic": [
+            "87681346"
+          ],
+          "lat": 48.63626,
+          "lon": 2.407736,
+          "distance_to_route_km": 2.253,
+          "cumulative_km": 386.598
+        },
+        {
+          "nom": "Ris-Orangis",
+          "libellecourt": "RIS",
+          "codes_uic": [
+            "87681338"
+          ],
+          "lat": 48.659442,
+          "lon": 2.41442,
+          "distance_to_route_km": 0.169,
+          "cumulative_km": 386.937
+        },
+        {
+          "nom": "Grand Bourg",
+          "libellecourt": "GBG",
+          "codes_uic": [
+            "87681353"
+          ],
+          "lat": 48.648004,
+          "lon": 2.435939,
+          "distance_to_route_km": 0.034,
+          "cumulative_km": 388.942
+        },
+        {
+          "nom": "Évry-Courcouronnes",
+          "libellecourt": "EVC",
+          "codes_uic": [
+            "87681387"
+          ],
+          "lat": 48.625507,
+          "lon": 2.428581,
+          "distance_to_route_km": 2.05,
+          "cumulative_km": 390.352
+        },
+        {
+          "nom": "Évry Val de Seine",
+          "libellecourt": "EVR",
+          "codes_uic": [
+            "87681361"
+          ],
+          "lat": 48.63442,
+          "lon": 2.45209,
+          "distance_to_route_km": 0.186,
+          "cumulative_km": 390.837
+        },
+        {
+          "nom": "Le Bras de Fer",
+          "libellecourt": "BFX",
+          "codes_uic": [
+            "87681395"
+          ],
+          "lat": 48.623287,
+          "lon": 2.450625,
+          "distance_to_route_km": 1.254,
+          "cumulative_km": 391.25
+        },
+        {
+          "nom": "Corbeil-Essonnes",
+          "libellecourt": "COE",
+          "codes_uic": [
+            "87681007"
+          ],
+          "lat": 48.61403,
+          "lon": 2.47401,
+          "distance_to_route_km": 0.606,
+          "cumulative_km": 395.089
+        },
+        {
+          "nom": "Essonnes Robinson",
+          "libellecourt": "ESO",
+          "codes_uic": [
+            "87681601"
+          ],
+          "lat": 48.606095,
+          "lon": 2.463701,
+          "distance_to_route_km": 1.504,
+          "cumulative_km": 396.482
+        },
+        {
+          "nom": "Villabé",
+          "libellecourt": "VBV",
+          "codes_uic": [
+            "87681619"
+          ],
+          "lat": 48.592637,
+          "lon": 2.461572,
+          "distance_to_route_km": 1.642,
+          "cumulative_km": 398.664
+        },
+        {
+          "nom": "Moulin Galant",
+          "libellecourt": "MJW",
+          "codes_uic": [
+            "87681403"
+          ],
+          "lat": 48.58626,
+          "lon": 2.47332,
+          "distance_to_route_km": 0.657,
+          "cumulative_km": 399.632
+        },
+        {
+          "nom": "Mennecy",
+          "libellecourt": "MNY",
+          "codes_uic": [
+            "87681411"
+          ],
+          "lat": 48.5709075,
+          "lon": 2.433165,
+          "distance_to_route_km": 3.426,
+          "cumulative_km": 400.726
+        },
+        {
+          "nom": "Le Plessis Chenet",
+          "libellecourt": "IBM",
+          "codes_uic": [
+            "87681627"
+          ],
+          "lat": 48.5735652,
+          "lon": 2.479586,
+          "distance_to_route_km": 0.054,
+          "cumulative_km": 400.906
+        },
+        {
+          "nom": "Le Coudray-Montceaux",
+          "libellecourt": "CEX",
+          "codes_uic": [
+            "87681635"
+          ],
+          "lat": 48.5661679,
+          "lon": 2.4924649,
+          "distance_to_route_km": 0.079,
+          "cumulative_km": 402.166
+        },
+        {
+          "nom": "Savigny-le-Temple - Nandy",
+          "libellecourt": "ZTN",
+          "codes_uic": [
+            "87682187"
+          ],
+          "lat": 48.595519,
+          "lon": 2.583678,
+          "distance_to_route_km": 4.014,
+          "cumulative_km": 406.231
+        },
+        {
+          "nom": "Cesson",
+          "libellecourt": "CES",
+          "codes_uic": [
+            "87682161"
+          ],
+          "lat": 48.56563,
+          "lon": 2.5938,
+          "distance_to_route_km": 3.417,
+          "cumulative_km": 406.774
+        },
+        {
+          "nom": "Saint-Fargeau-Ponthierry",
+          "libellecourt": "XFA",
+          "codes_uic": [
+            "87682542"
+          ],
+          "lat": 48.564549,
+          "lon": 2.542493,
+          "distance_to_route_km": 0.242,
+          "cumulative_km": 407.16
+        },
+        {
+          "nom": "Ponthierry - Pringy",
+          "libellecourt": "POP",
+          "codes_uic": [
+            "87682526"
+          ],
+          "lat": 48.534933,
+          "lon": 2.54459,
+          "distance_to_route_km": 0.266,
+          "cumulative_km": 411.257
+        },
+        {
+          "nom": "Boissise-le-Roi",
+          "libellecourt": "BKR",
+          "codes_uic": [
+            "87682518"
+          ],
+          "lat": 48.529319,
+          "lon": 2.572953,
+          "distance_to_route_km": 0.039,
+          "cumulative_km": 414.223
+        },
+        {
+          "nom": "Vosves",
+          "libellecourt": "VOM",
+          "codes_uic": [
+            "87682500"
+          ],
+          "lat": 48.5151115,
+          "lon": 2.5991469,
+          "distance_to_route_km": 0.023,
+          "cumulative_km": 416.922
+        },
+        {
+          "nom": "Le Mée-sur-Seine",
+          "libellecourt": "WEE",
+          "codes_uic": [
+            "87682179"
+          ],
+          "lat": 48.540086,
+          "lon": 2.624116,
+          "distance_to_route_km": 1.513,
+          "cumulative_km": 420.537
+        },
+        {
+          "nom": "Melun",
+          "libellecourt": "MEL",
+          "codes_uic": [
+            "87682005"
+          ],
+          "lat": 48.527662,
+          "lon": 2.655404,
+          "distance_to_route_km": 0.456,
+          "cumulative_km": 423.006
+        },
+        {
+          "nom": "Livry-sur-Seine",
+          "libellecourt": "LYQ",
+          "codes_uic": [
+            "87682401"
+          ],
+          "lat": 48.5104579,
+          "lon": 2.6788796,
+          "distance_to_route_km": 0.726,
+          "cumulative_km": 425.183
+        },
+        {
+          "nom": "Chartrettes",
+          "libellecourt": "CJR",
+          "codes_uic": [
+            "87682419"
+          ],
+          "lat": 48.4870771,
+          "lon": 2.6950059,
+          "distance_to_route_km": 0.717,
+          "cumulative_km": 429.365
+        },
+        {
+          "nom": "Bois-le-Roi",
+          "libellecourt": "BJR",
+          "codes_uic": [
+            "87682203"
+          ],
+          "lat": 48.475567,
+          "lon": 2.691606,
+          "distance_to_route_km": 0.587,
+          "cumulative_km": 429.432
+        },
+        {
+          "nom": "Fontaine-le-Port",
+          "libellecourt": "FPO",
+          "codes_uic": [
+            "87682427"
+          ],
+          "lat": 48.4871358,
+          "lon": 2.7514043,
+          "distance_to_route_km": 0.583,
+          "cumulative_km": 433.648
+        },
+        {
+          "nom": "Héricy",
+          "libellecourt": "HER",
+          "codes_uic": [
+            "87682435"
+          ],
+          "lat": 48.4424848,
+          "lon": 2.7605339,
+          "distance_to_route_km": 0.782,
+          "cumulative_km": 439.525
+        },
+        {
+          "nom": "Vulaines-sur-Seine - Samoreau",
+          "libellecourt": "VUN",
+          "codes_uic": [
+            "87682443"
+          ],
+          "lat": 48.4305468,
+          "lon": 2.7531008,
+          "distance_to_route_km": 0.17,
+          "cumulative_km": 442.222
+        },
+        {
+          "nom": "Fontainebleau - Avon",
+          "libellecourt": "FON",
+          "codes_uic": [
+            "87682211"
+          ],
+          "lat": 48.416371,
+          "lon": 2.72634,
+          "distance_to_route_km": 1.818,
+          "cumulative_km": 443.273
+        },
+        {
+          "nom": "Thomery",
+          "libellecourt": "TMR",
+          "codes_uic": [
+            "87682252"
+          ],
+          "lat": 48.394462,
+          "lon": 2.763995,
+          "distance_to_route_km": 1.944,
+          "cumulative_km": 444.868
+        },
+        {
+          "nom": "Champagne-sur-Seine",
+          "libellecourt": "CME",
+          "codes_uic": [
+            "87682450"
+          ],
+          "lat": 48.406531,
+          "lon": 2.799184,
+          "distance_to_route_km": 0.115,
+          "cumulative_km": 447.908
+        },
+        {
+          "nom": "Moret - Veneux-les-Sablons",
+          "libellecourt": "MOR",
+          "codes_uic": [
+            "87682278"
+          ],
+          "lat": 48.37838,
+          "lon": 2.79941,
+          "distance_to_route_km": 0.855,
+          "cumulative_km": 452.224
+        },
+        {
+          "nom": "Saint-Mammès",
+          "libellecourt": "SFI",
+          "codes_uic": [
+            "87682294"
+          ],
+          "lat": 48.382171,
+          "lon": 2.81593,
+          "distance_to_route_km": 0.258,
+          "cumulative_km": 452.846
+        },
+        {
+          "nom": "Vernou-la-Celle-sur-Seine",
+          "libellecourt": "VSS",
+          "codes_uic": [
+            "87682468"
+          ],
+          "lat": 48.3864547,
+          "lon": 2.8424649,
+          "distance_to_route_km": 1.898,
+          "cumulative_km": 453.888
+        },
+        {
+          "nom": "Montigny-sur-Loing",
+          "libellecourt": "MKN",
+          "codes_uic": [
+            "87684100"
+          ],
+          "lat": 48.33661,
+          "lon": 2.738561,
+          "distance_to_route_km": 1.372,
+          "cumulative_km": 462.247
+        },
+        {
+          "nom": "Bourron-Marlotte - Grez",
+          "libellecourt": "BOM",
+          "codes_uic": [
+            "87684118"
+          ],
+          "lat": 48.3326884,
+          "lon": 2.6924552,
+          "distance_to_route_km": 2.811,
+          "cumulative_km": 466.31
+        },
+        {
+          "nom": "Nemours - Saint-Pierre",
+          "libellecourt": "NSP",
+          "codes_uic": [
+            "87684126"
+          ],
+          "lat": 48.267884,
+          "lon": 2.685754,
+          "distance_to_route_km": 0.239,
+          "cumulative_km": 471.671
+        },
+        {
+          "nom": "Bagneaux-sur-Loing",
+          "libellecourt": "BXN",
+          "codes_uic": [
+            "87684191"
+          ],
+          "lat": 48.2304802,
+          "lon": 2.7033327,
+          "distance_to_route_km": 0.362,
+          "cumulative_km": 476.081
+        },
+        {
+          "nom": "Souppes - Château-Landon",
+          "libellecourt": "SPP",
+          "codes_uic": [
+            "87684217"
+          ],
+          "lat": 48.181907,
+          "lon": 2.734971,
+          "distance_to_route_km": 0.735,
+          "cumulative_km": 482.469
+        },
+        {
+          "nom": "Dordives",
+          "libellecourt": "DDI",
+          "codes_uic": [
+            "87684233"
+          ],
+          "lat": 48.1471796,
+          "lon": 2.7628787,
+          "distance_to_route_km": 0.732,
+          "cumulative_km": 486.943
+        },
+        {
+          "nom": "Ferrières - Fontenay",
+          "libellecourt": "FFY",
+          "codes_uic": [
+            "87684241"
+          ],
+          "lat": 48.0964767,
+          "lon": 2.7726332,
+          "distance_to_route_km": 0.74,
+          "cumulative_km": 492.519
+        },
+        {
+          "nom": "Montargis",
+          "libellecourt": "MSR",
+          "codes_uic": [
+            "87684001"
+          ],
+          "lat": 48.006862,
+          "lon": 2.742783,
+          "distance_to_route_km": 1.064,
+          "cumulative_km": 505.074
+        },
+        {
+          "nom": "Briare",
+          "libellecourt": "BEW",
+          "codes_uic": [
+            "87696088"
+          ],
+          "lat": 47.6464312,
+          "lon": 2.7337154,
+          "distance_to_route_km": 0.763,
+          "cumulative_km": 560.07
+        },
+        {
+          "nom": "Gien",
+          "libellecourt": "GIE",
+          "codes_uic": [
+            "87684290"
+          ],
+          "lat": 47.699088,
+          "lon": 2.636205,
+          "distance_to_route_km": 2.043,
+          "cumulative_km": 574.152
+        },
+        {
+          "nom": "Les Aubrais",
+          "libellecourt": "LAB",
+          "codes_uic": [
+            "87543017"
+          ],
+          "lat": 47.926801,
+          "lon": 1.906629,
+          "distance_to_route_km": 3.206,
+          "cumulative_km": 652.175
+        },
+        {
+          "nom": "Orléans",
+          "libellecourt": "ORL",
+          "codes_uic": [
+            "87543009"
+          ],
+          "lat": 47.90796,
+          "lon": 1.904666,
+          "distance_to_route_km": 1.107,
+          "cumulative_km": 653.472
+        },
+        {
+          "nom": "La Chapelle-Saint-Mesmin",
+          "libellecourt": "LCS",
+          "codes_uic": [
+            "87543371"
+          ],
+          "lat": 47.8929293,
+          "lon": 1.8268193,
+          "distance_to_route_km": 1.721,
+          "cumulative_km": 659.12
+        },
+        {
+          "nom": "Chaingy Fourneaux Plage",
+          "libellecourt": "CFX",
+          "codes_uic": [
+            "87574111"
+          ],
+          "lat": 47.8770705,
+          "lon": 1.782422,
+          "distance_to_route_km": 1.529,
+          "cumulative_km": 664.977
+        },
+        {
+          "nom": "Saint-Ay",
+          "libellecourt": "LBZ",
+          "codes_uic": [
+            "87574129"
+          ],
+          "lat": 47.863133,
+          "lon": 1.7499597,
+          "distance_to_route_km": 1.437,
+          "cumulative_km": 667.175
+        },
+        {
+          "nom": "Meung-sur-Loire",
+          "libellecourt": "MGL",
+          "codes_uic": [
+            "87574137"
+          ],
+          "lat": 47.829926,
+          "lon": 1.691928,
+          "distance_to_route_km": 0.782,
+          "cumulative_km": 673.593
+        },
+        {
+          "nom": "Baule",
+          "libellecourt": "BLJ",
+          "codes_uic": [
+            "87574152"
+          ],
+          "lat": 47.8117535,
+          "lon": 1.668127,
+          "distance_to_route_km": 1.151,
+          "cumulative_km": 675.544
+        },
+        {
+          "nom": "Beaugency",
+          "libellecourt": "BGY",
+          "codes_uic": [
+            "87574160"
+          ],
+          "lat": 47.778365,
+          "lon": 1.625938,
+          "distance_to_route_km": 0.656,
+          "cumulative_km": 681.823
+        },
+        {
+          "nom": "Mer",
+          "libellecourt": "MER",
+          "codes_uic": [
+            "87574194"
+          ],
+          "lat": 47.70586,
+          "lon": 1.506373,
+          "distance_to_route_km": 3.173,
+          "cumulative_km": 695.785
+        },
+        {
+          "nom": "Suèvres",
+          "libellecourt": "SVK",
+          "codes_uic": [
+            "87574236"
+          ],
+          "lat": 47.6802248,
+          "lon": 1.4540981,
+          "distance_to_route_km": 2.516,
+          "cumulative_km": 704.38
+        },
+        {
+          "nom": "Menars",
+          "libellecourt": "EIR",
+          "codes_uic": [
+            "87574244"
+          ],
+          "lat": 47.6450036,
+          "lon": 1.405617,
+          "distance_to_route_km": 0.866,
+          "cumulative_km": 707.595
+        },
+        {
+          "nom": "La Chaussée-Saint-Victor",
+          "libellecourt": "WSV",
+          "codes_uic": [
+            "87574251"
+          ],
+          "lat": 47.6127952,
+          "lon": 1.3537834,
+          "distance_to_route_km": 1.332,
+          "cumulative_km": 712.495
+        },
+        {
+          "nom": "Blois - Chambord",
+          "libellecourt": "BLO",
+          "codes_uic": [
+            "87574004"
+          ],
+          "lat": 47.585445,
+          "lon": 1.323823,
+          "distance_to_route_km": 0.895,
+          "cumulative_km": 717.062
+        },
+        {
+          "nom": "Chouzy-sur-Cisse",
+          "libellecourt": "CZV",
+          "codes_uic": [
+            "87574301"
+          ],
+          "lat": 47.5203249,
+          "lon": 1.247846,
+          "distance_to_route_km": 2.253,
+          "cumulative_km": 729.202
+        },
+        {
+          "nom": "Onzain - Chaumont-sur-Loire",
+          "libellecourt": "OZA",
+          "codes_uic": [
+            "87574319"
+          ],
+          "lat": 47.492,
+          "lon": 1.18595,
+          "distance_to_route_km": 1.031,
+          "cumulative_km": 736.583
+        },
+        {
+          "nom": "Veuves - Monteaux",
+          "libellecourt": "VVU",
+          "codes_uic": [
+            "87574327"
+          ],
+          "lat": 47.4756722,
+          "lon": 1.1238749,
+          "distance_to_route_km": 0.89,
+          "cumulative_km": 742.43
+        },
+        {
+          "nom": "Limeray",
+          "libellecourt": "LIZ",
+          "codes_uic": [
+            "87574335"
+          ],
+          "lat": 47.4502088,
+          "lon": 1.0499661,
+          "distance_to_route_km": 1.626,
+          "cumulative_km": 750.977
+        },
+        {
+          "nom": "Amboise",
+          "libellecourt": "AMQ",
+          "codes_uic": [
+            "87574343"
+          ],
+          "lat": 47.42148,
+          "lon": 0.981299,
+          "distance_to_route_km": 0.865,
+          "cumulative_km": 759.091
+        },
+        {
+          "nom": "Noizay",
+          "libellecourt": "NIY",
+          "codes_uic": [
+            "87574368"
+          ],
+          "lat": 47.4096869,
+          "lon": 0.8959456,
+          "distance_to_route_km": 2.191,
+          "cumulative_km": 765.205
+        },
+        {
+          "nom": "Saint-Martin-le-Beau",
+          "libellecourt": "XMK",
+          "codes_uic": [
+            "87574459"
+          ],
+          "lat": 47.3552058,
+          "lon": 0.9058418,
+          "distance_to_route_km": 3.787,
+          "cumulative_km": 767.292
+        },
+        {
+          "nom": "Azay-sur-Cher",
+          "libellecourt": "EUR",
+          "codes_uic": [
+            "87574442"
+          ],
+          "lat": 47.3652695,
+          "lon": 0.8599885,
+          "distance_to_route_km": 2.069,
+          "cumulative_km": 771.386
+        },
+        {
+          "nom": "Véretz - Montlouis",
+          "libellecourt": "VZM",
+          "codes_uic": [
+            "87574434"
+          ],
+          "lat": 47.3715058,
+          "lon": 0.8199079,
+          "distance_to_route_km": 1.762,
+          "cumulative_km": 775.038
+        },
+        {
+          "nom": "Montlouis-sur-Loire",
+          "libellecourt": "NTU",
+          "codes_uic": [
+            "87571273"
+          ],
+          "lat": 47.3915307,
+          "lon": 0.8173987,
+          "distance_to_route_km": 0.034,
+          "cumulative_km": 775.9
+        },
+        {
+          "nom": "Saint-Pierre-des-Corps",
+          "libellecourt": "SPC",
+          "codes_uic": [
+            "87571240"
+          ],
+          "lat": 47.386099,
+          "lon": 0.72355,
+          "distance_to_route_km": 1.206,
+          "cumulative_km": 783.832
+        },
+        {
+          "nom": "Tours",
+          "libellecourt": "TRS",
+          "codes_uic": [
+            "87571000"
+          ],
+          "lat": 47.389781,
+          "lon": 0.693703,
+          "distance_to_route_km": 0.123,
+          "cumulative_km": 786.948
+        },
+        {
+          "nom": "Joué-lès-Tours",
+          "libellecourt": "JLT",
+          "codes_uic": [
+            "87571885"
+          ],
+          "lat": 47.3541741,
+          "lon": 0.6675586,
+          "distance_to_route_km": 2.814,
+          "cumulative_km": 789.806
+        },
+        {
+          "nom": "La Douzillère",
+          "libellecourt": "DZD",
+          "codes_uic": [
+            "87009696"
+          ],
+          "lat": 47.3388167,
+          "lon": 0.6528244,
+          "distance_to_route_km": 4.794,
+          "cumulative_km": 789.829
+        },
+        {
+          "nom": "Veigné",
+          "libellecourt": "VGZ",
+          "codes_uic": [
+            "87571414"
+          ],
+          "lat": 47.2915255,
+          "lon": 0.7348815,
+          "distance_to_route_km": 0.016,
+          "cumulative_km": 801.651
+        },
+        {
+          "nom": "Montbazon",
+          "libellecourt": "MNZ",
+          "codes_uic": [
+            "87571406"
+          ],
+          "lat": 47.2917191,
+          "lon": 0.7214769,
+          "distance_to_route_km": 0.951,
+          "cumulative_km": 801.722
+        },
+        {
+          "nom": "Esvres sur Indre",
+          "libellecourt": "ESV",
+          "codes_uic": [
+            "87571422"
+          ],
+          "lat": 47.2841016,
+          "lon": 0.7816519,
+          "distance_to_route_km": 3.271,
+          "cumulative_km": 802.874
+        },
+        {
+          "nom": "Sainte-Maure - Noyant",
+          "libellecourt": "SYT",
+          "codes_uic": [
+            "87575050"
+          ],
+          "lat": 47.1112361,
+          "lon": 0.5769439,
+          "distance_to_route_km": 2.124,
+          "cumulative_km": 831.283
+        },
+        {
+          "nom": "Maillé",
+          "libellecourt": "MAX",
+          "codes_uic": [
+            "87575068"
+          ],
+          "lat": 47.0533855,
+          "lon": 0.5830236,
+          "distance_to_route_km": 0.018,
+          "cumulative_km": 837.778
+        },
+        {
+          "nom": "Port-de-Piles",
+          "libellecourt": "PPJ",
+          "codes_uic": [
+            "87575076"
+          ],
+          "lat": 47.0102599,
+          "lon": 0.5989179,
+          "distance_to_route_km": 2.802,
+          "cumulative_km": 847.645
+        },
+        {
+          "nom": "Les Ormes",
+          "libellecourt": "ORE",
+          "codes_uic": [
+            "87575118"
+          ],
+          "lat": 46.9718269,
+          "lon": 0.6079476,
+          "distance_to_route_km": 1.655,
+          "cumulative_km": 852.23
+        },
+        {
+          "nom": "Dangé-Saint-Romain",
+          "libellecourt": "DGE",
+          "codes_uic": [
+            "87575126"
+          ],
+          "lat": 46.9378397,
+          "lon": 0.6087754,
+          "distance_to_route_km": 0.839,
+          "cumulative_km": 855.924
+        },
+        {
+          "nom": "Ingrandes sur Vienne",
+          "libellecourt": "IGR",
+          "codes_uic": [
+            "87575134"
+          ],
+          "lat": 46.8746283,
+          "lon": 0.5691164,
+          "distance_to_route_km": 0.903,
+          "cumulative_km": 863.288
+        },
+        {
+          "nom": "Châtellerault",
+          "libellecourt": "CRT",
+          "codes_uic": [
+            "87575142"
+          ],
+          "lat": 46.818594,
+          "lon": 0.549279,
+          "distance_to_route_km": 0.687,
+          "cumulative_km": 870.784
+        },
+        {
+          "nom": "Nerpuy",
+          "libellecourt": "NPY",
+          "codes_uic": [
+            "87575167"
+          ],
+          "lat": 46.7834177,
+          "lon": 0.5256884,
+          "distance_to_route_km": 0.762,
+          "cumulative_km": 876.724
+        },
+        {
+          "nom": "Naintré",
+          "libellecourt": "NIB",
+          "codes_uic": [
+            "87575175"
+          ],
+          "lat": 46.7595303,
+          "lon": 0.4963446,
+          "distance_to_route_km": 3.15,
+          "cumulative_km": 878.305
+        },
+        {
+          "nom": "Lussac-les-Châteaux",
+          "libellecourt": "LLX",
+          "codes_uic": [
+            "87575845"
+          ],
+          "lat": 46.4051106,
+          "lon": 0.7186918,
+          "distance_to_route_km": 1.356,
+          "cumulative_km": 928.855
+        },
+        {
+          "nom": "Angoulême",
+          "libellecourt": "ANG",
+          "codes_uic": [
+            "87583005"
+          ],
+          "lat": 45.653572,
+          "lon": 0.164608,
+          "distance_to_route_km": 0.718,
+          "cumulative_km": 1087.007
+        },
+        {
+          "nom": "La Couronne",
+          "libellecourt": "LCO",
+          "codes_uic": [
+            "87583617"
+          ],
+          "lat": 45.604570970062376,
+          "lon": 0.1011570895580505,
+          "distance_to_route_km": 4.46,
+          "cumulative_km": 1095.323
+        },
+        {
+          "nom": "Châteauneuf-sur-Charente",
+          "libellecourt": "CSC",
+          "codes_uic": [
+            "87491506"
+          ],
+          "lat": 45.599836,
+          "lon": -0.0502,
+          "distance_to_route_km": 0.374,
+          "cumulative_km": 1116.843
+        },
+        {
+          "nom": "Coutras",
+          "libellecourt": "COU",
+          "codes_uic": [
+            "87584516"
+          ],
+          "lat": 45.03661,
+          "lon": -0.13169,
+          "distance_to_route_km": 3.202,
+          "cumulative_km": 1197.707
+        },
+        {
+          "nom": "Saint-Denis-de-Pile",
+          "libellecourt": "XDS",
+          "codes_uic": [
+            "87584508"
+          ],
+          "lat": 44.9786053,
+          "lon": -0.1980825,
+          "distance_to_route_km": 0.129,
+          "cumulative_km": 1207.554
+        },
+        {
+          "nom": "Libourne",
+          "libellecourt": "LIB",
+          "codes_uic": [
+            "87584052"
+          ],
+          "lat": 44.915888,
+          "lon": -0.236344,
+          "distance_to_route_km": 0.409,
+          "cumulative_km": 1221.806
+        },
+        {
+          "nom": "Saint-Émilion",
+          "libellecourt": "SEI",
+          "codes_uic": [
+            "87584102"
+          ],
+          "lat": 44.8811665,
+          "lon": -0.1592003,
+          "distance_to_route_km": 0.326,
+          "cumulative_km": 1230.012
+        },
+        {
+          "nom": "Cadaujac",
+          "libellecourt": "CDJ",
+          "codes_uic": [
+            "87582684"
+          ],
+          "lat": 44.7520628,
+          "lon": -0.5376186,
+          "distance_to_route_km": 3.971,
+          "cumulative_km": 1274.062
+        },
+        {
+          "nom": "Cenon",
+          "libellecourt": "CBX",
+          "codes_uic": [
+            "87581595"
+          ],
+          "lat": 44.8563465,
+          "lon": -0.5336487,
+          "distance_to_route_km": 2.795,
+          "cumulative_km": 1281.533
+        },
+        {
+          "nom": "Caudéran Mérignac",
+          "libellecourt": "CUD",
+          "codes_uic": [
+            "87581538"
+          ],
+          "lat": 44.84288,
+          "lon": -0.6274337,
+          "distance_to_route_km": 4.954,
+          "cumulative_km": 1282.031
+        },
+        {
+          "nom": "Mérignac Arlac",
+          "libellecourt": "MRF",
+          "codes_uic": [
+            "87278259"
+          ],
+          "lat": 44.8265601,
+          "lon": -0.6261402,
+          "distance_to_route_km": 4.944,
+          "cumulative_km": 1282.031
+        },
+        {
+          "nom": "Talence Médoquine",
+          "libellecourt": "TLM",
+          "codes_uic": [
+            "87748350"
+          ],
+          "lat": 44.81649,
+          "lon": -0.60062,
+          "distance_to_route_km": 3.591,
+          "cumulative_km": 1282.279
+        },
+        {
+          "nom": "Bordeaux Saint-Jean",
+          "libellecourt": "BXJ",
+          "codes_uic": [
+            "87581009"
+          ],
+          "lat": 44.825873,
+          "lon": -0.556697,
+          "distance_to_route_km": 0.184,
+          "cumulative_km": 1283.573
+        },
+        {
+          "nom": "Bègles",
+          "libellecourt": "BGL",
+          "codes_uic": [
+            "87581801"
+          ],
+          "lat": 44.7995389,
+          "lon": -0.5552495,
+          "distance_to_route_km": 0.221,
+          "cumulative_km": 1287.519
+        },
+        {
+          "nom": "Villenave-d'Ornon",
+          "libellecourt": "VIO",
+          "codes_uic": [
+            "87581835"
+          ],
+          "lat": 44.7683428,
+          "lon": -0.5472574,
+          "distance_to_route_km": 2.615,
+          "cumulative_km": 1288.982
+        },
+        {
+          "nom": "Pessac",
+          "libellecourt": "PSC",
+          "codes_uic": [
+            "87581751"
+          ],
+          "lat": 44.80461,
+          "lon": -0.63185,
+          "distance_to_route_km": 4.144,
+          "cumulative_km": 1293.376
+        },
+        {
+          "nom": "Pessac Alouette",
+          "libellecourt": "ATF",
+          "codes_uic": [
+            "87581793"
+          ],
+          "lat": 44.793355,
+          "lon": -0.65965,
+          "distance_to_route_km": 4.658,
+          "cumulative_km": 1293.483
+        },
+        {
+          "nom": "Saint-Médard-d'Eyrans",
+          "libellecourt": "SYS",
+          "codes_uic": [
+            "87582692"
+          ],
+          "lat": 44.7168571,
+          "lon": -0.5057172,
+          "distance_to_route_km": 2.996,
+          "cumulative_km": 1304.58
+        },
+        {
+          "nom": "Langon",
+          "libellecourt": "LGE",
+          "codes_uic": [
+            "87582775"
+          ],
+          "lat": 44.555448,
+          "lon": -0.25554,
+          "distance_to_route_km": 0.129,
+          "cumulative_km": 1381.31
+        },
+        {
+          "nom": "Preignac",
+          "libellecourt": "PRG",
+          "codes_uic": [
+            "87582767"
+          ],
+          "lat": 44.5783064,
+          "lon": -0.3022296,
+          "distance_to_route_km": 4.585,
+          "cumulative_km": 1381.735
+        },
+        {
+          "nom": "Saint-Macaire",
+          "libellecourt": "SNW",
+          "codes_uic": [
+            "87582825"
+          ],
+          "lat": 44.5686216,
+          "lon": -0.2270601,
+          "distance_to_route_km": 0.485,
+          "cumulative_km": 1384.811
+        },
+        {
+          "nom": "Saint-Pierre-d'Aurillac",
+          "libellecourt": "SPX",
+          "codes_uic": [
+            "87582833"
+          ],
+          "lat": 44.5752452,
+          "lon": -0.1876216,
+          "distance_to_route_km": 0.778,
+          "cumulative_km": 1387.737
+        },
+        {
+          "nom": "Caudrot",
+          "libellecourt": "KDT",
+          "codes_uic": [
+            "87582841"
+          ],
+          "lat": 44.5801152,
+          "lon": -0.1452784,
+          "distance_to_route_km": 1.823,
+          "cumulative_km": 1390.09
+        },
+        {
+          "nom": "Gironde-sur-Dropt",
+          "libellecourt": "GID",
+          "codes_uic": [
+            "87582858"
+          ],
+          "lat": 44.583292,
+          "lon": -0.0920127,
+          "distance_to_route_km": 3.089,
+          "cumulative_km": 1394.84
+        },
+        {
+          "nom": "La Réole",
+          "libellecourt": "REO",
+          "codes_uic": [
+            "87582866"
+          ],
+          "lat": 44.579742,
+          "lon": -0.03057,
+          "distance_to_route_km": 1.782,
+          "cumulative_km": 1401.409
+        },
+        {
+          "nom": "Lamothe-Landerron",
+          "libellecourt": "LOH",
+          "codes_uic": [
+            "87582882"
+          ],
+          "lat": 44.5628433,
+          "lon": 0.0451406,
+          "distance_to_route_km": 3.86,
+          "cumulative_km": 1405.279
+        },
+        {
+          "nom": "Sainte-Bazeille",
+          "libellecourt": "XBZ",
+          "codes_uic": [
+            "87586479"
+          ],
+          "lat": 44.5326935,
+          "lon": 0.0931269,
+          "distance_to_route_km": 4.44,
+          "cumulative_km": 1410.244
+        },
+        {
+          "nom": "Tonneins",
+          "libellecourt": "TON",
+          "codes_uic": [
+            "87586651"
+          ],
+          "lat": 44.392796,
+          "lon": 0.314093,
+          "distance_to_route_km": 4.464,
+          "cumulative_km": 1434.509
+        },
+        {
+          "nom": "Aiguillon",
+          "libellecourt": "AIN",
+          "codes_uic": [
+            "87586693"
+          ],
+          "lat": 44.2987224,
+          "lon": 0.3352388,
+          "distance_to_route_km": 4.493,
+          "cumulative_km": 1442.865
+        },
+        {
+          "nom": "Mont-de-Marsan",
+          "libellecourt": "MMR",
+          "codes_uic": [
+            "87671016"
+          ],
+          "lat": 43.884898,
+          "lon": -0.50466,
+          "distance_to_route_km": 0.399,
+          "cumulative_km": 1562.465
+        },
+        {
+          "nom": "Dax",
+          "libellecourt": "DAX",
+          "codes_uic": [
+            "87673202"
+          ],
+          "lat": 43.720472,
+          "lon": -1.050301,
+          "distance_to_route_km": 0.157,
+          "cumulative_km": 1630.452
+        },
+        {
+          "nom": "Saubusse",
+          "libellecourt": "SQB",
+          "codes_uic": [
+            "87673251"
+          ],
+          "lat": 43.6603331,
+          "lon": -1.1901703,
+          "distance_to_route_km": 0.535,
+          "cumulative_km": 1655.615
+        },
+        {
+          "nom": "Saint-Geours-de-Maremne",
+          "libellecourt": "SGQ",
+          "codes_uic": [
+            "87673269"
+          ],
+          "lat": 43.6713719,
+          "lon": -1.2412599,
+          "distance_to_route_km": 3.965,
+          "cumulative_km": 1656.747
+        },
+        {
+          "nom": "Urt",
+          "libellecourt": "URT",
+          "codes_uic": [
+            "87672386"
+          ],
+          "lat": 43.4993785,
+          "lon": -1.3005564,
+          "distance_to_route_km": 0.42,
+          "cumulative_km": 1684.392
+        },
+        {
+          "nom": "Saint-Jean-Pied-de-Port",
+          "libellecourt": "SJP",
+          "codes_uic": [
+            "87673723"
+          ],
+          "lat": 43.1679394,
+          "lon": -1.2380129,
+          "distance_to_route_km": 0.532,
+          "cumulative_km": 1779.551
+        }
+      ]
+    },
+    "EV4": {
+      "route_id": "EV4",
+      "name": "La Vélomaritime",
+      "total_km": 1513.024,
+      "stations": [
+        {
+          "nom": "Morlaix",
+          "libellecourt": "MXR",
+          "codes_uic": [
+            "87474338"
+          ],
+          "lat": 48.57797,
+          "lon": -3.832514,
+          "distance_to_route_km": 0.375,
+          "cumulative_km": 30.509
+        },
+        {
+          "nom": "Lannion",
+          "libellecourt": "LNI",
+          "codes_uic": [
+            "87473223"
+          ],
+          "lat": 48.727638,
+          "lon": -3.460353,
+          "distance_to_route_km": 0.126,
+          "cumulative_km": 100.681
+        },
+        {
+          "nom": "Lancerf",
+          "libellecourt": "LNF",
+          "codes_uic": [
+            "87473850"
+          ],
+          "lat": 48.761873,
+          "lon": -3.1181396,
+          "distance_to_route_km": 1.86,
+          "cumulative_km": 178.018
+        },
+        {
+          "nom": "Traou Nez",
+          "libellecourt": "TNZ",
+          "codes_uic": [
+            "87322347"
+          ],
+          "lat": 48.74858987607243,
+          "lon": -3.1349542664976724,
+          "distance_to_route_km": 3.734,
+          "cumulative_km": 178.034
+        },
+        {
+          "nom": "Paimpol",
+          "libellecourt": "PIP",
+          "codes_uic": [
+            "87473868"
+          ],
+          "lat": 48.77694,
+          "lon": -3.0460958,
+          "distance_to_route_km": 0.045,
+          "cumulative_km": 182.388
+        },
+        {
+          "nom": "Saint-Brieuc",
+          "libellecourt": "SBC",
+          "codes_uic": [
+            "87473009"
+          ],
+          "lat": 48.50758,
+          "lon": -2.765,
+          "distance_to_route_km": 2.527,
+          "cumulative_km": 246.899
+        },
+        {
+          "nom": "Yffiniac",
+          "libellecourt": "YFV",
+          "codes_uic": [
+            "87473116"
+          ],
+          "lat": 48.4702462,
+          "lon": -2.6524629,
+          "distance_to_route_km": 2.787,
+          "cumulative_km": 255.865
+        },
+        {
+          "nom": "La Hisse",
+          "libellecourt": "HIZ",
+          "codes_uic": [
+            "87478156"
+          ],
+          "lat": 48.4961248,
+          "lon": -2.0036608,
+          "distance_to_route_km": 3.489,
+          "cumulative_km": 344.399
+        },
+        {
+          "nom": "Pleudihen-sur-Rance",
+          "libellecourt": "PUH",
+          "codes_uic": [
+            "87478149"
+          ],
+          "lat": 48.4993822,
+          "lon": -1.9617515,
+          "distance_to_route_km": 3.868,
+          "cumulative_km": 346.876
+        },
+        {
+          "nom": "Miniac-Morvan",
+          "libellecourt": "MIN",
+          "codes_uic": [
+            "87478131"
+          ],
+          "lat": 48.5315134,
+          "lon": -1.914787,
+          "distance_to_route_km": 3.306,
+          "cumulative_km": 349.444
+        },
+        {
+          "nom": "Saint-Malo",
+          "libellecourt": "SMP",
+          "codes_uic": [
+            "87478107"
+          ],
+          "lat": 48.646859,
+          "lon": -2.004158,
+          "distance_to_route_km": 0.897,
+          "cumulative_km": 369.387
+        },
+        {
+          "nom": "La Gouesnière - Cancale - Saint-Méloir-des-Ondes",
+          "libellecourt": "LGO",
+          "codes_uic": [
+            "87478099"
+          ],
+          "lat": 48.6144207,
+          "lon": -1.9058105,
+          "distance_to_route_km": 2.839,
+          "cumulative_km": 394.904
+        },
+        {
+          "nom": "La Fresnais",
+          "libellecourt": "FSN",
+          "codes_uic": [
+            "87478081"
+          ],
+          "lat": 48.593655,
+          "lon": -1.8432199,
+          "distance_to_route_km": 2.217,
+          "cumulative_km": 402.656
+        },
+        {
+          "nom": "Pontorson - Mont-Saint-Michel",
+          "libellecourt": "PON",
+          "codes_uic": [
+            "87478263"
+          ],
+          "lat": 48.5527286,
+          "lon": -1.5049307,
+          "distance_to_route_km": 2.786,
+          "cumulative_km": 428.52
+        },
+        {
+          "nom": "Vire",
+          "libellecourt": "VIR",
+          "codes_uic": [
+            "87448159"
+          ],
+          "lat": 48.846329,
+          "lon": -0.882884,
+          "distance_to_route_km": 0.35,
+          "cumulative_km": 530.466
+        },
+        {
+          "nom": "Saint-Lô",
+          "libellecourt": "SLO",
+          "codes_uic": [
+            "87447003"
+          ],
+          "lat": 49.116975,
+          "lon": -1.099525,
+          "distance_to_route_km": 0.003,
+          "cumulative_km": 598.775
+        },
+        {
+          "nom": "Lison",
+          "libellecourt": "LSN",
+          "codes_uic": [
+            "87447219"
+          ],
+          "lat": 49.226834,
+          "lon": -1.050339,
+          "distance_to_route_km": 2.67,
+          "cumulative_km": 616.575
+        },
+        {
+          "nom": "Carentan",
+          "libellecourt": "CAR",
+          "codes_uic": [
+            "87447243"
+          ],
+          "lat": 49.302482,
+          "lon": -1.244938,
+          "distance_to_route_km": 0.022,
+          "cumulative_km": 640.451
+        },
+        {
+          "nom": "Cherbourg-en-Cotentin",
+          "libellecourt": "CBU",
+          "codes_uic": [
+            "87444877"
+          ],
+          "lat": 49.633505,
+          "lon": -1.621515,
+          "distance_to_route_km": 1.113,
+          "cumulative_km": 725.51
+        },
+        {
+          "nom": "Dives-sur-Mer - Cabourg",
+          "libellecourt": "DVQ",
+          "codes_uic": [
+            "87444414"
+          ],
+          "lat": 49.2864776,
+          "lon": -0.1074996,
+          "distance_to_route_km": 0.105,
+          "cumulative_km": 975.616
+        },
+        {
+          "nom": "Dives-sur-Mer Port Guillaume",
+          "libellecourt": "DSU",
+          "codes_uic": [
+            "87337378"
+          ],
+          "lat": 49.2910882,
+          "lon": -0.1008455,
+          "distance_to_route_km": 0.012,
+          "cumulative_km": 976.367
+        },
+        {
+          "nom": "Houlgate",
+          "libellecourt": "HOE",
+          "codes_uic": [
+            "87444406"
+          ],
+          "lat": 49.3000711,
+          "lon": -0.0772276,
+          "distance_to_route_km": 0.059,
+          "cumulative_km": 978.529
+        },
+        {
+          "nom": "Villers-sur-Mer",
+          "libellecourt": "VIU",
+          "codes_uic": [
+            "87444398"
+          ],
+          "lat": 49.3159865,
+          "lon": 0.0099283,
+          "distance_to_route_km": 0.405,
+          "cumulative_km": 988.386
+        },
+        {
+          "nom": "Blonville-sur-Mer - Benerville",
+          "libellecourt": "BWB",
+          "codes_uic": [
+            "87444380"
+          ],
+          "lat": 49.3313919,
+          "lon": 0.0356856,
+          "distance_to_route_km": 0.058,
+          "cumulative_km": 991.016
+        },
+        {
+          "nom": "Trouville - Deauville",
+          "libellecourt": "TDE",
+          "codes_uic": [
+            "87444372"
+          ],
+          "lat": 49.360005,
+          "lon": 0.084167,
+          "distance_to_route_km": 0.461,
+          "cumulative_km": 1004.203
+        },
+        {
+          "nom": "Pont-l'Évêque",
+          "libellecourt": "PVQ",
+          "codes_uic": [
+            "87444349"
+          ],
+          "lat": 49.2870379,
+          "lon": 0.1921947,
+          "distance_to_route_km": 0.208,
+          "cumulative_km": 1024.154
+        },
+        {
+          "nom": "Le Havre",
+          "libellecourt": "LHA",
+          "codes_uic": [
+            "87413013"
+          ],
+          "lat": 49.492996,
+          "lon": 0.125677,
+          "distance_to_route_km": 0.129,
+          "cumulative_km": 1065.463
+        },
+        {
+          "nom": "Fécamp",
+          "libellecourt": "FEC",
+          "codes_uic": [
+            "87413542"
+          ],
+          "lat": 49.759277,
+          "lon": 0.375287,
+          "distance_to_route_km": 0.173,
+          "cumulative_km": 1129.404
+        },
+        {
+          "nom": "Saint-Aubin-sur-Scie",
+          "libellecourt": "SBE",
+          "codes_uic": [
+            "87415125"
+          ],
+          "lat": 49.8717479,
+          "lon": 1.0666642,
+          "distance_to_route_km": 4.388,
+          "cumulative_km": 1206.393
+        },
+        {
+          "nom": "Dieppe",
+          "libellecourt": "DEV",
+          "codes_uic": [
+            "87415018"
+          ],
+          "lat": 49.921788,
+          "lon": 1.081133,
+          "distance_to_route_km": 0.511,
+          "cumulative_km": 1209.131
+        },
+        {
+          "nom": "Le Tréport - Mers-les-Bains",
+          "libellecourt": "LTM",
+          "codes_uic": [
+            "87317529"
+          ],
+          "lat": 50.0628592,
+          "lon": 1.3763738,
+          "distance_to_route_km": 0.051,
+          "cumulative_km": 1244.819
+        },
+        {
+          "nom": "Eu",
+          "libellecourt": "EUW",
+          "codes_uic": [
+            "87317537"
+          ],
+          "lat": 50.0541988,
+          "lon": 1.416837,
+          "distance_to_route_km": 2.422,
+          "cumulative_km": 1247.545
+        },
+        {
+          "nom": "Noyelles-sur-Mer",
+          "libellecourt": "NOE",
+          "codes_uic": [
+            "87317396"
+          ],
+          "lat": 50.1875408,
+          "lon": 1.7045772,
+          "distance_to_route_km": 0.377,
+          "cumulative_km": 1288.941
+        },
+        {
+          "nom": "Rue",
+          "libellecourt": "RUE",
+          "codes_uic": [
+            "87317404"
+          ],
+          "lat": 50.27308,
+          "lon": 1.6757,
+          "distance_to_route_km": 4.085,
+          "cumulative_km": 1301.059
+        },
+        {
+          "nom": "Rang-du-Fliers - Verton - Berck",
+          "libellecourt": "RDF",
+          "codes_uic": [
+            "87317057"
+          ],
+          "lat": 50.41579,
+          "lon": 1.64805,
+          "distance_to_route_km": 3.378,
+          "cumulative_km": 1341.313
+        },
+        {
+          "nom": "Étaples - Le Touquet",
+          "libellecourt": "ETA",
+          "codes_uic": [
+            "87317065"
+          ],
+          "lat": 50.51686,
+          "lon": 1.64231,
+          "distance_to_route_km": 0.594,
+          "cumulative_km": 1356.916
+        },
+        {
+          "nom": "Dannes - Camiers",
+          "libellecourt": "DCQ",
+          "codes_uic": [
+            "87317081"
+          ],
+          "lat": 50.5759062,
+          "lon": 1.614825,
+          "distance_to_route_km": 0.697,
+          "cumulative_km": 1364.602
+        },
+        {
+          "nom": "Neufchâtel-Hardelot",
+          "libellecourt": "NHA",
+          "codes_uic": [
+            "87317099"
+          ],
+          "lat": 50.62364,
+          "lon": 1.643115,
+          "distance_to_route_km": 0.467,
+          "cumulative_km": 1370.751
+        },
+        {
+          "nom": "Hesdigneul-lès-Boulogne",
+          "libellecourt": "HES",
+          "codes_uic": [
+            "87317107"
+          ],
+          "lat": 50.6609475,
+          "lon": 1.6669967,
+          "distance_to_route_km": 3.346,
+          "cumulative_km": 1376.691
+        },
+        {
+          "nom": "Pont de Briques",
+          "libellecourt": "PRS",
+          "codes_uic": [
+            "87317115"
+          ],
+          "lat": 50.6828164,
+          "lon": 1.6268038,
+          "distance_to_route_km": 2.407,
+          "cumulative_km": 1379.143
+        },
+        {
+          "nom": "Boulogne-sur-Mer",
+          "libellecourt": "BEM",
+          "codes_uic": [
+            "87317586"
+          ],
+          "lat": 50.7157,
+          "lon": 1.60964,
+          "distance_to_route_km": 0.812,
+          "cumulative_km": 1387.949
+        },
+        {
+          "nom": "Boulogne Tintelleries",
+          "libellecourt": "BKI",
+          "codes_uic": [
+            "87317016"
+          ],
+          "lat": 50.72729,
+          "lon": 1.60904,
+          "distance_to_route_km": 0.614,
+          "cumulative_km": 1388.279
+        },
+        {
+          "nom": "Wimille - Wimereux",
+          "libellecourt": "WWX",
+          "codes_uic": [
+            "87317123"
+          ],
+          "lat": 50.7638456,
+          "lon": 1.6137455,
+          "distance_to_route_km": 0.485,
+          "cumulative_km": 1393.161
+        },
+        {
+          "nom": "Pihen-lès-Guînes",
+          "libellecourt": "PHV",
+          "codes_uic": [
+            "87316679"
+          ],
+          "lat": 50.8727855,
+          "lon": 1.7845632,
+          "distance_to_route_km": 4.241,
+          "cumulative_km": 1422.191
+        },
+        {
+          "nom": "Calais - Fréthun",
+          "libellecourt": "FHS",
+          "codes_uic": [
+            "87281071"
+          ],
+          "lat": 50.901221,
+          "lon": 1.810891,
+          "distance_to_route_km": 4.603,
+          "cumulative_km": 1425.59
+        },
+        {
+          "nom": "Calais",
+          "libellecourt": "CSV",
+          "codes_uic": [
+            "87317263"
+          ],
+          "lat": 50.953481,
+          "lon": 1.850819,
+          "distance_to_route_km": 0.029,
+          "cumulative_km": 1439.215
+        },
+        {
+          "nom": "Les Fontinettes",
+          "libellecourt": "LTS",
+          "codes_uic": [
+            "87317305"
+          ],
+          "lat": 50.940831,
+          "lon": 1.8496343,
+          "distance_to_route_km": 1.278,
+          "cumulative_km": 1440.369
+        },
+        {
+          "nom": "Beau Marais",
+          "libellecourt": "BMQ",
+          "codes_uic": [
+            "87317610"
+          ],
+          "lat": 50.945371,
+          "lon": 1.8983301,
+          "distance_to_route_km": 1.074,
+          "cumulative_km": 1442.8
+        },
+        {
+          "nom": "Gravelines",
+          "libellecourt": "GVL",
+          "codes_uic": [
+            "87281246"
+          ],
+          "lat": 50.978736,
+          "lon": 2.1232852,
+          "distance_to_route_km": 0.241,
+          "cumulative_km": 1466.486
+        },
+        {
+          "nom": "Bourbourg",
+          "libellecourt": "BBU",
+          "codes_uic": [
+            "87281279"
+          ],
+          "lat": 50.952267,
+          "lon": 2.1942305,
+          "distance_to_route_km": 0.413,
+          "cumulative_km": 1474.555
+        },
+        {
+          "nom": "Grande-Synthe",
+          "libellecourt": "GSV",
+          "codes_uic": [
+            "87281311"
+          ],
+          "lat": 51.0026884,
+          "lon": 2.3133547,
+          "distance_to_route_km": 0.625,
+          "cumulative_km": 1489.409
+        },
+        {
+          "nom": "Dunkerque",
+          "libellecourt": "DKQ",
+          "codes_uic": [
+            "87281006"
+          ],
+          "lat": 51.03047,
+          "lon": 2.368961,
+          "distance_to_route_km": 0.152,
+          "cumulative_km": 1496.398
+        },
+        {
+          "nom": "Coudekerque-Branche",
+          "libellecourt": "CDK",
+          "codes_uic": [
+            "87281402"
+          ],
+          "lat": 51.0177069,
+          "lon": 2.3751425,
+          "distance_to_route_km": 0.266,
+          "cumulative_km": 1498.093
+        }
+      ]
+    },
+    "EV5": {
+      "route_id": "EV5",
+      "name": "Eurovelo 5 Moselle Alsace",
+      "total_km": 391.441,
+      "stations": [
+        {
+          "nom": "Sarreguemines",
+          "libellecourt": "SGS",
+          "codes_uic": [
+            "87193615"
+          ],
+          "lat": 49.1073357,
+          "lon": 7.0686398,
+          "distance_to_route_km": 0.242,
+          "cumulative_km": 11.529
+        },
+        {
+          "nom": "Kalhausen",
+          "libellecourt": "KHS",
+          "codes_uic": [
+            "87193664"
+          ],
+          "lat": 49.0350585,
+          "lon": 7.125352,
+          "distance_to_route_km": 0.567,
+          "cumulative_km": 26.597
+        },
+        {
+          "nom": "Oermingen",
+          "libellecourt": "OER",
+          "codes_uic": [
+            "87215632"
+          ],
+          "lat": 49.0003724,
+          "lon": 7.1317322,
+          "distance_to_route_km": 3.895,
+          "cumulative_km": 29.237
+        },
+        {
+          "nom": "Sarre-Union",
+          "libellecourt": "SRU",
+          "codes_uic": [
+            "87215459"
+          ],
+          "lat": 48.9360172,
+          "lon": 7.0850443,
+          "distance_to_route_km": 3.749,
+          "cumulative_km": 43.604
+        },
+        {
+          "nom": "Sarrebourg",
+          "libellecourt": "SBG",
+          "codes_uic": [
+            "87215012"
+          ],
+          "lat": 48.73808,
+          "lon": 7.05285,
+          "distance_to_route_km": 3.68,
+          "cumulative_km": 91.974
+        },
+        {
+          "nom": "Réding",
+          "libellecourt": "RDG",
+          "codes_uic": [
+            "87215079"
+          ],
+          "lat": 48.7429595,
+          "lon": 7.095885,
+          "distance_to_route_km": 3.154,
+          "cumulative_km": 96.645
+        },
+        {
+          "nom": "Lutzelbourg",
+          "libellecourt": "LZF",
+          "codes_uic": [
+            "87215160"
+          ],
+          "lat": 48.7299065,
+          "lon": 7.2516808,
+          "distance_to_route_km": 0.162,
+          "cumulative_km": 108.913
+        },
+        {
+          "nom": "Saverne",
+          "libellecourt": "SNE",
+          "codes_uic": [
+            "87212225"
+          ],
+          "lat": 48.7444606,
+          "lon": 7.3620802,
+          "distance_to_route_km": 0.187,
+          "cumulative_km": 119.799
+        },
+        {
+          "nom": "Steinbourg",
+          "libellecourt": "SNG",
+          "codes_uic": [
+            "87212209"
+          ],
+          "lat": 48.7635292,
+          "lon": 7.416299,
+          "distance_to_route_km": 0.091,
+          "cumulative_km": 124.753
+        },
+        {
+          "nom": "Dettwiller",
+          "libellecourt": "DEE",
+          "codes_uic": [
+            "87212183"
+          ],
+          "lat": 48.7518969,
+          "lon": 7.4652459,
+          "distance_to_route_km": 0.454,
+          "cumulative_km": 128.999
+        },
+        {
+          "nom": "Wilwisheim",
+          "libellecourt": "WIW",
+          "codes_uic": [
+            "87212175"
+          ],
+          "lat": 48.745831,
+          "lon": 7.5077599,
+          "distance_to_route_km": 0.39,
+          "cumulative_km": 132.441
+        },
+        {
+          "nom": "Hochfelden",
+          "libellecourt": "HCH",
+          "codes_uic": [
+            "87212167"
+          ],
+          "lat": 48.7554199,
+          "lon": 7.572355,
+          "distance_to_route_km": 0.7,
+          "cumulative_km": 137.694
+        },
+        {
+          "nom": "Schwindratzheim",
+          "libellecourt": "HWM",
+          "codes_uic": [
+            "87212159"
+          ],
+          "lat": 48.7536468,
+          "lon": 7.6005468,
+          "distance_to_route_km": 0.674,
+          "cumulative_km": 139.471
+        },
+        {
+          "nom": "Mommenheim",
+          "libellecourt": "MOH",
+          "codes_uic": [
+            "87212142"
+          ],
+          "lat": 48.7561587,
+          "lon": 7.6422273,
+          "distance_to_route_km": 1.061,
+          "cumulative_km": 142.178
+        },
+        {
+          "nom": "Brumath",
+          "libellecourt": "BAH",
+          "codes_uic": [
+            "87212134"
+          ],
+          "lat": 48.7331082,
+          "lon": 7.7004016,
+          "distance_to_route_km": 1.756,
+          "cumulative_km": 147.0
+        },
+        {
+          "nom": "Stephansfeld",
+          "libellecourt": "SFX",
+          "codes_uic": [
+            "87212126"
+          ],
+          "lat": 48.7175872,
+          "lon": 7.7045946,
+          "distance_to_route_km": 1.093,
+          "cumulative_km": 148.096
+        },
+        {
+          "nom": "Vendenheim",
+          "libellecourt": "VHM",
+          "codes_uic": [
+            "87212118"
+          ],
+          "lat": 48.6659659,
+          "lon": 7.7177824,
+          "distance_to_route_km": 0.247,
+          "cumulative_km": 153.662
+        },
+        {
+          "nom": "Mundolsheim",
+          "libellecourt": "MUM",
+          "codes_uic": [
+            "87212100"
+          ],
+          "lat": 48.6447732,
+          "lon": 7.721389,
+          "distance_to_route_km": 1.348,
+          "cumulative_km": 155.911
+        },
+        {
+          "nom": "Hoenheim Tram",
+          "libellecourt": "HMT",
+          "codes_uic": [
+            "87338517"
+          ],
+          "lat": 48.6285976,
+          "lon": 7.7581387,
+          "distance_to_route_km": 0.22,
+          "cumulative_km": 158.774
+        },
+        {
+          "nom": "Bischheim",
+          "libellecourt": "BHM",
+          "codes_uic": [
+            "87212308"
+          ],
+          "lat": 48.6118352,
+          "lon": 7.7422165,
+          "distance_to_route_km": 1.469,
+          "cumulative_km": 160.743
+        },
+        {
+          "nom": "Krimmeri Meinau",
+          "libellecourt": "KRI",
+          "codes_uic": [
+            "87338525"
+          ],
+          "lat": 48.56358,
+          "lon": 7.75259,
+          "distance_to_route_km": 1.221,
+          "cumulative_km": 168.483
+        },
+        {
+          "nom": "Strasbourg",
+          "libellecourt": "STG",
+          "codes_uic": [
+            "87212027"
+          ],
+          "lat": 48.584967,
+          "lon": 7.734584,
+          "distance_to_route_km": 1.122,
+          "cumulative_km": 169.587
+        },
+        {
+          "nom": "Graffenstaden",
+          "libellecourt": "GRF",
+          "codes_uic": [
+            "87212241"
+          ],
+          "lat": 48.5324375,
+          "lon": 7.6897861,
+          "distance_to_route_km": 4.47,
+          "cumulative_km": 171.801
+        },
+        {
+          "nom": "Strasbourg Roethig",
+          "libellecourt": "SQG",
+          "codes_uic": [
+            "87212191"
+          ],
+          "lat": 48.5632897,
+          "lon": 7.6950455,
+          "distance_to_route_km": 1.123,
+          "cumulative_km": 172.507
+        },
+        {
+          "nom": "Lingolsheim",
+          "libellecourt": "LGH",
+          "codes_uic": [
+            "87214502"
+          ],
+          "lat": 48.5594092,
+          "lon": 7.6781143,
+          "distance_to_route_km": 1.785,
+          "cumulative_km": 173.916
+        },
+        {
+          "nom": "Entzheim Aéroport",
+          "libellecourt": "ENZ",
+          "codes_uic": [
+            "87214528"
+          ],
+          "lat": 48.54699,
+          "lon": 7.62794,
+          "distance_to_route_km": 1.299,
+          "cumulative_km": 181.081
+        },
+        {
+          "nom": "Duppigheim",
+          "libellecourt": "DUP",
+          "codes_uic": [
+            "87214536"
+          ],
+          "lat": 48.5439674,
+          "lon": 7.5868091,
+          "distance_to_route_km": 1.096,
+          "cumulative_km": 182.948
+        },
+        {
+          "nom": "Duttlenheim",
+          "libellecourt": "DTM",
+          "codes_uic": [
+            "87214544"
+          ],
+          "lat": 48.5453531,
+          "lon": 7.5661529,
+          "distance_to_route_km": 1.429,
+          "cumulative_km": 184.808
+        },
+        {
+          "nom": "Dachstein",
+          "libellecourt": "DCN",
+          "codes_uic": [
+            "87214551"
+          ],
+          "lat": 48.5428546,
+          "lon": 7.5330038,
+          "distance_to_route_km": 2.02,
+          "cumulative_km": 194.706
+        },
+        {
+          "nom": "Molsheim",
+          "libellecourt": "MOL",
+          "codes_uic": [
+            "87214577"
+          ],
+          "lat": 48.53705,
+          "lon": 7.50044,
+          "distance_to_route_km": 0.056,
+          "cumulative_km": 195.444
+        },
+        {
+          "nom": "Dorlisheim",
+          "libellecourt": "DHM",
+          "codes_uic": [
+            "87214338"
+          ],
+          "lat": 48.5249915,
+          "lon": 7.4930546,
+          "distance_to_route_km": 0.148,
+          "cumulative_km": 197.475
+        },
+        {
+          "nom": "Mutzig",
+          "libellecourt": "MTZ",
+          "codes_uic": [
+            "87214585"
+          ],
+          "lat": 48.5337753,
+          "lon": 7.4621581,
+          "distance_to_route_km": 1.751,
+          "cumulative_km": 198.737
+        },
+        {
+          "nom": "Gresswiller",
+          "libellecourt": "GEI",
+          "codes_uic": [
+            "87214593"
+          ],
+          "lat": 48.53334,
+          "lon": 7.42468,
+          "distance_to_route_km": 4.087,
+          "cumulative_km": 199.345
+        },
+        {
+          "nom": "Rosheim",
+          "libellecourt": "ROH",
+          "codes_uic": [
+            "87214320"
+          ],
+          "lat": 48.50525,
+          "lon": 7.49093,
+          "distance_to_route_km": 1.196,
+          "cumulative_km": 202.588
+        },
+        {
+          "nom": "Bischoffsheim",
+          "libellecourt": "BFH",
+          "codes_uic": [
+            "87214296"
+          ],
+          "lat": 48.48701,
+          "lon": 7.49772,
+          "distance_to_route_km": 0.451,
+          "cumulative_km": 204.442
+        },
+        {
+          "nom": "Obernai",
+          "libellecourt": "OBE",
+          "codes_uic": [
+            "87214288"
+          ],
+          "lat": 48.46219,
+          "lon": 7.48881,
+          "distance_to_route_km": 0.243,
+          "cumulative_km": 207.496
+        },
+        {
+          "nom": "Goxwiller",
+          "libellecourt": "GXW",
+          "codes_uic": [
+            "87214270"
+          ],
+          "lat": 48.4327551,
+          "lon": 7.4787296,
+          "distance_to_route_km": 0.175,
+          "cumulative_km": 213.541
+        },
+        {
+          "nom": "Gertwiller",
+          "libellecourt": "GWL",
+          "codes_uic": [
+            "87214254"
+          ],
+          "lat": 48.4133621,
+          "lon": 7.4663166,
+          "distance_to_route_km": 0.036,
+          "cumulative_km": 216.129
+        },
+        {
+          "nom": "Barr",
+          "libellecourt": "BAR",
+          "codes_uic": [
+            "87214247"
+          ],
+          "lat": 48.4032933,
+          "lon": 7.4565189,
+          "distance_to_route_km": 0.508,
+          "cumulative_km": 219.053
+        },
+        {
+          "nom": "Eichhoffen",
+          "libellecourt": "ECF",
+          "codes_uic": [
+            "87214239"
+          ],
+          "lat": 48.3824829,
+          "lon": 7.4495524,
+          "distance_to_route_km": 1.429,
+          "cumulative_km": 220.094
+        },
+        {
+          "nom": "Epfig",
+          "libellecourt": "EFG",
+          "codes_uic": [
+            "87214221"
+          ],
+          "lat": 48.3637643,
+          "lon": 7.4504053,
+          "distance_to_route_km": 1.272,
+          "cumulative_km": 226.876
+        },
+        {
+          "nom": "Dambach-la-Ville",
+          "libellecourt": "DMB",
+          "codes_uic": [
+            "87214213"
+          ],
+          "lat": 48.3216345,
+          "lon": 7.4355565,
+          "distance_to_route_km": 1.03,
+          "cumulative_km": 232.502
+        },
+        {
+          "nom": "Scherwiller",
+          "libellecourt": "HWL",
+          "codes_uic": [
+            "87214205"
+          ],
+          "lat": 48.2869344,
+          "lon": 7.4301867,
+          "distance_to_route_km": 0.898,
+          "cumulative_km": 237.083
+        },
+        {
+          "nom": "Sélestat",
+          "libellecourt": "STT",
+          "codes_uic": [
+            "87214056"
+          ],
+          "lat": 48.2601166,
+          "lon": 7.443278,
+          "distance_to_route_km": 2.759,
+          "cumulative_km": 241.342
+        },
+        {
+          "nom": "Colmar Saint-Joseph",
+          "libellecourt": "CXJ",
+          "codes_uic": [
+            "87181222"
+          ],
+          "lat": 48.0816399,
+          "lon": 7.3453397,
+          "distance_to_route_km": 2.911,
+          "cumulative_km": 263.847
+        },
+        {
+          "nom": "Colmar Mésanges",
+          "libellecourt": "CXM",
+          "codes_uic": [
+            "87402297"
+          ],
+          "lat": 48.0860048,
+          "lon": 7.3336703,
+          "distance_to_route_km": 1.957,
+          "cumulative_km": 263.873
+        },
+        {
+          "nom": "Logelbach",
+          "libellecourt": "LOJ",
+          "codes_uic": [
+            "87182345"
+          ],
+          "lat": 48.087299,
+          "lon": 7.3206082,
+          "distance_to_route_km": 1.282,
+          "cumulative_km": 264.276
+        },
+        {
+          "nom": "Ingersheim - Cité Scolaire",
+          "libellecourt": "ISC",
+          "codes_uic": [
+            "87303875"
+          ],
+          "lat": 48.08883,
+          "lon": 7.29823,
+          "distance_to_route_km": 0.345,
+          "cumulative_km": 265.882
+        },
+        {
+          "nom": "Turckheim",
+          "libellecourt": "TKM",
+          "codes_uic": [
+            "87182352"
+          ],
+          "lat": 48.0856288,
+          "lon": 7.279466,
+          "distance_to_route_km": 0.045,
+          "cumulative_km": 267.371
+        },
+        {
+          "nom": "Saint-Gilles Lycée Haut-Rhin",
+          "libellecourt": "GLL",
+          "codes_uic": [
+            "87181552"
+          ],
+          "lat": 48.0758611,
+          "lon": 7.2609746,
+          "distance_to_route_km": 1.768,
+          "cumulative_km": 267.679
+        },
+        {
+          "nom": "Walbach",
+          "libellecourt": "WAH",
+          "codes_uic": [
+            "87182360"
+          ],
+          "lat": 48.0580062,
+          "lon": 7.2334758,
+          "distance_to_route_km": 4.58,
+          "cumulative_km": 267.685
+        },
+        {
+          "nom": "Colmar",
+          "libellecourt": "CMR",
+          "codes_uic": [
+            "87182014"
+          ],
+          "lat": 48.073201,
+          "lon": 7.346967,
+          "distance_to_route_km": 3.208,
+          "cumulative_km": 270.946
+        },
+        {
+          "nom": "Herrlisheim-près-Colmar",
+          "libellecourt": "HRH",
+          "codes_uic": [
+            "87182329"
+          ],
+          "lat": 48.0166417,
+          "lon": 7.3206381,
+          "distance_to_route_km": 0.771,
+          "cumulative_km": 277.391
+        },
+        {
+          "nom": "Rouffach",
+          "libellecourt": "RAH",
+          "codes_uic": [
+            "87182337"
+          ],
+          "lat": 47.9602481,
+          "lon": 7.312455,
+          "distance_to_route_km": 0.805,
+          "cumulative_km": 285.768
+        },
+        {
+          "nom": "Merxheim",
+          "libellecourt": "MXH",
+          "codes_uic": [
+            "87182725"
+          ],
+          "lat": 47.9126413,
+          "lon": 7.3022795,
+          "distance_to_route_km": 3.877,
+          "cumulative_km": 297.131
+        },
+        {
+          "nom": "Raedersheim",
+          "libellecourt": "RHM",
+          "codes_uic": [
+            "87182717"
+          ],
+          "lat": 47.8869059,
+          "lon": 7.2840467,
+          "distance_to_route_km": 3.18,
+          "cumulative_km": 299.118
+        },
+        {
+          "nom": "Thann",
+          "libellecourt": "THA",
+          "codes_uic": [
+            "87182568"
+          ],
+          "lat": 47.8088208,
+          "lon": 7.1069795,
+          "distance_to_route_km": 4.86,
+          "cumulative_km": 317.92
+        },
+        {
+          "nom": "Vieux-Thann",
+          "libellecourt": "VXT",
+          "codes_uic": [
+            "87182550"
+          ],
+          "lat": 47.8058505,
+          "lon": 7.1194904,
+          "distance_to_route_km": 3.931,
+          "cumulative_km": 317.92
+        },
+        {
+          "nom": "Vieux-Thann Zone Industrielle",
+          "libellecourt": "VXZ",
+          "codes_uic": [
+            "87181289"
+          ],
+          "lat": 47.8020615,
+          "lon": 7.1326428,
+          "distance_to_route_km": 2.997,
+          "cumulative_km": 318.219
+        },
+        {
+          "nom": "Cernay (Haut-Rhin)",
+          "libellecourt": "CEF",
+          "codes_uic": [
+            "87182410"
+          ],
+          "lat": 47.802,
+          "lon": 7.1737,
+          "distance_to_route_km": 0.344,
+          "cumulative_km": 318.446
+        },
+        {
+          "nom": "Graffenwald",
+          "libellecourt": "GFW",
+          "codes_uic": [
+            "87181131"
+          ],
+          "lat": 47.7808232,
+          "lon": 7.2247908,
+          "distance_to_route_km": 3.114,
+          "cumulative_km": 320.876
+        },
+        {
+          "nom": "Staffelfelden",
+          "libellecourt": "TFE",
+          "codes_uic": [
+            "87182691"
+          ],
+          "lat": 47.8279612,
+          "lon": 7.2651657,
+          "distance_to_route_km": 0.053,
+          "cumulative_km": 326.384
+        },
+        {
+          "nom": "Bollwiller",
+          "libellecourt": "BOW",
+          "codes_uic": [
+            "87182709"
+          ],
+          "lat": 47.8569694,
+          "lon": 7.2672555,
+          "distance_to_route_km": 2.035,
+          "cumulative_km": 329.23
+        },
+        {
+          "nom": "Mulhouse Dornach",
+          "libellecourt": "MDQ",
+          "codes_uic": [
+            "87182055"
+          ],
+          "lat": 47.74713,
+          "lon": 7.308477,
+          "distance_to_route_km": 2.776,
+          "cumulative_km": 351.16
+        },
+        {
+          "nom": "Mulhouse Musées",
+          "libellecourt": "MMU",
+          "codes_uic": [
+            "87534339"
+          ],
+          "lat": 47.75136,
+          "lon": 7.29478,
+          "distance_to_route_km": 3.561,
+          "cumulative_km": 351.16
+        },
+        {
+          "nom": "Mulhouse Zu Rhein Tram-Train",
+          "libellecourt": "MZR",
+          "codes_uic": [
+            "87472639"
+          ],
+          "lat": 47.743561,
+          "lon": 7.317015,
+          "distance_to_route_km": 2.421,
+          "cumulative_km": 351.773
+        },
+        {
+          "nom": "Mulhouse",
+          "libellecourt": "MSE",
+          "codes_uic": [
+            "87182063"
+          ],
+          "lat": 47.742224,
+          "lon": 7.342396,
+          "distance_to_route_km": 1.22,
+          "cumulative_km": 351.997
+        },
+        {
+          "nom": "Rixheim",
+          "libellecourt": "RHE",
+          "codes_uic": [
+            "87182071"
+          ],
+          "lat": 47.74896,
+          "lon": 7.406404,
+          "distance_to_route_km": 0.156,
+          "cumulative_km": 357.617
+        },
+        {
+          "nom": "Habsheim",
+          "libellecourt": "HAB",
+          "codes_uic": [
+            "87182089"
+          ],
+          "lat": 47.737691,
+          "lon": 7.417979,
+          "distance_to_route_km": 0.033,
+          "cumulative_km": 359.224
+        },
+        {
+          "nom": "Sierentz",
+          "libellecourt": "SEZ",
+          "codes_uic": [
+            "87182105"
+          ],
+          "lat": 47.656047,
+          "lon": 7.459142,
+          "distance_to_route_km": 0.386,
+          "cumulative_km": 370.705
+        },
+        {
+          "nom": "Bartenheim",
+          "libellecourt": "BTK",
+          "codes_uic": [
+            "87182113"
+          ],
+          "lat": 47.6349313,
+          "lon": 7.4872561,
+          "distance_to_route_km": 0.699,
+          "cumulative_km": 373.921
+        },
+        {
+          "nom": "Saint-Louis La Chaussée",
+          "libellecourt": "SLU",
+          "codes_uic": [
+            "87181016"
+          ],
+          "lat": 47.6094781,
+          "lon": 7.5312095,
+          "distance_to_route_km": 1.974,
+          "cumulative_km": 377.725
+        },
+        {
+          "nom": "Saint-Louis",
+          "libellecourt": "STL",
+          "codes_uic": [
+            "87182139"
+          ],
+          "lat": 47.5906094,
+          "lon": 7.5559882,
+          "distance_to_route_km": 1.16,
+          "cumulative_km": 388.336
+        }
+      ]
+    },
+    "EV6": {
+      "route_id": "EV6",
+      "name": "Entre Rhin et Loire à Vélo",
+      "total_km": 564.527,
+      "stations": [
+        {
+          "nom": "Saint-Louis",
+          "libellecourt": "STL",
+          "codes_uic": [
+            "87182139"
+          ],
+          "lat": 47.5906094,
+          "lon": 7.5559882,
+          "distance_to_route_km": 1.333,
+          "cumulative_km": 2.749
+        },
+        {
+          "nom": "Saint-Louis La Chaussée",
+          "libellecourt": "SLU",
+          "codes_uic": [
+            "87181016"
+          ],
+          "lat": 47.6094781,
+          "lon": 7.5312095,
+          "distance_to_route_km": 1.559,
+          "cumulative_km": 5.319
+        },
+        {
+          "nom": "Bartenheim",
+          "libellecourt": "BTK",
+          "codes_uic": [
+            "87182113"
+          ],
+          "lat": 47.6349313,
+          "lon": 7.4872561,
+          "distance_to_route_km": 2.863,
+          "cumulative_km": 9.346
+        },
+        {
+          "nom": "Sierentz",
+          "libellecourt": "SEZ",
+          "codes_uic": [
+            "87182105"
+          ],
+          "lat": 47.656047,
+          "lon": 7.459142,
+          "distance_to_route_km": 3.62,
+          "cumulative_km": 11.756
+        },
+        {
+          "nom": "Habsheim",
+          "libellecourt": "HAB",
+          "codes_uic": [
+            "87182089"
+          ],
+          "lat": 47.737691,
+          "lon": 7.417979,
+          "distance_to_route_km": 3.027,
+          "cumulative_km": 27.256
+        },
+        {
+          "nom": "Rixheim",
+          "libellecourt": "RHE",
+          "codes_uic": [
+            "87182071"
+          ],
+          "lat": 47.74896,
+          "lon": 7.406404,
+          "distance_to_route_km": 1.972,
+          "cumulative_km": 28.185
+        },
+        {
+          "nom": "Mulhouse",
+          "libellecourt": "MSE",
+          "codes_uic": [
+            "87182063"
+          ],
+          "lat": 47.742224,
+          "lon": 7.342396,
+          "distance_to_route_km": 0.051,
+          "cumulative_km": 34.776
+        },
+        {
+          "nom": "Mulhouse Dornach",
+          "libellecourt": "MDQ",
+          "codes_uic": [
+            "87182055"
+          ],
+          "lat": 47.74713,
+          "lon": 7.308477,
+          "distance_to_route_km": 1.937,
+          "cumulative_km": 36.36
+        },
+        {
+          "nom": "Mulhouse Musées",
+          "libellecourt": "MMU",
+          "codes_uic": [
+            "87534339"
+          ],
+          "lat": 47.75136,
+          "lon": 7.29478,
+          "distance_to_route_km": 3.028,
+          "cumulative_km": 36.36
+        },
+        {
+          "nom": "Mulhouse Zu Rhein Tram-Train",
+          "libellecourt": "MZR",
+          "codes_uic": [
+            "87472639"
+          ],
+          "lat": 47.743561,
+          "lon": 7.317015,
+          "distance_to_route_km": 1.207,
+          "cumulative_km": 36.36
+        },
+        {
+          "nom": "Flaxlanden",
+          "libellecourt": "FXL",
+          "codes_uic": [
+            "87181040"
+          ],
+          "lat": 47.6986924,
+          "lon": 7.3044703,
+          "distance_to_route_km": 0.303,
+          "cumulative_km": 40.791
+        },
+        {
+          "nom": "Zillisheim",
+          "libellecourt": "ZIL",
+          "codes_uic": [
+            "87182196"
+          ],
+          "lat": 47.6943143,
+          "lon": 7.2945376,
+          "distance_to_route_km": 0.321,
+          "cumulative_km": 41.575
+        },
+        {
+          "nom": "Illfurth",
+          "libellecourt": "IFH",
+          "codes_uic": [
+            "87182204"
+          ],
+          "lat": 47.6764322,
+          "lon": 7.2685712,
+          "distance_to_route_km": 0.244,
+          "cumulative_km": 44.62
+        },
+        {
+          "nom": "Walheim",
+          "libellecourt": "WHM",
+          "codes_uic": [
+            "87181065"
+          ],
+          "lat": 47.6416406,
+          "lon": 7.2633202,
+          "distance_to_route_km": 2.835,
+          "cumulative_km": 47.143
+        },
+        {
+          "nom": "Altkirch",
+          "libellecourt": "ALK",
+          "codes_uic": [
+            "87182238"
+          ],
+          "lat": 47.6270174,
+          "lon": 7.2392493,
+          "distance_to_route_km": 3.47,
+          "cumulative_km": 48.15
+        },
+        {
+          "nom": "Dannemarie",
+          "libellecourt": "DAN",
+          "codes_uic": [
+            "87182253"
+          ],
+          "lat": 47.6275771,
+          "lon": 7.124907,
+          "distance_to_route_km": 1.131,
+          "cumulative_km": 58.245
+        },
+        {
+          "nom": "Montreux-Vieux",
+          "libellecourt": "MVX",
+          "codes_uic": [
+            "87184275"
+          ],
+          "lat": 47.6178576,
+          "lon": 7.0253947,
+          "distance_to_route_km": 0.376,
+          "cumulative_km": 66.212
+        },
+        {
+          "nom": "Petit-Croix",
+          "libellecourt": "PZC",
+          "codes_uic": [
+            "87184267"
+          ],
+          "lat": 47.6101045,
+          "lon": 6.9947414,
+          "distance_to_route_km": 1.066,
+          "cumulative_km": 69.115
+        },
+        {
+          "nom": "Grandvillars",
+          "libellecourt": "GND",
+          "codes_uic": [
+            "87184432"
+          ],
+          "lat": 47.53763,
+          "lon": 6.9785,
+          "distance_to_route_km": 4.074,
+          "cumulative_km": 75.199
+        },
+        {
+          "nom": "Morvillars",
+          "libellecourt": "MOV",
+          "codes_uic": [
+            "87184424"
+          ],
+          "lat": 47.54952,
+          "lon": 6.93511,
+          "distance_to_route_km": 1.111,
+          "cumulative_km": 76.445
+        },
+        {
+          "nom": "Belfort - Montbéliard TGV",
+          "libellecourt": "BFB",
+          "codes_uic": [
+            "87300822"
+          ],
+          "lat": 47.585937,
+          "lon": 6.897687,
+          "distance_to_route_km": 3.785,
+          "cumulative_km": 76.721
+        },
+        {
+          "nom": "Méroux",
+          "libellecourt": "MOX",
+          "codes_uic": [
+            "87184408"
+          ],
+          "lat": 47.58659,
+          "lon": 6.89903,
+          "distance_to_route_km": 3.794,
+          "cumulative_km": 76.721
+        },
+        {
+          "nom": "Montbéliard",
+          "libellecourt": "MBD",
+          "codes_uic": [
+            "87184523"
+          ],
+          "lat": 47.5105086,
+          "lon": 6.8013763,
+          "distance_to_route_km": 0.603,
+          "cumulative_km": 89.841
+        },
+        {
+          "nom": "Voujeaucourt",
+          "libellecourt": "VJT",
+          "codes_uic": [
+            "87184531"
+          ],
+          "lat": 47.4789729,
+          "lon": 6.7699667,
+          "distance_to_route_km": 0.264,
+          "cumulative_km": 95.006
+        },
+        {
+          "nom": "Colombier-Fontaine",
+          "libellecourt": "CFT",
+          "codes_uic": [
+            "87184556"
+          ],
+          "lat": 47.4554849,
+          "lon": 6.6890071,
+          "distance_to_route_km": 0.045,
+          "cumulative_km": 102.097
+        },
+        {
+          "nom": "L'Isle-sur-le-Doubs",
+          "libellecourt": "ISD",
+          "codes_uic": [
+            "87184572"
+          ],
+          "lat": 47.4473777,
+          "lon": 6.5812614,
+          "distance_to_route_km": 0.193,
+          "cumulative_km": 114.427
+        },
+        {
+          "nom": "Clerval",
+          "libellecourt": "CVL",
+          "codes_uic": [
+            "87184622"
+          ],
+          "lat": 47.3966577,
+          "lon": 6.4920574,
+          "distance_to_route_km": 0.274,
+          "cumulative_km": 128.783
+        },
+        {
+          "nom": "Baume-les-Dames",
+          "libellecourt": "BDA",
+          "codes_uic": [
+            "87718460"
+          ],
+          "lat": 47.353937,
+          "lon": 6.359603,
+          "distance_to_route_km": 1.078,
+          "cumulative_km": 144.855
+        },
+        {
+          "nom": "Laissey",
+          "libellecourt": "LJY",
+          "codes_uic": [
+            "87718437"
+          ],
+          "lat": 47.298723,
+          "lon": 6.23304,
+          "distance_to_route_km": 0.055,
+          "cumulative_km": 159.978
+        },
+        {
+          "nom": "Deluz",
+          "libellecourt": "DLZ",
+          "codes_uic": [
+            "87718429"
+          ],
+          "lat": 47.2925132,
+          "lon": 6.199733,
+          "distance_to_route_km": 0.241,
+          "cumulative_km": 163.408
+        },
+        {
+          "nom": "Novillars",
+          "libellecourt": "NOV",
+          "codes_uic": [
+            "87718411"
+          ],
+          "lat": 47.2839618,
+          "lon": 6.1327011,
+          "distance_to_route_km": 0.282,
+          "cumulative_km": 169.198
+        },
+        {
+          "nom": "Roche-lez-Beaupré",
+          "libellecourt": "RBE",
+          "codes_uic": [
+            "87718403"
+          ],
+          "lat": 47.2762881,
+          "lon": 6.1109651,
+          "distance_to_route_km": 0.528,
+          "cumulative_km": 170.857
+        },
+        {
+          "nom": "Morre",
+          "libellecourt": "MOE",
+          "codes_uic": [
+            "87391300"
+          ],
+          "lat": 47.2259417,
+          "lon": 6.0673029,
+          "distance_to_route_km": 0.871,
+          "cumulative_km": 178.83
+        },
+        {
+          "nom": "Saône",
+          "libellecourt": "SAZ",
+          "codes_uic": [
+            "87718502"
+          ],
+          "lat": 47.2097669,
+          "lon": 6.1013089,
+          "distance_to_route_km": 4.005,
+          "cumulative_km": 178.83
+        },
+        {
+          "nom": "Besançon Mouillère",
+          "libellecourt": "BNM",
+          "codes_uic": [
+            "87718015"
+          ],
+          "lat": 47.240372,
+          "lon": 6.03391,
+          "distance_to_route_km": 1.002,
+          "cumulative_km": 181.013
+        },
+        {
+          "nom": "Besançon Viotte",
+          "libellecourt": "BNV",
+          "codes_uic": [
+            "87718007"
+          ],
+          "lat": 47.247019,
+          "lon": 6.022003,
+          "distance_to_route_km": 2.013,
+          "cumulative_km": 181.459
+        },
+        {
+          "nom": "Franois",
+          "libellecourt": "FOI",
+          "codes_uic": [
+            "87718304"
+          ],
+          "lat": 47.2273609,
+          "lon": 5.937498,
+          "distance_to_route_km": 3.631,
+          "cumulative_km": 189.081
+        },
+        {
+          "nom": "Montferrand - Thoraise",
+          "libellecourt": "MFH",
+          "codes_uic": [
+            "87718106"
+          ],
+          "lat": 47.1847414,
+          "lon": 5.9074815,
+          "distance_to_route_km": 1.356,
+          "cumulative_km": 195.762
+        },
+        {
+          "nom": "Dannemarie - Velesmes",
+          "libellecourt": "DNV",
+          "codes_uic": [
+            "87718312"
+          ],
+          "lat": 47.2038599,
+          "lon": 5.8738348,
+          "distance_to_route_km": 4.217,
+          "cumulative_km": 195.82
+        },
+        {
+          "nom": "Torpes - Boussières",
+          "libellecourt": "GZO",
+          "codes_uic": [
+            "87718114"
+          ],
+          "lat": 47.1637546,
+          "lon": 5.8887804,
+          "distance_to_route_km": 0.251,
+          "cumulative_km": 198.53
+        },
+        {
+          "nom": "Byans-sur-Doubs",
+          "libellecourt": "BYB",
+          "codes_uic": [
+            "87718122"
+          ],
+          "lat": 47.1185334,
+          "lon": 5.8520589,
+          "distance_to_route_km": 2.337,
+          "cumulative_km": 203.018
+        },
+        {
+          "nom": "Saint-Vit",
+          "libellecourt": "SVI",
+          "codes_uic": [
+            "87718320"
+          ],
+          "lat": 47.183507,
+          "lon": 5.809057,
+          "distance_to_route_km": 1.244,
+          "cumulative_km": 209.805
+        },
+        {
+          "nom": "Ranchot",
+          "libellecourt": "RNH",
+          "codes_uic": [
+            "87718338"
+          ],
+          "lat": 47.1525633,
+          "lon": 5.7246607,
+          "distance_to_route_km": 0.459,
+          "cumulative_km": 217.141
+        },
+        {
+          "nom": "Orchamps",
+          "libellecourt": "ORA",
+          "codes_uic": [
+            "87718361"
+          ],
+          "lat": 47.1500962,
+          "lon": 5.659147,
+          "distance_to_route_km": 0.355,
+          "cumulative_km": 222.306
+        },
+        {
+          "nom": "Dole",
+          "libellecourt": "DLE",
+          "codes_uic": [
+            "87713412"
+          ],
+          "lat": 47.096084,
+          "lon": 5.488105,
+          "distance_to_route_km": 0.86,
+          "cumulative_km": 237.995
+        },
+        {
+          "nom": "Saint-Jean-de-Losne",
+          "libellecourt": "SJL",
+          "codes_uic": [
+            "87713651"
+          ],
+          "lat": 47.0997302,
+          "lon": 5.2441226,
+          "distance_to_route_km": 1.331,
+          "cumulative_km": 263.26
+        },
+        {
+          "nom": "Chaugey",
+          "libellecourt": "CFJ",
+          "codes_uic": [
+            "87712679"
+          ],
+          "lat": 47.0872036,
+          "lon": 5.2551914,
+          "distance_to_route_km": 0.051,
+          "cumulative_km": 264.661
+        },
+        {
+          "nom": "Pagny-le-Château",
+          "libellecourt": "PYK",
+          "codes_uic": [
+            "87713669"
+          ],
+          "lat": 47.0462492,
+          "lon": 5.2010538,
+          "distance_to_route_km": 1.16,
+          "cumulative_km": 272.444
+        },
+        {
+          "nom": "Seurre",
+          "libellecourt": "SEU",
+          "codes_uic": [
+            "87713677"
+          ],
+          "lat": 46.9964114,
+          "lon": 5.1513121,
+          "distance_to_route_km": 0.395,
+          "cumulative_km": 287.007
+        },
+        {
+          "nom": "Chalon-sur-Saône",
+          "libellecourt": "CSS",
+          "codes_uic": [
+            "87725002"
+          ],
+          "lat": 46.781612,
+          "lon": 4.843454,
+          "distance_to_route_km": 3.035,
+          "cumulative_km": 329.982
+        },
+        {
+          "nom": "Fontaines - Mercurey",
+          "libellecourt": "FAE",
+          "codes_uic": [
+            "87713586"
+          ],
+          "lat": 46.8512109,
+          "lon": 4.7750693,
+          "distance_to_route_km": 1.871,
+          "cumulative_km": 340.368
+        },
+        {
+          "nom": "Rully",
+          "libellecourt": "RLY",
+          "codes_uic": [
+            "87712026"
+          ],
+          "lat": 46.8804303,
+          "lon": 4.761033,
+          "distance_to_route_km": 0.366,
+          "cumulative_km": 344.134
+        },
+        {
+          "nom": "Chagny",
+          "libellecourt": "CHY",
+          "codes_uic": [
+            "87713578"
+          ],
+          "lat": 46.907269,
+          "lon": 4.749682,
+          "distance_to_route_km": 0.244,
+          "cumulative_km": 347.318
+        },
+        {
+          "nom": "Santenay les Bains",
+          "libellecourt": "SLB",
+          "codes_uic": [
+            "87713594"
+          ],
+          "lat": 46.9106752,
+          "lon": 4.7017523,
+          "distance_to_route_km": 0.612,
+          "cumulative_km": 351.615
+        },
+        {
+          "nom": "Cheilly-lès-Maranges",
+          "libellecourt": "CJL",
+          "codes_uic": [
+            "87694398"
+          ],
+          "lat": 46.8924768,
+          "lon": 4.6758424,
+          "distance_to_route_km": 0.326,
+          "cumulative_km": 354.296
+        },
+        {
+          "nom": "Saint-Léger-sur-Dheune",
+          "libellecourt": "SLH",
+          "codes_uic": [
+            "87694364"
+          ],
+          "lat": 46.8484526,
+          "lon": 4.6286039,
+          "distance_to_route_km": 0.431,
+          "cumulative_km": 360.449
+        },
+        {
+          "nom": "Le Creusot - Montceau-les-Mines - Montchanin TGV",
+          "libellecourt": "LCM",
+          "codes_uic": [
+            "87694109"
+          ],
+          "lat": 46.765343,
+          "lon": 4.499513,
+          "distance_to_route_km": 1.184,
+          "cumulative_km": 376.926
+        },
+        {
+          "nom": "Montchanin",
+          "libellecourt": "MCH",
+          "codes_uic": [
+            "87694307"
+          ],
+          "lat": 46.7592649,
+          "lon": 4.4814867,
+          "distance_to_route_km": 1.576,
+          "cumulative_km": 377.086
+        },
+        {
+          "nom": "Blanzy",
+          "libellecourt": "BYK",
+          "codes_uic": [
+            "87694612"
+          ],
+          "lat": 46.694064,
+          "lon": 4.3913585,
+          "distance_to_route_km": 0.007,
+          "cumulative_km": 389.645
+        },
+        {
+          "nom": "Montceau-les-Mines",
+          "libellecourt": "MMI",
+          "codes_uic": [
+            "87694620"
+          ],
+          "lat": 46.6706636,
+          "lon": 4.3610264,
+          "distance_to_route_km": 1.309,
+          "cumulative_km": 392.431
+        },
+        {
+          "nom": "Galuzot",
+          "libellecourt": "GLZ",
+          "codes_uic": [
+            "87694638"
+          ],
+          "lat": 46.6421069,
+          "lon": 4.3300578,
+          "distance_to_route_km": 2.851,
+          "cumulative_km": 404.604
+        },
+        {
+          "nom": "Ciry-le-Noble",
+          "libellecourt": "CYL",
+          "codes_uic": [
+            "87694646"
+          ],
+          "lat": 46.6040913,
+          "lon": 4.2997146,
+          "distance_to_route_km": 0.417,
+          "cumulative_km": 408.238
+        },
+        {
+          "nom": "Génelard",
+          "libellecourt": "GEL",
+          "codes_uic": [
+            "87694653"
+          ],
+          "lat": 46.5812177,
+          "lon": 4.2379965,
+          "distance_to_route_km": 1.819,
+          "cumulative_km": 417.437
+        },
+        {
+          "nom": "Paray-le-Monial",
+          "libellecourt": "PLM",
+          "codes_uic": [
+            "87694687"
+          ],
+          "lat": 46.447312,
+          "lon": 4.113744,
+          "distance_to_route_km": 0.198,
+          "cumulative_km": 440.731
+        },
+        {
+          "nom": "Digoin",
+          "libellecourt": "DIG",
+          "codes_uic": [
+            "87694695"
+          ],
+          "lat": 46.4851604,
+          "lon": 3.9876537,
+          "distance_to_route_km": 0.209,
+          "cumulative_km": 452.54
+        },
+        {
+          "nom": "Saint-Agnan",
+          "libellecourt": "XAN",
+          "codes_uic": [
+            "87694851"
+          ],
+          "lat": 46.5020038,
+          "lon": 3.8788002,
+          "distance_to_route_km": 2.37,
+          "cumulative_km": 461.908
+        },
+        {
+          "nom": "Gilly-sur-Loire",
+          "libellecourt": "GSL",
+          "codes_uic": [
+            "87694869"
+          ],
+          "lat": 46.5370137,
+          "lon": 3.7821607,
+          "distance_to_route_km": 1.181,
+          "cumulative_km": 472.279
+        },
+        {
+          "nom": "Decize",
+          "libellecourt": "DZE",
+          "codes_uic": [
+            "87696484"
+          ],
+          "lat": 46.837362,
+          "lon": 3.467274,
+          "distance_to_route_km": 0.129,
+          "cumulative_km": 529.718
+        },
+        {
+          "nom": "Béard",
+          "libellecourt": "BVE",
+          "codes_uic": [
+            "87696468"
+          ],
+          "lat": 46.8652207,
+          "lon": 3.3179944,
+          "distance_to_route_km": 1.995,
+          "cumulative_km": 546.711
+        },
+        {
+          "nom": "Imphy",
+          "libellecourt": "IPY",
+          "codes_uic": [
+            "87696450"
+          ],
+          "lat": 46.9333537,
+          "lon": 3.2597113,
+          "distance_to_route_km": 1.97,
+          "cumulative_km": 557.222
+        },
+        {
+          "nom": "Nevers",
+          "libellecourt": "NVS",
+          "codes_uic": [
+            "87696005"
+          ],
+          "lat": 46.987282,
+          "lon": 3.150743,
+          "distance_to_route_km": 3.767,
+          "cumulative_km": 563.98
+        }
+      ]
+    },
+    "EV8": {
+      "route_id": "EV8",
+      "name": "La Méditerranée à Vélo",
+      "total_km": 815.491,
+      "stations": [
+        {
+          "nom": "Argelès-sur-Mer",
+          "libellecourt": "AMR",
+          "codes_uic": [
+            "87784231"
+          ],
+          "lat": 42.54397,
+          "lon": 3.022349,
+          "distance_to_route_km": 0.417,
+          "cumulative_km": 36.054
+        },
+        {
+          "nom": "Collioure",
+          "libellecourt": "COX",
+          "codes_uic": [
+            "87784256"
+          ],
+          "lat": 42.5269437,
+          "lon": 3.0782319,
+          "distance_to_route_km": 4.251,
+          "cumulative_km": 39.376
+        },
+        {
+          "nom": "Leucate La Franqui",
+          "libellecourt": "LEU",
+          "codes_uic": [
+            "87781088"
+          ],
+          "lat": 42.9327725,
+          "lon": 3.0128555,
+          "distance_to_route_km": 0.031,
+          "cumulative_km": 93.346
+        },
+        {
+          "nom": "Port-la-Nouvelle",
+          "libellecourt": "PLN",
+          "codes_uic": [
+            "87781062"
+          ],
+          "lat": 43.0199342,
+          "lon": 3.0388188,
+          "distance_to_route_km": 0.023,
+          "cumulative_km": 103.267
+        },
+        {
+          "nom": "Narbonne",
+          "libellecourt": "NBN",
+          "codes_uic": [
+            "87781104"
+          ],
+          "lat": 43.190387,
+          "lon": 3.00591,
+          "distance_to_route_km": 0.311,
+          "cumulative_km": 128.052
+        },
+        {
+          "nom": "Coursan",
+          "libellecourt": "KOS",
+          "codes_uic": [
+            "87781161"
+          ],
+          "lat": 43.23369,
+          "lon": 3.0510465,
+          "distance_to_route_km": 3.727,
+          "cumulative_km": 131.495
+        },
+        {
+          "nom": "Béziers",
+          "libellecourt": "BZS",
+          "codes_uic": [
+            "87781005"
+          ],
+          "lat": 43.33633,
+          "lon": 3.218873,
+          "distance_to_route_km": 0.202,
+          "cumulative_km": 187.399
+        },
+        {
+          "nom": "Vias",
+          "libellecourt": "VAB",
+          "codes_uic": [
+            "87781260"
+          ],
+          "lat": 43.315653,
+          "lon": 3.4253562,
+          "distance_to_route_km": 1.447,
+          "cumulative_km": 208.399
+        },
+        {
+          "nom": "Agde",
+          "libellecourt": "AGD",
+          "codes_uic": [
+            "87781278"
+          ],
+          "lat": 43.31728,
+          "lon": 3.466203,
+          "distance_to_route_km": 0.297,
+          "cumulative_km": 213.54
+        },
+        {
+          "nom": "Marseillan Plage",
+          "libellecourt": "MPP",
+          "codes_uic": [
+            "87781294"
+          ],
+          "lat": 43.3181964,
+          "lon": 3.5355281,
+          "distance_to_route_km": 0.25,
+          "cumulative_km": 222.042
+        },
+        {
+          "nom": "Sète",
+          "libellecourt": "STE",
+          "codes_uic": [
+            "87773200"
+          ],
+          "lat": 43.412485,
+          "lon": 3.69656,
+          "distance_to_route_km": 0.612,
+          "cumulative_km": 240.543
+        },
+        {
+          "nom": "Frontignan",
+          "libellecourt": "FRN",
+          "codes_uic": [
+            "87773556"
+          ],
+          "lat": 43.444934,
+          "lon": 3.758689,
+          "distance_to_route_km": 0.086,
+          "cumulative_km": 247.712
+        },
+        {
+          "nom": "Vic - Mireval",
+          "libellecourt": "VIC",
+          "codes_uic": [
+            "87773531"
+          ],
+          "lat": 43.5007687,
+          "lon": 3.7994505,
+          "distance_to_route_km": 0.02,
+          "cumulative_km": 260.659
+        },
+        {
+          "nom": "Villeneuve-lès-Maguelone",
+          "libellecourt": "VLM",
+          "codes_uic": [
+            "87773515"
+          ],
+          "lat": 43.5438231,
+          "lon": 3.849917,
+          "distance_to_route_km": 0.795,
+          "cumulative_km": 267.775
+        },
+        {
+          "nom": "Le Grau-du-Roi",
+          "libellecourt": "LGR",
+          "codes_uic": [
+            "87775866"
+          ],
+          "lat": 43.5371273,
+          "lon": 4.140338,
+          "distance_to_route_km": 0.143,
+          "cumulative_km": 295.122
+        },
+        {
+          "nom": "Aigues-Mortes",
+          "libellecourt": "AIM",
+          "codes_uic": [
+            "87775858"
+          ],
+          "lat": 43.5709008,
+          "lon": 4.1912102,
+          "distance_to_route_km": 0.033,
+          "cumulative_km": 301.066
+        },
+        {
+          "nom": "Beaucaire",
+          "libellecourt": "BCK",
+          "codes_uic": [
+            "87775023"
+          ],
+          "lat": 43.80209,
+          "lon": 4.6470865,
+          "distance_to_route_km": 0.302,
+          "cumulative_km": 362.042
+        },
+        {
+          "nom": "Tarascon",
+          "libellecourt": "TCN",
+          "codes_uic": [
+            "87765354"
+          ],
+          "lat": 43.801331,
+          "lon": 4.657206,
+          "distance_to_route_km": 0.01,
+          "cumulative_km": 363.295
+        },
+        {
+          "nom": "Orgon",
+          "libellecourt": "ORG",
+          "codes_uic": [
+            "87753707"
+          ],
+          "lat": 43.7859131,
+          "lon": 5.0456738,
+          "distance_to_route_km": 4.327,
+          "cumulative_km": 402.808
+        },
+        {
+          "nom": "Cavaillon",
+          "libellecourt": "CVN",
+          "codes_uic": [
+            "87765503"
+          ],
+          "lat": 43.834554,
+          "lon": 5.043613,
+          "distance_to_route_km": 0.59,
+          "cumulative_km": 403.981
+        },
+        {
+          "nom": "La Brillanne - Oraison",
+          "libellecourt": "LBO",
+          "codes_uic": [
+            "87751271"
+          ],
+          "lat": 43.9247771,
+          "lon": 5.8923199,
+          "distance_to_route_km": 3.133,
+          "cumulative_km": 502.338
+        },
+        {
+          "nom": "Manosque - Gréoux-les-Bains",
+          "libellecourt": "MNQ",
+          "codes_uic": [
+            "87751321"
+          ],
+          "lat": 43.8231945,
+          "lon": 5.7933241,
+          "distance_to_route_km": 0.592,
+          "cumulative_km": 518.536
+        },
+        {
+          "nom": "Meyrargues",
+          "libellecourt": "MEY",
+          "codes_uic": [
+            "87751370"
+          ],
+          "lat": 43.6440076,
+          "lon": 5.5395738,
+          "distance_to_route_km": 0.028,
+          "cumulative_km": 547.391
+        },
+        {
+          "nom": "Grasse",
+          "libellecourt": "GRA",
+          "codes_uic": [
+            "87757724"
+          ],
+          "lat": 43.653317,
+          "lon": 6.925524,
+          "distance_to_route_km": 4.176,
+          "cumulative_km": 718.744
+        },
+        {
+          "nom": "Mouans-Sartoux",
+          "libellecourt": "MUU",
+          "codes_uic": [
+            "87401323"
+          ],
+          "lat": 43.620318,
+          "lon": 6.974114,
+          "distance_to_route_km": 4.626,
+          "cumulative_km": 725.843
+        },
+        {
+          "nom": "Ranguin",
+          "libellecourt": "RGN",
+          "codes_uic": [
+            "87757732"
+          ],
+          "lat": 43.5691636,
+          "lon": 6.9693134,
+          "distance_to_route_km": 1.686,
+          "cumulative_km": 730.499
+        },
+        {
+          "nom": "Mandelieu-la-Napoule",
+          "libellecourt": "MPV",
+          "codes_uic": [
+            "87757591"
+          ],
+          "lat": 43.523903,
+          "lon": 6.941313,
+          "distance_to_route_km": 1.008,
+          "cumulative_km": 735.19
+        },
+        {
+          "nom": "Théoule-sur-Mer",
+          "libellecourt": "THM",
+          "codes_uic": [
+            "87757583"
+          ],
+          "lat": 43.5134929,
+          "lon": 6.9367978,
+          "distance_to_route_km": 2.206,
+          "cumulative_km": 735.19
+        },
+        {
+          "nom": "La Frayère",
+          "libellecourt": "FYS",
+          "codes_uic": [
+            "87757740"
+          ],
+          "lat": 43.5581088,
+          "lon": 6.9720902,
+          "distance_to_route_km": 1.292,
+          "cumulative_km": 738.167
+        },
+        {
+          "nom": "Le Bosquet",
+          "libellecourt": "BQJ",
+          "codes_uic": [
+            "87757757"
+          ],
+          "lat": 43.5515285,
+          "lon": 6.9816599,
+          "distance_to_route_km": 0.415,
+          "cumulative_km": 738.608
+        },
+        {
+          "nom": "Cannes La Bocca",
+          "libellecourt": "CAB",
+          "codes_uic": [
+            "87757617"
+          ],
+          "lat": 43.548787,
+          "lon": 6.986601,
+          "distance_to_route_km": 0.025,
+          "cumulative_km": 738.978
+        },
+        {
+          "nom": "Cannes",
+          "libellecourt": "CAN",
+          "codes_uic": [
+            "87757625"
+          ],
+          "lat": 43.553839,
+          "lon": 7.019682,
+          "distance_to_route_km": 0.317,
+          "cumulative_km": 741.905
+        },
+        {
+          "nom": "Golfe Juan Vallauris",
+          "libellecourt": "GLF",
+          "codes_uic": [
+            "87757641"
+          ],
+          "lat": 43.566501,
+          "lon": 7.073578,
+          "distance_to_route_km": 0.095,
+          "cumulative_km": 749.319
+        },
+        {
+          "nom": "Juan les Pins",
+          "libellecourt": "JAE",
+          "codes_uic": [
+            "87757666"
+          ],
+          "lat": 43.570896,
+          "lon": 7.11144,
+          "distance_to_route_km": 0.245,
+          "cumulative_km": 752.522
+        },
+        {
+          "nom": "Antibes",
+          "libellecourt": "ATB",
+          "codes_uic": [
+            "87757674"
+          ],
+          "lat": 43.585784,
+          "lon": 7.119498,
+          "distance_to_route_km": 0.119,
+          "cumulative_km": 756.097
+        },
+        {
+          "nom": "Biot",
+          "libellecourt": "BJO",
+          "codes_uic": [
+            "87757690"
+          ],
+          "lat": 43.610951,
+          "lon": 7.12609,
+          "distance_to_route_km": 0.049,
+          "cumulative_km": 758.978
+        },
+        {
+          "nom": "Villeneuve-Loubet",
+          "libellecourt": "VVP",
+          "codes_uic": [
+            "87756304"
+          ],
+          "lat": 43.629928,
+          "lon": 7.134066,
+          "distance_to_route_km": 0.049,
+          "cumulative_km": 761.193
+        },
+        {
+          "nom": "Cagnes-sur-Mer",
+          "libellecourt": "CGM",
+          "codes_uic": [
+            "87756320"
+          ],
+          "lat": 43.65813,
+          "lon": 7.14864,
+          "distance_to_route_km": 0.791,
+          "cumulative_km": 764.441
+        },
+        {
+          "nom": "Cros de Cagnes",
+          "libellecourt": "CKG",
+          "codes_uic": [
+            "87756338"
+          ],
+          "lat": 43.660465,
+          "lon": 7.167111,
+          "distance_to_route_km": 0.315,
+          "cumulative_km": 765.637
+        },
+        {
+          "nom": "Saint-Laurent-du-Var",
+          "libellecourt": "SNV",
+          "codes_uic": [
+            "87756346"
+          ],
+          "lat": 43.662451,
+          "lon": 7.194413,
+          "distance_to_route_km": 0.075,
+          "cumulative_km": 767.959
+        },
+        {
+          "nom": "Nice Saint-Augustin",
+          "libellecourt": "NIA",
+          "codes_uic": [
+            "87756254"
+          ],
+          "lat": 43.670728,
+          "lon": 7.216199,
+          "distance_to_route_km": 0.433,
+          "cumulative_km": 770.041
+        },
+        {
+          "nom": "Nice",
+          "libellecourt": "NIC",
+          "codes_uic": [
+            "87756056"
+          ],
+          "lat": 43.704556,
+          "lon": 7.261904,
+          "distance_to_route_km": 1.091,
+          "cumulative_km": 775.057
+        },
+        {
+          "nom": "Nice Riquier",
+          "libellecourt": "NIR",
+          "codes_uic": [
+            "87756353"
+          ],
+          "lat": 43.705554,
+          "lon": 7.290175,
+          "distance_to_route_km": 0.861,
+          "cumulative_km": 777.457
+        },
+        {
+          "nom": "Villefranche-sur-Mer",
+          "libellecourt": "VFH",
+          "codes_uic": [
+            "87756361"
+          ],
+          "lat": 43.707061,
+          "lon": 7.314129,
+          "distance_to_route_km": 0.143,
+          "cumulative_km": 783.056
+        },
+        {
+          "nom": "Beaulieu-sur-Mer",
+          "libellecourt": "BUM",
+          "codes_uic": [
+            "87756379"
+          ],
+          "lat": 43.706651,
+          "lon": 7.331545,
+          "distance_to_route_km": 0.696,
+          "cumulative_km": 784.234
+        },
+        {
+          "nom": "Nice Pont Michel",
+          "libellecourt": "NPM",
+          "codes_uic": [
+            "87590299"
+          ],
+          "lat": 43.72175,
+          "lon": 7.29144,
+          "distance_to_route_km": 1.801,
+          "cumulative_km": 787.135
+        },
+        {
+          "nom": "L'Ariane La Trinité",
+          "libellecourt": "ATJ",
+          "codes_uic": [
+            "87751529"
+          ],
+          "lat": 43.7343716,
+          "lon": 7.3025298,
+          "distance_to_route_km": 2.127,
+          "cumulative_km": 787.145
+        },
+        {
+          "nom": "Èze",
+          "libellecourt": "EZZ",
+          "codes_uic": [
+            "87756387"
+          ],
+          "lat": 43.7221842,
+          "lon": 7.3568031,
+          "distance_to_route_km": 1.153,
+          "cumulative_km": 790.442
+        },
+        {
+          "nom": "La Trinité Victor",
+          "libellecourt": "TVR",
+          "codes_uic": [
+            "87756767"
+          ],
+          "lat": 43.7427854,
+          "lon": 7.3114604,
+          "distance_to_route_km": 2.749,
+          "cumulative_km": 791.03
+        },
+        {
+          "nom": "Drap - Cantaron",
+          "libellecourt": "DRA",
+          "codes_uic": [
+            "87756775"
+          ],
+          "lat": 43.7599599,
+          "lon": 7.3168739,
+          "distance_to_route_km": 3.73,
+          "cumulative_km": 791.609
+        },
+        {
+          "nom": "Cap-d'Ail",
+          "libellecourt": "KAI",
+          "codes_uic": [
+            "87756395"
+          ],
+          "lat": 43.7205382,
+          "lon": 7.3943362,
+          "distance_to_route_km": 1.964,
+          "cumulative_km": 795.14
+        },
+        {
+          "nom": "Monte-Carlo Country Club",
+          "libellecourt": "CCC",
+          "codes_uic": [
+            "87338590"
+          ],
+          "lat": 43.75438,
+          "lon": 7.44821,
+          "distance_to_route_km": 0.446,
+          "cumulative_km": 802.003
+        },
+        {
+          "nom": "Roquebrune-Cap-Martin",
+          "libellecourt": "CQR",
+          "codes_uic": [
+            "87756460"
+          ],
+          "lat": 43.7606178,
+          "lon": 7.457343,
+          "distance_to_route_km": 0.371,
+          "cumulative_km": 804.67
+        },
+        {
+          "nom": "Carnoles",
+          "libellecourt": "KRL",
+          "codes_uic": [
+            "87756478"
+          ],
+          "lat": 43.76203,
+          "lon": 7.48139,
+          "distance_to_route_km": 0.24,
+          "cumulative_km": 810.393
+        },
+        {
+          "nom": "Menton",
+          "libellecourt": "MEN",
+          "codes_uic": [
+            "87756486"
+          ],
+          "lat": 43.774444,
+          "lon": 7.4933,
+          "distance_to_route_km": 0.424,
+          "cumulative_km": 811.873
+        },
+        {
+          "nom": "Menton Garavan",
+          "libellecourt": "MNJ",
+          "codes_uic": [
+            "87756494"
+          ],
+          "lat": 43.785202,
+          "lon": 7.517297,
+          "distance_to_route_km": 0.132,
+          "cumulative_km": 814.502
+        }
+      ]
+    },
+    "EV15": {
+      "route_id": "EV15",
+      "name": "Véloroute du Rhin",
+      "total_km": 201.587,
+      "stations": [
+        {
+          "nom": "Saint-Louis",
+          "libellecourt": "STL",
+          "codes_uic": [
+            "87182139"
+          ],
+          "lat": 47.5906094,
+          "lon": 7.5559882,
+          "distance_to_route_km": 1.333,
+          "cumulative_km": 2.749
+        },
+        {
+          "nom": "Saint-Louis La Chaussée",
+          "libellecourt": "SLU",
+          "codes_uic": [
+            "87181016"
+          ],
+          "lat": 47.6094781,
+          "lon": 7.5312095,
+          "distance_to_route_km": 1.559,
+          "cumulative_km": 5.319
+        },
+        {
+          "nom": "Bartenheim",
+          "libellecourt": "BTK",
+          "codes_uic": [
+            "87182113"
+          ],
+          "lat": 47.6349313,
+          "lon": 7.4872561,
+          "distance_to_route_km": 2.863,
+          "cumulative_km": 9.346
+        },
+        {
+          "nom": "Sierentz",
+          "libellecourt": "SEZ",
+          "codes_uic": [
+            "87182105"
+          ],
+          "lat": 47.656047,
+          "lon": 7.459142,
+          "distance_to_route_km": 3.62,
+          "cumulative_km": 11.756
+        },
+        {
+          "nom": "Bantzenheim",
+          "libellecourt": "BTZ",
+          "codes_uic": [
+            "87182840"
+          ],
+          "lat": 47.8109675,
+          "lon": 7.5038675,
+          "distance_to_route_km": 0.165,
+          "cumulative_km": 30.553
+        },
+        {
+          "nom": "Matzenheim",
+          "libellecourt": "MHW",
+          "codes_uic": [
+            "87214130"
+          ],
+          "lat": 48.3987556,
+          "lon": 7.6196003,
+          "distance_to_route_km": 4.934,
+          "cumulative_km": 105.785
+        },
+        {
+          "nom": "Erstein",
+          "libellecourt": "EEN",
+          "codes_uic": [
+            "87214148"
+          ],
+          "lat": 48.4229857,
+          "lon": 7.6387869,
+          "distance_to_route_km": 4.224,
+          "cumulative_km": 108.756
+        },
+        {
+          "nom": "Limersheim",
+          "libellecourt": "LHJ",
+          "codes_uic": [
+            "87212274"
+          ],
+          "lat": 48.4617328,
+          "lon": 7.6603581,
+          "distance_to_route_km": 3.76,
+          "cumulative_km": 113.253
+        },
+        {
+          "nom": "Fegersheim - Lipsheim",
+          "libellecourt": "FHM",
+          "codes_uic": [
+            "87212266"
+          ],
+          "lat": 48.4905892,
+          "lon": 7.6724806,
+          "distance_to_route_km": 3.693,
+          "cumulative_km": 116.751
+        },
+        {
+          "nom": "Geispolsheim",
+          "libellecourt": "GPM",
+          "codes_uic": [
+            "87212258"
+          ],
+          "lat": 48.5190515,
+          "lon": 7.6843578,
+          "distance_to_route_km": 3.219,
+          "cumulative_km": 120.587
+        },
+        {
+          "nom": "Graffenstaden",
+          "libellecourt": "GRF",
+          "codes_uic": [
+            "87212241"
+          ],
+          "lat": 48.5324375,
+          "lon": 7.6897861,
+          "distance_to_route_km": 2.948,
+          "cumulative_km": 122.027
+        },
+        {
+          "nom": "Lingolsheim",
+          "libellecourt": "LGH",
+          "codes_uic": [
+            "87214502"
+          ],
+          "lat": 48.5594092,
+          "lon": 7.6781143,
+          "distance_to_route_km": 4.091,
+          "cumulative_km": 125.429
+        },
+        {
+          "nom": "Strasbourg Roethig",
+          "libellecourt": "SQG",
+          "codes_uic": [
+            "87212191"
+          ],
+          "lat": 48.5632897,
+          "lon": 7.6950455,
+          "distance_to_route_km": 2.886,
+          "cumulative_km": 125.889
+        },
+        {
+          "nom": "Strasbourg",
+          "libellecourt": "STG",
+          "codes_uic": [
+            "87212027"
+          ],
+          "lat": 48.584967,
+          "lon": 7.734584,
+          "distance_to_route_km": 1.21,
+          "cumulative_km": 127.572
+        },
+        {
+          "nom": "Krimmeri Meinau",
+          "libellecourt": "KRI",
+          "codes_uic": [
+            "87338525"
+          ],
+          "lat": 48.56358,
+          "lon": 7.75259,
+          "distance_to_route_km": 1.221,
+          "cumulative_km": 128.35
+        },
+        {
+          "nom": "Bischheim",
+          "libellecourt": "BHM",
+          "codes_uic": [
+            "87212308"
+          ],
+          "lat": 48.6118352,
+          "lon": 7.7422165,
+          "distance_to_route_km": 3.678,
+          "cumulative_km": 133.024
+        },
+        {
+          "nom": "Hoenheim Tram",
+          "libellecourt": "HMT",
+          "codes_uic": [
+            "87338517"
+          ],
+          "lat": 48.6285976,
+          "lon": 7.7581387,
+          "distance_to_route_km": 3.824,
+          "cumulative_km": 134.526
+        },
+        {
+          "nom": "La Wantzenau",
+          "libellecourt": "LWL",
+          "codes_uic": [
+            "87212316"
+          ],
+          "lat": 48.6651895,
+          "lon": 7.8247832,
+          "distance_to_route_km": 0.087,
+          "cumulative_km": 143.99
+        },
+        {
+          "nom": "Kilstett",
+          "libellecourt": "KIL",
+          "codes_uic": [
+            "87212324"
+          ],
+          "lat": 48.6793065,
+          "lon": 7.8549031,
+          "distance_to_route_km": 0.014,
+          "cumulative_km": 146.815
+        },
+        {
+          "nom": "Gambsheim",
+          "libellecourt": "GHM",
+          "codes_uic": [
+            "87212332"
+          ],
+          "lat": 48.6948699,
+          "lon": 7.8791884,
+          "distance_to_route_km": 0.358,
+          "cumulative_km": 149.307
+        },
+        {
+          "nom": "Herrlisheim",
+          "libellecourt": "HRL",
+          "codes_uic": [
+            "87212340"
+          ],
+          "lat": 48.7279056,
+          "lon": 7.9102594,
+          "distance_to_route_km": 0.189,
+          "cumulative_km": 157.283
+        },
+        {
+          "nom": "Drusenheim",
+          "libellecourt": "DRS",
+          "codes_uic": [
+            "87212357"
+          ],
+          "lat": 48.7659128,
+          "lon": 7.9478463,
+          "distance_to_route_km": 0.808,
+          "cumulative_km": 162.53
+        },
+        {
+          "nom": "Sessenheim",
+          "libellecourt": "ZHM",
+          "codes_uic": [
+            "87212365"
+          ],
+          "lat": 48.7964628,
+          "lon": 7.9893194,
+          "distance_to_route_km": 0.43,
+          "cumulative_km": 169.118
+        },
+        {
+          "nom": "Rountzenheim",
+          "libellecourt": "RZH",
+          "codes_uic": [
+            "87212373"
+          ],
+          "lat": 48.820435,
+          "lon": 8.0119078,
+          "distance_to_route_km": 0.512,
+          "cumulative_km": 172.246
+        },
+        {
+          "nom": "Roeschwoog",
+          "libellecourt": "RWG",
+          "codes_uic": [
+            "87212407"
+          ],
+          "lat": 48.8334661,
+          "lon": 8.0298738,
+          "distance_to_route_km": 0.73,
+          "cumulative_km": 174.379
+        },
+        {
+          "nom": "Roppenheim",
+          "libellecourt": "RHI",
+          "codes_uic": [
+            "87212415"
+          ],
+          "lat": 48.8510962,
+          "lon": 8.0623108,
+          "distance_to_route_km": 0.021,
+          "cumulative_km": 177.573
+        },
+        {
+          "nom": "Seltz",
+          "libellecourt": "SSZ",
+          "codes_uic": [
+            "87212431"
+          ],
+          "lat": 48.8965635,
+          "lon": 8.0986724,
+          "distance_to_route_km": 2.527,
+          "cumulative_km": 186.971
+        },
+        {
+          "nom": "Munchhausen",
+          "libellecourt": "MHQ",
+          "codes_uic": [
+            "87212449"
+          ],
+          "lat": 48.9237982,
+          "lon": 8.1409912,
+          "distance_to_route_km": 0.804,
+          "cumulative_km": 189.065
+        },
+        {
+          "nom": "Mothern",
+          "libellecourt": "MQW",
+          "codes_uic": [
+            "87212456"
+          ],
+          "lat": 48.9347327,
+          "lon": 8.1615803,
+          "distance_to_route_km": 0.895,
+          "cumulative_km": 191.581
+        },
+        {
+          "nom": "Lauterbourg",
+          "libellecourt": "LTG",
+          "codes_uic": [
+            "87212464"
+          ],
+          "lat": 48.9676973,
+          "lon": 8.1826817,
+          "distance_to_route_km": 0.335,
+          "cumulative_km": 197.409
+        }
+      ]
+    },
+    "EV19": {
+      "route_id": "EV19",
+      "name": "La Meuse à Vélo",
+      "total_km": 451.619,
+      "stations": [
+        {
+          "nom": "Langres",
+          "libellecourt": "LAG",
+          "codes_uic": [
+            "87142091"
+          ],
+          "lat": 47.8769474,
+          "lon": 5.3444064,
+          "distance_to_route_km": 1.025,
+          "cumulative_km": 2.923
+        },
+        {
+          "nom": "Neufchâteau",
+          "libellecourt": "NCH",
+          "codes_uic": [
+            "87141291"
+          ],
+          "lat": 48.3583428,
+          "lon": 5.6904018,
+          "distance_to_route_km": 0.056,
+          "cumulative_km": 103.391
+        },
+        {
+          "nom": "Commercy",
+          "libellecourt": "CCY",
+          "codes_uic": [
+            "87175257"
+          ],
+          "lat": 48.765749,
+          "lon": 5.58861,
+          "distance_to_route_km": 0.314,
+          "cumulative_km": 169.316
+        },
+        {
+          "nom": "Lérouville",
+          "libellecourt": "LEL",
+          "codes_uic": [
+            "87175240"
+          ],
+          "lat": 48.7972181,
+          "lon": 5.5387053,
+          "distance_to_route_km": 0.356,
+          "cumulative_km": 174.337
+        },
+        {
+          "nom": "Verdun",
+          "libellecourt": "VDN",
+          "codes_uic": [
+            "87175778"
+          ],
+          "lat": 49.165406,
+          "lon": 5.379701,
+          "distance_to_route_km": 0.541,
+          "cumulative_km": 229.805
+        },
+        {
+          "nom": "Sedan",
+          "libellecourt": "SED",
+          "codes_uic": [
+            "87172254"
+          ],
+          "lat": 49.695024,
+          "lon": 4.930373,
+          "distance_to_route_km": 0.246,
+          "cumulative_km": 334.406
+        },
+        {
+          "nom": "Donchery",
+          "libellecourt": "DEY",
+          "codes_uic": [
+            "87172239"
+          ],
+          "lat": 49.6981267,
+          "lon": 4.8747529,
+          "distance_to_route_km": 0.669,
+          "cumulative_km": 342.05
+        },
+        {
+          "nom": "Vrigne-Meuse",
+          "libellecourt": "VRM",
+          "codes_uic": [
+            "87172221"
+          ],
+          "lat": 49.7010822,
+          "lon": 4.8438063,
+          "distance_to_route_km": 0.388,
+          "cumulative_km": 344.777
+        },
+        {
+          "nom": "Nouvion-sur-Meuse",
+          "libellecourt": "NSM",
+          "codes_uic": [
+            "87172213"
+          ],
+          "lat": 49.6973135,
+          "lon": 4.794973,
+          "distance_to_route_km": 0.207,
+          "cumulative_km": 348.552
+        },
+        {
+          "nom": "Lumes",
+          "libellecourt": "LUQ",
+          "codes_uic": [
+            "87172189"
+          ],
+          "lat": 49.7327973,
+          "lon": 4.7833571,
+          "distance_to_route_km": 0.024,
+          "cumulative_km": 355.163
+        },
+        {
+          "nom": "Mohon",
+          "libellecourt": "MNH",
+          "codes_uic": [
+            "87172155"
+          ],
+          "lat": 49.752584,
+          "lon": 4.73313,
+          "distance_to_route_km": 0.382,
+          "cumulative_km": 360.672
+        },
+        {
+          "nom": "Charleville-Mézières",
+          "libellecourt": "CMZ",
+          "codes_uic": [
+            "87172007"
+          ],
+          "lat": 49.767915,
+          "lon": 4.724952,
+          "distance_to_route_km": 0.378,
+          "cumulative_km": 362.521
+        },
+        {
+          "nom": "Nouzonville",
+          "libellecourt": "NOU",
+          "codes_uic": [
+            "87172023"
+          ],
+          "lat": 49.8120125,
+          "lon": 4.7428155,
+          "distance_to_route_km": 0.213,
+          "cumulative_km": 370.428
+        },
+        {
+          "nom": "Joigny-sur-Meuse",
+          "libellecourt": "JGY",
+          "codes_uic": [
+            "87172031"
+          ],
+          "lat": 49.8336807,
+          "lon": 4.7672389,
+          "distance_to_route_km": 0.251,
+          "cumulative_km": 375.124
+        },
+        {
+          "nom": "Bogny-sur-Meuse",
+          "libellecourt": "BYU",
+          "codes_uic": [
+            "87172049"
+          ],
+          "lat": 49.8583117,
+          "lon": 4.7632317,
+          "distance_to_route_km": 0.443,
+          "cumulative_km": 379.059
+        },
+        {
+          "nom": "Monthermé",
+          "libellecourt": "MME",
+          "codes_uic": [
+            "87172056"
+          ],
+          "lat": 49.865621,
+          "lon": 4.74053,
+          "distance_to_route_km": 0.145,
+          "cumulative_km": 382.473
+        },
+        {
+          "nom": "Deville",
+          "libellecourt": "DVI",
+          "codes_uic": [
+            "87172064"
+          ],
+          "lat": 49.8796028,
+          "lon": 4.7072062,
+          "distance_to_route_km": 0.156,
+          "cumulative_km": 389.764
+        },
+        {
+          "nom": "Laifour",
+          "libellecourt": "LFU",
+          "codes_uic": [
+            "87172072"
+          ],
+          "lat": 49.911256,
+          "lon": 4.6923484,
+          "distance_to_route_km": 0.247,
+          "cumulative_km": 394.657
+        },
+        {
+          "nom": "Anchamps",
+          "libellecourt": "ACP",
+          "codes_uic": [
+            "87172858"
+          ],
+          "lat": 49.9307448,
+          "lon": 4.6702434,
+          "distance_to_route_km": 0.195,
+          "cumulative_km": 399.971
+        },
+        {
+          "nom": "Revin",
+          "libellecourt": "RVI",
+          "codes_uic": [
+            "87172080"
+          ],
+          "lat": 49.938756,
+          "lon": 4.642536,
+          "distance_to_route_km": 0.301,
+          "cumulative_km": 404.044
+        },
+        {
+          "nom": "Fumay",
+          "libellecourt": "FUY",
+          "codes_uic": [
+            "87172098"
+          ],
+          "lat": 49.986048,
+          "lon": 4.6926,
+          "distance_to_route_km": 0.108,
+          "cumulative_km": 411.712
+        },
+        {
+          "nom": "Haybes",
+          "libellecourt": "HYM",
+          "codes_uic": [
+            "87172106"
+          ],
+          "lat": 50.0116888,
+          "lon": 4.7045378,
+          "distance_to_route_km": 0.134,
+          "cumulative_km": 418.951
+        },
+        {
+          "nom": "Fépin",
+          "libellecourt": "FEP",
+          "codes_uic": [
+            "87172874"
+          ],
+          "lat": 50.0234644,
+          "lon": 4.7266156,
+          "distance_to_route_km": 0.178,
+          "cumulative_km": 422.308
+        },
+        {
+          "nom": "Vireux-Molhain",
+          "libellecourt": "VRX",
+          "codes_uic": [
+            "87172114"
+          ],
+          "lat": 50.0827968,
+          "lon": 4.7233909,
+          "distance_to_route_km": 0.248,
+          "cumulative_km": 429.198
+        },
+        {
+          "nom": "Aubrives",
+          "libellecourt": "ARI",
+          "codes_uic": [
+            "87172122"
+          ],
+          "lat": 50.1044507,
+          "lon": 4.7616512,
+          "distance_to_route_km": 0.387,
+          "cumulative_km": 433.612
+        },
+        {
+          "nom": "Givet",
+          "libellecourt": "GVT",
+          "codes_uic": [
+            "87172130"
+          ],
+          "lat": 50.14025067,
+          "lon": 4.81798595,
+          "distance_to_route_km": 0.543,
+          "cumulative_km": 448.905
+        }
+      ]
+    },
+    "VEL": {
+      "route_id": "VEL",
+      "name": "La Vélodyssée",
+      "total_km": 1282.08,
+      "stations": [
+        {
+          "nom": "Morlaix",
+          "libellecourt": "MXR",
+          "codes_uic": [
+            "87474338"
+          ],
+          "lat": 48.57797,
+          "lon": -3.832514,
+          "distance_to_route_km": 0.232,
+          "cumulative_km": 29.804
+        },
+        {
+          "nom": "Plouigneau",
+          "libellecourt": "PGU",
+          "codes_uic": [
+            "87474411"
+          ],
+          "lat": 48.5647064,
+          "lon": -3.7100572,
+          "distance_to_route_km": 4.934,
+          "cumulative_km": 36.797
+        },
+        {
+          "nom": "Carhaix-Plouguer",
+          "libellecourt": "CRX",
+          "codes_uic": [
+            "87473504"
+          ],
+          "lat": 48.2780022,
+          "lon": -3.5622173,
+          "distance_to_route_km": 0.047,
+          "cumulative_km": 78.179
+        },
+        {
+          "nom": "Redon",
+          "libellecourt": "RDN",
+          "codes_uic": [
+            "87471300"
+          ],
+          "lat": 47.652004,
+          "lon": -2.08777,
+          "distance_to_route_km": 0.317,
+          "cumulative_km": 275.437
+        },
+        {
+          "nom": "Sévérac",
+          "libellecourt": "SVG",
+          "codes_uic": [
+            "87476754"
+          ],
+          "lat": 47.5498647,
+          "lon": -2.072707,
+          "distance_to_route_km": 2.754,
+          "cumulative_km": 285.784
+        },
+        {
+          "nom": "Saint-Gildas-des-Bois",
+          "libellecourt": "SOK",
+          "codes_uic": [
+            "87476762"
+          ],
+          "lat": 47.516614,
+          "lon": -2.0438923,
+          "distance_to_route_km": 4.728,
+          "cumulative_km": 292.684
+        },
+        {
+          "nom": "Nort-sur-Erdre",
+          "libellecourt": "NSE",
+          "codes_uic": [
+            "87481598"
+          ],
+          "lat": 47.4419243,
+          "lon": -1.5033645,
+          "distance_to_route_km": 2.103,
+          "cumulative_km": 343.233
+        },
+        {
+          "nom": "Sucé-sur-Erdre",
+          "libellecourt": "SUF",
+          "codes_uic": [
+            "87590828"
+          ],
+          "lat": 47.3431347,
+          "lon": -1.5299873,
+          "distance_to_route_km": 0.239,
+          "cumulative_km": 359.728
+        },
+        {
+          "nom": "La Chapelle Aulnay",
+          "libellecourt": "CVM",
+          "codes_uic": [
+            "87590364"
+          ],
+          "lat": 47.30859,
+          "lon": -1.5415,
+          "distance_to_route_km": 0.09,
+          "cumulative_km": 365.142
+        },
+        {
+          "nom": "La Chapelle Centre",
+          "libellecourt": "EIF",
+          "codes_uic": [
+            "87481564"
+          ],
+          "lat": 47.2972029,
+          "lon": -1.548012,
+          "distance_to_route_km": 0.04,
+          "cumulative_km": 366.53
+        },
+        {
+          "nom": "Erdre Active",
+          "libellecourt": "ERD",
+          "codes_uic": [
+            "87590356"
+          ],
+          "lat": 47.282902,
+          "lon": -1.544552,
+          "distance_to_route_km": 0.391,
+          "cumulative_km": 368.229
+        },
+        {
+          "nom": "Babinière",
+          "libellecourt": "BBR",
+          "codes_uic": [
+            "87590349"
+          ],
+          "lat": 47.25875274,
+          "lon": -1.544928378,
+          "distance_to_route_km": 0.149,
+          "cumulative_km": 371.095
+        },
+        {
+          "nom": "Haluchère Batignolles",
+          "libellecourt": "HAD",
+          "codes_uic": [
+            "87590331"
+          ],
+          "lat": 47.249142,
+          "lon": -1.5224436,
+          "distance_to_route_km": 1.425,
+          "cumulative_km": 372.033
+        },
+        {
+          "nom": "Nantes",
+          "libellecourt": "NTS",
+          "codes_uic": [
+            "87481002"
+          ],
+          "lat": 47.216148,
+          "lon": -1.542356,
+          "distance_to_route_km": 0.912,
+          "cumulative_km": 377.004
+        },
+        {
+          "nom": "Saint-Sébastien Pas Enchantés",
+          "libellecourt": "XTX",
+          "codes_uic": [
+            "87354589"
+          ],
+          "lat": 47.2069513,
+          "lon": -1.5109069,
+          "distance_to_route_km": 3.323,
+          "cumulative_km": 378.297
+        },
+        {
+          "nom": "Rezé Pont Rousseau",
+          "libellecourt": "RPT",
+          "codes_uic": [
+            "87481036"
+          ],
+          "lat": 47.1932425,
+          "lon": -1.5495445,
+          "distance_to_route_km": 1.028,
+          "cumulative_km": 382.218
+        },
+        {
+          "nom": "Chantenay",
+          "libellecourt": "CHA",
+          "codes_uic": [
+            "87481051"
+          ],
+          "lat": 47.1971227,
+          "lon": -1.5943634,
+          "distance_to_route_km": 0.741,
+          "cumulative_km": 384.128
+        },
+        {
+          "nom": "Bouaye",
+          "libellecourt": "BLQ",
+          "codes_uic": [
+            "87481200"
+          ],
+          "lat": 47.1380806,
+          "lon": -1.6810992,
+          "distance_to_route_km": 4.218,
+          "cumulative_km": 393.077
+        },
+        {
+          "nom": "La Basse Indre - Saint-Herblain",
+          "libellecourt": "LBI",
+          "codes_uic": [
+            "87481069"
+          ],
+          "lat": 47.2040872,
+          "lon": -1.6603088,
+          "distance_to_route_km": 2.107,
+          "cumulative_km": 395.338
+        },
+        {
+          "nom": "Couëron",
+          "libellecourt": "CNQ",
+          "codes_uic": [
+            "87481804"
+          ],
+          "lat": 47.2220412,
+          "lon": -1.7235014,
+          "distance_to_route_km": 2.474,
+          "cumulative_km": 400.957
+        },
+        {
+          "nom": "Donges",
+          "libellecourt": "DNG",
+          "codes_uic": [
+            "87481721"
+          ],
+          "lat": 47.3151,
+          "lon": -2.07236,
+          "distance_to_route_km": 3.787,
+          "cumulative_km": 431.734
+        },
+        {
+          "nom": "La Croix de Méan",
+          "libellecourt": "XDM",
+          "codes_uic": [
+            "87481689"
+          ],
+          "lat": 47.300426,
+          "lon": -2.1932575,
+          "distance_to_route_km": 4.039,
+          "cumulative_km": 440.23
+        },
+        {
+          "nom": "Penhoët",
+          "libellecourt": "SZP",
+          "codes_uic": [
+            "87321745"
+          ],
+          "lat": 47.2907444,
+          "lon": -2.2008664,
+          "distance_to_route_km": 3.504,
+          "cumulative_km": 440.235
+        },
+        {
+          "nom": "Saint-Nazaire",
+          "libellecourt": "SNA",
+          "codes_uic": [
+            "87481705"
+          ],
+          "lat": 47.286412,
+          "lon": -2.211096,
+          "distance_to_route_km": 3.795,
+          "cumulative_km": 440.361
+        },
+        {
+          "nom": "Pornic",
+          "libellecourt": "PNC",
+          "codes_uic": [
+            "87481283"
+          ],
+          "lat": 47.1145616,
+          "lon": -2.0975565,
+          "distance_to_route_km": 0.072,
+          "cumulative_km": 480.11
+        },
+        {
+          "nom": "La Bernerie-en-Retz",
+          "libellecourt": "BNX",
+          "codes_uic": [
+            "87481267"
+          ],
+          "lat": 47.0832616,
+          "lon": -2.0341408,
+          "distance_to_route_km": 0.01,
+          "cumulative_km": 489.555
+        },
+        {
+          "nom": "Les Moutiers-en-Retz",
+          "libellecourt": "MVB",
+          "codes_uic": [
+            "87481259"
+          ],
+          "lat": 47.0618983,
+          "lon": -2.0009628,
+          "distance_to_route_km": 0.054,
+          "cumulative_km": 495.599
+        },
+        {
+          "nom": "Bourgneuf-en-Retz",
+          "libellecourt": "BGZ",
+          "codes_uic": [
+            "87481242"
+          ],
+          "lat": 47.0469634,
+          "lon": -1.9551942,
+          "distance_to_route_km": 1.831,
+          "cumulative_km": 501.067
+        },
+        {
+          "nom": "Saint-Hilaire-de-Riez",
+          "libellecourt": "SHZ",
+          "codes_uic": [
+            "87486563"
+          ],
+          "lat": 46.7166736,
+          "lon": -1.9496838,
+          "distance_to_route_km": 1.471,
+          "cumulative_km": 578.056
+        },
+        {
+          "nom": "Saint-Gilles-Croix-de-Vie",
+          "libellecourt": "SGV",
+          "codes_uic": [
+            "87486571"
+          ],
+          "lat": 46.696466,
+          "lon": -1.941296,
+          "distance_to_route_km": 0.005,
+          "cumulative_km": 583.82
+        },
+        {
+          "nom": "Olonne-sur-Mer",
+          "libellecourt": "OSM",
+          "codes_uic": [
+            "87486431"
+          ],
+          "lat": 46.5486605,
+          "lon": -1.76738,
+          "distance_to_route_km": 2.696,
+          "cumulative_km": 611.076
+        },
+        {
+          "nom": "Les Sables-d'Olonne",
+          "libellecourt": "LSO",
+          "codes_uic": [
+            "87486449"
+          ],
+          "lat": 46.499917,
+          "lon": -1.78105,
+          "distance_to_route_km": 0.312,
+          "cumulative_km": 619.653
+        },
+        {
+          "nom": "La Rochelle Porte Dauphine",
+          "libellecourt": "LRA",
+          "codes_uic": [
+            "87437798"
+          ],
+          "lat": 46.16755,
+          "lon": -1.1518412,
+          "distance_to_route_km": 1.408,
+          "cumulative_km": 736.219
+        },
+        {
+          "nom": "La Rochelle",
+          "libellecourt": "LRE",
+          "codes_uic": [
+            "87485003"
+          ],
+          "lat": 46.15269,
+          "lon": -1.145305,
+          "distance_to_route_km": 0.089,
+          "cumulative_km": 736.725
+        },
+        {
+          "nom": "Aytré Plage",
+          "libellecourt": "ATL",
+          "codes_uic": [
+            "87437806"
+          ],
+          "lat": 46.1273815,
+          "lon": -1.1280462,
+          "distance_to_route_km": 0.01,
+          "cumulative_km": 743.417
+        },
+        {
+          "nom": "Angoulins sur Mer",
+          "libellecourt": "AOM",
+          "codes_uic": [
+            "87485102"
+          ],
+          "lat": 46.108057,
+          "lon": -1.1154503,
+          "distance_to_route_km": 0.061,
+          "cumulative_km": 746.072
+        },
+        {
+          "nom": "Châtelaillon-Plage",
+          "libellecourt": "CTL",
+          "codes_uic": [
+            "87485110"
+          ],
+          "lat": 46.0783303,
+          "lon": -1.0908909,
+          "distance_to_route_km": 0.256,
+          "cumulative_km": 750.918
+        },
+        {
+          "nom": "Saint-Laurent-de-la-Prée - Fouras",
+          "libellecourt": "SSC",
+          "codes_uic": [
+            "87485136"
+          ],
+          "lat": 45.9930002,
+          "lon": -1.0274305,
+          "distance_to_route_km": 0.049,
+          "cumulative_km": 766.311
+        },
+        {
+          "nom": "Rochefort",
+          "libellecourt": "RCT",
+          "codes_uic": [
+            "87485144"
+          ],
+          "lat": 45.947189,
+          "lon": -0.963556,
+          "distance_to_route_km": 0.723,
+          "cumulative_km": 786.609
+        },
+        {
+          "nom": "Tonnay-Charente",
+          "libellecourt": "TNC",
+          "codes_uic": [
+            "87485151"
+          ],
+          "lat": 45.9433989,
+          "lon": -0.8978981,
+          "distance_to_route_km": 0.224,
+          "cumulative_km": 791.329
+        },
+        {
+          "nom": "Royan",
+          "libellecourt": "ROY",
+          "codes_uic": [
+            "87491803"
+          ],
+          "lat": 45.625886,
+          "lon": -1.016703,
+          "distance_to_route_km": 1.409,
+          "cumulative_km": 870.216
+        },
+        {
+          "nom": "Pointe de Grave",
+          "libellecourt": "PDG",
+          "codes_uic": [
+            "87581397"
+          ],
+          "lat": 45.567067,
+          "lon": -1.0658575,
+          "distance_to_route_km": 0.028,
+          "cumulative_km": 876.689
+        },
+        {
+          "nom": "Le Verdon-sur-Mer",
+          "libellecourt": "LVD",
+          "codes_uic": [
+            "87581389"
+          ],
+          "lat": 45.5492065,
+          "lon": -1.0650925,
+          "distance_to_route_km": 1.693,
+          "cumulative_km": 878.668
+        },
+        {
+          "nom": "Soulac-sur-Mer",
+          "libellecourt": "SUU",
+          "codes_uic": [
+            "87581371"
+          ],
+          "lat": 45.5081769,
+          "lon": -1.1175894,
+          "distance_to_route_km": 1.126,
+          "cumulative_km": 885.087
+        },
+        {
+          "nom": "Biganos Facture",
+          "libellecourt": "FAT",
+          "codes_uic": [
+            "87582478"
+          ],
+          "lat": 44.637384,
+          "lon": -0.96621,
+          "distance_to_route_km": 0.126,
+          "cumulative_km": 1019.172
+        },
+        {
+          "nom": "Le Teich",
+          "libellecourt": "TEH",
+          "codes_uic": [
+            "87582601"
+          ],
+          "lat": 44.632507,
+          "lon": -1.025556,
+          "distance_to_route_km": 0.403,
+          "cumulative_km": 1024.933
+        },
+        {
+          "nom": "Gujan-Mestras",
+          "libellecourt": "GUJ",
+          "codes_uic": [
+            "87582619"
+          ],
+          "lat": 44.640454,
+          "lon": -1.06906,
+          "distance_to_route_km": 1.724,
+          "cumulative_km": 1029.314
+        },
+        {
+          "nom": "La Hume",
+          "libellecourt": "HUE",
+          "codes_uic": [
+            "87582635"
+          ],
+          "lat": 44.639879,
+          "lon": -1.116,
+          "distance_to_route_km": 1.828,
+          "cumulative_km": 1033.248
+        },
+        {
+          "nom": "La Teste-de-Buch",
+          "libellecourt": "TTE",
+          "codes_uic": [
+            "87582643"
+          ],
+          "lat": 44.636924,
+          "lon": -1.14295,
+          "distance_to_route_km": 2.046,
+          "cumulative_km": 1036.406
+        },
+        {
+          "nom": "Labenne",
+          "libellecourt": "LBN",
+          "codes_uic": [
+            "87673293"
+          ],
+          "lat": 43.5870509,
+          "lon": -1.4288712,
+          "distance_to_route_km": 2.158,
+          "cumulative_km": 1210.792
+        },
+        {
+          "nom": "Ondres",
+          "libellecourt": "OND",
+          "codes_uic": [
+            "87673319"
+          ],
+          "lat": 43.5685809,
+          "lon": -1.4571793,
+          "distance_to_route_km": 0.739,
+          "cumulative_km": 1212.46
+        },
+        {
+          "nom": "Boucau",
+          "libellecourt": "BUU",
+          "codes_uic": [
+            "87673095"
+          ],
+          "lat": 43.5234217,
+          "lon": -1.4905872,
+          "distance_to_route_km": 0.03,
+          "cumulative_km": 1223.62
+        },
+        {
+          "nom": "Bayonne",
+          "libellecourt": "BYE",
+          "codes_uic": [
+            "87673004"
+          ],
+          "lat": 43.496801,
+          "lon": -1.470306,
+          "distance_to_route_km": 0.172,
+          "cumulative_km": 1227.994
+        },
+        {
+          "nom": "Biarritz",
+          "libellecourt": "BIZ",
+          "codes_uic": [
+            "87673400"
+          ],
+          "lat": 43.459397,
+          "lon": -1.545915,
+          "distance_to_route_km": 2.008,
+          "cumulative_km": 1247.063
+        },
+        {
+          "nom": "Guéthary",
+          "libellecourt": "GTH",
+          "codes_uic": [
+            "87673459"
+          ],
+          "lat": 43.4253491,
+          "lon": -1.6098615,
+          "distance_to_route_km": 0.02,
+          "cumulative_km": 1253.274
+        },
+        {
+          "nom": "Saint-Jean-de-Luz - Ciboure",
+          "libellecourt": "SJZ",
+          "codes_uic": [
+            "87677120"
+          ],
+          "lat": 43.385838,
+          "lon": -1.66122,
+          "distance_to_route_km": 0.083,
+          "cumulative_km": 1261.328
+        },
+        {
+          "nom": "Les Deux Jumeaux",
+          "libellecourt": "HPZ",
+          "codes_uic": [
+            "87677104"
+          ],
+          "lat": 43.3699568,
+          "lon": -1.7643532,
+          "distance_to_route_km": 0.557,
+          "cumulative_km": 1271.978
+        },
+        {
+          "nom": "Hendaye",
+          "libellecourt": "HED",
+          "codes_uic": [
+            "87677005"
+          ],
+          "lat": 43.353132,
+          "lon": -1.781724,
+          "distance_to_route_km": 0.316,
+          "cumulative_km": 1278.522
+        }
+      ]
+    },
+    "VIA": {
+      "route_id": "VIA",
+      "name": "ViaRhôna",
+      "total_km": 774.687,
+      "stations": [
+        {
+          "nom": "Évian-les-Bains",
+          "libellecourt": "EVI",
+          "codes_uic": [
+            "87745679"
+          ],
+          "lat": 46.397915,
+          "lon": 6.577457,
+          "distance_to_route_km": 0.103,
+          "cumulative_km": 18.908
+        },
+        {
+          "nom": "Thonon-les-Bains",
+          "libellecourt": "THO",
+          "codes_uic": [
+            "87745646"
+          ],
+          "lat": 46.369004,
+          "lon": 6.481669,
+          "distance_to_route_km": 0.715,
+          "cumulative_km": 29.466
+        },
+        {
+          "nom": "Perrignier",
+          "libellecourt": "PEG",
+          "codes_uic": [
+            "87745620"
+          ],
+          "lat": 46.303259,
+          "lon": 6.4249208,
+          "distance_to_route_km": 4.362,
+          "cumulative_km": 38.697
+        },
+        {
+          "nom": "Annemasse",
+          "libellecourt": "ANE",
+          "codes_uic": [
+            "87745497"
+          ],
+          "lat": 46.199222,
+          "lon": 6.23652,
+          "distance_to_route_km": 4.97,
+          "cumulative_km": 70.44
+        },
+        {
+          "nom": "Saint-Julien-en-Genevois",
+          "libellecourt": "SJG",
+          "codes_uic": [
+            "87745430"
+          ],
+          "lat": 46.142044,
+          "lon": 6.0855358,
+          "distance_to_route_km": 3.438,
+          "cumulative_km": 82.666
+        },
+        {
+          "nom": "Pougny - Chancy",
+          "libellecourt": "PJY",
+          "codes_uic": [
+            "87745380"
+          ],
+          "lat": 46.1446674,
+          "lon": 5.9613614,
+          "distance_to_route_km": 0.665,
+          "cumulative_km": 98.252
+        },
+        {
+          "nom": "Valleiry",
+          "libellecourt": "VEY",
+          "codes_uic": [
+            "87745414"
+          ],
+          "lat": 46.1092875,
+          "lon": 5.96735,
+          "distance_to_route_km": 0.28,
+          "cumulative_km": 104.517
+        },
+        {
+          "nom": "Seyssel - Corbonod",
+          "libellecourt": "SSS",
+          "codes_uic": [
+            "87745828"
+          ],
+          "lat": 45.9630307,
+          "lon": 5.8315162,
+          "distance_to_route_km": 0.286,
+          "cumulative_km": 134.066
+        },
+        {
+          "nom": "Culoz",
+          "libellecourt": "CUZ",
+          "codes_uic": [
+            "87741074"
+          ],
+          "lat": 45.843264,
+          "lon": 5.778784,
+          "distance_to_route_km": 2.076,
+          "cumulative_km": 156.993
+        },
+        {
+          "nom": "Vions - Chanaz",
+          "libellecourt": "VOZ",
+          "codes_uic": [
+            "87741108"
+          ],
+          "lat": 45.8243131,
+          "lon": 5.8072311,
+          "distance_to_route_km": 0.615,
+          "cumulative_km": 157.57
+        },
+        {
+          "nom": "Chindrieux",
+          "libellecourt": "CWX",
+          "codes_uic": [
+            "87741116"
+          ],
+          "lat": 45.8034376,
+          "lon": 5.8468876,
+          "distance_to_route_km": 4.148,
+          "cumulative_km": 159.686
+        },
+        {
+          "nom": "Montluel",
+          "libellecourt": "MLU",
+          "codes_uic": [
+            "87723569"
+          ],
+          "lat": 45.84777,
+          "lon": 5.057503,
+          "distance_to_route_km": 4.465,
+          "cumulative_km": 296.963
+        },
+        {
+          "nom": "Beynost",
+          "libellecourt": "BNO",
+          "codes_uic": [
+            "87723544"
+          ],
+          "lat": 45.833915,
+          "lon": 5.006969,
+          "distance_to_route_km": 4.433,
+          "cumulative_km": 305.001
+        },
+        {
+          "nom": "Saint-Maurice-de-Beynost",
+          "libellecourt": "SMY",
+          "codes_uic": [
+            "87723536"
+          ],
+          "lat": 45.827421,
+          "lon": 4.976986,
+          "distance_to_route_km": 3.337,
+          "cumulative_km": 307.21
+        },
+        {
+          "nom": "Miribel",
+          "libellecourt": "MIB",
+          "codes_uic": [
+            "87723528"
+          ],
+          "lat": 45.822088,
+          "lon": 4.95394,
+          "distance_to_route_km": 2.602,
+          "cumulative_km": 310.63
+        },
+        {
+          "nom": "Crépieux la Pape",
+          "libellecourt": "CLP",
+          "codes_uic": [
+            "87723502"
+          ],
+          "lat": 45.8038348,
+          "lon": 4.8922918,
+          "distance_to_route_km": 1.408,
+          "cumulative_km": 317.118
+        },
+        {
+          "nom": "Sathonay - Rillieux",
+          "libellecourt": "SYR",
+          "codes_uic": [
+            "87723700"
+          ],
+          "lat": 45.820264,
+          "lon": 4.875315,
+          "distance_to_route_km": 3.065,
+          "cumulative_km": 317.249
+        },
+        {
+          "nom": "Collonges - Fontaines",
+          "libellecourt": "COF",
+          "codes_uic": [
+            "87721225"
+          ],
+          "lat": 45.8291102,
+          "lon": 4.8466136,
+          "distance_to_route_km": 4.816,
+          "cumulative_km": 319.632
+        },
+        {
+          "nom": "Lyon Vaise",
+          "libellecourt": "LVI",
+          "codes_uic": [
+            "87721001"
+          ],
+          "lat": 45.779938,
+          "lon": 4.80396,
+          "distance_to_route_km": 2.969,
+          "cumulative_km": 321.677
+        },
+        {
+          "nom": "Lyon Gorge de Loup",
+          "libellecourt": "LYL",
+          "codes_uic": [
+            "87721175"
+          ],
+          "lat": 45.766078,
+          "lon": 4.804631,
+          "distance_to_route_km": 2.806,
+          "cumulative_km": 322.157
+        },
+        {
+          "nom": "Lyon Saint-Paul",
+          "libellecourt": "LSP",
+          "codes_uic": [
+            "87721159"
+          ],
+          "lat": 45.76601,
+          "lon": 4.827057,
+          "distance_to_route_km": 1.075,
+          "cumulative_km": 322.283
+        },
+        {
+          "nom": "Lyon Part Dieu",
+          "libellecourt": "LYD",
+          "codes_uic": [
+            "87723197"
+          ],
+          "lat": 45.760559,
+          "lon": 4.859355,
+          "distance_to_route_km": 1.446,
+          "cumulative_km": 322.931
+        },
+        {
+          "nom": "Lyon Jean Macé",
+          "libellecourt": "LJC",
+          "codes_uic": [
+            "87282624"
+          ],
+          "lat": 45.74495,
+          "lon": 4.84139,
+          "distance_to_route_km": 0.709,
+          "cumulative_km": 324.59
+        },
+        {
+          "nom": "Lyon Perrache",
+          "libellecourt": "LPR",
+          "codes_uic": [
+            "87722025"
+          ],
+          "lat": 45.748476,
+          "lon": 4.825733,
+          "distance_to_route_km": 0.537,
+          "cumulative_km": 324.785
+        },
+        {
+          "nom": "Ecully - Tassin",
+          "libellecourt": "ECY",
+          "codes_uic": [
+            "87721506"
+          ],
+          "lat": 45.7657162,
+          "lon": 4.7795238,
+          "distance_to_route_km": 4.577,
+          "cumulative_km": 325.098
+        },
+        {
+          "nom": "Alaï",
+          "libellecourt": "ALA",
+          "codes_uic": [
+            "87722744"
+          ],
+          "lat": 45.7521198,
+          "lon": 4.7717824,
+          "distance_to_route_km": 4.094,
+          "cumulative_km": 327.258
+        },
+        {
+          "nom": "Francheville",
+          "libellecourt": "FRW",
+          "codes_uic": [
+            "87722702"
+          ],
+          "lat": 45.7336473,
+          "lon": 4.7693729,
+          "distance_to_route_km": 3.564,
+          "cumulative_km": 327.71
+        },
+        {
+          "nom": "Oullins",
+          "libellecourt": "OUL",
+          "codes_uic": [
+            "87722207"
+          ],
+          "lat": 45.7166261,
+          "lon": 4.8135793,
+          "distance_to_route_km": 0.138,
+          "cumulative_km": 329.439
+        },
+        {
+          "nom": "Chaponost",
+          "libellecourt": "CPT",
+          "codes_uic": [
+            "87722710"
+          ],
+          "lat": 45.6984889,
+          "lon": 4.7643014,
+          "distance_to_route_km": 4.36,
+          "cumulative_km": 329.839
+        },
+        {
+          "nom": "Pierre-Bénite",
+          "libellecourt": "PRB",
+          "codes_uic": [
+            "87722231"
+          ],
+          "lat": 45.7066772,
+          "lon": 4.8245059,
+          "distance_to_route_km": 0.257,
+          "cumulative_km": 330.942
+        },
+        {
+          "nom": "Saint-Fons",
+          "libellecourt": "SFS",
+          "codes_uic": [
+            "87728501"
+          ],
+          "lat": 45.7058114,
+          "lon": 4.8525663,
+          "distance_to_route_km": 2.34,
+          "cumulative_km": 332.181
+        },
+        {
+          "nom": "Vénissieux",
+          "libellecourt": "VSX",
+          "codes_uic": [
+            "87723320"
+          ],
+          "lat": 45.705551,
+          "lon": 4.888109,
+          "distance_to_route_km": 4.855,
+          "cumulative_km": 332.641
+        },
+        {
+          "nom": "Irigny Yvours",
+          "libellecourt": "IRY",
+          "codes_uic": [
+            "87722249"
+          ],
+          "lat": 45.69002,
+          "lon": 4.83229,
+          "distance_to_route_km": 0.375,
+          "cumulative_km": 333.011
+        },
+        {
+          "nom": "Feyzin",
+          "libellecourt": "FEY",
+          "codes_uic": [
+            "87722538"
+          ],
+          "lat": 45.6658584,
+          "lon": 4.8531349,
+          "distance_to_route_km": 1.935,
+          "cumulative_km": 335.66
+        },
+        {
+          "nom": "Brignais",
+          "libellecourt": "BGN",
+          "codes_uic": [
+            "87722728"
+          ],
+          "lat": 45.6737721,
+          "lon": 4.7636596,
+          "distance_to_route_km": 4.552,
+          "cumulative_km": 337.803
+        },
+        {
+          "nom": "Vernaison",
+          "libellecourt": "VNI",
+          "codes_uic": [
+            "87722264"
+          ],
+          "lat": 45.6456478,
+          "lon": 4.8132908,
+          "distance_to_route_km": 0.171,
+          "cumulative_km": 338.619
+        },
+        {
+          "nom": "Sérézin-du-Rhône",
+          "libellecourt": "SZN",
+          "codes_uic": [
+            "87722546"
+          ],
+          "lat": 45.62716,
+          "lon": 4.81806,
+          "distance_to_route_km": 0.302,
+          "cumulative_km": 341.628
+        },
+        {
+          "nom": "Grigny le Sablon",
+          "libellecourt": "LSB",
+          "codes_uic": [
+            "87722298"
+          ],
+          "lat": 45.6072601,
+          "lon": 4.796144,
+          "distance_to_route_km": 0.429,
+          "cumulative_km": 344.952
+        },
+        {
+          "nom": "Givors Canal",
+          "libellecourt": "GIC",
+          "codes_uic": [
+            "87722439"
+          ],
+          "lat": 45.5957662,
+          "lon": 4.7725754,
+          "distance_to_route_km": 0.878,
+          "cumulative_km": 347.452
+        },
+        {
+          "nom": "Givors",
+          "libellecourt": "GIV",
+          "codes_uic": [
+            "87722405"
+          ],
+          "lat": 45.584948,
+          "lon": 4.766086,
+          "distance_to_route_km": 0.979,
+          "cumulative_km": 347.906
+        },
+        {
+          "nom": "Chasse-sur-Rhône",
+          "libellecourt": "CSR",
+          "codes_uic": [
+            "87722561"
+          ],
+          "lat": 45.58237,
+          "lon": 4.794843,
+          "distance_to_route_km": 0.786,
+          "cumulative_km": 349.624
+        },
+        {
+          "nom": "Estressin",
+          "libellecourt": "ESN",
+          "codes_uic": [
+            "87722579"
+          ],
+          "lat": 45.540285,
+          "lon": 4.868273,
+          "distance_to_route_km": 0.537,
+          "cumulative_km": 358.089
+        },
+        {
+          "nom": "Vienne",
+          "libellecourt": "VIE",
+          "codes_uic": [
+            "87722587"
+          ],
+          "lat": 45.521207,
+          "lon": 4.874211,
+          "distance_to_route_km": 0.573,
+          "cumulative_km": 359.724
+        },
+        {
+          "nom": "Saint-Clair - Les Roches",
+          "libellecourt": "SKR",
+          "codes_uic": [
+            "87722652"
+          ],
+          "lat": 45.450392,
+          "lon": 4.769707,
+          "distance_to_route_km": 0.824,
+          "cumulative_km": 372.105
+        },
+        {
+          "nom": "Le Péage-de-Roussillon",
+          "libellecourt": "PGR",
+          "codes_uic": [
+            "87722678"
+          ],
+          "lat": 45.371797,
+          "lon": 4.795402,
+          "distance_to_route_km": 1.948,
+          "cumulative_km": 385.851
+        },
+        {
+          "nom": "Saint-Rambert-d'Albon",
+          "libellecourt": "SRA",
+          "codes_uic": [
+            "87761106"
+          ],
+          "lat": 45.297797,
+          "lon": 4.810849,
+          "distance_to_route_km": 0.236,
+          "cumulative_km": 397.279
+        },
+        {
+          "nom": "Saint-Vallier sur Rhône",
+          "libellecourt": "SUO",
+          "codes_uic": [
+            "87761130"
+          ],
+          "lat": 45.186395,
+          "lon": 4.81439,
+          "distance_to_route_km": 0.138,
+          "cumulative_km": 411.148
+        },
+        {
+          "nom": "Tain-l'Hermitage - Tournon",
+          "libellecourt": "TAI",
+          "codes_uic": [
+            "87761163"
+          ],
+          "lat": 45.072183,
+          "lon": 4.839967,
+          "distance_to_route_km": 0.637,
+          "cumulative_km": 429.082
+        },
+        {
+          "nom": "Saint-Péray",
+          "libellecourt": "STP",
+          "codes_uic": [
+            "87761494"
+          ],
+          "lat": 44.94771,
+          "lon": 4.85035,
+          "distance_to_route_km": 2.464,
+          "cumulative_km": 448.282
+        },
+        {
+          "nom": "Valence",
+          "libellecourt": "VCE",
+          "codes_uic": [
+            "87761007"
+          ],
+          "lat": 44.928049,
+          "lon": 4.893273,
+          "distance_to_route_km": 0.594,
+          "cumulative_km": 452.875
+        },
+        {
+          "nom": "Livron-sur-Drôme",
+          "libellecourt": "LIV",
+          "codes_uic": [
+            "87761247"
+          ],
+          "lat": 44.7796035,
+          "lon": 4.8305412,
+          "distance_to_route_km": 3.949,
+          "cumulative_km": 477.582
+        },
+        {
+          "nom": "Loriol-sur-Drôme",
+          "libellecourt": "LOL",
+          "codes_uic": [
+            "87761262"
+          ],
+          "lat": 44.7544973,
+          "lon": 4.8171679,
+          "distance_to_route_km": 4.217,
+          "cumulative_km": 483.247
+        },
+        {
+          "nom": "Montélimar",
+          "libellecourt": "MTR",
+          "codes_uic": [
+            "87764001"
+          ],
+          "lat": 44.559079,
+          "lon": 4.744792,
+          "distance_to_route_km": 2.4,
+          "cumulative_km": 515.599
+        },
+        {
+          "nom": "Donzère",
+          "libellecourt": "DOE",
+          "codes_uic": [
+            "87764290"
+          ],
+          "lat": 44.4433646,
+          "lon": 4.7046262,
+          "distance_to_route_km": 1.031,
+          "cumulative_km": 530.741
+        },
+        {
+          "nom": "Pierrelatte",
+          "libellecourt": "PRL",
+          "codes_uic": [
+            "87764308"
+          ],
+          "lat": 44.374719,
+          "lon": 4.703783,
+          "distance_to_route_km": 3.836,
+          "cumulative_km": 543.736
+        },
+        {
+          "nom": "Pont-Saint-Esprit",
+          "libellecourt": "PET",
+          "codes_uic": [
+            "87764555"
+          ],
+          "lat": 44.25352683371548,
+          "lon": 4.643263286805847,
+          "distance_to_route_km": 0.691,
+          "cumulative_km": 558.756
+        },
+        {
+          "nom": "Bollène La Croisière",
+          "libellecourt": "BLN",
+          "codes_uic": [
+            "87764357"
+          ],
+          "lat": 44.271525,
+          "lon": 4.707908,
+          "distance_to_route_km": 2.91,
+          "cumulative_km": 564.673
+        },
+        {
+          "nom": "Bédarrides",
+          "libellecourt": "BDR",
+          "codes_uic": [
+            "87765198"
+          ],
+          "lat": 44.0407636,
+          "lon": 4.8931321,
+          "distance_to_route_km": 4.449,
+          "cumulative_km": 601.051
+        },
+        {
+          "nom": "Sorgues - Châteauneuf-du-Pape",
+          "libellecourt": "SCP",
+          "codes_uic": [
+            "87765206"
+          ],
+          "lat": 44.0053909,
+          "lon": 4.8756182,
+          "distance_to_route_km": 2.786,
+          "cumulative_km": 602.041
+        },
+        {
+          "nom": "Avignon Centre",
+          "libellecourt": "AVI",
+          "codes_uic": [
+            "87765008"
+          ],
+          "lat": 43.9419,
+          "lon": 4.805281,
+          "distance_to_route_km": 1.352,
+          "cumulative_km": 613.813
+        },
+        {
+          "nom": "Avignon TGV",
+          "libellecourt": "AVV",
+          "codes_uic": [
+            "87981902",
+            "87318964"
+          ],
+          "lat": 43.921586,
+          "lon": 4.786079,
+          "distance_to_route_km": 3.054,
+          "cumulative_km": 615.866
+        },
+        {
+          "nom": "Tarascon",
+          "libellecourt": "TCN",
+          "codes_uic": [
+            "87765354"
+          ],
+          "lat": 43.801331,
+          "lon": 4.657206,
+          "distance_to_route_km": 0.799,
+          "cumulative_km": 650.234
+        },
+        {
+          "nom": "Beaucaire",
+          "libellecourt": "BCK",
+          "codes_uic": [
+            "87775023"
+          ],
+          "lat": 43.80209,
+          "lon": 4.6470865,
+          "distance_to_route_km": 0.35,
+          "cumulative_km": 650.332
+        },
+        {
+          "nom": "Aigues-Mortes",
+          "libellecourt": "AIM",
+          "codes_uic": [
+            "87775858"
+          ],
+          "lat": 43.5709008,
+          "lon": 4.1912102,
+          "distance_to_route_km": 0.033,
+          "cumulative_km": 711.484
+        },
+        {
+          "nom": "Le Grau-du-Roi",
+          "libellecourt": "LGR",
+          "codes_uic": [
+            "87775866"
+          ],
+          "lat": 43.5371273,
+          "lon": 4.140338,
+          "distance_to_route_km": 0.143,
+          "cumulative_km": 717.828
+        },
+        {
+          "nom": "Villeneuve-lès-Maguelone",
+          "libellecourt": "VLM",
+          "codes_uic": [
+            "87773515"
+          ],
+          "lat": 43.5438231,
+          "lon": 3.849917,
+          "distance_to_route_km": 0.743,
+          "cumulative_km": 745.436
+        },
+        {
+          "nom": "Vic - Mireval",
+          "libellecourt": "VIC",
+          "codes_uic": [
+            "87773531"
+          ],
+          "lat": 43.5007687,
+          "lon": 3.7994505,
+          "distance_to_route_km": 0.02,
+          "cumulative_km": 752.618
+        },
+        {
+          "nom": "Frontignan",
+          "libellecourt": "FRN",
+          "codes_uic": [
+            "87773556"
+          ],
+          "lat": 43.444934,
+          "lon": 3.758689,
+          "distance_to_route_km": 0.086,
+          "cumulative_km": 765.607
+        },
+        {
+          "nom": "Sète",
+          "libellecourt": "STE",
+          "codes_uic": [
+            "87773200"
+          ],
+          "lat": 43.412485,
+          "lon": 3.69656,
+          "distance_to_route_km": 0.612,
+          "cumulative_km": 772.871
+        }
+      ]
+    }
+  }
+}
