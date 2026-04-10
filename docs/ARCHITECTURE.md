@@ -2,41 +2,33 @@
 
 ## Overview
 
-Intercyclette is a static web application deployable on GitHub Pages. A minimal
-proxy server (deployable on Render.com or Railway free tier) keeps the SNCF /
-Navitia API token out of the browser.
+Intercyclette is a fully self-contained static web application. All data is
+precomputed at build time and served as static JSON files. No proxy server,
+no API token, and no external network calls are made at query time.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  GitHub Pages (static)                                              │
+│  Static site (GitHub Pages / any static host)                       │
 │                                                                     │
 │  index.html                    ─── single HTML page, no server     │
 │  static/css/style.css                                               │
 │  static/js/                                                         │
-│    map.js            Leaflet map, colored route overlays            │
-│    planner.js        JS port of Python itinerary planner            │
-│    journey_parser.js JS port of Navitia JSON parser                 │
-│    results.js        Render itinerary cards                         │
-│    search.js         Form, autocomplete, orchestrates search        │
+│    map.js          Leaflet map, colored route overlays              │
+│    planner.js      JS port of Python itinerary planner              │
+│    timetable.js    In-browser GTFS journey lookup engine            │
+│    results.js      Render itinerary cards                           │
+│    search.js       Form, autocomplete, orchestrates search          │
 │  static/data/                                                       │
 │    stations.json           All SNCF stations (autocomplete)         │
 │    route_stations.json     Route–station proximity index            │
+│    timetable.json          Compiled GTFS timetable index            │
 │    routes/                 One JSON per Eurovelo route              │
 │      ev3.json, ev4.json, … (9 files, colored polylines)            │
-└────────────────────────┬────────────────────────────────────────────┘
-                         │  POST /navitia/journey  (CORS)
-                         ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│  Proxy server  (Render.com / Railway free tier)                     │
-│                                                                     │
-│  proxy/app.py   ~40-line Flask server                               │
-│    NAVITIA_TOKEN stored as environment variable (never in browser)  │
-│    Forwards journey requests to api.navitia.io                      │
-└────────────────────────┬────────────────────────────────────────────┘
-                         │  GET /journeys?from=…&to=…&datetime=…
-                         ▼
-                   api.navitia.io  (SNCF train data)
+└─────────────────────────────────────────────────────────────────────┘
 ```
+
+At query time the browser fetches only the three precomputed data files
+(stations, route_stations, timetable) — all computation runs in-memory.
 
 ---
 
@@ -46,9 +38,10 @@ Navitia API token out of the browser.
 
 ```
 browser
-  ├─ fetch static/data/stations.json      → populate autocomplete
-  └─ fetch static/data/route_stations.json → load route index into memory
-     fetch static/data/routes/ev*.json (×9) → draw colored polylines on map
+  ├─ fetch static/data/stations.json       → populate autocomplete
+  ├─ fetch static/data/route_stations.json → load route index into memory
+  ├─ fetch static/data/routes/ev*.json (×9) → draw colored polylines on map
+  └─ (deferred) fetch static/data/timetable.json → loaded on first search
 ```
 
 ### 2. Search
@@ -62,11 +55,12 @@ planner.js.findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythm)
   │
   ▼  for each TripCandidate (up to 3 per single route, 1 per multi-route)
   │
-  ├─ POST proxy /navitia/journey  { from_uic, to_uic, datetime_str }  (outbound)
-  ├─ POST proxy /navitia/journey  { from_uic, to_uic, datetime_str }  (return)
+  ├─ timetable.js.queryJourney(fromUic, toUic, dateInt, 480)   (outbound 08:00)
+  ├─ timetable.js.queryJourney(returnUic, fromUic, dateInt, 960) (return 16:00)
+  │  both synchronous — no network, operates on in-memory timetable index
   │
   ▼
-journey_parser.js.parseBestJourney(apiResponse)
+timetable.js.buildJourneyResult(row, fromNom, toNom, dateInt)
   │
   ▼
 search.js.buildItineraryCard(candidate, outboundJourney, returnJourney)
@@ -112,12 +106,22 @@ Key functions:
 
 Public API: `window.InterPlanner`
 
-### `static/js/journey_parser.js`
+### `static/js/timetable.js`
 
-Port of `app/navitia/journey_parser.py`. Parses raw Navitia API JSON into
-structured `JourneyResult` objects.
+In-browser GTFS lookup engine. Loads `static/data/timetable.json` once (on
+first search), builds two acceleration structures:
 
-Public API: `window.InterJourney`
+- `_serviceSets` — `{svc_key → Set<dateInt>}` for O(1) date membership tests
+- `_uicToTripIndices` — `Map<uic_int → number[]>` reverse index so only
+  relevant trips are scanned per query
+
+`queryJourney(fromUic, toUic, dateInt, afterMinutes, maxResults)` returns
+direct-train rows (dep/arr minutes, duration, train type) sorted by departure.
+
+Only TER and Intercités trains are included (filtered at build time by
+`scripts/build_gtfs_index.py`).
+
+Public API: `window.InterTimetable = { loadTimetable, queryJourney, buildJourneyResult, formatDurationMinutes, getTimetableDateRange, minutesToTime, minutesToIsoDatetime }`
 
 ### `static/js/results.js`
 
@@ -129,45 +133,62 @@ Public API: `window.InterResults`
 ### `static/js/search.js`
 
 Orchestrates the search flow:
-1. Loads static data files
-2. Handles station autocomplete (local filtering); selecting a city centres the map on it
+1. Loads static data files (stations, route index, timetable on demand)
+2. Handles station autocomplete (local filtering); selecting a city centres the map
 3. Manages the French date input (DD/MM/YYYY display, ISO hidden field)
-4. On submit: calls `InterPlanner`, then proxy, then `InterJourney`, assembles cards
-5. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
-6. Reads/writes proxy URL from `localStorage`
+4. On submit: calls `InterPlanner`, then `InterTimetable`, assembles cards
+5. Validates requested date against timetable date range
+6. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
 7. Wires the "?" help button to open the help modal
 
 Public API: `window.InterSearch`
 
 ---
 
-## Proxy Server (`proxy/app.py`)
+## Python Backend (Local Development Only)
 
-Single Flask route `POST /navitia/journey`. Accepts JSON body
-`{ from_uic, to_uic, datetime_str }`, forwards a GET to
-`https://api.navitia.io/v1/journeys` with HTTP Basic auth (token from
-`NAVITIA_TOKEN` env var), returns the raw Navitia JSON.
-
-CORS headers allow requests from any origin so GitHub Pages can call it.
-
----
-
-## Python Backend (Local Development)
-
-The original Flask app (`app/`) is fully preserved. Running `flask --app app run`
-locally still works without any proxy — `NAVITIA_TOKEN` is read from the
-environment directly. The `templates/index.html` (Jinja2) and `/api/search`
-endpoint remain intact.
+The original Flask app (`app/`) is preserved for local development.
+Running `flask --app app run` serves the Jinja2 template at `/` and the
+station list at `/api/stations`. The `/api/search` endpoint has been removed —
+journey search is handled entirely in the browser.
 
 ---
 
 ## Static Data Files
 
-| File | Size | Generated by |
+| File | Approximate size | Generated by |
 |---|---|---|
 | `static/data/stations.json` | ~350 KB | `scripts/export_stations_json.py` |
-| `static/data/route_stations.json` | ~540 KB | `scripts/preprocess.py` (with `track_points`) |
-| `static/data/routes/ev3.json` … | ~20 KB each | `scripts/export_route_geometries.py` |
+| `static/data/route_stations.json` | ~540 KB | `scripts/preprocess.py` |
+| `static/data/timetable.json` | 5–15 MB | `scripts/build_gtfs_index.py` |
+| `static/data/routes/ev*.json` (×9) | ~20 KB each | `scripts/export_route_geometries.py` |
 
-These files are committed to the repository and served directly by GitHub Pages.
-Re-generate them only when source GPX or station data changes.
+`timetable.json` is large enough that it should not be committed to the
+repository if hosting on GitHub Pages with a 100 MB file limit — serve it
+from a CDN or regenerate locally as needed.
+
+---
+
+## Timetable Index Format
+
+`static/data/timetable.json`:
+
+```json
+{
+  "generated_at": "2026-04-10T12:00:00",
+  "train_types": ["TER", "INTERCITES"],
+  "date_range": { "min": 20260101, "max": 20261231 },
+  "services": {
+    "1": [20260501, 20260502, ...],
+    "2": [20260601, ...]
+  },
+  "trips": [
+    { "svc": 1, "type": 0, "stops": [[87723197, 480], [87001000, 570]] }
+  ]
+}
+```
+
+- `svc`: integer key into `services`
+- `type`: 0 = TER, 1 = Intercités
+- `stops`: `[uic_int, dep_minutes_since_midnight]`, ordered by stop_sequence
+- Dates as YYYYMMDD integers, times as minutes — minimises JSON size

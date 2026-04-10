@@ -1,0 +1,12 @@
+stop_id,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station
+StopArea:OCE87001000,Lyon Part-Dieu,,45.7604,4.8599,,,1,
+StopPoint:OCETrain TER-87001000,Lyon Part-Dieu,,45.7604,4.8599,,,0,StopArea:OCE87001000
+StopPoint:OCEINTERCITES-87001000,Lyon Part-Dieu,,45.7604,4.8599,,,0,StopArea:OCE87001000
+StopArea:OCE87002000,Valence,,44.9266,4.8914,,,1,
+StopPoint:OCETrain TER-87002000,Valence,,44.9266,4.8914,,,0,StopArea:OCE87002000
+StopArea:OCE87003000,Avignon,,43.9494,4.8063,,,1,
+StopPoint:OCEINTERCITES-87003000,Avignon,,43.9494,4.8063,,,0,StopArea:OCE87003000
+StopPoint:OCETGV INOUI-87003000,Avignon TGV,,43.9210,4.7753,,,0,StopArea:OCE87003000
+StopPoint:OCEOUIGO-87003000,Avignon,,43.9494,4.8063,,,0,StopArea:OCE87003000
+StopArea:OCE71001000,Barcelone,,41.3789,2.1398,,,1,
+StopPoint:OCETGV INOUI-71001000,Barcelone,,41.3789,2.1398,,,0,StopArea:OCE71001000

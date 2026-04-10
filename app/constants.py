@@ -128,19 +128,30 @@ ROUTE_COLORS = {
 }
 
 # ---------------------------------------------------------------------------
-# Navitia API
+# GTFS timetable (train type filter and output)
 # ---------------------------------------------------------------------------
 
-NAVITIA_BASE_URL = "https://api.navitia.io/v1"
-NAVITIA_DATETIME_FMT = "%Y%m%dT%H%M%S"
-NAVITIA_DEFAULT_HOUR = 8   # 08:00 departure for outbound trains
-NAVITIA_RETURN_HOUR = 16   # 16:00 departure for return trains
-NAVITIA_TIMEOUT_SECONDS = 10
+# stop_id prefixes that identify French TER-train and Intercités stops.
+# The "87" suffix ensures only French domestic stations (UIC prefix 87) are
+# included — international stops use different numeric prefixes.
+GTFS_TER_STOP_PREFIX        = "StopPoint:OCETrain TER-87"
+GTFS_INTERCITES_STOP_PREFIX = "StopPoint:OCEINTERCITES-87"
+
+# Minimum stops a trip must serve to be included in the timetable index.
+# Trips with only one stop are useless for A→B queries.
+GTFS_MIN_STOPS_PER_TRIP = 2
+
+# Default query hours (in minutes since midnight) used by the frontend when
+# building outbound and return timetable queries.
+GTFS_OUTBOUND_MINUTES = 480   # 08:00
+GTFS_RETURN_MINUTES   = 960   # 16:00
 
 # ---------------------------------------------------------------------------
 # File paths (relative to project root)
 # ---------------------------------------------------------------------------
 
-GPX_DIR = "data/raw/Eurovelo_France_gpx"
+GPX_DIR          = "data/raw/Eurovelo_France_gpx"
 STATIONS_GEOJSON = "data/raw/gares-de-voyageurs.geojson"
 PROCESSED_OUTPUT = "data/processed/route_stations.json"
+GTFS_DIR         = "data/raw/Export_OpenData_SNCF_GTFS_NewTripId"
+GTFS_OUTPUT      = "static/data/timetable.json"

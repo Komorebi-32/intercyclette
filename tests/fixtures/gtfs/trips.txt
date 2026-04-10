@@ -1,0 +1,6 @@
+route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id
+ROUTE_TER_A,SVC001,TRIP_TER_001,Avignon,0,1,
+ROUTE_TER_B,SVC002,TRIP_TER_002,Lyon,1,2,
+ROUTE_IC_A,SVC001,TRIP_IC_001,Avignon,0,3,
+ROUTE_IC_B,SVC003,TRIP_IC_002,Lyon,1,4,
+ROUTE_TER_SHORT,SVC001,TRIP_SHORT,Valence,0,5,

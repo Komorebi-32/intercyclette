@@ -9,18 +9,20 @@ Planifiez des séjours à vélo le long des routes Eurovelo en combinant les tra
 ## Architecture
 
 ```
-GitHub Pages (static)          Proxy (Render.com / Railway)
-  index.html                     proxy/app.py  (~40 lignes Flask)
-  static/data/stations.json  →   POST /navitia/journey
-  static/data/route_stations.json   ↓
-  static/data/routes/ev*.json    Navitia API (SNCF)
-  static/js/{map,planner,       (token dans variable d'environnement)
-    journey_parser,results,
-    search}.js
+Site statique (GitHub Pages / http.server)
+  index.html
+  static/data/stations.json          ← autocomplete gares
+  static/data/route_stations.json    ← index gares ↔ routes
+  static/data/timetable.json         ← horaires GTFS compilés
+  static/data/routes/ev*.json        ← géométries colorées
+  static/js/{map,planner,timetable,
+    results,search}.js
   static/css/style.css
 ```
 
-Le backend Flask original (`app/`) est conservé pour le développement local.
+Entièrement statique — aucun proxy, aucun token, aucune requête réseau après le chargement initial des fichiers JSON.
+
+Le backend Flask (`app/`) est conservé uniquement pour le développement local (`flask run`).
 
 ---
 
@@ -31,14 +33,14 @@ L'utilisateur renseigne :
 - Le **nombre de jours** disponibles (1 à 15)
 - Son **rythme de pédalage** (Escargot tranquille / Habitué des randovélo / Athlète olympique)
 - Les **routes Eurovelo** souhaitées (sélection multiple)
+- La **date de départ**
 
 L'application :
 1. Identifie les gares SNCF proches de chaque route Eurovelo sélectionnée
-2. Interroge l'API SNCF (Navitia) via le proxy pour trouver les trains aller et retour
+2. Cherche les trains aller et retour directement dans l'index GTFS (TER et Intercités)
 3. Calcule la distance vélo réalisable selon le rythme
 4. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap
-   avec les 9 routes Eurovelo colorées, fond de carte gris en français, panneaux
-   d'info au survol de chaque route, et bouton d'aide intégré
+   avec les 9 routes Eurovelo colorées en permanence
 
 ---
 
@@ -52,18 +54,44 @@ pip3 install -r requirements.txt
 
 ---
 
+## Données GTFS SNCF
+
+Les horaires de trains sont calculés à partir des données GTFS de SNCF Open Data.
+Téléchargez l'archive GTFS depuis [data.sncf.com](https://data.sncf.com) et extrayez-la dans :
+
+```
+data/raw/Export_OpenData_SNCF_GTFS_NewTripId/
+```
+
+Seuls les trains **TER** et **Intercités** (qui acceptent les vélos) sont retenus.
+Les stops IDs des types retenus suivent les préfixes :
+- `StopPoint:OCETrain TER-87…`
+- `StopPoint:OCEINTERCITES-87…`
+
+---
+
 ## Générer les fichiers statiques
 
-### 1. Index de proximité gares ↔ routes (une seule fois)
+### 1. Index de proximité gares ↔ routes
 
 ```bash
 python3 scripts/preprocess.py
 ```
 
 Parcourt les 9 fichiers GPX Eurovelo et les ~2 800 gares SNCF.
-Résultat : `data/processed/route_stations.json` (~360 Ko, inclut les points de trace).
+Résultat : `data/processed/route_stations.json`.
 
-### 2. Exporter les données statiques
+### 2. Index horaires GTFS
+
+```bash
+python3 scripts/build_gtfs_index.py
+```
+
+Lit les fichiers GTFS, filtre TER + Intercités, France uniquement.
+Résultat : `static/data/timetable.json` (~5–15 Mo selon la période).
+Affiche des statistiques (nombre de trajets, plage de dates, taille).
+
+### 3. Exporter les autres données statiques
 
 ```bash
 python3 scripts/export_stations_json.py      # → static/data/stations.json
@@ -80,29 +108,17 @@ python3 -m http.server 8080
 # Accéder à http://localhost:8080
 ```
 
-Pour les recherches, configurer l'URL du proxy via le bouton ⚙ en haut à droite.
-
-### Lancer le proxy localement
-
-```bash
-cd proxy
-NAVITIA_TOKEN=votre_token python3 app.py
-# Proxy disponible sur http://localhost:5001
-```
-
-Entrer `http://localhost:5001` dans le panneau de paramètres.
+Les recherches fonctionnent sans configuration supplémentaire — les horaires
+sont lus depuis `static/data/timetable.json`.
 
 ---
 
-## Lancer l'application (backend Flask, alternative)
+## Lancer l'application (backend Flask, développement local)
 
 ```bash
-export NAVITIA_TOKEN=votre_token
 flask --app app run
 # Accéder à http://localhost:5000
 ```
-
-Obtenez un token sur [https://www.navitia.io](https://www.navitia.io).
 
 ---
 
@@ -112,7 +128,7 @@ Obtenez un token sur [https://www.navitia.io](https://www.navitia.io).
 python3 -m pytest tests/ -v
 ```
 
-Tous les tests sont isolés (pas de réseau, pas de fichiers réels).
+Tous les tests sont isolés (pas de réseau, pas de fichiers GTFS réels).
 
 ---
 
@@ -120,59 +136,58 @@ Tous les tests sont isolés (pas de réseau, pas de fichiers réels).
 
 ```
 intercyclette/
-├── index.html                       Site statique (GitHub Pages)
+├── index.html                         Site statique (GitHub Pages)
 ├── data/
 │   ├── raw/
-│   │   ├── gares-de-voyageurs.geojson   Gares SNCF
-│   │   └── Eurovelo_France_gpx/         Traces GPX des 9 routes
+│   │   ├── gares-de-voyageurs.geojson     Gares SNCF
+│   │   ├── Eurovelo_France_gpx/           Traces GPX des 9 routes
+│   │   └── Export_OpenData_SNCF_GTFS_NewTripId/   Données GTFS SNCF
 │   └── processed/
-│       └── route_stations.json          Index gares ↔ routes (avec track_points)
+│       └── route_stations.json            Index gares ↔ routes (avec track_points)
 ├── scripts/
-│   ├── preprocess.py                    Pré-traitement (exécuté une fois)
-│   ├── export_stations_json.py          Export → static/data/stations.json
-│   └── export_route_geometries.py       Export → static/data/routes/*.json
-├── proxy/
-│   ├── app.py                           Proxy Navitia (~40 lignes Flask)
-│   └── requirements.txt
+│   ├── preprocess.py                  Pré-traitement GPX + gares (exécuté une fois)
+│   ├── build_gtfs_index.py            Compilation de l'index GTFS → timetable.json
+│   ├── export_stations_json.py        Export → static/data/stations.json
+│   └── export_route_geometries.py     Export → static/data/routes/*.json
 ├── app/
-│   ├── constants.py                     Constantes et couleurs des routes
-│   ├── routes.py                        Handlers Flask (dev local)
+│   ├── constants.py                   Constantes, couleurs, chemins GTFS
+│   ├── routes.py                      Handlers Flask (développement local)
 │   ├── geo/
-│   │   ├── distance.py                  Géométrie pure (haversine, polyligne)
-│   │   ├── gpx_parser.py               Lecture des fichiers GPX
-│   │   └── station_matcher.py          Correspondance gares ↔ routes
-│   ├── itinerary/
-│   │   ├── rhythm.py                   Calcul de distance selon le rythme
-│   │   └── planner.py                  Assemblage des itinéraires candidats
-│   └── navitia/
-│       ├── client.py                   Client HTTP Navitia
-│       └── journey_parser.py           Parseur des réponses Navitia
+│   │   ├── distance.py                Géométrie pure (haversine, polyligne)
+│   │   ├── gpx_parser.py             Lecture des fichiers GPX
+│   │   └── station_matcher.py        Correspondance gares ↔ routes
+│   └── itinerary/
+│       ├── rhythm.py                  Calcul de distance selon le rythme
+│       └── planner.py                 Assemblage des itinéraires candidats
 ├── static/
 │   ├── css/style.css
 │   ├── data/
-│   │   ├── stations.json               Gares SNCF (autocomplete)
-│   │   ├── route_stations.json         Index gares ↔ routes (site statique)
-│   │   └── routes/                     Géométries colorées (9 fichiers)
+│   │   ├── stations.json              Gares SNCF (autocomplete)
+│   │   ├── route_stations.json        Index gares ↔ routes (site statique)
+│   │   ├── timetable.json             Index horaires GTFS compilé
+│   │   └── routes/                    Géométries colorées (9 fichiers)
 │   └── js/
-│       ├── map.js                      Carte Leaflet, overlays colorés, hover info, fond gris FR
-│       ├── planner.js                  Port JS du planificateur Python
-│       ├── journey_parser.js           Port JS du parseur Navitia
-│       ├── results.js                  Rendu des cartes itinéraires
-│       └── search.js                   Formulaire, autocomplétion, date FR, aide, orchestration
+│       ├── map.js                     Carte Leaflet, overlays colorés, fond gris FR
+│       ├── planner.js                 Port JS du planificateur Python
+│       ├── timetable.js               Moteur de recherche GTFS en navigateur
+│       ├── results.js                 Rendu des cartes itinéraires
+│       └── search.js                  Formulaire, autocomplétion, date FR, aide, orchestration
 ├── templates/
-│   └── index.html                      Template Jinja2 (dev local Flask)
+│   └── index.html                     Template Jinja2 (développement local Flask)
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── BUILD.md
 │   └── DEPLOYMENT.md
-└── tests/                              Tests unitaires (un fichier par module)
+└── tests/
+    ├── fixtures/gtfs/                 Données GTFS synthétiques pour les tests
+    └── test_*.py                      Tests unitaires (un fichier par module)
 ```
 
 ---
 
 ## Pipeline de traitement
 
-### Pré-traitement (scripts/preprocess.py)
+### Pré-traitement (scripts/preprocess.py + build_gtfs_index.py)
 
 ```
 gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
@@ -183,37 +198,41 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
          └────────┬─────────────────────┘
                   ▼
      Pour chaque gare, pré-filtrage par boîte englobante
-     puis calcul de distance exacte à la polyligne
-                  │
-                  ▼  (si ≤ 5 km)
-     StationOnRoute : nom, UIC, lat/lon, km cumulé sur la route
-     + track_points downsampled (300 pts) pour l'overlay carte
+     puis calcul de distance exacte à la polyligne (≤ 5 km)
                   │
                   ▼
-         route_stations.json
+         route_stations.json  (index gares ↔ routes, track_points)
+
+Export_OpenData_SNCF_GTFS_NewTripId/
+         │
+         ▼  (filtrage TER + Intercités, UIC 87xxxxx uniquement)
+   stops.txt → stop_id → uic
+   trips.txt → trip_id → service_id
+   stop_times.txt → trip_id → [(uic, dep_min), ...]   (streamed, 72 Mo)
+   calendar_dates.txt → service_id → [dates]
+         │
+         ▼
+   timetable.json  (services compactés, clés entières courtes)
 ```
 
-### Recherche (site statique)
+### Recherche (navigateur, entièrement statique)
 
 ```
 [Formulaire utilisateur]
         │
         ▼
-[Chargement local route_stations.json + stations.json]
+[Chargement local route_stations.json + stations.json + timetable.json]
         │
         ▼
 [planner.js — calcul pur JS, sans réseau]
-   Stations de départ dans la "zone initiale" (15%, max 100 km)
+   Stations de départ dans la "zone initiale" (15 %, max 100 km)
    Triées par distance à la gare de départ
    Distance vélo = (n_jours - 1) × km_par_jour  [pour n_jours ≥ 2]
         │
         ▼
-[Appels proxy — 2 requêtes par candidat]
-   POST proxy/navitia/journey  (aller : gare départ → gare route)
-   POST proxy/navitia/journey  (retour : gare route → gare départ)
-        │
-        ▼
-[journey_parser.js — parsing réponses Navitia]
+[timetable.js — lookup GTFS en mémoire]
+   queryJourney(fromUic, toUic, dateInt, afterMinutes)
+   → premiers trains directs TER / Intercités
         │
         ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
@@ -249,7 +268,10 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
 
 ## Déploiement
 
-Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour le déploiement GitHub Pages + proxy Render.com/Railway.
+Site entièrement statique — déployable sur GitHub Pages, Netlify, ou tout hébergeur
+de fichiers statiques. Aucun serveur proxy requis.
+
+Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour les détails.
 
 ---
 
@@ -257,4 +279,5 @@ Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour le déploiement GitHub Pages 
 
 - Recherche de logements le long des routes Eurovelo
 - Itinéraire entre deux villes (départ ≠ arrivée)
-- Filtrage par types de trains (TER favorisés, TGV exclus) pour le transport de vélo
+- Affichage du type de train (TER / Intercités) sur chaque carte
+- Filtrage par type de train dans le formulaire

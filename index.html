@@ -11,26 +11,7 @@
   <header class="site-header">
     <span class="logo">🚲 Intercyclette</span>
     <span class="tagline">Trouvez votre randovélo en train</span>
-    <button class="btn-settings" id="btn-settings" title="Paramètres (URL du proxy)">⚙</button>
   </header>
-
-  <!-- Settings panel (proxy URL) -->
-  <div id="settings-panel" class="settings-panel" hidden>
-    <div class="settings-inner">
-      <label for="proxy-url-input"><strong>URL du serveur proxy</strong></label>
-      <p class="settings-hint">
-        Entrez l'URL de votre proxy Navitia (ex : https://intercyclette-proxy.onrender.com).
-        Cette URL est sauvegardée dans votre navigateur.
-      </p>
-      <input
-        type="text"
-        id="proxy-url-input"
-        placeholder="https://intercyclette-proxy.onrender.com"
-        autocomplete="off"
-      />
-      <button id="btn-save-proxy" class="btn-save-proxy">Enregistrer</button>
-    </div>
-  </div>
 
   <div class="app-layout">
     <!-- ── Left panel: search form ── -->
@@ -231,11 +212,11 @@
               </li>
             </ol>
 
-            <h3>Configurer le proxy (nécessaire)</h3>
+            <h3>Source des horaires</h3>
             <p>
-              Pour interroger les horaires SNCF, un proxy sécurisé est requis. Cliquez sur le bouton
-              <strong>⚙</strong> en haut à droite, entrez l'URL de votre proxy Navitia, puis
-              cliquez sur « Enregistrer ». Cette URL est mémorisée dans votre navigateur.
+              Les horaires sont calculés directement à partir des données <strong>GTFS SNCF</strong>
+              (TER et Intercités uniquement — les trains acceptant les vélos). Aucune connexion
+              externe, aucun token requis.
             </p>
 
             <h3>Lire les résultats</h3>
@@ -254,7 +235,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="static/js/map.js"></script>
   <script src="static/js/planner.js"></script>
-  <script src="static/js/journey_parser.js"></script>
+  <script src="static/js/timetable.js"></script>
   <script src="static/js/results.js"></script>
   <script src="static/js/search.js"></script>
 </body>

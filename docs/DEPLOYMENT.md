@@ -2,62 +2,48 @@
 
 ## Overview
 
-- **Static site** → GitHub Pages (free, no server required)
-- **Proxy server** → Render.com or Railway (free tier, keeps NAVITIA_TOKEN secure)
+Intercyclette is a fully static application — no proxy server, no API token,
+no backend required at runtime.
+
+- **Static site** → GitHub Pages (or any static host)
+- **No proxy** — train schedules are served from `static/data/timetable.json`
 
 ---
 
-## 1. Deploy the proxy server
+## 1. Generate and commit static data files
 
-### Option A: Render.com (recommended)
-
-1. Create a free account at https://render.com
-2. New → **Web Service** → connect your GitHub repository
-3. Settings:
-   - **Root directory**: `proxy`
-   - **Build command**: `pip install -r requirements.txt`
-   - **Start command**: `gunicorn app:app`
-   - **Environment**: Python 3
-4. Add environment variable:
-   - Key: `NAVITIA_TOKEN`
-   - Value: your token from https://www.navitia.io
-5. Deploy. Note the URL: `https://intercyclette-proxy.onrender.com` (varies)
-
-### Option B: Railway
-
-1. Create a free account at https://railway.app
-2. New Project → **Deploy from GitHub repo** → select this repo
-3. Set **Root directory** to `proxy`
-4. Add environment variable `NAVITIA_TOKEN` = your token
-5. Railway auto-detects the Python app and deploys it.
-6. Note the generated URL.
-
-### Verify the proxy
+All data files must be generated locally and committed before deploying.
 
 ```bash
-curl -X POST https://your-proxy-url/navitia/journey \
-  -H "Content-Type: application/json" \
-  -d '{"from_uic":"87391003","to_uic":"87113001","datetime_str":"20260501T080000"}'
-```
-
-Expect a Navitia API JSON response (journeys array).
-
----
-
-## 2. Deploy the static site to GitHub Pages
-
-### Prerequisites
-
-All static data files must be generated and committed:
-
-```bash
+# Route–station proximity index
 python3 scripts/preprocess.py
+
+# GTFS timetable index (TER + Intercités only)
+python3 scripts/build_gtfs_index.py
+
+# Station autocomplete list
 python3 scripts/export_stations_json.py
+
+# Colored route polylines
 python3 scripts/export_route_geometries.py
+
+# Copy proximity index to static/
+cp data/processed/route_stations.json static/data/route_stations.json
+
+# Commit
 git add static/data/
 git commit -m "update static data files"
 git push
 ```
+
+> **Note on file size:** `static/data/timetable.json` can be 5–15 MB.
+> GitHub Pages has a 100 MB per-file limit, so this is fine. However, if you
+> prefer not to commit large generated files, host the JSON on a CDN and
+> update the fetch URL in `timetable.js`.
+
+---
+
+## 2. Deploy to GitHub Pages
 
 ### Enable GitHub Pages
 
@@ -75,37 +61,41 @@ as instructed by GitHub.
 
 ---
 
-## 3. Configure the proxy URL in the browser
+## 3. Verify the deployment
 
-On first visit to the deployed site:
+Open the deployed URL and:
 
-1. Click the **gear icon** (⚙) in the top bar to open the settings panel
-2. Enter the proxy URL: `https://your-proxy-url.onrender.com`
-3. Click **Enregistrer** — the URL is stored in `localStorage` and persists
-   across visits in the same browser
-
----
-
-## Obtaining a Navitia token
-
-1. Register at https://www.navitia.io
-2. After login, your token appears in the dashboard
-3. The free tier provides sufficient quota for personal use (a few hundred
-   journey lookups per day)
+1. Start typing a city name — autocomplete suggestions should appear
+2. Select a departure city, choose dates and routes, click **Rechercher**
+3. Itinerary cards should appear without any proxy configuration prompt
+4. Open browser DevTools → Network — confirm no external API calls are made
+   (only fetches to `static/data/*.json` files)
 
 ---
 
-## Re-deploying after data updates
+## Re-deploying after GTFS data updates
 
-If the Eurovelo GPX files or SNCF station data change:
+When a new GTFS export is available from SNCF Open Data:
+
+```bash
+# Replace data/raw/Export_OpenData_SNCF_GTFS_NewTripId/ with the new export
+
+python3 scripts/build_gtfs_index.py
+git add static/data/timetable.json
+git commit -m "refresh timetable from GTFS YYYYMMDD"
+git push
+```
+
+GitHub Pages redeploys automatically on push.
+
+When Eurovelo GPX files or SNCF station data change:
 
 ```bash
 python3 scripts/preprocess.py
 python3 scripts/export_stations_json.py
 python3 scripts/export_route_geometries.py
+cp data/processed/route_stations.json static/data/route_stations.json
 git add static/data/ data/processed/
-git commit -m "refresh static data"
+git commit -m "refresh route and station data"
 git push
 ```
-
-GitHub Pages redeploys automatically on push.

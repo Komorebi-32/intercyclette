@@ -4,6 +4,7 @@
 
 - Python 3.10+
 - pip3
+- GTFS data from SNCF Open Data (see step 2)
 
 ## 1. Install Python dependencies
 
@@ -11,19 +12,31 @@
 pip3 install -r requirements.txt
 ```
 
-## 2. Generate the route–station proximity index
+## 2. Download GTFS data
 
-Run once (or again if GPX/station data changes):
+Download the SNCF GTFS export from [data.sncf.com](https://data.sncf.com) and
+extract the contents into:
+
+```
+data/raw/Export_OpenData_SNCF_GTFS_NewTripId/
+```
+
+The directory must contain at minimum: `stops.txt`, `trips.txt`,
+`stop_times.txt`, `calendar_dates.txt`.
+
+## 3. Generate the route–station proximity index
+
+Run once (or again when GPX or station data changes):
 
 ```bash
 python3 scripts/preprocess.py
 ```
 
-This reads the 9 Eurovelo GPX files and the ~2,800 SNCF stations, finds all
-stations within 5 km of each route, and writes:
+Reads the 9 Eurovelo GPX files and ~2,800 SNCF stations, finds all stations
+within 5 km of each route, writes:
 
 ```
-data/processed/route_stations.json   (~360 KB, includes downsampled track_points)
+data/processed/route_stations.json   (~540 KB, includes downsampled track_points)
 ```
 
 Options:
@@ -33,9 +46,38 @@ python3 scripts/preprocess.py --max-distance 3.0   # tighter proximity threshold
 python3 scripts/preprocess.py --help               # all options
 ```
 
-## 3. Export static data files
+## 4. Compile the GTFS timetable index
 
-These three scripts produce the files served by GitHub Pages:
+```bash
+python3 scripts/build_gtfs_index.py
+```
+
+Streams `stop_times.txt` (72 MB), filters to **TER** and **Intercités** trains
+in France only (stop IDs with UIC prefix `87`), and writes:
+
+```
+static/data/timetable.json   (5–15 MB depending on date range)
+```
+
+Progress and stats are printed to stdout:
+
+```
+Building GTFS timetable index…
+  [1/5] Loading filtered stops…
+        4 231 qualifying stop IDs
+  [2/5] Loading trip → service map…
+        53 663 trips
+  [3/5] Streaming stop_times.txt…
+        18 441 qualifying trips
+  [4/5] Loading service dates (3 102 service IDs)…
+        3 097 services with dates
+  [5/5] Assembling compact index…
+  Timetable written to static/data/timetable.json
+  Trips: 18 387  |  Services: 3 097  |  Date range: 20260101–20261231  |  Size: 8 421 KB
+Done.
+```
+
+## 5. Export remaining static data files
 
 ```bash
 # All SNCF stations for autocomplete (~350 KB)
@@ -43,13 +85,16 @@ python3 scripts/export_stations_json.py
 
 # 9 colored route polylines (~20 KB each)
 python3 scripts/export_route_geometries.py
+
+# Copy proximity index to static/
+cp data/processed/route_stations.json static/data/route_stations.json
 ```
 
-Output:
+Output files:
 
 ```
 static/data/stations.json
-static/data/route_stations.json   (copy of data/processed/route_stations.json)
+static/data/route_stations.json
 static/data/routes/ev3.json
 static/data/routes/ev4.json
 static/data/routes/ev5.json
@@ -61,45 +106,33 @@ static/data/routes/vel.json
 static/data/routes/via.json
 ```
 
-## 4. Run the test suite
+## 6. Run the test suite
 
 ```bash
 python3 -m pytest tests/ -v
 ```
 
-All tests are isolated (no network, no real files).
+All tests are isolated (no network, no real GTFS files — synthetic fixtures
+in `tests/fixtures/gtfs/` are used for GTFS tests).
 
-## 5. Serve locally (static site)
-
-No build step needed — open `index.html` directly via a local HTTP server:
+## 7. Serve locally
 
 ```bash
 python3 -m http.server 8080
+# visit http://localhost:8080
 ```
 
-Then visit `http://localhost:8080`.
+No proxy or token needed. The search reads `static/data/timetable.json`
+directly. Click the **?** button for usage instructions.
 
-The proxy URL must be set in the settings panel (⚙ top-right) before searching.
-Click the **?** button next to the placeholder text for usage instructions.
-For local testing, start the proxy in a separate terminal:
+## 8. Serve locally (Flask backend, alternative)
 
-```bash
-cd proxy
-NAVITIA_TOKEN=your_token python3 app.py
-# proxy listens on http://localhost:5001
-```
-
-Enter `http://localhost:5001` in the settings panel.
-
-## 6. Serve locally (Flask backend, alternative)
-
-The original Flask app still works for fully local development without a proxy:
+The Flask app is preserved for local development convenience:
 
 ```bash
-export NAVITIA_TOKEN=your_token
 flask --app app run
 # visit http://localhost:5000
 ```
 
-This uses the Jinja2 template (`templates/index.html`) and the Python planner
-directly — no `static/data/` files needed.
+Uses the Jinja2 template (`templates/index.html`) and serves `/api/stations`.
+Journey search is still handled by the browser via `timetable.js`.
