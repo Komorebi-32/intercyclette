@@ -23,7 +23,7 @@ This reads the 9 Eurovelo GPX files and the ~2,800 SNCF stations, finds all
 stations within 5 km of each route, and writes:
 
 ```
-data/processed/route_stations.json   (~540 KB, includes downsampled track_points)
+data/processed/route_stations.json   (~360 KB, includes downsampled track_points)
 ```
 
 Options:
@@ -79,7 +79,8 @@ python3 -m http.server 8080
 
 Then visit `http://localhost:8080`.
 
-The proxy URL must be set in the settings panel (gear icon) before searching.
+The proxy URL must be set in the settings panel (⚙ top-right) before searching.
+Click the **?** button next to the placeholder text for usage instructions.
 For local testing, start the proxy in a separate terminal:
 
 ```bash

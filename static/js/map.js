@@ -421,6 +421,17 @@
     }
   }
 
+  /**
+   * Pan and zoom the map to a specific coordinate.
+   *
+   * @param {number} lat - Latitude in decimal degrees.
+   * @param {number} lon - Longitude in decimal degrees.
+   * @param {number} zoom - Target zoom level.
+   */
+  function centerOn(lat, lon, zoom) {
+    if (map) map.setView([lat, lon], zoom, { animate: true });
+  }
+
   // ── Public API ─────────────────────────────────────────────────────────────
 
   window.InterMap = {
@@ -429,5 +440,6 @@
     setRouteVisible,
     clearMap,
     showItineraryOnMap,
+    centerOn,
   };
 })();

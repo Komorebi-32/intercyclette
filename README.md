@@ -36,7 +36,9 @@ L'application :
 1. Identifie les gares SNCF proches de chaque route Eurovelo sélectionnée
 2. Interroge l'API SNCF (Navitia) via le proxy pour trouver les trains aller et retour
 3. Calcule la distance vélo réalisable selon le rythme
-4. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap avec les 9 routes Eurovelo colorées
+4. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap
+   avec les 9 routes Eurovelo colorées, fond de carte gris en français, panneaux
+   d'info au survol de chaque route, et bouton d'aide intégré
 
 ---
 
@@ -152,11 +154,11 @@ intercyclette/
 │   │   ├── route_stations.json         Index gares ↔ routes (site statique)
 │   │   └── routes/                     Géométries colorées (9 fichiers)
 │   └── js/
-│       ├── map.js                      Carte Leaflet + overlays colorés
+│       ├── map.js                      Carte Leaflet, overlays colorés, hover info, fond gris FR
 │       ├── planner.js                  Port JS du planificateur Python
 │       ├── journey_parser.js           Port JS du parseur Navitia
 │       ├── results.js                  Rendu des cartes itinéraires
-│       └── search.js                   Formulaire + autocomplétion + orchestration
+│       └── search.js                   Formulaire, autocomplétion, date FR, aide, orchestration
 ├── templates/
 │   └── index.html                      Template Jinja2 (dev local Flask)
 ├── docs/

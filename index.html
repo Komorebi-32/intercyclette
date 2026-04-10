@@ -150,10 +150,17 @@
           </div>
         </div>
 
-        <!-- Travel date -->
+        <!-- Travel date (displayed in French DD/MM/YYYY, stored in ISO YYYY-MM-DD) -->
         <div class="form-group">
-          <label for="travel-date">Date de départ</label>
-          <input type="date" id="travel-date" />
+          <label for="travel-date-display">Date de départ</label>
+          <input
+            type="text"
+            id="travel-date-display"
+            placeholder="JJ/MM/AAAA"
+            maxlength="10"
+            autocomplete="off"
+          />
+          <input type="hidden" id="travel-date" />
         </div>
 
         <button type="submit" id="search-btn" class="btn-search">
@@ -168,7 +175,76 @@
     <main class="panel-right">
       <div id="results-container" class="results-container">
         <div class="results-placeholder">
-          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.</p>
+          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.
+            <button class="btn-help" id="btn-help" title="Comment utiliser l'outil ?">?</button>
+          </p>
+        </div>
+      </div>
+
+      <!-- Help modal -->
+      <div id="help-modal" class="help-modal" hidden>
+        <div class="help-modal-box">
+          <button class="help-modal-close" id="help-modal-close" title="Fermer">✕</button>
+          <h2 class="help-modal-title">🚲 Bienvenue sur Intercyclette</h2>
+          <div class="help-modal-content">
+            <h3>À quoi sert cet outil ?</h3>
+            <p>
+              Intercyclette vous aide à planifier des séjours à vélo le long des grandes routes
+              cyclables Eurovelo en France, en combinant le train SNCF pour rejoindre et quitter
+              votre parcours. Indiquez d'où vous partez, combien de jours vous disposez et à quel
+              rythme vous roulez : l'outil calcule les itinéraires réalistes et cherche les trains
+              aller-retour correspondants.
+            </p>
+
+            <h3>Comment utiliser la recherche ?</h3>
+            <ol>
+              <li>
+                <strong>Ville de départ</strong> — Tapez le nom de votre gare de départ (ex. « Paris »,
+                « Lyon »). Sélectionnez une gare dans la liste déroulante pour valider.
+              </li>
+              <li>
+                <strong>Nombre de jours</strong> — Choisissez la durée totale de votre séjour,
+                transport compris (1 à 15 jours). Le jour 1 inclut le train aller, le dernier jour
+                le train retour.
+              </li>
+              <li>
+                <strong>Rythme de pédalage</strong> — Choisissez votre profil :
+                <ul>
+                  <li>🐌 <em>Escargot tranquille</em> — ~60 km/jour (12 km/h, 5 h/j)</li>
+                  <li>🚴 <em>Habitué des randovélo</em> — ~97 km/jour (15 km/h, 6,5 h/j)</li>
+                  <li>🏅 <em>Athlète olympique</em> — ~160 km/jour (20 km/h, 8 h/j)</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Routes Eurovelo</strong> — Cochez une ou plusieurs routes. Survolez une route
+                sur la carte pour découvrir sa description. Sélectionner une seule route propose
+                jusqu'à 3 itinéraires ; plusieurs routes donnent 1 résultat par route.
+              </li>
+              <li>
+                <strong>Date de départ</strong> — La date du train aller. La date du train retour est
+                calculée automatiquement selon le nombre de jours.
+              </li>
+              <li>
+                <strong>Lancer la recherche</strong> — Cliquez sur « Rechercher des itinéraires ».
+                Les résultats apparaissent sous forme de cartes. Cliquez sur une carte pour afficher
+                le détail et voir le parcours sur la carte.
+              </li>
+            </ol>
+
+            <h3>Configurer le proxy (nécessaire)</h3>
+            <p>
+              Pour interroger les horaires SNCF, un proxy sécurisé est requis. Cliquez sur le bouton
+              <strong>⚙</strong> en haut à droite, entrez l'URL de votre proxy Navitia, puis
+              cliquez sur « Enregistrer ». Cette URL est mémorisée dans votre navigateur.
+            </p>
+
+            <h3>Lire les résultats</h3>
+            <p>
+              Chaque carte affiche la route Eurovelo, la distance à vélo et les trains aller/retour.
+              Cliquez sur une carte pour voir le détail jour par jour et visualiser le segment sur
+              la carte interactive. Le badge coloré correspond à la couleur de la route sur la carte.
+            </p>
+          </div>
         </div>
       </div>
       <div id="map" class="map-container"></div>

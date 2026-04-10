@@ -83,16 +83,19 @@ results.js.renderResults(itineraries, container)
 
 ### `static/js/map.js`
 
-Leaflet + OpenStreetMap. Manages two layer groups:
+Leaflet + OpenStreetMap France tiles (French labels, greyscale CSS filter).
+Manages two layer groups:
 
-- **routeOverlays** — always-visible colored thin polylines (weight 2), one per
-  route, loaded from `static/data/routes/*.json` at page start.
+- **routeLayers** — always-visible colored thin polylines (weight 3), one per
+  route, loaded from `static/data/routes/*.json` at page start. Each polyline
+  shows a floating info panel on hover (photo, description, distance, status,
+  connections, link) that stays open when the mouse moves onto it.
 - **itineraryLayer** — cleared and redrawn on each card click:
   - biked segment in route color (weight 6)
   - blue circle marker at departure station
   - red circle marker at arrival station
 
-Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible, showItineraryOnMap, clearMap }`
+Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible, showItineraryOnMap, clearMap, centerOn }`
 
 ### `static/js/planner.js`
 
@@ -127,10 +130,12 @@ Public API: `window.InterResults`
 
 Orchestrates the search flow:
 1. Loads static data files
-2. Handles station autocomplete (local filtering)
-3. On submit: calls `InterPlanner`, then proxy, then `InterJourney`, assembles cards
-4. Wires checkbox changes to `InterMap.setRouteVisible`
-5. Reads/writes proxy URL from `localStorage`
+2. Handles station autocomplete (local filtering); selecting a city centres the map on it
+3. Manages the French date input (DD/MM/YYYY display, ISO hidden field)
+4. On submit: calls `InterPlanner`, then proxy, then `InterJourney`, assembles cards
+5. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
+6. Reads/writes proxy URL from `localStorage`
+7. Wires the "?" help button to open the help modal
 
 Public API: `window.InterSearch`
 

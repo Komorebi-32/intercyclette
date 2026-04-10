@@ -345,6 +345,92 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 .route-panel-link:hover { text-decoration: underline; }
 
+/* ── Help button ─────────────────────────────────────────────────────────── */
+.btn-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue);
+  background: transparent;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 6px;
+  line-height: 1;
+  padding: 0;
+  transition: background .15s, color .15s;
+}
+.btn-help:hover { background: var(--blue); color: var(--white); }
+
+/* ── Help modal ──────────────────────────────────────────────────────────── */
+.help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-modal[hidden] { display: none; }
+.help-modal-box {
+  position: relative;
+  width: 50vw;
+  min-width: 320px;
+  max-width: 720px;
+  height: 88vh;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.help-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--grey-border);
+  flex-shrink: 0;
+}
+.help-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--grey-text);
+  line-height: 1;
+}
+.help-modal-close:hover { color: var(--red); }
+.help-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #2c3e50;
+}
+.help-modal-content h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 16px 0 6px;
+}
+.help-modal-content h3:first-child { margin-top: 0; }
+.help-modal-content p { margin-bottom: 8px; }
+.help-modal-content ol,
+.help-modal-content ul { padding-left: 20px; margin-bottom: 8px; }
+.help-modal-content li { margin-bottom: 5px; }
+
 /* ── Scrollbar styling (webkit) ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

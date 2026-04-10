@@ -25,20 +25,24 @@
 
   // ── DOM references ─────────────────────────────────────────────────────────
 
-  const form              = document.getElementById("search-form");
-  const departureInput    = document.getElementById("departure-input");
-  const departureUicInput = document.getElementById("departure-uic");
-  const autocompleteList  = document.getElementById("autocomplete-list");
-  const daysSelect        = document.getElementById("days-select");
-  const travelDateInput   = document.getElementById("travel-date");
-  const searchBtn         = document.getElementById("search-btn");
-  const searchStatus      = document.getElementById("search-status");
-  const resultsContainer  = document.getElementById("results-container");
-  const selectAllCheckbox = document.getElementById("select-all-routes");
-  const btnSettings       = document.getElementById("btn-settings");
-  const settingsPanel     = document.getElementById("settings-panel");
-  const proxyUrlInput     = document.getElementById("proxy-url-input");
-  const btnSaveProxy      = document.getElementById("btn-save-proxy");
+  const form                = document.getElementById("search-form");
+  const departureInput      = document.getElementById("departure-input");
+  const departureUicInput   = document.getElementById("departure-uic");
+  const autocompleteList    = document.getElementById("autocomplete-list");
+  const daysSelect          = document.getElementById("days-select");
+  const travelDateInput     = document.getElementById("travel-date");
+  const travelDateDisplay   = document.getElementById("travel-date-display");
+  const searchBtn           = document.getElementById("search-btn");
+  const searchStatus        = document.getElementById("search-status");
+  const resultsContainer    = document.getElementById("results-container");
+  const selectAllCheckbox   = document.getElementById("select-all-routes");
+  const btnSettings         = document.getElementById("btn-settings");
+  const settingsPanel       = document.getElementById("settings-panel");
+  const proxyUrlInput       = document.getElementById("proxy-url-input");
+  const btnSaveProxy        = document.getElementById("btn-save-proxy");
+  const btnHelp             = document.getElementById("btn-help");
+  const helpModal           = document.getElementById("help-modal");
+  const helpModalClose      = document.getElementById("help-modal-close");
 
   // ── Proxy URL (localStorage) ───────────────────────────────────────────────
 
@@ -141,6 +145,10 @@
     departureUicInput.value = station.uic;
     selectedUic = station.uic;
     autocompleteList.hidden = true;
+    // Centre and zoom the map on the selected city
+    if (window.InterMap && station.lat && station.lon) {
+      window.InterMap.centerOn(station.lat, station.lon, 10);
+    }
   }
 
   /**
@@ -481,15 +489,107 @@
     });
   }
 
-  // ── Initialisation ─────────────────────────────────────────────────────────
+  // ── French date input ──────────────────────────────────────────────────────
 
-  /** Set default travel date to tomorrow. */
-  (function setDefaultDate() {
-    if (!travelDateInput) return;
+  /**
+   * Convert an ISO date string (YYYY-MM-DD) to French display format (DD/MM/YYYY).
+   *
+   * @param {string} iso - Date string in YYYY-MM-DD format.
+   * @returns {string} Date string in DD/MM/YYYY format.
+   */
+  function isoToFrench(iso) {
+    if (!iso || iso.length < 10) return "";
+    return iso.slice(8, 10) + "/" + iso.slice(5, 7) + "/" + iso.slice(0, 4);
+  }
+
+  /**
+   * Convert a French display date (DD/MM/YYYY) to ISO format (YYYY-MM-DD).
+   *
+   * Returns empty string if the input is not a valid complete date.
+   *
+   * @param {string} french - Date string in DD/MM/YYYY format.
+   * @returns {string} ISO date string, or empty string if invalid.
+   */
+  function frenchToIso(french) {
+    const parts = french.split("/");
+    if (parts.length !== 3 || parts[2].length !== 4) return "";
+    const [dd, mm, yyyy] = parts;
+    if (dd.length !== 2 || mm.length !== 2) return "";
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  /**
+   * Wire the French date display input to the hidden ISO date field.
+   *
+   * Auto-inserts slashes as the user types (after 2 digits for day and month).
+   * Syncs the hidden field on every valid keystroke.
+   */
+  function initFrenchDateInput() {
+    if (!travelDateDisplay || !travelDateInput) return;
+
+    // Set display to tomorrow in French format
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    travelDateInput.value = tomorrow.toISOString().split("T")[0];
-  })();
+    const isoTomorrow = tomorrow.toISOString().split("T")[0];
+    travelDateInput.value = isoTomorrow;
+    travelDateDisplay.value = isoToFrench(isoTomorrow);
+
+    travelDateDisplay.addEventListener("input", function () {
+      let v = this.value.replace(/[^\d/]/g, "");
+      // Auto-insert slashes
+      const digits = v.replace(/\//g, "");
+      if (digits.length <= 2) {
+        v = digits;
+      } else if (digits.length <= 4) {
+        v = digits.slice(0, 2) + "/" + digits.slice(2);
+      } else {
+        v = digits.slice(0, 2) + "/" + digits.slice(2, 4) + "/" + digits.slice(4, 8);
+      }
+      this.value = v;
+      const iso = frenchToIso(v);
+      travelDateInput.value = iso || "";
+    });
+  }
+
+  // ── Help modal ─────────────────────────────────────────────────────────────
+
+  /**
+   * Wire the help button and modal close interactions.
+   *
+   * The modal opens on "?" click and closes on ✕ click or backdrop click.
+   */
+  function initHelpModal() {
+    if (!btnHelp || !helpModal) return;
+
+    btnHelp.addEventListener("click", function () {
+      helpModal.hidden = false;
+    });
+
+    if (helpModalClose) {
+      helpModalClose.addEventListener("click", function () {
+        helpModal.hidden = true;
+      });
+    }
+
+    // Close when clicking outside the modal box
+    helpModal.addEventListener("click", function (e) {
+      if (e.target === helpModal) {
+        helpModal.hidden = true;
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !helpModal.hidden) {
+        helpModal.hidden = true;
+      }
+    });
+  }
+
+  // ── Initialisation ─────────────────────────────────────────────────────────
+
+  initFrenchDateInput();
+  initHelpModal();
 
   /** Load route index from static data. */
   fetch("static/data/route_stations.json")
