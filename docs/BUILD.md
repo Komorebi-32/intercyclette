@@ -46,7 +46,15 @@ python3 scripts/preprocess.py --max-distance 3.0   # tighter proximity threshold
 python3 scripts/preprocess.py --help               # all options
 ```
 
-## 4. Compile the GTFS timetable index
+## 4. (Optional) Compile the GTFS timetable index
+
+> **This step is no longer required for normal operation.** Train schedules are
+> now fetched live from the [Transitous API](https://transitous.org/api/) at
+> search time — no precomputed timetable file is needed.
+>
+> Run this step only if you need a local GTFS fallback (e.g. offline use or
+> Transitous unavailability). Requires the SNCF GTFS export in
+> `data/raw/Export_OpenData_SNCF_GTFS_NewTripId/`.
 
 ```bash
 python3 scripts/build_gtfs_index.py
@@ -58,31 +66,6 @@ in France only (stop IDs with UIC prefix `87`), and writes:
 ```
 static/data/timetable.json   (5–15 MB depending on date range)
 ```
-
-Progress and stats are printed to stdout:
-
-```
-Building GTFS timetable index…
-  [1/6] Loading filtered stops…
-        2 494 qualifying stop IDs
-  [2/6] Loading trip → service map…
-        53 663 trips
-  [3/6] Streaming stop_times.txt…
-        36 057 qualifying trips
-  [4/6] Loading service dates (8 549 service IDs)…
-        8 549 services with dates
-  [5/6] Building UIC alias map…
-        4 geojson UICs remapped to GTFS UICs
-  [6/6] Assembling compact index…
-  Timetable written to static/data/timetable.json
-  Trips: 36 057  |  Services: 8 549  |  Date range: 20260409–20260930  |  UIC aliases: 4  |  Size: 9 049 KB
-Done.
-```
-
-The UIC alias step resolves the mismatch between UIC codes in
-`gares-de-voyageurs.geojson` (autocomplete source) and the GTFS feed. Stations
-are matched by normalised name; only mismatched UICs that can be resolved are
-aliased.
 
 ## 5. Export remaining static data files
 
@@ -129,8 +112,8 @@ python3 -m http.server 8080
 # visit http://localhost:8080
 ```
 
-No proxy or token needed. The search reads `static/data/timetable.json`
-directly. Click the **?** button for usage instructions.
+No proxy or token needed. The search queries the Transitous API directly from
+the browser. Click the **?** button for usage instructions.
 
 ## 8. Serve locally (Flask backend, alternative)
 
@@ -142,4 +125,4 @@ flask --app app run
 ```
 
 Uses the Jinja2 template (`templates/index.html`) and serves `/api/stations`.
-Journey search is still handled by the browser via `timetable.js`.
+Journey search is still handled by the browser via `transitous.js`.

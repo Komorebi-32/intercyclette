@@ -2,10 +2,10 @@
  * search.js — Search form management, autocomplete, and search orchestration.
  *
  * Static-site version. Loads data from static JSON files, runs the itinerary
- * planner entirely in the browser, and queries the GTFS timetable index for
- * train journeys (no proxy server, no API key required).
+ * planner entirely in the browser, and queries the Transitous API for train
+ * journeys (no proxy server, no API token required).
  *
- * Depends on: planner.js (window.InterPlanner), timetable.js (window.InterTimetable),
+ * Depends on: planner.js (window.InterPlanner), transitous.js (window.InterTimetable),
  *             map.js (window.InterMap), results.js (window.InterResults).
  */
 
@@ -227,113 +227,68 @@
   // ── Date helpers ───────────────────────────────────────────────────────────
 
   /**
-   * Convert a YYYY-MM-DD date string to compact YYYYMMDD format.
+   * Add n days to a YYYY-MM-DD date string and return the result as YYYY-MM-DD.
    *
-   * @param {string} dateStr - Date string in YYYY-MM-DD format.
-   * @returns {string} Compact YYYYMMDD string.
-   */
-  function formatDateCompact(dateStr) {
-    return dateStr.replace(/-/g, "");
-  }
-
-  /**
-   * Add n days to a YYYYMMDD date string and return the result as YYYYMMDD.
+   * Uses UTC arithmetic to avoid DST-boundary issues.
    *
-   * @param {string} compact - Date in YYYYMMDD format.
-   * @param {number} n - Number of days to add.
-   * @returns {string} Resulting date in YYYYMMDD format.
+   * @param {string} isoDate - Date in YYYY-MM-DD format.
+   * @param {number} n - Number of days to add (may be negative).
+   * @returns {string} Resulting date in YYYY-MM-DD format.
    */
-  function addDaysCompact(compact, n) {
-    const year  = parseInt(compact.slice(0, 4), 10);
-    const month = parseInt(compact.slice(4, 6), 10) - 1;
-    const day   = parseInt(compact.slice(6, 8), 10);
-    const d = new Date(Date.UTC(year, month, day));
+  function addDaysIso(isoDate, n) {
+    const [year, month, day] = isoDate.split("-").map(Number);
+    const d = new Date(Date.UTC(year, month - 1, day));
     d.setUTCDate(d.getUTCDate() + n);
     const y2 = d.getUTCFullYear();
     const m2 = String(d.getUTCMonth() + 1).padStart(2, "0");
     const d2 = String(d.getUTCDate()).padStart(2, "0");
-    return `${y2}${m2}${d2}`;
+    return `${y2}-${m2}-${d2}`;
   }
 
-  /**
-   * Convert a YYYYMMDD string to an integer suitable for GTFS date lookup.
-   *
-   * @param {string} compact - Date string in YYYYMMDD format.
-   * @returns {number} YYYYMMDD as integer.
-   */
-  function dateCompactToInt(compact) {
-    return parseInt(compact, 10);
-  }
-
-  // ── Station name lookup ────────────────────────────────────────────────────
+  // ── Transitous journey queries ─────────────────────────────────────────────
 
   /**
-   * Return the display name for a station UIC, falling back to the UIC itself.
-   *
-   * @param {string} uic - Station UIC code string.
-   * @returns {string} Station name or UIC code.
-   */
-  function stationNomByUic(uic) {
-    const s = allStations.find((st) => st.uic === uic);
-    return s ? s.nom : uic;
-  }
-
-  // ── GTFS journey lookup ────────────────────────────────────────────────────
-
-  /**
-   * Query the GTFS timetable for the best outbound journey and return a
+   * Query the Transitous API for the best outbound journey and return a
    * journey result object, or null if no train is found.
    *
-   * @param {string} fromUic - Departure station UIC string.
-   * @param {string} toUic - Arrival station UIC string.
-   * @param {string} dateCompact - Travel date in YYYYMMDD format.
-   * @param {number} afterMinutes - Earliest acceptable departure in minutes
-   *   since midnight (e.g. 480 for 08:00).
-   * @returns {Object|null} Journey result object or null.
+   * @param {number} fromLat - Departure station latitude.
+   * @param {number} fromLon - Departure station longitude.
+   * @param {string} fromNom - Departure station display name.
+   * @param {number} toLat - Arrival station latitude.
+   * @param {number} toLon - Arrival station longitude.
+   * @param {string} toNom - Arrival station display name.
+   * @param {string} localIsoDatetime - Desired local departure datetime,
+   *   e.g. "2026-05-02T08:00:00".
+   * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
-  function queryOutboundJourney(fromUic, toUic, dateCompact, afterMinutes) {
-    const rows = window.InterTimetable.queryJourney(
-      parseInt(fromUic, 10),
-      parseInt(toUic, 10),
-      dateCompactToInt(dateCompact),
-      afterMinutes,
-      1
+  async function queryOutboundJourney(fromLat, fromLon, fromNom, toLat, toLon, toNom, localIsoDatetime) {
+    const itineraries = await window.InterTimetable.queryJourney(
+      fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
     );
-    if (rows.length === 0) return null;
-    return window.InterTimetable.buildJourneyResult(
-      rows[0],
-      stationNomByUic(fromUic),
-      stationNomByUic(toUic),
-      dateCompactToInt(dateCompact)
-    );
+    if (!itineraries.length) return null;
+    return window.InterTimetable.buildJourneyResult(itineraries[0], fromNom, toNom);
   }
 
   /**
-   * Query the GTFS timetable for the best return journey and return a
+   * Query the Transitous API for the best return journey and return a
    * journey result object, or null if no train is found.
    *
-   * @param {string} fromUic - Departure station UIC string (route end station).
-   * @param {string} toUic - Arrival station UIC string (home city).
-   * @param {string} dateCompact - Return date in YYYYMMDD format.
-   * @param {number} afterMinutes - Earliest acceptable departure in minutes
-   *   since midnight (e.g. 960 for 16:00).
-   * @returns {Object|null} Journey result object or null.
+   * @param {number} fromLat - Return origin latitude (route end station).
+   * @param {number} fromLon - Return origin longitude.
+   * @param {string} fromNom - Return origin display name.
+   * @param {number} toLat - Return destination latitude (home city).
+   * @param {number} toLon - Return destination longitude.
+   * @param {string} toNom - Return destination display name.
+   * @param {string} localIsoDatetime - Desired local departure datetime,
+   *   e.g. "2026-05-05T16:00:00".
+   * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
-  function queryReturnJourney(fromUic, toUic, dateCompact, afterMinutes) {
-    const rows = window.InterTimetable.queryJourney(
-      parseInt(fromUic, 10),
-      parseInt(toUic, 10),
-      dateCompactToInt(dateCompact),
-      afterMinutes,
-      1
+  async function queryReturnJourney(fromLat, fromLon, fromNom, toLat, toLon, toNom, localIsoDatetime) {
+    const itineraries = await window.InterTimetable.queryJourney(
+      fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
     );
-    if (rows.length === 0) return null;
-    return window.InterTimetable.buildJourneyResult(
-      rows[0],
-      stationNomByUic(fromUic),
-      stationNomByUic(toUic),
-      dateCompactToInt(dateCompact)
-    );
+    if (!itineraries.length) return null;
+    return window.InterTimetable.buildJourneyResult(itineraries[0], fromNom, toNom);
   }
 
   // ── Itinerary card assembly ────────────────────────────────────────────────
@@ -396,79 +351,69 @@
   // ── Search orchestration ───────────────────────────────────────────────────
 
   /**
-   * Run the full itinerary search: plan locally, then look up train times
-   * from the GTFS timetable index (no network calls beyond the initial data load).
+   * Run the full itinerary search: plan locally, then query the Transitous API
+   * for outbound and return train times for each candidate.
+   *
+   * Outbound and return queries for each candidate run in parallel; all
+   * candidates are processed concurrently.
    *
    * @param {Object} params - Form values from getFormValues().
    * @returns {Promise<Object[]>} Array of itinerary card objects.
    */
-  function runSearch(params) {
+  async function runSearch(params) {
     if (!routeIndex) {
-      return Promise.reject(new Error("Index des routes non chargé. Rechargez la page."));
+      throw new Error("Index des routes non chargé. Rechargez la page.");
     }
 
     const depStation = allStations.find((s) => s.uic === params.departure_uic);
     if (!depStation) {
-      return Promise.reject(new Error(`Gare UIC '${params.departure_uic}' introuvable.`));
+      throw new Error(`Gare UIC '${params.departure_uic}' introuvable.`);
     }
 
-    // Load timetable if not yet fetched (deferred until first search)
-    return window.InterTimetable.loadTimetable().then(function () {
-      // Validate that the requested date falls within the timetable range
-      const travelDateCompact = params.travel_date
-        ? formatDateCompact(params.travel_date)
-        : formatDateCompact(new Date().toISOString().split("T")[0]);
-      const travelDateInt = dateCompactToInt(travelDateCompact);
-      const dr = window.InterTimetable.getTimetableDateRange();
-      if (dr && (travelDateInt < dr.min || travelDateInt > dr.max)) {
-        return Promise.reject(
-          new Error(
-            `La date demandée (${travelDateCompact}) est hors de la plage des données GTFS ` +
-            `(${dr.min}–${dr.max}).`
-          )
-        );
-      }
+    const travelDate = params.travel_date || new Date().toISOString().split("T")[0];
 
-      const returnDateCompact = addDaysCompact(travelDateCompact, params.n_days - 1);
+    // Outbound: travel date if 1-day trip, otherwise travel date +1 day
+    const outboundDate = params.n_days === 1 ? travelDate : addDaysIso(travelDate, 1);
+    const returnDate   = addDaysIso(travelDate, params.n_days - 1);
 
-      // Compute itinerary candidates (pure JS, no network)
-      const candidates = window.InterPlanner.findAllItineraries(
-        params.routes,
-        routeIndex,
-        depStation.lat,
-        depStation.lon,
-        params.n_days,
-        params.rhythm
-      );
+    const outboundIso = `${outboundDate}T08:00:00`;
+    const returnIso   = `${returnDate}T16:00:00`;
 
-      if (candidates.length === 0) return [];
+    // Compute itinerary candidates (pure JS, no network)
+    const candidates = window.InterPlanner.findAllItineraries(
+      params.routes,
+      routeIndex,
+      depStation.lat,
+      depStation.lon,
+      params.n_days,
+      params.rhythm
+    );
 
-      // For each candidate, look up outbound and return journeys synchronously
-      // (GTFS lookup is in-memory — no await needed)
-      const cards = candidates
-        .map((candidate) => {
-          const outboundUic = (candidate.departure_station.codes_uic && candidate.departure_station.codes_uic[0]) || "";
-          const returnUic   = (candidate.arrival_station.codes_uic && candidate.arrival_station.codes_uic[0]) || "";
-          if (!outboundUic || !returnUic) return null;
+    if (candidates.length === 0) return [];
 
-          // Outbound: travel date +1 day (day 1 = train out, biking starts day 2)
-          const outboundDate = params.n_days === 1
-            ? travelDateCompact
-            : addDaysCompact(travelDateCompact, 1);
+    // For each candidate, query outbound and return journeys in parallel via
+    // the Transitous API, then assemble a card from the results.
+    const cardPromises = candidates.map(async function (candidate) {
+      const dep = candidate.departure_station;
+      const arr = candidate.arrival_station;
 
-          const outboundJourney = queryOutboundJourney(
-            params.departure_uic, outboundUic, outboundDate, 480   // 08:00
-          );
-          const returnJourney = queryReturnJourney(
-            returnUic, params.departure_uic, returnDateCompact, 960  // 16:00
-          );
+      const [outboundJourney, returnJourney] = await Promise.all([
+        queryOutboundJourney(
+          depStation.lat, depStation.lon, depStation.nom,
+          dep.lat, dep.lon, dep.nom,
+          outboundIso
+        ),
+        queryReturnJourney(
+          arr.lat, arr.lon, arr.nom,
+          depStation.lat, depStation.lon, depStation.nom,
+          returnIso
+        ),
+      ]);
 
-          return buildItineraryCard(candidate, outboundJourney, returnJourney);
-        })
-        .filter(Boolean);
-
-      return cards;
+      return buildItineraryCard(candidate, outboundJourney, returnJourney);
     });
+
+    return Promise.all(cardPromises);
   }
 
   // ── Event handlers ─────────────────────────────────────────────────────────

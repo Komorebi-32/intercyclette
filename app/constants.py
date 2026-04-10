@@ -141,11 +141,6 @@ GTFS_INTERCITES_STOP_PREFIX = "StopPoint:OCEINTERCITES-87"
 # Trips with only one stop are useless for A→B queries.
 GTFS_MIN_STOPS_PER_TRIP = 2
 
-# Default query hours (in minutes since midnight) used by the frontend when
-# building outbound and return timetable queries.
-GTFS_OUTBOUND_MINUTES = 480   # 08:00
-GTFS_RETURN_MINUTES   = 960   # 16:00
-
 # ---------------------------------------------------------------------------
 # File paths (relative to project root)
 # ---------------------------------------------------------------------------

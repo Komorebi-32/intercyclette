@@ -435,3 +435,14 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--grey-border); border-radius: 4px; }
+
+/* ── Site footer ─────────────────────────────────────────────────────────── */
+.site-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--grey-text);
+  padding: 8px 16px;
+  background: var(--grey-panel);
+  border-top: 1px solid var(--grey-border);
+}
+.site-footer a { color: var(--grey-text); text-decoration: underline; }

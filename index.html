@@ -214,9 +214,8 @@
 
             <h3>Source des horaires</h3>
             <p>
-              Les horaires sont calculés directement à partir des données <strong>GTFS SNCF</strong>
-              (TER et Intercités uniquement — les trains acceptant les vélos). Aucune connexion
-              externe, aucun token requis.
+              Les horaires sont calculés en temps réel via l'<strong>API Transitous</strong>
+              (trains en France — TER, Intercités et connexions). Aucun token requis.
             </p>
 
             <h3>Lire les résultats</h3>
@@ -231,11 +230,15 @@
       <div id="map" class="map-container"></div>
     </main>
   </div>
+  <footer class="site-footer">
+    Contact : <a href="mailto:karas.benjamin@gmail.com">karas.benjamin@gmail.com</a>
+    &nbsp;·&nbsp; Horaires via <a href="https://transitous.org" target="_blank" rel="noopener">Transitous</a>
+  </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="static/js/map.js"></script>
   <script src="static/js/planner.js"></script>
-  <script src="static/js/timetable.js"></script>
+  <script src="static/js/transitous.js"></script>
   <script src="static/js/results.js"></script>
   <script src="static/js/search.js"></script>
 </body>

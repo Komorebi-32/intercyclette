@@ -106,26 +106,25 @@ Key functions:
 
 Public API: `window.InterPlanner`
 
-### `static/js/timetable.js`
+### `static/js/transitous.js`
 
-In-browser GTFS lookup engine. Loads `static/data/timetable.json` once (on
-first search), builds three acceleration structures:
+In-browser Transitous API client. Issues live `GET` requests to
+`https://api.transitous.org/api/v5/plan` for each pair of outbound and return
+journeys. No precomputed data file is required.
 
-- `_serviceSets` — `{svc_key → Set<dateInt>}` for O(1) date membership tests
-- `_uicToTripIndices` — `Map<uic_int → number[]>` reverse index so only
-  relevant trips are scanned per query; also populated for alias UICs
-- `_uicAliasMap` — `Map<geojson_uic → gtfs_uic>` resolves the UIC mismatch
-  between `gares-de-voyageurs.geojson` (autocomplete source) and GTFS
+`queryJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime, maxResults)`
+builds a URL with `transitModes=RAIL&maxTransfers=5`, converts the local
+datetime to UTC via `new Date(localIsoDatetime).toISOString()`, and fetches
+the API. Returns raw Transitous itinerary objects.
 
-`queryJourney(fromUic, toUic, dateInt, afterMinutes, maxResults)` resolves
-both UICs through `_uicAliasMap` before querying, so autocomplete results
-always match correctly even for stations with mismatched UIC codes. Returns
-direct-train rows (dep/arr minutes, duration, train type) sorted by departure.
+`buildJourneyResult(itinerary, fromNom, toNom)` strips walking legs, converts
+UTC timestamps to browser-local ISO strings (for correct French time display),
+and returns the shape expected by `buildItineraryCard()` in `search.js`.
 
-Only TER and Intercités trains are included (filtered at build time by
-`scripts/build_gtfs_index.py`).
+The browser sends a `Referer` header automatically on every cross-origin
+request, satisfying the Transitous attribution requirement.
 
-Public API: `window.InterTimetable = { loadTimetable, queryJourney, buildJourneyResult, formatDurationMinutes, getTimetableDateRange, minutesToTime, minutesToIsoDatetime }`
+Public API: `window.InterTimetable = { queryJourney, buildJourneyResult, formatDurationMinutes, minutesToTime }`
 
 ### `static/js/results.js`
 
@@ -137,13 +136,12 @@ Public API: `window.InterResults`
 ### `static/js/search.js`
 
 Orchestrates the search flow:
-1. Loads static data files (stations, route index, timetable on demand)
+1. Loads static data files (stations, route index)
 2. Handles station autocomplete (local filtering); selecting a city centres the map
 3. Manages the French date input (DD/MM/YYYY display, ISO hidden field)
-4. On submit: calls `InterPlanner`, then `InterTimetable`, assembles cards
-5. Validates requested date against timetable date range
-6. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
-7. Wires the "?" help button to open the help modal
+4. On submit: calls `InterPlanner`, then awaits `InterTimetable.queryJourney` for each candidate
+5. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
+6. Wires the "?" help button to open the help modal
 
 Public API: `window.InterSearch`
 
@@ -164,39 +162,45 @@ journey search is handled entirely in the browser.
 |---|---|---|
 | `static/data/stations.json` | ~350 KB | `scripts/export_stations_json.py` |
 | `static/data/route_stations.json` | ~540 KB | `scripts/preprocess.py` |
-| `static/data/timetable.json` | 5–15 MB | `scripts/build_gtfs_index.py` |
 | `static/data/routes/ev*.json` (×9) | ~20 KB each | `scripts/export_route_geometries.py` |
 
-`timetable.json` is large enough that it should not be committed to the
-repository if hosting on GitHub Pages with a 100 MB file limit — serve it
-from a CDN or regenerate locally as needed.
+No timetable data file is needed at runtime — train schedules are fetched live
+from the Transitous API.
 
 ---
 
-## Timetable Index Format
+## Transitous API Response Format
 
-`static/data/timetable.json`:
+`GET https://api.transitous.org/api/v5/plan` returns:
 
 ```json
 {
-  "generated_at": "2026-04-10T12:00:00",
-  "train_types": ["TER", "INTERCITES"],
-  "date_range": { "min": 20260101, "max": 20261231 },
-  "uic_aliases": { "87547026": "87547000", "87271023": "87271007" },
-  "services": {
-    "1": [20260501, 20260502, ...],
-    "2": [20260601, ...]
-  },
-  "trips": [
-    { "svc": 1, "type": 0, "stops": [[87723197, 480], [87001000, 570]] }
+  "itineraries": [
+    {
+      "startTime": "2026-05-02T06:22:00Z",
+      "endTime":   "2026-05-02T07:26:00Z",
+      "duration":  3840,
+      "transfers": 0,
+      "legs": [
+        {
+          "mode": "WALK",
+          "from": { "name": "START", "departure": "2026-05-02T06:21:00Z" },
+          "to":   { "name": "Paris Austerlitz", "arrival": "2026-05-02T06:22:00Z" },
+          "duration": 60
+        },
+        {
+          "mode": "REGIONAL_RAIL",
+          "from": { "name": "Paris Austerlitz", "departure": "2026-05-02T06:22:00Z" },
+          "to":   { "name": "Orléans", "arrival": "2026-05-02T07:26:00Z" },
+          "duration": 3840
+        }
+      ]
+    }
   ]
 }
 ```
 
-- `svc`: integer key into `services`
-- `type`: 0 = TER, 1 = Intercités
-- `stops`: `[uic_int, dep_minutes_since_midnight]`, ordered by stop_sequence
-- `uic_aliases`: maps geojson UIC codes to their GTFS equivalents for stations
-  where `gares-de-voyageurs.geojson` and the GTFS feed use different codes
-  (matched by normalised station name at build time)
-- Dates as YYYYMMDD integers, times as minutes — minimises JSON size
+- All times are UTC ISO 8601 strings; `transitous.js` converts them to local
+  browser timezone before storing in the journey result.
+- Walking legs (`mode: "WALK"`) are stripped by `buildJourneyResult()`.
+- `transitModes=RAIL` is sent in the request to restrict results to rail services.
