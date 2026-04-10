@@ -1,0 +1,25 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {"nom": "Lyon Part-Dieu", "libellecourt": "LPD", "codes_uic": "87001000"},
+      "geometry": {"type": "Point", "coordinates": [4.8599, 45.7604]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"nom": "Avignon", "libellecourt": "AVG", "codes_uic": "87003999"},
+      "geometry": {"type": "Point", "coordinates": [4.8063, 43.9494]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"nom": "Paris Austerlitz", "libellecourt": "PAZ", "codes_uic": "87547026"},
+      "geometry": {"type": "Point", "coordinates": [2.3649, 48.8423]}
+    },
+    {
+      "type": "Feature",
+      "properties": {"nom": "Station inconnue", "libellecourt": "INC", "codes_uic": "87999999"},
+      "geometry": {"type": "Point", "coordinates": [2.0, 48.0]}
+    }
+  ]
+}

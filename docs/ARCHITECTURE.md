@@ -109,13 +109,17 @@ Public API: `window.InterPlanner`
 ### `static/js/timetable.js`
 
 In-browser GTFS lookup engine. Loads `static/data/timetable.json` once (on
-first search), builds two acceleration structures:
+first search), builds three acceleration structures:
 
 - `_serviceSets` — `{svc_key → Set<dateInt>}` for O(1) date membership tests
 - `_uicToTripIndices` — `Map<uic_int → number[]>` reverse index so only
-  relevant trips are scanned per query
+  relevant trips are scanned per query; also populated for alias UICs
+- `_uicAliasMap` — `Map<geojson_uic → gtfs_uic>` resolves the UIC mismatch
+  between `gares-de-voyageurs.geojson` (autocomplete source) and GTFS
 
-`queryJourney(fromUic, toUic, dateInt, afterMinutes, maxResults)` returns
+`queryJourney(fromUic, toUic, dateInt, afterMinutes, maxResults)` resolves
+both UICs through `_uicAliasMap` before querying, so autocomplete results
+always match correctly even for stations with mismatched UIC codes. Returns
 direct-train rows (dep/arr minutes, duration, train type) sorted by departure.
 
 Only TER and Intercités trains are included (filtered at build time by
@@ -178,6 +182,7 @@ from a CDN or regenerate locally as needed.
   "generated_at": "2026-04-10T12:00:00",
   "train_types": ["TER", "INTERCITES"],
   "date_range": { "min": 20260101, "max": 20261231 },
+  "uic_aliases": { "87547026": "87547000", "87271023": "87271007" },
   "services": {
     "1": [20260501, 20260502, ...],
     "2": [20260601, ...]
@@ -191,4 +196,7 @@ from a CDN or regenerate locally as needed.
 - `svc`: integer key into `services`
 - `type`: 0 = TER, 1 = Intercités
 - `stops`: `[uic_int, dep_minutes_since_midnight]`, ordered by stop_sequence
+- `uic_aliases`: maps geojson UIC codes to their GTFS equivalents for stations
+  where `gares-de-voyageurs.geojson` and the GTFS feed use different codes
+  (matched by normalised station name at build time)
 - Dates as YYYYMMDD integers, times as minutes — minimises JSON size

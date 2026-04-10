@@ -210,9 +210,10 @@ Export_OpenData_SNCF_GTFS_NewTripId/
    trips.txt → trip_id → service_id
    stop_times.txt → trip_id → [(uic, dep_min), ...]   (streamed, 72 Mo)
    calendar_dates.txt → service_id → [dates]
+   gares-de-voyageurs.geojson → alias UIC geojson → UIC GTFS (par nom normalisé)
          │
          ▼
-   timetable.json  (services compactés, clés entières courtes)
+   timetable.json  (services compactés, clés entières courtes, uic_aliases)
 ```
 
 ### Recherche (navigateur, entièrement statique)

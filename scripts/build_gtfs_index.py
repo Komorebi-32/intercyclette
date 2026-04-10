@@ -16,6 +16,7 @@ import csv
 import json
 import os
 import sys
+import unicodedata
 from collections import defaultdict
 from datetime import datetime
 
@@ -28,6 +29,7 @@ from app.constants import (
     GTFS_MIN_STOPS_PER_TRIP,
     GTFS_OUTPUT,
     GTFS_TER_STOP_PREFIX,
+    STATIONS_GEOJSON,
 )
 
 # Integer codes stored in the timetable for each train type.
@@ -243,7 +245,108 @@ def load_service_dates(
 
 
 # ---------------------------------------------------------------------------
-# Step 5 — assemble compact index
+# Step 5 — UIC alias map (geojson UICs → GTFS UICs)
+# ---------------------------------------------------------------------------
+
+
+def _normalize_name(name: str) -> str:
+    """
+    Normalise a station name for fuzzy matching.
+
+    Lowercases the string and strips Unicode combining characters (accents),
+    so that 'Orléans' and 'Orleans' compare as equal.
+
+    Args:
+        name: Raw station name string.
+
+    Returns:
+        ASCII-folded, lowercase version of the name.
+    """
+    nfkd = unicodedata.normalize("NFKD", name)
+    return "".join(c for c in nfkd if not unicodedata.combining(c)).lower().strip()
+
+
+def load_gtfs_stop_names(gtfs_dir: str, stop_to_uic: dict[str, str]) -> dict[str, str]:
+    """
+    Build a mapping from normalised station name to GTFS UIC string.
+
+    Only stops already present in stop_to_uic (i.e. TER and Intercités French
+    stops) are included.  When multiple stops share the same normalised name,
+    the one with the numerically smallest UIC string is kept (stable tie-break).
+
+    Args:
+        gtfs_dir: Path to the GTFS feed directory.
+        stop_to_uic: stop_id → uic_string (from load_filtered_stops).
+
+    Returns:
+        Dict mapping normalised station name → uic_string.
+    """
+    path = os.path.join(gtfs_dir, "stops.txt")
+    name_to_uic: dict[str, str] = {}
+    with open(path, encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            sid = row["stop_id"].strip()
+            if sid not in stop_to_uic:
+                continue
+            key = _normalize_name(row["stop_name"])
+            uic = stop_to_uic[sid]
+            if key not in name_to_uic or uic < name_to_uic[key]:
+                name_to_uic[key] = uic
+    return name_to_uic
+
+
+def build_uic_aliases(
+    geojson_path: str,
+    stop_to_uic: dict[str, str],
+    gtfs_name_to_uic: dict[str, str],
+) -> dict[str, str]:
+    """
+    Build a mapping from geojson UIC codes to their GTFS equivalents.
+
+    The gares-de-voyageurs.geojson file and the GTFS feed sometimes assign
+    slightly different UIC codes to the same physical station (e.g. Paris
+    Austerlitz is '87547026' in geojson but '87547000' in GTFS TER stops).
+    This function detects those mismatches and records the correction so the
+    browser can resolve autocomplete UICs before querying the timetable.
+
+    Matching is done by normalised station name.  Only geojson stations whose
+    UIC does not already appear as a GTFS TER/IC UIC are candidates.
+
+    Args:
+        geojson_path: Path to the gares-de-voyageurs.geojson file.
+        stop_to_uic: stop_id → uic_string from load_filtered_stops (GTFS UICs).
+        gtfs_name_to_uic: normalised_name → uic_string from load_gtfs_stop_names.
+
+    Returns:
+        Dict mapping geojson_uic_string → gtfs_uic_string for every mismatch
+        that could be resolved by name matching.
+    """
+    import json as _json
+
+    gtfs_uics = set(stop_to_uic.values())
+
+    with open(geojson_path, encoding="utf-8") as fh:
+        geojson = _json.load(fh)
+
+    aliases: dict[str, str] = {}
+    for feature in geojson.get("features", []):
+        props = feature.get("properties", {})
+        uics_raw = props.get("codes_uic", "")
+        if not uics_raw:
+            continue
+        first_uic = uics_raw.split(";")[0].strip()
+        if not first_uic or first_uic in gtfs_uics:
+            continue  # already matches — no alias needed
+        key = _normalize_name(props.get("nom", ""))
+        gtfs_uic = gtfs_name_to_uic.get(key)
+        if gtfs_uic and gtfs_uic != first_uic:
+            aliases[first_uic] = gtfs_uic
+    return aliases
+
+
+# ---------------------------------------------------------------------------
+# Step 6 — assemble compact index
 # ---------------------------------------------------------------------------
 
 
@@ -252,6 +355,7 @@ def build_compact_index(
     trip_service_map: dict[str, str],
     service_dates: dict[str, list[int]],
     stop_to_uic: dict[str, str],
+    uic_aliases: dict[str, str] | None = None,
 ) -> dict:
     """
     Assemble the final compact timetable index from the parsed GTFS data.
@@ -266,6 +370,7 @@ def build_compact_index(
         trip_service_map: trip_id → service_id (from load_trip_service_map).
         service_dates: service_id → [YYYYMMDD, …] (from load_service_dates).
         stop_to_uic: stop_id → uic_string (from load_filtered_stops).
+        uic_aliases: Optional geojson_uic → gtfs_uic mapping (from build_uic_aliases).
 
     Returns:
         Dict with keys:
@@ -274,6 +379,7 @@ def build_compact_index(
           'date_range'    — {'min': YYYYMMDD, 'max': YYYYMMDD} or None
           'services'      — {short_int_key: [YYYYMMDD, …]}
           'trips'         — list of compact trip dicts
+          'uic_aliases'   — {geojson_uic_str: gtfs_uic_str} for browser-side resolution
     """
     # Build reverse map: uic_str → train_type (from stop_to_uic)
     # We need the original stop_id to determine train type; infer from uic prefix.
@@ -330,6 +436,7 @@ def build_compact_index(
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "train_types": _TRAIN_TYPE_NAMES,
         "date_range": date_range,
+        "uic_aliases": uic_aliases or {},
         "services": services_compact,
         "trips": trips_list,
     }
@@ -358,12 +465,13 @@ def write_index(index: dict, output_path: str) -> None:
     size_kb = os.path.getsize(output_path) // 1024
     n_trips = len(index.get("trips", []))
     n_svcs = len(index.get("services", {}))
+    n_aliases = len(index.get("uic_aliases", {}))
     dr = index.get("date_range")
     date_range_str = f"{dr['min']}–{dr['max']}" if dr else "unknown"
     print(
         f"  Timetable written to {output_path}\n"
         f"  Trips: {n_trips:,}  |  Services: {n_svcs:,}  "
-        f"|  Date range: {date_range_str}  |  Size: {size_kb:,} KB"
+        f"|  Date range: {date_range_str}  |  UIC aliases: {n_aliases}  |  Size: {size_kb:,} KB"
     )
 
 
@@ -372,7 +480,7 @@ def write_index(index: dict, output_path: str) -> None:
 # ---------------------------------------------------------------------------
 
 
-def build_gtfs_index(gtfs_dir: str, output_path: str) -> None:
+def build_gtfs_index(gtfs_dir: str, geojson_path: str, output_path: str) -> None:
     """
     Build and write the GTFS timetable index.
 
@@ -381,24 +489,26 @@ def build_gtfs_index(gtfs_dir: str, output_path: str) -> None:
       2. Load trip → service mapping
       3. Stream stop_times to build trip stop sequences
       4. Load service operating dates
-      5. Assemble compact index
-      6. Write to output_path
+      5. Build UIC alias map (geojson UICs → GTFS UICs)
+      6. Assemble compact index
+      7. Write to output_path
 
     Args:
         gtfs_dir: Path to the GTFS feed directory.
+        geojson_path: Path to gares-de-voyageurs.geojson (for UIC alias matching).
         output_path: Destination path for the generated JSON index.
     """
     print("Building GTFS timetable index…")
 
-    print("  [1/5] Loading filtered stops…")
+    print("  [1/6] Loading filtered stops…")
     stop_to_uic = load_filtered_stops(gtfs_dir)
     print(f"        {len(stop_to_uic):,} qualifying stop IDs")
 
-    print("  [2/5] Loading trip → service map…")
+    print("  [2/6] Loading trip → service map…")
     trip_service_map = load_trip_service_map(gtfs_dir)
     print(f"        {len(trip_service_map):,} trips")
 
-    print("  [3/5] Streaming stop_times.txt…")
+    print("  [3/6] Streaming stop_times.txt…")
     trip_stops = build_trip_stops(gtfs_dir, stop_to_uic)
     print(f"        {len(trip_stops):,} qualifying trips")
 
@@ -407,12 +517,19 @@ def build_gtfs_index(gtfs_dir: str, output_path: str) -> None:
         for tid in trip_stops
         if tid in trip_service_map
     }
-    print(f"  [4/5] Loading service dates ({len(valid_service_ids):,} service IDs)…")
+    print(f"  [4/6] Loading service dates ({len(valid_service_ids):,} service IDs)…")
     service_dates = load_service_dates(gtfs_dir, valid_service_ids)
     print(f"        {len(service_dates):,} services with dates")
 
-    print("  [5/5] Assembling compact index…")
-    index = build_compact_index(trip_stops, trip_service_map, service_dates, stop_to_uic)
+    print("  [5/6] Building UIC alias map…")
+    gtfs_name_to_uic = load_gtfs_stop_names(gtfs_dir, stop_to_uic)
+    uic_aliases = build_uic_aliases(geojson_path, stop_to_uic, gtfs_name_to_uic)
+    print(f"        {len(uic_aliases):,} geojson UICs remapped to GTFS UICs")
+
+    print("  [6/6] Assembling compact index…")
+    index = build_compact_index(
+        trip_stops, trip_service_map, service_dates, stop_to_uic, uic_aliases
+    )
 
     write_index(index, output_path)
     print("Done.")
@@ -425,5 +542,6 @@ def build_gtfs_index(gtfs_dir: str, output_path: str) -> None:
 if __name__ == "__main__":
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     gtfs_dir_abs = os.path.join(project_root, GTFS_DIR)
+    geojson_abs = os.path.join(project_root, STATIONS_GEOJSON)
     output_abs = os.path.join(project_root, GTFS_OUTPUT)
-    build_gtfs_index(gtfs_dir_abs, output_abs)
+    build_gtfs_index(gtfs_dir_abs, geojson_abs, output_abs)

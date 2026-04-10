@@ -7,6 +7,12 @@ Uses a small synthetic GTFS fixture in tests/fixtures/gtfs/ with:
   - TER, Intercités, TGV Inoui, and Ouigo stops
   - 2 TER trips, 2 Intercités trips, 1 single-stop (short) trip
   - 3 service IDs with varying date sets
+
+stations.geojson fixture for alias tests:
+  - 87001000 (Lyon Part-Dieu)   — exact match in GTFS → no alias
+  - 87003999 (Avignon)          — GTFS has 87003000 → alias 87003999 → 87003000
+  - 87547026 (Paris Austerlitz) — name not in fixture GTFS → no alias
+  - 87999999 (Station inconnue) — no name match → no alias
 """
 
 import os
@@ -17,6 +23,9 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from scripts.build_gtfs_index import (
+    _normalize_name,
+    build_uic_aliases,
+    load_gtfs_stop_names,
     build_compact_index,
     build_trip_stops,
     extract_train_type,
@@ -287,3 +296,99 @@ def test_build_compact_index_stops_shape():
             assert isinstance(uic, int)
             assert isinstance(dep, int)
             assert dep >= 0
+
+
+# ---------------------------------------------------------------------------
+# _normalize_name
+# ---------------------------------------------------------------------------
+
+GEOJSON_PATH = os.path.join(FIXTURES_DIR, "stations.geojson")
+
+
+def test_normalize_name_strips_accents():
+    """_normalize_name converts accented characters to their base form."""
+    assert _normalize_name("Orléans") == "orleans"
+
+
+def test_normalize_name_lowercases():
+    """_normalize_name lowercases all characters."""
+    assert _normalize_name("Paris Austerlitz") == "paris austerlitz"
+
+
+def test_normalize_name_idempotent():
+    """_normalize_name is idempotent — calling it twice returns the same result."""
+    name = "Évreux"
+    assert _normalize_name(_normalize_name(name)) == _normalize_name(name)
+
+
+# ---------------------------------------------------------------------------
+# load_gtfs_stop_names
+# ---------------------------------------------------------------------------
+
+
+def test_load_gtfs_stop_names_includes_ter_stops():
+    """load_gtfs_stop_names returns entries for TER stops."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    result = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    assert "lyon part-dieu" in result
+
+
+def test_load_gtfs_stop_names_excludes_non_ter_stops():
+    """load_gtfs_stop_names excludes stops not in stop_to_uic (TGV, Ouigo, etc.)."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    result = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    # "barcelone-sants" only has a TGV stop in the fixture — not in stop_to_uic
+    assert "barcelone-sants" not in result
+
+
+def test_load_gtfs_stop_names_maps_to_uic():
+    """load_gtfs_stop_names maps normalised name to a UIC string."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    result = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    assert result.get("lyon part-dieu") == "87001000"
+
+
+# ---------------------------------------------------------------------------
+# build_uic_aliases
+# ---------------------------------------------------------------------------
+
+
+def test_build_uic_aliases_detects_name_match():
+    """build_uic_aliases creates an alias when geojson and GTFS UICs differ but names match."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    gtfs_name_to_uic = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    result = build_uic_aliases(GEOJSON_PATH, stop_to_uic, gtfs_name_to_uic)
+    # Fixture: geojson has Avignon=87003999, GTFS has Avignon=87003000
+    assert result.get("87003999") == "87003000"
+
+
+def test_build_uic_aliases_no_alias_when_uic_matches():
+    """build_uic_aliases omits stations whose geojson UIC already exists in GTFS."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    gtfs_name_to_uic = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    result = build_uic_aliases(GEOJSON_PATH, stop_to_uic, gtfs_name_to_uic)
+    # Lyon Part-Dieu UIC 87001000 matches directly — no alias needed
+    assert "87001000" not in result
+
+
+def test_build_uic_aliases_no_alias_when_name_not_found():
+    """build_uic_aliases omits geojson stations whose name has no GTFS TER/IC match."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    gtfs_name_to_uic = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    result = build_uic_aliases(GEOJSON_PATH, stop_to_uic, gtfs_name_to_uic)
+    # "Station inconnue" (87999999) has no counterpart in GTFS fixture
+    assert "87999999" not in result
+
+
+def test_build_compact_index_embeds_aliases():
+    """build_compact_index includes uic_aliases in the output dict."""
+    stop_to_uic = load_filtered_stops(FIXTURES_DIR)
+    gtfs_name_to_uic = load_gtfs_stop_names(FIXTURES_DIR, stop_to_uic)
+    aliases = build_uic_aliases(GEOJSON_PATH, stop_to_uic, gtfs_name_to_uic)
+    trip_service_map = load_trip_service_map(FIXTURES_DIR)
+    trip_stops = build_trip_stops(FIXTURES_DIR, stop_to_uic)
+    valid_service_ids = {trip_service_map[tid] for tid in trip_stops if tid in trip_service_map}
+    service_dates = load_service_dates(FIXTURES_DIR, valid_service_ids)
+    index = build_compact_index(trip_stops, trip_service_map, service_dates, stop_to_uic, aliases)
+    assert "uic_aliases" in index
+    assert index["uic_aliases"] == aliases

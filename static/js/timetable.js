@@ -34,9 +34,18 @@
   /**
    * Reverse index: UIC integer → array of trip indices that include that UIC.
    * Built at load time to avoid scanning all trips on every query.
+   * Alias UICs (from geojson) are added alongside their GTFS equivalents.
    * @type {Map<number, number[]>|null}
    */
   let _uicToTripIndices = null;
+
+  /**
+   * Maps geojson UIC integers to their GTFS UIC integers for stations where
+   * the two sources use different codes for the same physical station.
+   * Used to resolve both fromUic and toUic in queryJourney().
+   * @type {Map<number, number>|null}
+   */
+  let _uicAliasMap = null;
 
   // ── Loading ─────────────────────────────────────────────────────────────────
 
@@ -64,11 +73,13 @@
   }
 
   /**
-   * Build serviceSets and uicToTripIndices from the loaded timetable data.
+   * Build serviceSets, uicToTripIndices, and uicAliasMap from loaded timetable data.
    *
    * serviceSets converts each service's date array into a Set for O(1) lookup.
    * uicToTripIndices maps each UIC code to the indices of trips that visit it,
    * so queryJourney only iterates over relevant trips rather than all trips.
+   * uicAliasMap resolves geojson UICs (from autocomplete) to GTFS UICs so that
+   * stations with mismatched codes between the two sources still produce results.
    *
    * @param {Object} data - Parsed timetable JSON object.
    */
@@ -90,6 +101,22 @@
           _uicToTripIndices.set(uic, []);
         }
         _uicToTripIndices.get(uic).push(i);
+      }
+    }
+
+    // Build alias map: geojson_uic_int → gtfs_uic_int
+    _uicAliasMap = new Map();
+    const aliases = data.uic_aliases || {};
+    for (const fromStr of Object.keys(aliases)) {
+      const toStr = aliases[fromStr];
+      _uicAliasMap.set(parseInt(fromStr, 10), parseInt(toStr, 10));
+    }
+
+    // Extend uicToTripIndices so alias UICs also find their trips at lookup time
+    for (const [aliasUic, gtfsUic] of _uicAliasMap.entries()) {
+      const indices = _uicToTripIndices.get(gtfsUic);
+      if (indices) {
+        _uicToTripIndices.set(aliasUic, indices);
       }
     }
   }
@@ -122,7 +149,14 @@
     const limit = maxResults !== undefined ? maxResults : 3;
     const trips = _timetable.trips;
     const trainTypes = _timetable.train_types || ["TER", "INTERCITES"];
-    const candidateIndices = _uicToTripIndices.get(fromUic) || [];
+
+    // Resolve alias UICs: autocomplete uses geojson UICs, but trip stops use
+    // GTFS UICs. Resolve both ends before querying so stations with a UIC
+    // mismatch between the two sources still match correctly.
+    const resolvedFrom = (_uicAliasMap && _uicAliasMap.has(fromUic)) ? _uicAliasMap.get(fromUic) : fromUic;
+    const resolvedTo   = (_uicAliasMap && _uicAliasMap.has(toUic))   ? _uicAliasMap.get(toUic)   : toUic;
+
+    const candidateIndices = _uicToTripIndices.get(resolvedFrom) || [];
     const results = [];
 
     for (const idx of candidateIndices) {
@@ -136,11 +170,11 @@
 
       for (let i = 0; i < stops.length; i++) {
         const [uic, dep] = stops[i];
-        if (uic === fromUic && dep >= afterMinutes && fromIdx === -1) {
+        if (uic === resolvedFrom && dep >= afterMinutes && fromIdx === -1) {
           fromIdx = i;
           fromDep = dep;
         }
-        if (fromIdx !== -1 && uic === toUic) {
+        if (fromIdx !== -1 && uic === resolvedTo) {
           results.push({
             dep_minutes: fromDep,
             arr_minutes: dep,
