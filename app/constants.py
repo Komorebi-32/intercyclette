@@ -106,6 +106,26 @@ EARTH_RADIUS_KM = 6371.0
 # Maximum number of [lat, lon] points sent to the browser per itinerary
 # segment (downsampled from raw GPX).
 MAP_GEOMETRY_MAX_POINTS = 1000
+# Number of track points embedded per route in route_stations.json for the
+# always-on map overlay (fewer than MAP_GEOMETRY_MAX_POINTS since all 9 routes
+# are loaded simultaneously).
+ROUTE_DISPLAY_MAX_POINTS = 300
+
+# ---------------------------------------------------------------------------
+# Route display colors (map overlay + checkbox labels + itinerary badges)
+# ---------------------------------------------------------------------------
+
+ROUTE_COLORS = {
+    "EV3":  "#e74c3c",   # red
+    "EV4":  "#3498db",   # blue
+    "EV5":  "#e67e22",   # orange
+    "EV6":  "#9b59b6",   # purple
+    "EV8":  "#1abc9c",   # teal
+    "EV15": "#f39c12",   # amber
+    "EV19": "#2ecc71",   # green
+    "VEL":  "#e91e63",   # pink
+    "VIA":  "#00bcd4",   # cyan
+}
 
 # ---------------------------------------------------------------------------
 # Navitia API

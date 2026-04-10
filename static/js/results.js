@@ -140,7 +140,7 @@
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">
-          <span class="route-badge">${itinerary.route_id}</span>
+          <span class="route-badge" data-route="${itinerary.route_id}">${itinerary.route_id}</span>
           <span class="route-name">${itinerary.route_name}</span>
         </div>
         <div class="card-meta">

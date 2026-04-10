@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercyclette — Randovélo + Train</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <span class="logo">🚲 Intercyclette</span>
+    <span class="tagline">Trouvez votre randovélo en train</span>
+    <button class="btn-settings" id="btn-settings" title="Paramètres (URL du proxy)">⚙</button>
+  </header>
+
+  <!-- Settings panel (proxy URL) -->
+  <div id="settings-panel" class="settings-panel" hidden>
+    <div class="settings-inner">
+      <label for="proxy-url-input"><strong>URL du serveur proxy</strong></label>
+      <p class="settings-hint">
+        Entrez l'URL de votre proxy Navitia (ex : https://intercyclette-proxy.onrender.com).
+        Cette URL est sauvegardée dans votre navigateur.
+      </p>
+      <input
+        type="text"
+        id="proxy-url-input"
+        placeholder="https://intercyclette-proxy.onrender.com"
+        autocomplete="off"
+      />
+      <button id="btn-save-proxy" class="btn-save-proxy">Enregistrer</button>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- ── Left panel: search form ── -->
+    <aside class="panel-left">
+      <form id="search-form">
+
+        <!-- Departure city -->
+        <div class="form-group">
+          <label for="departure-input">Ville de départ</label>
+          <input
+            type="text"
+            id="departure-input"
+            placeholder="Ex: Paris Gare de Lyon…"
+            autocomplete="off"
+            required
+          />
+          <input type="hidden" id="departure-uic" />
+          <ul id="autocomplete-list" class="autocomplete-dropdown" hidden></ul>
+        </div>
+
+        <!-- Number of days -->
+        <div class="form-group">
+          <label for="days-select">Nombre de jours</label>
+          <select id="days-select">
+            <option value="1">1 jour</option>
+            <option value="2">2 jours</option>
+            <option value="3" selected>3 jours</option>
+            <option value="4">4 jours</option>
+            <option value="5">5 jours</option>
+            <option value="6">6 jours</option>
+            <option value="7">7 jours</option>
+            <option value="8">8 jours</option>
+            <option value="9">9 jours</option>
+            <option value="10">10 jours</option>
+            <option value="11">11 jours</option>
+            <option value="12">12 jours</option>
+            <option value="13">13 jours</option>
+            <option value="14">14 jours</option>
+            <option value="15">15 jours</option>
+          </select>
+        </div>
+
+        <!-- Biking rhythm -->
+        <div class="form-group">
+          <label>Rythme de pédalage</label>
+          <div class="rhythm-options">
+            <label class="rhythm-label">
+              <input type="radio" name="rhythm" value="escargot" />
+              <span class="rhythm-text">
+                <span class="rhythm-name">Escargot tranquille</span>
+                <span class="rhythm-detail">~60 km/jour</span>
+              </span>
+            </label>
+            <label class="rhythm-label">
+              <input type="radio" name="rhythm" value="randonneur" checked />
+              <span class="rhythm-text">
+                <span class="rhythm-name">Habitué des randovélo</span>
+                <span class="rhythm-detail">~97 km/jour</span>
+              </span>
+            </label>
+            <label class="rhythm-label">
+              <input type="radio" name="rhythm" value="athlete" />
+              <span class="rhythm-text">
+                <span class="rhythm-name">Athlète olympique</span>
+                <span class="rhythm-detail">~160 km/jour</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Eurovelo routes -->
+        <div class="form-group">
+          <label>Routes Eurovelo</label>
+          <div class="route-select-all">
+            <label>
+              <input type="checkbox" id="select-all-routes" />
+              Tout sélectionner / Tout désélectionner
+            </label>
+          </div>
+          <div class="route-checkboxes">
+            <label class="route-label" style="color: #e74c3c;">
+              <input type="checkbox" class="route-checkbox" value="EV3" checked />
+              La Scandibérique
+            </label>
+            <label class="route-label" style="color: #3498db;">
+              <input type="checkbox" class="route-checkbox" value="EV4" checked />
+              La Vélomaritime
+            </label>
+            <label class="route-label" style="color: #e67e22;">
+              <input type="checkbox" class="route-checkbox" value="EV5" checked />
+              Eurovelo 5 Moselle Alsace
+            </label>
+            <label class="route-label" style="color: #9b59b6;">
+              <input type="checkbox" class="route-checkbox" value="EV6" checked />
+              Entre Rhin et Loire à Vélo
+            </label>
+            <label class="route-label" style="color: #1abc9c;">
+              <input type="checkbox" class="route-checkbox" value="EV8" checked />
+              La Méditerranée à Vélo
+            </label>
+            <label class="route-label" style="color: #f39c12;">
+              <input type="checkbox" class="route-checkbox" value="EV15" checked />
+              Véloroute du Rhin
+            </label>
+            <label class="route-label" style="color: #2ecc71;">
+              <input type="checkbox" class="route-checkbox" value="EV19" checked />
+              La Meuse à Vélo
+            </label>
+            <label class="route-label" style="color: #e91e63;">
+              <input type="checkbox" class="route-checkbox" value="VEL" checked />
+              La Vélodyssée
+            </label>
+            <label class="route-label" style="color: #00bcd4;">
+              <input type="checkbox" class="route-checkbox" value="VIA" checked />
+              ViaRhôna
+            </label>
+          </div>
+        </div>
+
+        <!-- Travel date -->
+        <div class="form-group">
+          <label for="travel-date">Date de départ</label>
+          <input type="date" id="travel-date" />
+        </div>
+
+        <button type="submit" id="search-btn" class="btn-search">
+          Rechercher des itinéraires
+        </button>
+
+        <div id="search-status" class="search-status" hidden></div>
+      </form>
+    </aside>
+
+    <!-- ── Right panel: results + map ── -->
+    <main class="panel-right">
+      <div id="results-container" class="results-container">
+        <div class="results-placeholder">
+          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.</p>
+        </div>
+      </div>
+      <div id="map" class="map-container"></div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="static/js/map.js"></script>
+  <script src="static/js/planner.js"></script>
+  <script src="static/js/journey_parser.js"></script>
+  <script src="static/js/results.js"></script>
+  <script src="static/js/search.js"></script>
+</body>
+</html>

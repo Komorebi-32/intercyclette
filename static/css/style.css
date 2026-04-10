@@ -13,6 +13,17 @@
   --shadow: 0 2px 8px rgba(0,0,0,.10);
   --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  /* Eurovelo route colors (must match ROUTE_COLORS in app/constants.py) */
+  --route-EV3:  #e74c3c;
+  --route-EV4:  #3498db;
+  --route-EV5:  #e67e22;
+  --route-EV6:  #9b59b6;
+  --route-EV8:  #1abc9c;
+  --route-EV15: #f39c12;
+  --route-EV19: #2ecc71;
+  --route-VEL:  #e91e63;
+  --route-VIA:  #00bcd4;
 }
 
 body { font-family: var(--font); background: var(--grey-bg); color: #2c3e50; font-size: 14px; height: 100vh; display: flex; flex-direction: column; }
@@ -29,6 +40,40 @@ body { font-family: var(--font); background: var(--grey-bg); color: #2c3e50; fon
 }
 .logo { font-size: 1.2rem; font-weight: 700; }
 .tagline { font-size: 0.85rem; opacity: .85; }
+
+/* Settings button in header */
+.btn-settings {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.5);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.btn-settings:hover { background: rgba(255,255,255,.15); }
+
+/* Settings panel (proxy URL) */
+.settings-panel {
+  background: var(--white);
+  border-bottom: 1px solid var(--grey-border);
+  padding: 12px 20px;
+  flex-shrink: 0;
+}
+.settings-inner { max-width: 480px; }
+.settings-hint { font-size: 12px; color: var(--grey-text); margin: 4px 0 8px; }
+.settings-inner input[type="text"] { margin-bottom: 8px; }
+.btn-save-proxy {
+  padding: 6px 14px;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-save-proxy:hover { background: var(--green); }
 
 /* ── Layout ──────────────────────────────────────────────────────────────── */
 .app-layout {
@@ -201,6 +246,17 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   font-weight: 700;
 }
 .route-name { font-weight: 600; font-size: 13px; }
+
+/* Per-route badge colors */
+.route-badge[data-route="EV3"]  { background: var(--route-EV3); }
+.route-badge[data-route="EV4"]  { background: var(--route-EV4); }
+.route-badge[data-route="EV5"]  { background: var(--route-EV5); }
+.route-badge[data-route="EV6"]  { background: var(--route-EV6); }
+.route-badge[data-route="EV8"]  { background: var(--route-EV8); }
+.route-badge[data-route="EV15"] { background: var(--route-EV15); }
+.route-badge[data-route="EV19"] { background: var(--route-EV19); }
+.route-badge[data-route="VEL"]  { background: var(--route-VEL); }
+.route-badge[data-route="VIA"]  { background: var(--route-VIA); }
 .card-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--grey-text); }
 .meta-km { font-weight: 600; color: var(--green-dark); }
 .card-expand-icon { font-size: 10px; }
@@ -232,6 +288,53 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   border: 2px solid var(--white);
   box-shadow: 0 1px 4px rgba(0,0,0,.4);
 }
+
+/* ── Route hover popup ───────────────────────────────────────────────────── */
+.route-info-popup .leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0;
+  overflow: hidden;
+}
+.route-info-popup .leaflet-popup-content {
+  margin: 0;
+  width: 260px !important;
+}
+.route-popup { font-family: var(--font); font-size: 12px; color: #2c3e50; }
+.route-popup-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+.route-popup-body { padding: 10px 12px; }
+.route-popup-title {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.route-popup-desc {
+  color: var(--grey-text);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.route-popup-meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: var(--grey-text);
+  line-height: 1.8;
+}
+.route-popup-link {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  text-decoration: none;
+}
+.route-popup-link:hover { text-decoration: underline; }
+.route-info-popup .leaflet-popup-tip-container { display: none; }
 
 /* ── Scrollbar styling (webkit) ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }

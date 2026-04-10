@@ -6,6 +6,24 @@ Planifiez des séjours à vélo le long des routes Eurovelo en combinant les tra
 
 ---
 
+## Architecture
+
+```
+GitHub Pages (static)          Proxy (Render.com / Railway)
+  index.html                     proxy/app.py  (~40 lignes Flask)
+  static/data/stations.json  →   POST /navitia/journey
+  static/data/route_stations.json   ↓
+  static/data/routes/ev*.json    Navitia API (SNCF)
+  static/js/{map,planner,       (token dans variable d'environnement)
+    journey_parser,results,
+    search}.js
+  static/css/style.css
+```
+
+Le backend Flask original (`app/`) est conservé pour le développement local.
+
+---
+
 ## Ce que fait l'application
 
 L'utilisateur renseigne :
@@ -16,9 +34,9 @@ L'utilisateur renseigne :
 
 L'application :
 1. Identifie les gares SNCF proches de chaque route Eurovelo sélectionnée
-2. Interroge l'API SNCF (Navitia) pour trouver les trains aller et retour
+2. Interroge l'API SNCF (Navitia) via le proxy pour trouver les trains aller et retour
 3. Calcule la distance vélo réalisable selon le rythme
-4. Affiche les itinéraires sous forme de cartes sur une liste et sur une carte interactive
+4. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap avec les 9 routes Eurovelo colorées
 
 ---
 
@@ -32,41 +50,57 @@ pip3 install -r requirements.txt
 
 ---
 
-## Lancer l'application
+## Générer les fichiers statiques
 
-### 1. Générer l'index de proximité gares ↔ routes (une seule fois)
+### 1. Index de proximité gares ↔ routes (une seule fois)
 
 ```bash
 python3 scripts/preprocess.py
 ```
 
-Ce script parcourt les 9 fichiers GPX Eurovelo et les ~2 800 gares SNCF pour identifier
-toutes les gares situées à moins de 5 km d'une route. Résultat écrit dans
-`data/processed/route_stations.json` (~quelques minutes selon le matériel).
+Parcourt les 9 fichiers GPX Eurovelo et les ~2 800 gares SNCF.
+Résultat : `data/processed/route_stations.json` (~360 Ko, inclut les points de trace).
 
-Options disponibles :
+### 2. Exporter les données statiques
+
 ```bash
-python3 scripts/preprocess.py --max-distance 3.0   # changer le seuil de proximité
-python3 scripts/preprocess.py --help               # voir tous les paramètres
+python3 scripts/export_stations_json.py      # → static/data/stations.json
+python3 scripts/export_route_geometries.py   # → static/data/routes/ev*.json (×9)
+cp data/processed/route_stations.json static/data/route_stations.json
 ```
 
-### 2. Configurer le token Navitia
+---
+
+## Lancer l'application (site statique)
 
 ```bash
-export NAVITIA_TOKEN=votre_token_navitia
+python3 -m http.server 8080
+# Accéder à http://localhost:8080
+```
+
+Pour les recherches, configurer l'URL du proxy via le bouton ⚙ en haut à droite.
+
+### Lancer le proxy localement
+
+```bash
+cd proxy
+NAVITIA_TOKEN=votre_token python3 app.py
+# Proxy disponible sur http://localhost:5001
+```
+
+Entrer `http://localhost:5001` dans le panneau de paramètres.
+
+---
+
+## Lancer l'application (backend Flask, alternative)
+
+```bash
+export NAVITIA_TOKEN=votre_token
+flask --app app run
+# Accéder à http://localhost:5000
 ```
 
 Obtenez un token sur [https://www.navitia.io](https://www.navitia.io).
-
-### 3. Démarrer le serveur Flask
-
-```bash
-flask --app app run
-# ou
-python3 -m flask --app app run
-```
-
-Accédez à [http://localhost:5000](http://localhost:5000).
 
 ---
 
@@ -84,35 +118,51 @@ Tous les tests sont isolés (pas de réseau, pas de fichiers réels).
 
 ```
 intercyclette/
+├── index.html                       Site statique (GitHub Pages)
 ├── data/
 │   ├── raw/
-│   │   ├── gares-de-voyageurs.geojson   Gares SNCF (source Transpor.t data.gouv.fr)
-│   │   └── Eurovelo_France_gpx/         Traces GPX des 9 routes Eurovelo en France
+│   │   ├── gares-de-voyageurs.geojson   Gares SNCF
+│   │   └── Eurovelo_France_gpx/         Traces GPX des 9 routes
 │   └── processed/
-│       └── route_stations.json          Index gares ↔ routes (généré par preprocess.py)
+│       └── route_stations.json          Index gares ↔ routes (avec track_points)
 ├── scripts/
-│   └── preprocess.py                    Script de pré-traitement (exécuté une fois)
+│   ├── preprocess.py                    Pré-traitement (exécuté une fois)
+│   ├── export_stations_json.py          Export → static/data/stations.json
+│   └── export_route_geometries.py       Export → static/data/routes/*.json
+├── proxy/
+│   ├── app.py                           Proxy Navitia (~40 lignes Flask)
+│   └── requirements.txt
 ├── app/
-│   ├── constants.py                     Toutes les constantes et valeurs de configuration
-│   ├── routes.py                        Handlers Flask (endpoints HTTP)
+│   ├── constants.py                     Constantes et couleurs des routes
+│   ├── routes.py                        Handlers Flask (dev local)
 │   ├── geo/
-│   │   ├── distance.py                  Fonctions géométriques pures (haversine, polyline)
+│   │   ├── distance.py                  Géométrie pure (haversine, polyligne)
 │   │   ├── gpx_parser.py               Lecture des fichiers GPX
 │   │   └── station_matcher.py          Correspondance gares ↔ routes
 │   ├── itinerary/
 │   │   ├── rhythm.py                   Calcul de distance selon le rythme
 │   │   └── planner.py                  Assemblage des itinéraires candidats
 │   └── navitia/
-│       ├── client.py                   Client HTTP Navitia (appels API)
+│       ├── client.py                   Client HTTP Navitia
 │       └── journey_parser.py           Parseur des réponses Navitia
 ├── static/
 │   ├── css/style.css
+│   ├── data/
+│   │   ├── stations.json               Gares SNCF (autocomplete)
+│   │   ├── route_stations.json         Index gares ↔ routes (site statique)
+│   │   └── routes/                     Géométries colorées (9 fichiers)
 │   └── js/
-│       ├── map.js                      Carte Leaflet + OpenStreetMap
+│       ├── map.js                      Carte Leaflet + overlays colorés
+│       ├── planner.js                  Port JS du planificateur Python
+│       ├── journey_parser.js           Port JS du parseur Navitia
 │       ├── results.js                  Rendu des cartes itinéraires
-│       └── search.js                   Formulaire + autocomplétion
+│       └── search.js                   Formulaire + autocomplétion + orchestration
 ├── templates/
-│   └── index.html                      Page HTML unique
+│   └── index.html                      Template Jinja2 (dev local Flask)
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── BUILD.md
+│   └── DEPLOYMENT.md
 └── tests/                              Tests unitaires (un fichier par module)
 ```
 
@@ -135,43 +185,38 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
                   │
                   ▼  (si ≤ 5 km)
      StationOnRoute : nom, UIC, lat/lon, km cumulé sur la route
+     + track_points downsampled (300 pts) pour l'overlay carte
                   │
                   ▼
          route_stations.json
 ```
 
-### Recherche (requête /api/search)
+### Recherche (site statique)
 
 ```
 [Formulaire utilisateur]
         │
         ▼
-[Validation de la requête]
+[Chargement local route_stations.json + stations.json]
         │
         ▼
-[Chargement de l'index route_stations.json]
+[planner.js — calcul pur JS, sans réseau]
+   Stations de départ dans la "zone initiale" (15%, max 100 km)
+   Triées par distance à la gare de départ
+   Distance vélo = (n_jours - 1) × km_par_jour  [pour n_jours ≥ 2]
         │
         ▼
-[Sélection des gares candidates]
-   Gares dans la "zone de départ" de la route (15% initial, max 100 km)
-   Triées par distance à la ville de départ de l'utilisateur
+[Appels proxy — 2 requêtes par candidat]
+   POST proxy/navitia/journey  (aller : gare départ → gare route)
+   POST proxy/navitia/journey  (retour : gare route → gare départ)
         │
         ▼
-[Calcul de la distance vélo]
-   total_km = (n_jours - 1) × km_par_jour  [pour n_jours ≥ 2]
-   total_km = 0.5 × km_par_jour            [pour n_jours = 1]
-        │
-        ▼
-[Recherche des trains — 6 appels API Navitia par route sélectionnée]
-   3 appels aller : gare de départ → 3 gares candidates route
-   3 appels retour : 3 gares fin de parcours → gare de départ
-        │
-        ▼
-[Assemblage des cartes itinéraires]
-   route + gares + trains + géométrie (réduite à ≤1000 points)
+[journey_parser.js — parsing réponses Navitia]
         │
         ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
+   9 overlays colorés permanents (un par route Eurovelo)
+   Segment bikeé en couleur de la route sélectionnée
 ```
 
 ### Rythmes de pédalage
@@ -186,17 +231,23 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
 
 ## Routes Eurovelo disponibles
 
-| ID | Nom |
-|---|---|
-| EV3 | La Scandibérique |
-| EV4 | La Vélomaritime |
-| EV5 | Eurovelo 5 Moselle Alsace |
-| EV6 | Entre Rhin et Loire à Vélo |
-| EV8 | La Méditerranée à Vélo |
-| EV15 | Véloroute du Rhin |
-| EV19 | La Meuse à Vélo |
-| VEL | La Vélodyssée |
-| VIA | ViaRhôna |
+| ID | Nom | Couleur |
+|---|---|---|
+| EV3 | La Scandibérique | Rouge |
+| EV4 | La Vélomaritime | Bleu |
+| EV5 | Eurovelo 5 Moselle Alsace | Orange |
+| EV6 | Entre Rhin et Loire à Vélo | Violet |
+| EV8 | La Méditerranée à Vélo | Sarcelle |
+| EV15 | Véloroute du Rhin | Ambre |
+| EV19 | La Meuse à Vélo | Vert |
+| VEL | La Vélodyssée | Rose |
+| VIA | ViaRhôna | Cyan |
+
+---
+
+## Déploiement
+
+Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour le déploiement GitHub Pages + proxy Render.com/Railway.
 
 ---
 

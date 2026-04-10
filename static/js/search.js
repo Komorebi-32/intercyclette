@@ -1,36 +1,94 @@
 /**
- * search.js — Search form management and station autocomplete.
+ * search.js — Search form management, autocomplete, and search orchestration.
  *
- * Loads the station list from /api/stations on page load, provides local
- * fuzzy filtering for autocomplete, and submits searches to /api/search.
+ * Static-site version. Loads data from static JSON files, runs the itinerary
+ * planner entirely in the browser, and calls the proxy server (URL stored in
+ * localStorage) to fetch Navitia journey data.
+ *
+ * Depends on: planner.js (window.InterPlanner), journey_parser.js (window.InterJourney),
+ *             map.js (window.InterMap), results.js (window.InterResults).
  */
 
 (function () {
   "use strict";
 
-  /** @type {Array<{nom: string, libellecourt: string, uic: string, lat: number, lon: number}>} */
+  // ── State ──────────────────────────────────────────────────────────────────
+
+  /** @type {Array<{nom:string,libellecourt:string,uic:string,lat:number,lon:number}>} */
   let allStations = [];
+
+  /** Full proximity index loaded from static/data/route_stations.json. */
+  let routeIndex = null;
 
   /** Currently selected station UIC code. */
   let selectedUic = "";
 
-  // ── DOM references ──────────────────────────────────────────────────────
+  // ── DOM references ─────────────────────────────────────────────────────────
 
-  const form = document.getElementById("search-form");
-  const departureInput = document.getElementById("departure-input");
+  const form              = document.getElementById("search-form");
+  const departureInput    = document.getElementById("departure-input");
   const departureUicInput = document.getElementById("departure-uic");
-  const autocompleteList = document.getElementById("autocomplete-list");
-  const daysSelect = document.getElementById("days-select");
-  const travelDateInput = document.getElementById("travel-date");
-  const searchBtn = document.getElementById("search-btn");
-  const searchStatus = document.getElementById("search-status");
-  const resultsContainer = document.getElementById("results-container");
+  const autocompleteList  = document.getElementById("autocomplete-list");
+  const daysSelect        = document.getElementById("days-select");
+  const travelDateInput   = document.getElementById("travel-date");
+  const searchBtn         = document.getElementById("search-btn");
+  const searchStatus      = document.getElementById("search-status");
+  const resultsContainer  = document.getElementById("results-container");
   const selectAllCheckbox = document.getElementById("select-all-routes");
+  const btnSettings       = document.getElementById("btn-settings");
+  const settingsPanel     = document.getElementById("settings-panel");
+  const proxyUrlInput     = document.getElementById("proxy-url-input");
+  const btnSaveProxy      = document.getElementById("btn-save-proxy");
 
-  // ── Autocomplete ─────────────────────────────────────────────────────────
+  // ── Proxy URL (localStorage) ───────────────────────────────────────────────
+
+  const PROXY_STORAGE_KEY = "intercyclette_proxy_url";
 
   /**
-   * Filter stations by a query string (case-insensitive, matches nom or libellecourt).
+   * Read the saved proxy URL from localStorage.
+   *
+   * @returns {string} The proxy URL, or empty string if not set.
+   */
+  function getProxyUrl() {
+    return localStorage.getItem(PROXY_STORAGE_KEY) || "";
+  }
+
+  /**
+   * Save a proxy URL to localStorage.
+   *
+   * @param {string} url - Proxy base URL to persist.
+   */
+  function saveProxyUrl(url) {
+    localStorage.setItem(PROXY_STORAGE_KEY, url.trim());
+  }
+
+  // ── Settings panel ─────────────────────────────────────────────────────────
+
+  if (btnSettings) {
+    btnSettings.addEventListener("click", function () {
+      if (settingsPanel) {
+        const hidden = settingsPanel.hidden;
+        settingsPanel.hidden = !hidden;
+        if (!hidden) return;
+        if (proxyUrlInput) proxyUrlInput.value = getProxyUrl();
+      }
+    });
+  }
+
+  if (btnSaveProxy) {
+    btnSaveProxy.addEventListener("click", function () {
+      const url = proxyUrlInput ? proxyUrlInput.value.trim() : "";
+      saveProxyUrl(url);
+      if (settingsPanel) settingsPanel.hidden = true;
+      showStatus("URL du proxy sauvegardée.", "info");
+      setTimeout(hideStatus, 2000);
+    });
+  }
+
+  // ── Autocomplete ──────────────────────────────────────────────────────────
+
+  /**
+   * Filter stations by a query string (case-insensitive, accent-insensitive).
    *
    * @param {string} query - User input string.
    * @param {number} maxResults - Maximum number of suggestions to return.
@@ -41,7 +99,7 @@
     const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return allStations
       .filter((s) => {
-        const nom = s.nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const nom  = s.nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const code = (s.libellecourt || "").toLowerCase();
         return nom.includes(q) || code.includes(q);
       })
@@ -65,7 +123,7 @@
       li.textContent = `${station.nom} (${station.libellecourt})`;
       li.dataset.uic = station.uic;
       li.addEventListener("mousedown", function (e) {
-        e.preventDefault(); // Prevent blur before click registers
+        e.preventDefault();
         selectStation(station);
       });
       autocompleteList.appendChild(li);
@@ -76,9 +134,7 @@
   /**
    * Select a station from the autocomplete list.
    *
-   * Updates the text input and the hidden UIC input.
-   *
-   * @param {{nom: string, libellecourt: string, uic: string}} station
+   * @param {{nom:string,libellecourt:string,uic:string}} station
    */
   function selectStation(station) {
     departureInput.value = station.nom;
@@ -88,10 +144,10 @@
   }
 
   /**
-   * Initialise station autocomplete: fetch list and wire up input events.
+   * Initialise station autocomplete: fetch station list, wire up input events.
    */
   function initStationAutocomplete() {
-    fetch("/api/stations")
+    fetch("static/data/stations.json")
       .then((r) => r.json())
       .then((stations) => {
         allStations = stations;
@@ -108,14 +164,13 @@
     });
 
     departureInput.addEventListener("blur", function () {
-      // Delay hide to allow click on list item to register
       setTimeout(() => {
         autocompleteList.hidden = true;
       }, 150);
     });
 
     departureInput.addEventListener("keydown", function (e) {
-      const items = autocompleteList.querySelectorAll(".autocomplete-item");
+      const items  = autocompleteList.querySelectorAll(".autocomplete-item");
       const active = autocompleteList.querySelector(".autocomplete-item.active");
       if (e.key === "ArrowDown") {
         e.preventDefault();
@@ -129,7 +184,7 @@
         if (prev) prev.classList.add("active");
       } else if (e.key === "Enter" && active) {
         e.preventDefault();
-        const uic = active.dataset.uic;
+        const uic     = active.dataset.uic;
         const station = allStations.find((s) => s.uic === uic);
         if (station) selectStation(station);
       } else if (e.key === "Escape") {
@@ -138,54 +193,52 @@
     });
   }
 
-  // ── Select All / Deselect All ─────────────────────────────────────────────
+  // ── Select All / Deselect All ──────────────────────────────────────────────
 
   /**
-   * Toggle all route checkboxes to a given checked state.
+   * Toggle all route checkboxes to a given checked state and sync map overlays.
    *
-   * @param {boolean} checked
+   * @param {boolean} checked - True to show all routes, false to hide all.
    */
   function handleSelectAll(checked) {
     document.querySelectorAll(".route-checkbox").forEach((cb) => {
       cb.checked = checked;
+      if (window.InterMap) {
+        window.InterMap.setRouteVisible(cb.value, checked);
+      }
     });
   }
 
   if (selectAllCheckbox) {
-    // Initialise the select-all checkbox to reflect current state
     selectAllCheckbox.checked = true;
-
     selectAllCheckbox.addEventListener("change", function () {
       handleSelectAll(this.checked);
     });
 
-    // Keep select-all in sync when individual boxes change
     document.querySelectorAll(".route-checkbox").forEach((cb) => {
       cb.addEventListener("change", function () {
-        const allChecked = [...document.querySelectorAll(".route-checkbox")].every(
-          (c) => c.checked
-        );
-        const noneChecked = [...document.querySelectorAll(".route-checkbox")].every(
-          (c) => !c.checked
-        );
+        const allChecked  = [...document.querySelectorAll(".route-checkbox")].every((c) => c.checked);
+        const noneChecked = [...document.querySelectorAll(".route-checkbox")].every((c) => !c.checked);
         selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
         selectAllCheckbox.checked = allChecked;
+        // Toggle route overlay visibility on map
+        if (window.InterMap) {
+          window.InterMap.setRouteVisible(this.value, this.checked);
+        }
       });
     });
   }
 
-  // ── Form values ───────────────────────────────────────────────────────────
+  // ── Form values ────────────────────────────────────────────────────────────
 
   /**
-   * Read the current form state and return a search params object.
+   * Read current form state and return a search parameters object.
    *
-   * @returns {{departure_uic: string, n_days: number, rhythm: string, routes: string[], travel_date: string}}
+   * @returns {{departure_uic:string,n_days:number,rhythm:string,routes:string[],travel_date:string}}
    */
   function getFormValues() {
-    const routes = [...document.querySelectorAll(".route-checkbox:checked")].map(
-      (cb) => cb.value
-    );
-    const rhythmEl = document.querySelector('input[name="rhythm"]:checked');
+    const routes    = [...document.querySelectorAll(".route-checkbox:checked")].map((cb) => cb.value);
+    const rhythmEl  = document.querySelector('input[name="rhythm"]:checked');
     return {
       departure_uic: departureUicInput.value.trim(),
       n_days: parseInt(daysSelect.value, 10),
@@ -195,12 +248,12 @@
     };
   }
 
-  // ── Search submission ─────────────────────────────────────────────────────
+  // ── Status messages ────────────────────────────────────────────────────────
 
   /**
-   * Display an inline status message in the form.
+   * Display an inline status message.
    *
-   * @param {string} message - Message to display.
+   * @param {string} message
    * @param {'info'|'error'} type
    */
   function showStatus(message, type) {
@@ -209,32 +262,191 @@
     searchStatus.hidden = false;
   }
 
+  /** Hide the inline status message. */
   function hideStatus() {
     searchStatus.hidden = true;
   }
 
+  // ── Date helpers ───────────────────────────────────────────────────────────
+
   /**
-   * Submit a search request to /api/search.
+   * Convert a YYYY-MM-DD date string to Navitia compact format YYYYMMDD.
    *
-   * @param {Object} params - Search parameters from getFormValues().
-   * @returns {Promise<Array>} Resolves to array of itinerary card objects.
+   * @param {string} dateStr - Date string in YYYY-MM-DD format.
+   * @returns {string} Compact YYYYMMDD string.
    */
-  function submitSearch(params) {
-    return fetch("/api/search", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    }).then((r) => {
-      if (!r.ok) {
-        return r.json().then((err) => {
-          throw new Error(err.error || `Erreur ${r.status}`);
-        });
-      }
-      return r.json();
-    });
+  function formatDateCompact(dateStr) {
+    return dateStr.replace(/-/g, "");
   }
 
-  // ── Event handlers ────────────────────────────────────────────────────────
+  /**
+   * Add n days to a YYYYMMDD date string and return the result as YYYYMMDD.
+   *
+   * @param {string} compact - Date in YYYYMMDD format.
+   * @param {number} n - Number of days to add.
+   * @returns {string} Resulting date in YYYYMMDD format.
+   */
+  function addDaysCompact(compact, n) {
+    const year  = parseInt(compact.slice(0, 4), 10);
+    const month = parseInt(compact.slice(4, 6), 10) - 1;
+    const day   = parseInt(compact.slice(6, 8), 10);
+    const d = new Date(Date.UTC(year, month, day));
+    d.setUTCDate(d.getUTCDate() + n);
+    const y2 = d.getUTCFullYear();
+    const m2 = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const d2 = String(d.getUTCDate()).padStart(2, "0");
+    return `${y2}${m2}${d2}`;
+  }
+
+  // ── Proxy calls ────────────────────────────────────────────────────────────
+
+  /**
+   * Call the proxy server to fetch one Navitia journey.
+   *
+   * @param {string} proxyUrl - Base URL of the proxy (no trailing slash).
+   * @param {string} fromUic - Departure station UIC code.
+   * @param {string} toUic - Arrival station UIC code.
+   * @param {string} datetimeStr - Navitia datetime string (YYYYMMDDTHHmmss).
+   * @returns {Promise<Object|null>} Parsed Navitia API JSON, or null on failure.
+   */
+  function fetchNavitiaJourney(proxyUrl, fromUic, toUic, datetimeStr) {
+    return fetch(proxyUrl.replace(/\/$/, "") + "/navitia/journey", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ from_uic: fromUic, to_uic: toUic, datetime_str: datetimeStr }),
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+  }
+
+  // ── Itinerary card assembly ────────────────────────────────────────────────
+
+  /**
+   * Assemble an itinerary card object from a TripCandidate and two journeys.
+   *
+   * Mirrors app/routes.py:build_itinerary_card() for the static frontend.
+   *
+   * @param {Object} candidate - TripCandidate from InterPlanner.
+   * @param {Object|null} outboundJourney - Parsed journey from InterJourney.parseBestJourney().
+   * @param {Object|null} returnJourney - Parsed return journey.
+   * @returns {Object} Card object suitable for InterResults.renderResults().
+   */
+  function buildItineraryCard(candidate, outboundJourney, returnJourney) {
+    function journeyDict(j) {
+      if (!j) return null;
+      return {
+        from: j.from_station_nom,
+        to: j.to_station_nom,
+        departure: j.departure_datetime,
+        arrival: j.arrival_datetime,
+        duration: window.InterJourney.formatDurationMinutes(j.duration_minutes),
+        duration_minutes: j.duration_minutes,
+        nb_transfers: j.nb_transfers,
+        sections: j.sections,
+      };
+    }
+
+    const dep = candidate.departure_station;
+    const arr = candidate.arrival_station;
+
+    return {
+      route_id: candidate.route_id,
+      route_name: candidate.route_name,
+      departure_station: {
+        nom: dep.nom,
+        uic: (dep.codes_uic && dep.codes_uic[0]) || "",
+        lat: dep.lat,
+        lon: dep.lon,
+        cumulative_km: dep.cumulative_km,
+      },
+      arrival_station: {
+        nom: arr.nom,
+        uic: (arr.codes_uic && arr.codes_uic[0]) || "",
+        lat: arr.lat,
+        lon: arr.lon,
+        cumulative_km: arr.cumulative_km,
+      },
+      biking_start_km: candidate.biking_start_km,
+      biking_end_km: candidate.biking_end_km,
+      total_biking_km: candidate.total_biking_km,
+      n_days: candidate.n_days,
+      rhythm_key: candidate.rhythm_key,
+      geometry: candidate.geometry,
+      outbound: journeyDict(outboundJourney),
+      return_train: journeyDict(returnJourney),
+    };
+  }
+
+  // ── Search orchestration ───────────────────────────────────────────────────
+
+  /**
+   * Run the full itinerary search: plan locally then fetch journeys via proxy.
+   *
+   * @param {Object} params - Form values from getFormValues().
+   * @returns {Promise<Object[]>} Array of itinerary card objects.
+   */
+  function runSearch(params) {
+    const proxyUrl = getProxyUrl();
+    if (!proxyUrl) {
+      return Promise.reject(new Error("URL du proxy non configurée. Ouvrez les paramètres (⚙) pour la saisir."));
+    }
+
+    if (!routeIndex) {
+      return Promise.reject(new Error("Index des routes non chargé. Rechargez la page."));
+    }
+
+    // Find departure station coordinates from loaded station list
+    const depStation = allStations.find((s) => s.uic === params.departure_uic);
+    if (!depStation) {
+      return Promise.reject(new Error(`Gare UIC '${params.departure_uic}' introuvable.`));
+    }
+
+    // Compute itinerary candidates (pure JS, no network)
+    const candidates = window.InterPlanner.findAllItineraries(
+      params.routes,
+      routeIndex,
+      depStation.lat,
+      depStation.lon,
+      params.n_days,
+      params.rhythm
+    );
+
+    if (candidates.length === 0) {
+      return Promise.resolve([]);
+    }
+
+    // Compute travel dates
+    const travelDateCompact = params.travel_date
+      ? formatDateCompact(params.travel_date)
+      : formatDateCompact(new Date().toISOString().split("T")[0]);
+    const returnDateCompact = addDaysCompact(travelDateCompact, params.n_days - 1);
+
+    // Fetch journeys for each candidate, assemble cards
+    const cardPromises = candidates.map((candidate) => {
+      const outboundUic = (candidate.departure_station.codes_uic && candidate.departure_station.codes_uic[0]) || "";
+      const returnUic   = (candidate.arrival_station.codes_uic && candidate.arrival_station.codes_uic[0]) || "";
+
+      if (!outboundUic || !returnUic) {
+        return Promise.resolve(null);
+      }
+
+      const outboundDatetime = travelDateCompact + "T080000";
+      const returnDatetime   = returnDateCompact + "T160000";
+
+      return Promise.all([
+        fetchNavitiaJourney(proxyUrl, params.departure_uic, outboundUic, outboundDatetime),
+        fetchNavitiaJourney(proxyUrl, returnUic, params.departure_uic, returnDatetime),
+      ]).then(([outboundRaw, returnRaw]) => {
+        const outboundJourney = outboundRaw ? window.InterJourney.parseBestJourney(outboundRaw) : null;
+        const returnJourney   = returnRaw   ? window.InterJourney.parseBestJourney(returnRaw)   : null;
+        return buildItineraryCard(candidate, outboundJourney, returnJourney);
+      });
+    });
+
+    return Promise.all(cardPromises).then((cards) => cards.filter(Boolean));
+  }
+
+  // ── Event handlers ─────────────────────────────────────────────────────────
 
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -256,7 +468,7 @@
       window.InterMap.clearMap();
       resultsContainer.innerHTML = "";
 
-      submitSearch(params)
+      runSearch(params)
         .then((itineraries) => {
           hideStatus();
           window.InterResults.renderResults(itineraries, resultsContainer);
@@ -269,9 +481,9 @@
     });
   }
 
-  // ── Initialisation ────────────────────────────────────────────────────────
+  // ── Initialisation ─────────────────────────────────────────────────────────
 
-  // Set default travel date to tomorrow
+  /** Set default travel date to tomorrow. */
   (function setDefaultDate() {
     if (!travelDateInput) return;
     const tomorrow = new Date();
@@ -279,9 +491,20 @@
     travelDateInput.value = tomorrow.toISOString().split("T")[0];
   })();
 
-  // Init map and autocomplete
-  if (typeof window.InterMap !== "undefined") {
+  /** Load route index from static data. */
+  fetch("static/data/route_stations.json")
+    .then((r) => r.json())
+    .then((index) => {
+      routeIndex = index;
+    })
+    .catch(() => {
+      console.warn("Could not load route_stations.json.");
+    });
+
+  /** Init map, load route overlays, init autocomplete. */
+  if (window.InterMap) {
     window.InterMap.initMap("map");
+    window.InterMap.loadAllRoutes();
   }
   initStationAutocomplete();
 
