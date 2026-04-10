@@ -227,6 +227,7 @@
         'rendu par <a href="https://tile.openstreetmap.fr">OSM France</a>',
       subdomains: "abc",
       maxZoom: 20,
+      className: "map-tiles-greyscale",
     }).addTo(map);
 
     itineraryLayer = L.layerGroup().addTo(map);

@@ -280,6 +280,14 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .journey-detail { font-size: 12px; margin-bottom: 6px; line-height: 1.6; }
 .journey-missing { color: #aaa; font-style: italic; }
 
+/* ── Map tile greyscale filter ───────────────────────────────────────────── */
+/* Applied to OSM France tiles to desaturate the background while keeping    */
+/* French labels readable. Route color overlays are unaffected (different    */
+/* layer pane).                                                               */
+.map-tiles-greyscale {
+  filter: grayscale(100%) brightness(1.05);
+}
+
 /* ── Station markers on map ──────────────────────────────────────────────── */
 .station-marker {
   width: 14px;
