@@ -61,6 +61,20 @@
   }
 
   /**
+   * Build an anchor-styled booking button linking to SNCF Connect search.
+   *
+   * @param {string} from - Departure station name.
+   * @param {string} to - Arrival station name.
+   * @returns {string} HTML string for the booking anchor button.
+   */
+  function buildBookingButtonHtml(from, to) {
+    const url =
+      `https://www.sncf-connect.com/home/search` +
+      `?userInput=${encodeURIComponent(from)}&userInput=${encodeURIComponent(to)}`;
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="btn-book">Réserver sur SNCF Connect</a>`;
+  }
+
+  /**
    * Build the expanded detail HTML for one itinerary card.
    *
    * @param {Object} itinerary - Full itinerary card object from the API.
@@ -78,6 +92,7 @@
            <h4>Train aller</h4> ${ob.from} → ${ob.to}<br/>
            Départ ${formatTime(ob.departure)} · Arrivée ${formatTime(ob.arrival)} · ${ob.duration}
            ${ob.nb_transfers > 0 ? `· ${ob.nb_transfers} correspondance(s)` : ""}
+           <div class="journey-book">${buildBookingButtonHtml(ob.from, ob.to)}</div>
          </div>`
       : `<div class="journey-detail journey-missing">Train aller : connexion non trouvée</div>`;
 
@@ -86,6 +101,7 @@
            <h4>Train retour</h4> ${ret.from} → ${ret.to}<br/>
            Départ ${formatTime(ret.departure)} · Arrivée ${formatTime(ret.arrival)} · ${ret.duration}
            ${ret.nb_transfers > 0 ? `· ${ret.nb_transfers} correspondance(s)` : ""}
+           <div class="journey-book">${buildBookingButtonHtml(ret.from, ret.to)}</div>
          </div>`
       : `<div class="journey-detail journey-missing">Train retour : connexion non trouvée</div>`;
 
