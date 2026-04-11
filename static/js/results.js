@@ -69,26 +69,13 @@
   function buildDetailHtml(itinerary) {
     const rhythmLabel = RHYTHM_LABELS[itinerary.rhythm_key] || itinerary.rhythm_key;
 
-    // Build day-by-day text
-    const nDays = itinerary.n_days;
-    let dayBreakdown = "";
-    if (nDays === 1) {
-      dayBreakdown = `<li>Journée : train aller + ${formatKm(itinerary.total_biking_km)} à vélo + train retour</li>`;
-    } else {
-      dayBreakdown = `<li>Jour 1 : train aller + début du parcours vélo</li>`;
-      for (let d = 2; d < nDays; d++) {
-        dayBreakdown += `<li>Jour ${d} : journée vélo complète</li>`;
-      }
-      dayBreakdown += `<li>Jour ${nDays} : fin du parcours vélo + train retour</li>`;
-    }
-
     // Outbound section details
     const ob = itinerary.outbound;
     const ret = itinerary.return_train;
 
     const outboundDetail = ob
       ? `<div class="journey-detail">
-           <strong>Train aller</strong> — ${ob.from} → ${ob.to}<br/>
+           <h4>Train aller</h4> ${ob.from} → ${ob.to}<br/>
            Départ ${formatTime(ob.departure)} · Arrivée ${formatTime(ob.arrival)} · ${ob.duration}
            ${ob.nb_transfers > 0 ? `· ${ob.nb_transfers} correspondance(s)` : ""}
          </div>`
@@ -96,7 +83,7 @@
 
     const returnDetail = ret
       ? `<div class="journey-detail">
-           <strong>Train retour</strong> — ${ret.from} → ${ret.to}<br/>
+           <h4>Train retour</h4> ${ret.from} → ${ret.to}<br/>
            Départ ${formatTime(ret.departure)} · Arrivée ${formatTime(ret.arrival)} · ${ret.duration}
            ${ret.nb_transfers > 0 ? `· ${ret.nb_transfers} correspondance(s)` : ""}
          </div>`
@@ -105,8 +92,7 @@
     return `
       <div class="card-detail">
         <div class="detail-section">
-          <h4>Programme</h4>
-          <ul class="day-list">${dayBreakdown}</ul>
+          ${outboundDetail}
         </div>
         <div class="detail-section">
           <h4>Rythme : ${rhythmLabel}</h4>
@@ -115,7 +101,6 @@
           <p>Distance totale à vélo : <strong>${formatKm(itinerary.total_biking_km)}</strong></p>
         </div>
         <div class="detail-section">
-          ${outboundDetail}
           ${returnDetail}
         </div>
       </div>
