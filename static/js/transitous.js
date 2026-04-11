@@ -127,21 +127,24 @@
    * Parse a raw Transitous itinerary object into the journey result shape
    * expected by buildItineraryCard() in search.js.
    *
-   * Departure and arrival times are taken from the first and last transit legs
-   * respectively, ignoring walking legs at the start and end.  Times are
-   * converted from UTC to local timezone so that formatTime() in results.js
-   * displays the correct local hour.
+   * Station names, departure and arrival times are taken directly from the
+   * first and last transit legs of the itinerary.  Walking legs at the start
+   * and end (to/from the user's coordinates) are ignored.  This ensures the
+   * displayed departure station always matches the actual boarding point
+   * (e.g. "Paris Gare de Lyon", not "Paris Austerlitz") and the displayed
+   * arrival station matches the actual alighting point.
+   *
+   * Times are converted from UTC to local timezone so that formatTime() in
+   * results.js displays the correct local hour.
    *
    * @param {Object} itinerary - A single itinerary from the Transitous API.
-   * @param {string} fromStationNom - Display name of the origin station.
-   * @param {string} toStationNom - Display name of the destination station.
    * @returns {{from_station_nom:string, to_station_nom:string,
    *   departure_datetime:string, arrival_datetime:string,
    *   duration_minutes:number, nb_transfers:number,
    *   train_type:string, sections:Array}|null} Journey result object,
    *   or null if the itinerary has no transit legs.
    */
-  function buildJourneyResult(itinerary, fromStationNom, toStationNom) {
+  function buildJourneyResult(itinerary) {
     if (!itinerary) return null;
 
     const transitLegs = _transitLegs(itinerary.legs);
@@ -174,8 +177,8 @@
     });
 
     return {
-      from_station_nom:   fromStationNom,
-      to_station_nom:     toStationNom,
+      from_station_nom:   firstLeg.from.name,
+      to_station_nom:     lastLeg.to.name,
       departure_datetime: depLocal,
       arrival_datetime:   arrLocal,
       duration_minutes:   durationMinutes,

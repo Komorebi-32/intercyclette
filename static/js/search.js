@@ -251,44 +251,46 @@
    * Query the Transitous API for the best outbound journey and return a
    * journey result object, or null if no train is found.
    *
-   * @param {number} fromLat - Departure station latitude.
-   * @param {number} fromLon - Departure station longitude.
-   * @param {string} fromNom - Departure station display name.
-   * @param {number} toLat - Arrival station latitude.
-   * @param {number} toLon - Arrival station longitude.
-   * @param {string} toNom - Arrival station display name.
+   * Station names in the result come from the API response itself (actual
+   * boarding and alighting stations), not from the passed coordinates.
+   *
+   * @param {number} fromLat - Departure latitude.
+   * @param {number} fromLon - Departure longitude.
+   * @param {number} toLat - Arrival latitude.
+   * @param {number} toLon - Arrival longitude.
    * @param {string} localIsoDatetime - Desired local departure datetime,
    *   e.g. "2026-05-02T08:00:00".
    * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
-  async function queryOutboundJourney(fromLat, fromLon, fromNom, toLat, toLon, toNom, localIsoDatetime) {
+  async function queryOutboundJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
     const itineraries = await window.InterTimetable.queryJourney(
       fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
     );
     if (!itineraries.length) return null;
-    return window.InterTimetable.buildJourneyResult(itineraries[0], fromNom, toNom);
+    return window.InterTimetable.buildJourneyResult(itineraries[0]);
   }
 
   /**
    * Query the Transitous API for the best return journey and return a
    * journey result object, or null if no train is found.
    *
+   * Station names in the result come from the API response itself (actual
+   * boarding and alighting stations), not from the passed coordinates.
+   *
    * @param {number} fromLat - Return origin latitude (route end station).
    * @param {number} fromLon - Return origin longitude.
-   * @param {string} fromNom - Return origin display name.
    * @param {number} toLat - Return destination latitude (home city).
    * @param {number} toLon - Return destination longitude.
-   * @param {string} toNom - Return destination display name.
    * @param {string} localIsoDatetime - Desired local departure datetime,
    *   e.g. "2026-05-05T16:00:00".
    * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
-  async function queryReturnJourney(fromLat, fromLon, fromNom, toLat, toLon, toNom, localIsoDatetime) {
+  async function queryReturnJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
     const itineraries = await window.InterTimetable.queryJourney(
       fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
     );
     if (!itineraries.length) return null;
-    return window.InterTimetable.buildJourneyResult(itineraries[0], fromNom, toNom);
+    return window.InterTimetable.buildJourneyResult(itineraries[0]);
   }
 
   // ── Itinerary card assembly ────────────────────────────────────────────────
@@ -399,13 +401,13 @@
 
       const [outboundJourney, returnJourney] = await Promise.all([
         queryOutboundJourney(
-          depStation.lat, depStation.lon, depStation.nom,
-          dep.lat, dep.lon, dep.nom,
+          depStation.lat, depStation.lon,
+          dep.lat, dep.lon,
           outboundIso
         ),
         queryReturnJourney(
-          arr.lat, arr.lon, arr.nom,
-          depStation.lat, depStation.lon, depStation.nom,
+          arr.lat, arr.lon,
+          depStation.lat, depStation.lon,
           returnIso
         ),
       ]);
