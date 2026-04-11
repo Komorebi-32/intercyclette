@@ -75,13 +75,24 @@
   }
 
   /**
+   * Return the train color constants exposed by map.js, with safe fallbacks.
+   *
+   * @returns {{aller: string, retour: string}}
+   */
+  function getTrainColors() {
+    const colors = window.InterMap && window.InterMap.TRAIN_COLORS;
+    return colors || { aller: "#FF6D00", retour: "#1565C0" };
+  }
+
+  /**
    * Build the expanded detail HTML for one itinerary card.
    *
    * @param {Object} itinerary - Full itinerary card object from the API.
    * @returns {string} HTML string for the detail section.
    */
   function buildDetailHtml(itinerary) {
-    const rhythmLabel = RHYTHM_LABELS[itinerary.rhythm_key] || itinerary.rhythm_key;
+    const rhythmLabel  = RHYTHM_LABELS[itinerary.rhythm_key] || itinerary.rhythm_key;
+    const trainColors  = getTrainColors();
 
     // Outbound section details
     const ob = itinerary.outbound;
@@ -89,7 +100,7 @@
 
     const outboundDetail = ob
       ? `<div class="journey-detail">
-           <h4>Train aller</h4> ${ob.from} → ${ob.to}<br/>
+           <h4 style="color:${trainColors.aller}">Train aller</h4> ${ob.from} → ${ob.to}<br/>
            Départ ${formatTime(ob.departure)} · Arrivée ${formatTime(ob.arrival)} · ${ob.duration}
            ${ob.nb_transfers > 0 ? `· ${ob.nb_transfers} correspondance(s)` : ""}
            <div class="journey-book">${buildBookingButtonHtml(ob.from, ob.to)}</div>
@@ -98,7 +109,7 @@
 
     const returnDetail = ret
       ? `<div class="journey-detail">
-           <h4>Train retour</h4> ${ret.from} → ${ret.to}<br/>
+           <h4 style="color:${trainColors.retour}">Train retour</h4> ${ret.from} → ${ret.to}<br/>
            Départ ${formatTime(ret.departure)} · Arrivée ${formatTime(ret.arrival)} · ${ret.duration}
            ${ret.nb_transfers > 0 ? `· ${ret.nb_transfers} correspondance(s)` : ""}
            <div class="journey-book">${buildBookingButtonHtml(ret.from, ret.to)}</div>

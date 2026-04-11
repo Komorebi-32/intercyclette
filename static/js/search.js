@@ -301,9 +301,10 @@
    * @param {Object} candidate - TripCandidate from InterPlanner.
    * @param {Object|null} outboundJourney - Journey from queryOutboundJourney().
    * @param {Object|null} returnJourney - Journey from queryReturnJourney().
+   * @param {Object} homeStation - User's departure station {nom, lat, lon}.
    * @returns {Object} Card object suitable for InterResults.renderResults().
    */
-  function buildItineraryCard(candidate, outboundJourney, returnJourney) {
+  function buildItineraryCard(candidate, outboundJourney, returnJourney, homeStation) {
     function journeyDict(j) {
       if (!j) return null;
       return {
@@ -345,6 +346,11 @@
       n_days: candidate.n_days,
       rhythm_key: candidate.rhythm_key,
       geometry: candidate.geometry,
+      home_station: {
+        nom: homeStation.nom,
+        lat: homeStation.lat,
+        lon: homeStation.lon,
+      },
       outbound: journeyDict(outboundJourney),
       return_train: journeyDict(returnJourney),
     };
@@ -412,7 +418,7 @@
         ),
       ]);
 
-      return buildItineraryCard(candidate, outboundJourney, returnJourney);
+      return buildItineraryCard(candidate, outboundJourney, returnJourney, depStation);
     });
 
     return Promise.all(cardPromises);

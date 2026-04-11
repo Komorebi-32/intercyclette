@@ -18,6 +18,19 @@
 (function () {
   "use strict";
 
+  /**
+   * Color for the "Train aller" (outbound train) line and label.
+   * Chosen to be clearly distinct from all nine Eurovelo route colors.
+   */
+  const TRAIN_ALLER_COLOR = "#FF6D00";
+
+  /**
+   * Color for the "Train retour" (return train) line and label.
+   * Chosen to be clearly distinct from all nine Eurovelo route colors and from
+   * TRAIN_ALLER_COLOR.
+   */
+  const TRAIN_RETOUR_COLOR = "#1565C0";
+
   /** @type {L.Map} */
   let map = null;
 
@@ -340,13 +353,31 @@
   // ── Map helpers ─────────────────────────────────────────────────────────────
 
   /**
-   * Clear all itinerary-specific layers from the map.
+   * Restore each Eurovelo route overlay to the visibility dictated by its
+   * checkbox in the search form.
+   *
+   * Called after an itinerary is deselected so routes return to the state the
+   * user configured before expanding a card.
+   */
+  function restoreAllRouteVisibility() {
+    Object.keys(routeLayers).forEach(function (routeId) {
+      const cb = document.querySelector(`.route-checkbox[value="${routeId}"]`);
+      const shouldShow = cb ? cb.checked : true;
+      setRouteVisible(routeId, shouldShow);
+    });
+  }
+
+  /**
+   * Clear all itinerary-specific layers and restore Eurovelo route overlays
+   * to their checkbox-driven visibility.
+   *
    * Persistent route overlays and the base tile layer are preserved.
    */
   function clearMap() {
     if (itineraryLayer) {
       itineraryLayer.clearLayers();
     }
+    restoreAllRouteVisibility();
   }
 
   /**
@@ -364,55 +395,101 @@
     });
   }
 
+  /**
+   * Compute sample points for a gently curved arc between two geo-coordinates.
+   *
+   * Uses a quadratic Bézier curve whose control point is offset perpendicular
+   * to the straight line at a fraction of the chord length. This produces a
+   * smooth arc without any external dependency.
+   *
+   * @param {number} lat1 - Departure latitude.
+   * @param {number} lon1 - Departure longitude.
+   * @param {number} lat2 - Arrival latitude.
+   * @param {number} lon2 - Arrival longitude.
+   * @param {number} [curvature=0.2] - Perpendicular offset as a fraction of
+   *   the chord length. Positive curves left, negative curves right.
+   * @param {number} [steps=48] - Number of line segments in the output.
+   * @returns {Array<[number, number]>} Array of [lat, lon] sample points.
+   */
+  function buildCurvedPoints(lat1, lon1, lat2, lon2, curvature, steps) {
+    const c = curvature !== undefined ? curvature : 0.2;
+    const n = steps !== undefined ? steps : 48;
+
+    const midLat = (lat1 + lat2) / 2;
+    const midLon = (lon1 + lon2) / 2;
+    const dLat   = lat2 - lat1;
+    const dLon   = lon2 - lon1;
+
+    // Rotate the chord vector 90° to get the perpendicular direction
+    const ctrlLat = midLat - dLon * c;
+    const ctrlLon = midLon + dLat * c;
+
+    const points = [];
+    for (let i = 0; i <= n; i++) {
+      const t   = i / n;
+      const u   = 1 - t;
+      const lat = u * u * lat1 + 2 * u * t * ctrlLat + t * t * lat2;
+      const lon = u * u * lon1 + 2 * u * t * ctrlLon + t * t * lon2;
+      points.push([lat, lon]);
+    }
+    return points;
+  }
+
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
-   * Draw the biked segment and station markers for a selected itinerary.
+   * Draw the selected itinerary on the map.
    *
-   * The segment polyline uses the route's own color at a heavier weight (6) to
-   * distinguish it from the always-on thin overlay. Departure and arrival
-   * stations use blue and red markers respectively. The map is fitted to all
-   * visible elements.
+   * - Keeps all Eurovelo route overlays visible.
+   * - Draws the outbound train as a dashed curved arc in TRAIN_ALLER_COLOR.
+   * - Draws the return train as a dashed curved arc in TRAIN_RETOUR_COLOR.
+   * - Places labelled markers at the home station and at both bike endpoints.
+   * - Fits the map to all drawn elements.
    *
    * @param {Object} itinerary - Itinerary object assembled by search.js.
-   * @param {string} itinerary.route_id - Route ID for color lookup.
-   * @param {Array<[number, number]>} itinerary.geometry - [[lat,lon], …].
+   * @param {Object} itinerary.home_station      - {nom, lat, lon}.
    * @param {Object} itinerary.departure_station - {nom, lat, lon}.
-   * @param {Object} itinerary.arrival_station - {nom, lat, lon}.
+   * @param {Object} itinerary.arrival_station   - {nom, lat, lon}.
    */
   function showItineraryOnMap(itinerary) {
-    clearMap();
+    itineraryLayer.clearLayers();
 
-    const segmentColor = routeColors[itinerary.route_id] || "#2ecc71";
     const bounds = [];
 
-    if (itinerary.geometry && itinerary.geometry.length > 1) {
-      const polyline = L.polyline(itinerary.geometry, {
-        color: segmentColor,
-        weight: 6,
-        opacity: 0.9,
-      });
-      itineraryLayer.addLayer(polyline);
-      bounds.push(...itinerary.geometry);
+    const dep  = itinerary.departure_station;
+    const arr  = itinerary.arrival_station;
+    const home = itinerary.home_station;
+
+    // ── Train aller: home → dep ─────────────────────────────────────────────
+    if (home && dep && home.lat && dep.lat) {
+      itineraryLayer.addLayer(L.polyline(
+        buildCurvedPoints(home.lat, home.lon, dep.lat, dep.lon),
+        { color: TRAIN_ALLER_COLOR, weight: 3, opacity: 0.9, dashArray: "10 6" }
+      ));
+      itineraryLayer.addLayer(
+        L.marker([home.lat, home.lon], {
+          icon: buildStationIcon(TRAIN_ALLER_COLOR), title: home.nom,
+        }).bindPopup(`<b>Départ train aller</b><br>${home.nom}`)
+      );
+      itineraryLayer.addLayer(
+        L.marker([dep.lat, dep.lon], {
+          icon: buildStationIcon(TRAIN_ALLER_COLOR), title: dep.nom,
+        }).bindPopup(`<b>Arrivée train aller — Départ vélo</b><br>${dep.nom}`)
+      );
+      bounds.push([home.lat, home.lon], [dep.lat, dep.lon]);
     }
 
-    const dep = itinerary.departure_station;
-    if (dep && dep.lat && dep.lon) {
-      const marker = L.marker([dep.lat, dep.lon], {
-        icon: buildStationIcon("#2980b9"),
-        title: dep.nom,
-      }).bindPopup(`<b>Arrivée train aller</b><br>${dep.nom}`);
-      itineraryLayer.addLayer(marker);
-      bounds.push([dep.lat, dep.lon]);
-    }
-
-    const arr = itinerary.arrival_station;
-    if (arr && arr.lat && arr.lon) {
-      const marker = L.marker([arr.lat, arr.lon], {
-        icon: buildStationIcon("#e74c3c"),
-        title: arr.nom,
-      }).bindPopup(`<b>Départ train retour</b><br>${arr.nom}`);
-      itineraryLayer.addLayer(marker);
+    // ── Train retour: arr → home ────────────────────────────────────────────
+    if (arr && home && arr.lat && home.lat) {
+      itineraryLayer.addLayer(L.polyline(
+        buildCurvedPoints(arr.lat, arr.lon, home.lat, home.lon),
+        { color: TRAIN_RETOUR_COLOR, weight: 3, opacity: 0.9, dashArray: "10 6" }
+      ));
+      itineraryLayer.addLayer(
+        L.marker([arr.lat, arr.lon], {
+          icon: buildStationIcon(TRAIN_RETOUR_COLOR), title: arr.nom,
+        }).bindPopup(`<b>Arrivée vélo — Départ train retour</b><br>${arr.nom}`)
+      );
       bounds.push([arr.lat, arr.lon]);
     }
 
@@ -441,5 +518,6 @@
     clearMap,
     showItineraryOnMap,
     centerOn,
+    TRAIN_COLORS: { aller: TRAIN_ALLER_COLOR, retour: TRAIN_RETOUR_COLOR },
   };
 })();
