@@ -4,8 +4,8 @@ Flask route handlers for the Intercyclette web application.
 Serves the HTML frontend and provides one JSON API endpoint:
   GET  /api/stations  — full station list for front-end autocomplete
 
-The itinerary search is handled entirely in the browser using the GTFS
-timetable index (static/data/timetable.json).  The /api/search endpoint
+The itinerary search is handled entirely in the browser using the Transitous
+API.  The /api/search endpoint
 and all Navitia dependencies have been removed.
 """
 

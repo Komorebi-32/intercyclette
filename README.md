@@ -19,7 +19,7 @@ Site statique (GitHub Pages / http.server)
   static/css/style.css
 ```
 
-Aucun proxy, aucun token. Les horaires sont récupérés à la demande via l'**API Transitous** (`https://api.transitous.org`). Le navigateur envoie automatiquement l'en-tête `Referer`, ce qui satisfait la politique d'attribution de Transitous. Avantage par rapport à l'ancienne approche GTFS : les correspondances (multi-trajets) sont prises en charge.
+Aucun proxy, aucun token. Les horaires sont récupérés à la demande via l'**API Transitous** (`https://api.transitous.org`). Le navigateur envoie automatiquement l'en-tête `Referer`, ce qui satisfait la politique d'attribution de Transitous. Les correspondances (multi-trajets) sont prises en charge.
 
 Le backend Flask (`app/`) est conservé uniquement pour le développement local (`flask run`).
 
@@ -60,7 +60,7 @@ Les horaires de trains sont récupérés en temps réel via l'[API Transitous](h
 - Aucun token requis.
 - L'en-tête `Referer` est envoyé automatiquement par le navigateur (politique d'attribution Transitous).
 - Contact : karas.benjamin@gmail.com (requis par Transitous pour les apps browser).
-- Supports les correspondances (multi-trajets) — amélioration par rapport à l'ancienne approche GTFS.
+- Supporte les correspondances (multi-trajets).
 
 ---
 
@@ -82,13 +82,6 @@ python3 scripts/export_stations_json.py      # → static/data/stations.json
 python3 scripts/export_route_geometries.py   # → static/data/routes/ev*.json (×9)
 cp data/processed/route_stations.json static/data/route_stations.json
 ```
-
-> **Optionnel — Index horaires GTFS (fallback)**
-> Si Transitous est indisponible, un index GTFS local peut être compilé :
-> ```bash
-> python3 scripts/build_gtfs_index.py   # → static/data/timetable.json
-> ```
-> Nécessite les fichiers GTFS SNCF dans `data/raw/Export_OpenData_SNCF_GTFS_NewTripId/`.
 
 ---
 
@@ -118,7 +111,7 @@ flask --app app run
 python3 -m pytest tests/ -v
 ```
 
-Tous les tests sont isolés (pas de réseau, pas de fichiers GTFS réels).
+Tous les tests sont isolés (pas de réseau, pas de fichiers externes réels).
 
 ---
 
@@ -131,16 +124,14 @@ intercyclette/
 │   ├── raw/
 │   │   ├── gares-de-voyageurs.geojson     Gares SNCF
 │   │   ├── Eurovelo_France_gpx/           Traces GPX des 9 routes
-│   │   └── Export_OpenData_SNCF_GTFS_NewTripId/   Données GTFS SNCF
 │   └── processed/
 │       └── route_stations.json            Index gares ↔ routes (avec track_points)
 ├── scripts/
 │   ├── preprocess.py                  Pré-traitement GPX + gares (exécuté une fois)
-│   ├── build_gtfs_index.py            Compilation de l'index GTFS → timetable.json
 │   ├── export_stations_json.py        Export → static/data/stations.json
 │   └── export_route_geometries.py     Export → static/data/routes/*.json
 ├── app/
-│   ├── constants.py                   Constantes, couleurs, chemins GTFS
+│   ├── constants.py                   Constantes, couleurs, chemins
 │   ├── routes.py                      Handlers Flask (développement local)
 │   ├── geo/
 │   │   ├── distance.py                Géométrie pure (haversine, polyligne)
@@ -168,7 +159,7 @@ intercyclette/
 │   ├── BUILD.md
 │   └── DEPLOYMENT.md
 └── tests/
-    ├── fixtures/gtfs/                 Données GTFS synthétiques pour les tests
+    ├── fixtures/                      Données synthétiques pour les tests
     └── test_*.py                      Tests unitaires (un fichier par module)
 ```
 

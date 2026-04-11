@@ -128,25 +128,9 @@ ROUTE_COLORS = {
 }
 
 # ---------------------------------------------------------------------------
-# GTFS timetable (train type filter and output)
-# ---------------------------------------------------------------------------
-
-# stop_id prefixes that identify French TER-train and Intercités stops.
-# The "87" suffix ensures only French domestic stations (UIC prefix 87) are
-# included — international stops use different numeric prefixes.
-GTFS_TER_STOP_PREFIX        = "StopPoint:OCETrain TER-87"
-GTFS_INTERCITES_STOP_PREFIX = "StopPoint:OCEINTERCITES-87"
-
-# Minimum stops a trip must serve to be included in the timetable index.
-# Trips with only one stop are useless for A→B queries.
-GTFS_MIN_STOPS_PER_TRIP = 2
-
-# ---------------------------------------------------------------------------
 # File paths (relative to project root)
 # ---------------------------------------------------------------------------
 
 GPX_DIR          = "data/raw/Eurovelo_France_gpx"
 STATIONS_GEOJSON = "data/raw/gares-de-voyageurs.geojson"
 PROCESSED_OUTPUT = "data/processed/route_stations.json"
-GTFS_DIR         = "data/raw/Export_OpenData_SNCF_GTFS_NewTripId"
-GTFS_OUTPUT      = "static/data/timetable.json"
