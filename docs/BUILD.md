@@ -4,7 +4,8 @@
 
 - Python 3.10+
 - pip3
-- GTFS data from SNCF Open Data (see step 2)
+- GTFS data from SNCF Open Data — only needed for the **optional** step 4
+  (local GTFS fallback); not required for normal operation
 
 ## 1. Install Python dependencies
 

@@ -2,9 +2,9 @@
 
 ## Overview
 
-Intercyclette is a fully self-contained static web application. All data is
-precomputed at build time and served as static JSON files. No proxy server,
-no API token, and no external network calls are made at query time.
+Intercyclette is a fully static web application. Precomputed data files are
+served as static JSON; train schedules are fetched live from the Transitous
+public routing API. No proxy server and no API token are required.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -15,20 +15,20 @@ no API token, and no external network calls are made at query time.
 │  static/js/                                                         │
 │    map.js          Leaflet map, colored route overlays              │
 │    planner.js      JS port of Python itinerary planner              │
-│    timetable.js    In-browser GTFS journey lookup engine            │
+│    transitous.js   Transitous API client (live train schedules)     │
 │    results.js      Render itinerary cards                           │
 │    search.js       Form, autocomplete, orchestrates search          │
 │  static/data/                                                       │
 │    stations.json           All SNCF stations (autocomplete)         │
 │    route_stations.json     Route–station proximity index            │
-│    timetable.json          Compiled GTFS timetable index            │
 │    routes/                 One JSON per Eurovelo route              │
 │      ev3.json, ev4.json, … (9 files, colored polylines)            │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-At query time the browser fetches only the three precomputed data files
-(stations, route_stations, timetable) — all computation runs in-memory.
+At page load the browser fetches the two precomputed data files (stations,
+route_stations) and the nine route geometry files. At search time it issues
+live API calls to Transitous for each candidate journey pair.
 
 ---
 
@@ -38,10 +38,9 @@ At query time the browser fetches only the three precomputed data files
 
 ```
 browser
-  ├─ fetch static/data/stations.json       → populate autocomplete
-  ├─ fetch static/data/route_stations.json → load route index into memory
-  ├─ fetch static/data/routes/ev*.json (×9) → draw colored polylines on map
-  └─ (deferred) fetch static/data/timetable.json → loaded on first search
+  ├─ fetch static/data/stations.json        → populate autocomplete
+  ├─ fetch static/data/route_stations.json  → load route index into memory
+  └─ fetch static/data/routes/ev*.json (×9) → draw colored polylines on map
 ```
 
 ### 2. Search
@@ -55,12 +54,16 @@ planner.js.findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythm)
   │
   ▼  for each TripCandidate (up to 3 per single route, 1 per multi-route)
   │
-  ├─ timetable.js.queryJourney(fromUic, toUic, dateInt, 480)   (outbound 08:00)
-  ├─ timetable.js.queryJourney(returnUic, fromUic, dateInt, 960) (return 16:00)
-  │  both synchronous — no network, operates on in-memory timetable index
+  ├─ transitous.js.queryJourney(fromLat, fromLon, toLat, toLon, "YYYY-MM-DDTHH:MM:SS")
+  │    outbound: 08:00 on the outbound date
+  ├─ transitous.js.queryJourney(fromLat, fromLon, toLat, toLon, "YYYY-MM-DDTHH:MM:SS")
+  │    return:   16:00 on the return date
+  │  both async — issue GET to https://api.transitous.org/api/v5/plan
   │
   ▼
-timetable.js.buildJourneyResult(row, fromNom, toNom, dateInt)
+transitous.js.buildJourneyResult(itinerary)
+  │  strips WALK legs; reads station names from first/last transit leg;
+  │  converts UTC timestamps to browser-local ISO strings
   │
   ▼
 search.js.buildItineraryCard(candidate, outboundJourney, returnJourney)
@@ -117,9 +120,12 @@ builds a URL with `transitModes=RAIL&maxTransfers=5`, converts the local
 datetime to UTC via `new Date(localIsoDatetime).toISOString()`, and fetches
 the API. Returns raw Transitous itinerary objects.
 
-`buildJourneyResult(itinerary, fromNom, toNom)` strips walking legs, converts
-UTC timestamps to browser-local ISO strings (for correct French time display),
-and returns the shape expected by `buildItineraryCard()` in `search.js`.
+`buildJourneyResult(itinerary)` strips walking legs, reads station names from
+the first and last transit legs of the API response (ensuring the displayed
+departure/arrival station matches the actual boarding/alighting point, which
+may differ from the user's selected city), converts UTC timestamps to
+browser-local ISO strings (for correct French time display), and returns the
+shape expected by `buildItineraryCard()` in `search.js`.
 
 The browser sends a `Referer` header automatically on every cross-origin
 request, satisfying the Transitous attribution requirement.
