@@ -8,14 +8,21 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
-  <header class="site-header">
-    <span class="logo">🚲 Intercyclette</span>
-    <span class="tagline">Trouvez votre randovélo en train</span>
-  </header>
 
-  <div class="app-layout">
-    <!-- ── Left panel: search form ── -->
-    <aside class="panel-left">
+  <!-- ── Fullscreen map (behind everything) ── -->
+  <div id="map" class="map-container"></div>
+
+  <!-- ── Floating left panel ── -->
+  <aside class="panel-left" id="panel-left">
+
+    <!-- Green header, panel-width only -->
+    <div class="panel-header">
+      <span class="logo">🚲 Intercyclette</span>
+      <span class="tagline">Trouvez votre randovélo en train</span>
+    </div>
+
+    <!-- Search form (shown by default) -->
+    <div id="search-panel" class="panel-body">
       <form id="search-form">
 
         <!-- Departure city -->
@@ -99,21 +106,44 @@
 
         <div id="search-status" class="search-status" hidden></div>
       </form>
-    </aside>
+    </div>
 
-    <!-- ── Right panel: results + map ── -->
-    <main class="panel-right">
-      <div id="results-container" class="results-container">
-        <div class="results-placeholder">
-          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.</p>
-        </div>
-      </div>
-      <div id="map" class="map-container"></div>
-    </main>
+    <!-- Results panel (hidden until search completes) -->
+    <div id="results-panel" class="panel-body" hidden>
+      <div id="results-container"></div>
+      <button id="modify-search-btn" class="btn-modify-search">
+        ← Modifier la recherche
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ── Credits widget (bottom-right) ── -->
+  <div class="credits-widget">
+    © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>
+    · <a href="#" id="sources-toggle">Sources des données</a>
+  </div>
+
+  <!-- ── Sources popup ── -->
+  <div class="sources-popup" id="sources-popup" hidden>
+    <button class="sources-close" id="sources-close" aria-label="Fermer">✕</button>
+    <p class="sources-title">Sources des données</p>
+    <ul class="sources-list">
+      <li>Horaires : <a href="https://transitous.org" target="_blank" rel="noopener">Transitous</a></li>
+      <li>Gares voyageurs SNCF : <a href="https://defis.data.gouv.fr/datasets/65d81858179dc96581d981db" target="_blank" rel="noopener">data.gouv.fr</a></li>
+      <li>Traces EuroVelo : <a href="https://www.francevelotourisme.com/conseils/preparer-mon-voyage-a-velo/eurovelo-france" target="_blank" rel="noopener">francevelotourisme.com</a></li>
+      <li>
+        Licence : <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GNU GPL v3</a>
+        — code libre d'utiliser, étudier et redistribuer,
+        à condition de partager sous la même licence.
+      </li>
+    </ul>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="{{ url_for('static', filename='js/map.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/transitous.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/planner.js') }}"></script>
   <script src="{{ url_for('static', filename='js/results.js') }}"></script>
   <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 </body>

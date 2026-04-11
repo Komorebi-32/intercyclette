@@ -1,9 +1,15 @@
 /**
- * search.js — Search form management, autocomplete, and search orchestration.
+ * search.js — Search form management, autocomplete, panel toggling, and
+ * search orchestration.
  *
  * Static-site version. Loads data from static JSON files, runs the itinerary
  * planner entirely in the browser, and queries the Transitous API for train
  * journeys (no proxy server, no API token required).
+ *
+ * Panel states:
+ *   - #search-panel: shown by default; hidden after a successful search.
+ *   - #results-panel: shown after search; "Modifier la recherche" restores
+ *     the search panel.
  *
  * Depends on: planner.js (window.InterPlanner), transitous.js (window.InterTimetable),
  *             map.js (window.InterMap), results.js (window.InterResults).
@@ -31,14 +37,75 @@
   const autocompleteList  = document.getElementById("autocomplete-list");
   const daysSelect        = document.getElementById("days-select");
   const travelDateInput   = document.getElementById("travel-date");
-  const travelDateDisplay = document.getElementById("travel-date-display");
   const searchBtn         = document.getElementById("search-btn");
   const searchStatus      = document.getElementById("search-status");
   const resultsContainer  = document.getElementById("results-container");
   const selectAllCheckbox = document.getElementById("select-all-routes");
-  const btnHelp           = document.getElementById("btn-help");
-  const helpModal         = document.getElementById("help-modal");
-  const helpModalClose    = document.getElementById("help-modal-close");
+  const searchPanel       = document.getElementById("search-panel");
+  const resultsPanel      = document.getElementById("results-panel");
+  const modifySearchBtn   = document.getElementById("modify-search-btn");
+  const sourcesToggle     = document.getElementById("sources-toggle");
+  const sourcesPopup      = document.getElementById("sources-popup");
+  const sourcesClose      = document.getElementById("sources-close");
+
+  // ── Panel toggling ─────────────────────────────────────────────────────────
+
+  /**
+   * Switch the left panel to show the results view.
+   *
+   * Hides the search form and reveals the results panel.
+   */
+  function showResultsPanel() {
+    if (searchPanel) searchPanel.hidden = true;
+    if (resultsPanel) resultsPanel.hidden = false;
+  }
+
+  /**
+   * Switch the left panel back to the search form.
+   *
+   * Hides the results panel, reveals the search form, and clears the map.
+   */
+  function showSearchPanel() {
+    if (resultsPanel) resultsPanel.hidden = true;
+    if (searchPanel) searchPanel.hidden = false;
+    if (window.InterMap) window.InterMap.clearMap();
+  }
+
+  if (modifySearchBtn) {
+    modifySearchBtn.addEventListener("click", showSearchPanel);
+  }
+
+  // ── Sources popup ──────────────────────────────────────────────────────────
+
+  /**
+   * Wire the "Sources des données" link and its popup close interactions.
+   *
+   * Popup opens on link click, closes on ✕ button or outside click.
+   */
+  function initSourcesPopup() {
+    if (!sourcesToggle || !sourcesPopup) return;
+
+    sourcesToggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      sourcesPopup.hidden = false;
+    });
+
+    if (sourcesClose) {
+      sourcesClose.addEventListener("click", function () {
+        sourcesPopup.hidden = true;
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      if (
+        !sourcesPopup.hidden &&
+        !sourcesPopup.contains(e.target) &&
+        e.target !== sourcesToggle
+      ) {
+        sourcesPopup.hidden = true;
+      }
+    });
+  }
 
   // ── Autocomplete ──────────────────────────────────────────────────────────
 
@@ -89,7 +156,7 @@
   /**
    * Select a station from the autocomplete list.
    *
-   * @param {{nom:string,libellecourt:string,uic:string}} station
+   * @param {{nom:string,libellecourt:string,uic:string,lat:number,lon:number}} station
    */
   function selectStation(station) {
     departureInput.value = station.nom;
@@ -248,18 +315,13 @@
   // ── Transitous journey queries ─────────────────────────────────────────────
 
   /**
-   * Query the Transitous API for the best outbound journey and return a
-   * journey result object, or null if no train is found.
-   *
-   * Station names in the result come from the API response itself (actual
-   * boarding and alighting stations), not from the passed coordinates.
+   * Query the Transitous API for the best outbound journey.
    *
    * @param {number} fromLat - Departure latitude.
    * @param {number} fromLon - Departure longitude.
    * @param {number} toLat - Arrival latitude.
    * @param {number} toLon - Arrival longitude.
-   * @param {string} localIsoDatetime - Desired local departure datetime,
-   *   e.g. "2026-05-02T08:00:00".
+   * @param {string} localIsoDatetime - Desired local departure datetime.
    * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
   async function queryOutboundJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
@@ -271,18 +333,13 @@
   }
 
   /**
-   * Query the Transitous API for the best return journey and return a
-   * journey result object, or null if no train is found.
-   *
-   * Station names in the result come from the API response itself (actual
-   * boarding and alighting stations), not from the passed coordinates.
+   * Query the Transitous API for the best return journey.
    *
    * @param {number} fromLat - Return origin latitude (route end station).
    * @param {number} fromLon - Return origin longitude.
    * @param {number} toLat - Return destination latitude (home city).
    * @param {number} toLon - Return destination longitude.
-   * @param {string} localIsoDatetime - Desired local departure datetime,
-   *   e.g. "2026-05-05T16:00:00".
+   * @param {string} localIsoDatetime - Desired local departure datetime.
    * @returns {Promise<Object|null>} Journey result object, or null if not found.
    */
   async function queryReturnJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
@@ -296,14 +353,22 @@
   // ── Itinerary card assembly ────────────────────────────────────────────────
 
   /**
-   * Assemble an itinerary card object from a TripCandidate and two journeys.
+   * Assemble an itinerary card object from a TripCandidate, two journeys, and
+   * the user's departure station (for map arc drawing).
    *
    * @param {Object} candidate - TripCandidate from InterPlanner.
    * @param {Object|null} outboundJourney - Journey from queryOutboundJourney().
    * @param {Object|null} returnJourney - Journey from queryReturnJourney().
+   * @param {{nom:string,lat:number,lon:number}} depStation - User's home station.
    * @returns {Object} Card object suitable for InterResults.renderResults().
    */
-  function buildItineraryCard(candidate, outboundJourney, returnJourney) {
+  function buildItineraryCard(candidate, outboundJourney, returnJourney, depStation) {
+    /**
+     * Convert a raw journey result into the card's journey dict.
+     *
+     * @param {Object|null} j - Raw journey result.
+     * @returns {Object|null}
+     */
     function journeyDict(j) {
       if (!j) return null;
       return {
@@ -316,6 +381,7 @@
         nb_transfers: j.nb_transfers,
         train_type: j.train_type || null,
         sections: j.sections,
+        legPoints: (j.sections || []).flatMap((s) => s.points || []),
       };
     }
 
@@ -339,6 +405,11 @@
         lon: arr.lon,
         cumulative_km: arr.cumulative_km,
       },
+      departure_city: {
+        nom: depStation.nom,
+        lat: depStation.lat,
+        lon: depStation.lon,
+      },
       biking_start_km: candidate.biking_start_km,
       biking_end_km: candidate.biking_end_km,
       total_biking_km: candidate.total_biking_km,
@@ -356,9 +427,6 @@
    * Run the full itinerary search: plan locally, then query the Transitous API
    * for outbound and return train times for each candidate.
    *
-   * Outbound and return queries for each candidate run in parallel; all
-   * candidates are processed concurrently.
-   *
    * @param {Object} params - Form values from getFormValues().
    * @returns {Promise<Object[]>} Array of itinerary card objects.
    */
@@ -374,14 +442,12 @@
 
     const travelDate = params.travel_date || new Date().toISOString().split("T")[0];
 
-    // Outbound: travel date if 1-day trip, otherwise travel date +1 day
     const outboundDate = params.n_days === 1 ? travelDate : addDaysIso(travelDate, 1);
     const returnDate   = addDaysIso(travelDate, params.n_days - 1);
 
     const outboundIso = `${outboundDate}T08:00:00`;
     const returnIso   = `${returnDate}T16:00:00`;
 
-    // Compute itinerary candidates (pure JS, no network)
     const candidates = window.InterPlanner.findAllItineraries(
       params.routes,
       routeIndex,
@@ -393,8 +459,6 @@
 
     if (candidates.length === 0) return [];
 
-    // For each candidate, query outbound and return journeys in parallel via
-    // the Transitous API, then assemble a card from the results.
     const cardPromises = candidates.map(async function (candidate) {
       const dep = candidate.departure_station;
       const arr = candidate.arrival_station;
@@ -412,7 +476,7 @@
         ),
       ]);
 
-      return buildItineraryCard(candidate, outboundJourney, returnJourney);
+      return buildItineraryCard(candidate, outboundJourney, returnJourney, depStation);
     });
 
     return Promise.all(cardPromises);
@@ -437,7 +501,7 @@
 
       showStatus("Recherche en cours…", "info");
       searchBtn.disabled = true;
-      window.InterMap.clearMap();
+      if (window.InterMap) window.InterMap.clearMap();
       resultsContainer.innerHTML = "";
 
       runSearch(params)
@@ -445,6 +509,7 @@
           hideStatus();
           window.InterResults.renderResults(itineraries, resultsContainer);
           searchBtn.disabled = false;
+          showResultsPanel();
         })
         .catch((err) => {
           showStatus(`Erreur : ${err.message}`, "error");
@@ -453,104 +518,22 @@
     });
   }
 
-  // ── French date input ──────────────────────────────────────────────────────
+  // ── Date initialisation ────────────────────────────────────────────────────
 
   /**
-   * Convert an ISO date string (YYYY-MM-DD) to French display format (DD/MM/YYYY).
-   *
-   * @param {string} iso - Date string in YYYY-MM-DD format.
-   * @returns {string} Date string in DD/MM/YYYY format.
+   * Set the travel date input to tomorrow's date as the default.
    */
-  function isoToFrench(iso) {
-    if (!iso || iso.length < 10) return "";
-    return iso.slice(8, 10) + "/" + iso.slice(5, 7) + "/" + iso.slice(0, 4);
-  }
-
-  /**
-   * Convert a French display date (DD/MM/YYYY) to ISO format (YYYY-MM-DD).
-   *
-   * Returns empty string if the input is not a valid complete date.
-   *
-   * @param {string} french - Date string in DD/MM/YYYY format.
-   * @returns {string} ISO date string, or empty string if invalid.
-   */
-  function frenchToIso(french) {
-    const parts = french.split("/");
-    if (parts.length !== 3 || parts[2].length !== 4) return "";
-    const [dd, mm, yyyy] = parts;
-    if (dd.length !== 2 || mm.length !== 2) return "";
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  /**
-   * Wire the French date display input to the hidden ISO date field.
-   *
-   * Auto-inserts slashes as the user types (after 2 digits for day and month).
-   * Syncs the hidden field on every valid keystroke.
-   */
-  function initFrenchDateInput() {
-    if (!travelDateDisplay || !travelDateInput) return;
-
+  function initDefaultDate() {
+    if (!travelDateInput) return;
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const isoTomorrow = tomorrow.toISOString().split("T")[0];
-    travelDateInput.value = isoTomorrow;
-    travelDateDisplay.value = isoToFrench(isoTomorrow);
-
-    travelDateDisplay.addEventListener("input", function () {
-      let v = this.value.replace(/[^\d/]/g, "");
-      const digits = v.replace(/\//g, "");
-      if (digits.length <= 2) {
-        v = digits;
-      } else if (digits.length <= 4) {
-        v = digits.slice(0, 2) + "/" + digits.slice(2);
-      } else {
-        v = digits.slice(0, 2) + "/" + digits.slice(2, 4) + "/" + digits.slice(4, 8);
-      }
-      this.value = v;
-      const iso = frenchToIso(v);
-      travelDateInput.value = iso || "";
-    });
-  }
-
-  // ── Help modal ─────────────────────────────────────────────────────────────
-
-  /**
-   * Wire the help button and modal close interactions.
-   *
-   * The modal opens on "?" click and closes on ✕ click, backdrop click, or
-   * Escape key.
-   */
-  function initHelpModal() {
-    if (!btnHelp || !helpModal) return;
-
-    btnHelp.addEventListener("click", function () {
-      helpModal.hidden = false;
-    });
-
-    if (helpModalClose) {
-      helpModalClose.addEventListener("click", function () {
-        helpModal.hidden = true;
-      });
-    }
-
-    helpModal.addEventListener("click", function (e) {
-      if (e.target === helpModal) {
-        helpModal.hidden = true;
-      }
-    });
-
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !helpModal.hidden) {
-        helpModal.hidden = true;
-      }
-    });
+    travelDateInput.value = tomorrow.toISOString().split("T")[0];
   }
 
   // ── Initialisation ─────────────────────────────────────────────────────────
 
-  initFrenchDateInput();
-  initHelpModal();
+  initDefaultDate();
+  initSourcesPopup();
 
   fetch("static/data/route_stations.json")
     .then((r) => r.json())

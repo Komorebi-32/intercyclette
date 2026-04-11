@@ -30,6 +30,56 @@
   /** Maximum number of transfers allowed in a journey. */
   const MAX_TRANSFERS = 5;
 
+  // ── Encoded polyline decoder ─────────────────────────────────────────────────
+
+  /**
+   * Decode a Google Encoded Polyline string into an array of [lat, lon] pairs.
+   *
+   * Implements the standard Google Encoded Polyline Algorithm
+   * (https://developers.google.com/maps/documentation/utilities/polylinealgorithm).
+   * The Transitous API (MOTIS) uses this format for legGeometry.points.
+   *
+   * @param {string} encoded - Encoded polyline string.
+   * @returns {Array<[number, number]>} Decoded array of [lat, lon] coordinate pairs.
+   */
+  function decodePolyline(encoded) {
+    const result = [];
+    let index = 0;
+    let lat = 0;
+    let lon = 0;
+
+    while (index < encoded.length) {
+      let byte;
+      let shift = 0;
+      let result_value = 0;
+
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result_value |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      const deltaLat = (result_value & 1) !== 0 ? ~(result_value >> 1) : (result_value >> 1);
+      lat += deltaLat;
+
+      shift = 0;
+      result_value = 0;
+
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result_value |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+
+      const deltaLon = (result_value & 1) !== 0 ? ~(result_value >> 1) : (result_value >> 1);
+      lon += deltaLon;
+
+      result.push([lat / 1e5, lon / 1e5]);
+    }
+
+    return result;
+  }
+
   // ── Internal helpers ────────────────────────────────────────────────────────
 
   /**
@@ -55,9 +105,6 @@
    * Convert a local ISO datetime string (no timezone suffix) to a UTC ISO
    * string suitable for the Transitous API's "time" parameter.
    *
-   * JavaScript parses "YYYY-MM-DDTHH:MM:SS" (no Z) as local time, so
-   * toISOString() returns the correct UTC equivalent.
-   *
    * @param {string} localIsoStr - Local datetime, e.g. "2026-05-02T08:00:00".
    * @returns {string} UTC datetime, e.g. "2026-05-02T06:00:00.000Z".
    */
@@ -77,14 +124,33 @@
     });
   }
 
+  /**
+   * Attempt to decode the leg geometry from a Transitous API leg object.
+   *
+   * The API returns geometry as an encoded polyline in leg.legGeometry.points.
+   * Returns null if the geometry is absent or cannot be decoded.
+   *
+   * @param {Object} leg - A single leg from the Transitous itinerary.
+   * @returns {Array<[number, number]>|null} Decoded [lat, lon] pairs, or null.
+   */
+  function _extractLegPoints(leg) {
+    const encoded =
+      leg && leg.legGeometry && typeof leg.legGeometry.points === "string"
+        ? leg.legGeometry.points
+        : null;
+    if (!encoded) return null;
+    try {
+      const pts = decodePolyline(encoded);
+      return pts.length > 0 ? pts : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   // ── API query ───────────────────────────────────────────────────────────────
 
   /**
    * Call the Transitous /plan endpoint and return the best itineraries.
-   *
-   * The Referer header (sent automatically by the browser for cross-origin
-   * requests) identifies this application to Transitous as required by their
-   * usage policy.
    *
    * @param {number} fromLat - Departure latitude.
    * @param {number} fromLon - Departure longitude.
@@ -127,22 +193,19 @@
    * Parse a raw Transitous itinerary object into the journey result shape
    * expected by buildItineraryCard() in search.js.
    *
-   * Station names, departure and arrival times are taken directly from the
-   * first and last transit legs of the itinerary.  Walking legs at the start
-   * and end (to/from the user's coordinates) are ignored.  This ensures the
-   * displayed departure station always matches the actual boarding point
-   * (e.g. "Paris Gare de Lyon", not "Paris Austerlitz") and the displayed
-   * arrival station matches the actual alighting point.
-   *
-   * Times are converted from UTC to local timezone so that formatTime() in
-   * results.js displays the correct local hour.
+   * Station names, departure and arrival times are taken from the first and
+   * last transit legs. Walking legs are ignored. Leg geometry (encoded
+   * polyline) is decoded when present so the map can draw the actual rail
+   * track instead of a Bézier arc.
    *
    * @param {Object} itinerary - A single itinerary from the Transitous API.
    * @returns {{from_station_nom:string, to_station_nom:string,
    *   departure_datetime:string, arrival_datetime:string,
    *   duration_minutes:number, nb_transfers:number,
-   *   train_type:string, sections:Array}|null} Journey result object,
-   *   or null if the itinerary has no transit legs.
+   *   train_type:string,
+   *   sections:Array<{mode:string, from:string, to:string,
+   *                   duration_min:number, points:Array|null}>}|null}
+   *   Journey result object, or null if the itinerary has no transit legs.
    */
   function buildJourneyResult(itinerary) {
     if (!itinerary) return null;
@@ -173,6 +236,7 @@
         from:         leg.from.name,
         to:           leg.to.name,
         duration_min: Math.round((legArrMs - legDepMs) / 60000),
+        points:       _extractLegPoints(leg),
       };
     });
 
@@ -224,5 +288,7 @@
     buildJourneyResult,
     formatDurationMinutes,
     minutesToTime,
+    // Exposed for unit tests
+    decodePolyline,
   };
 })();

@@ -1,0 +1,11 @@
+{
+  "name": "intercyclette",
+  "version": "1.0.0",
+  "description": "Intercyclette — Randovélo + Train",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}

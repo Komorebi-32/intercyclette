@@ -7,12 +7,14 @@
  * static/data/routes/*.json at page start. Individual route visibility is
  * toggled by setRouteVisible() when the user ticks/unticks checkboxes.
  *
- * Hovering a route polyline shows a floating info panel. The panel stays
- * visible when the mouse moves from the polyline onto the panel itself,
- * allowing the user to click the "En savoir plus" link.
+ * Hovering a route polyline shows a floating info panel.
  *
- * When an itinerary card is selected, the biked segment is highlighted in the
- * route's own color and station markers are added.
+ * When an itinerary card is selected:
+ * - All EuroVelo route overlays are hidden (visibility state saved for restore).
+ * - The biked segment is drawn in the route's own color.
+ * - The train aller journey is drawn as a blue arc/polyline.
+ * - The train retour journey is drawn as an orange arc/polyline.
+ * - Markers are placed at the departure city, departure station, arrival station.
  */
 
 (function () {
@@ -37,6 +39,24 @@
    */
   const routeLayers = {};
 
+  /**
+   * Saved visibility state before hiding routes for itinerary display.
+   * Null when no itinerary is active.
+   * @type {Object.<string, boolean>|null}
+   */
+  let savedRouteVisibility = null;
+
+  // ── Train journey colors ───────────────────────────────────────────────────
+
+  /** Color for train aller polyline and heading. */
+  const TRAIN_ALLER_COLOR  = "#2980b9";
+
+  /** Color for train retour polyline and heading. */
+  const TRAIN_RETOUR_COLOR = "#e67e22";
+
+  /** Number of points to generate along a Bézier arc. */
+  const BEZIER_NUM_POINTS = 60;
+
   // ── Floating hover panel ───────────────────────────────────────────────────
 
   /** @type {HTMLElement|null} The floating info panel DOM element. */
@@ -49,8 +69,7 @@
    * Create and return the singleton floating hover panel element.
    *
    * Cancels the close timer when the mouse enters the panel and restarts it
-   * when the mouse leaves, so the user can move the cursor onto the panel to
-   * click the "En savoir plus" link.
+   * when the mouse leaves, so the user can click the "En savoir plus" link.
    *
    * @returns {HTMLElement}
    */
@@ -112,8 +131,7 @@
   /**
    * Schedule closing the hover panel after a short delay.
    *
-   * The delay lets the mouse travel from the polyline to the panel without
-   * the panel disappearing.
+   * The delay lets the mouse travel from the polyline to the panel.
    */
   function scheduleClosePanel() {
     clearTimeout(closeTimeout);
@@ -212,9 +230,6 @@
   /**
    * Initialise the Leaflet map centred on France using OpenStreetMap France tiles.
    *
-   * OSM France tiles display labels in French and provide a clean light background
-   * that contrasts well with the vivid Eurovelo route colors.
-   *
    * @param {string} containerId - ID of the HTML element that will hold the map.
    * @returns {L.Map} The created Leaflet map instance.
    */
@@ -268,9 +283,6 @@
 
   /**
    * Fetch a single route geometry file and draw it as a thin colored polyline.
-   *
-   * Attaches mouseover/mousemove/mouseout handlers that show/hide the floating
-   * info panel. The panel stays open when the mouse moves onto it.
    *
    * @param {string} routeId - Route ID, e.g. 'EV3'.
    * @returns {Promise<void>} Resolves when the polyline is added to the map.
@@ -337,16 +349,53 @@
     }
   }
 
+  // ── Route visibility management for itinerary display ─────────────────────
+
+  /**
+   * Hide all EuroVelo route overlays and save their current visibility state
+   * so it can be restored when the itinerary is dismissed.
+   *
+   * Must be called before drawing a new itinerary on the map.
+   */
+  function hideAllRouteOverlays() {
+    savedRouteVisibility = {};
+    Object.keys(routeLayers).forEach(function (id) {
+      savedRouteVisibility[id] = map.hasLayer(routeLayers[id]);
+      if (map.hasLayer(routeLayers[id])) {
+        map.removeLayer(routeLayers[id]);
+      }
+    });
+  }
+
+  /**
+   * Restore EuroVelo route overlays to the visibility state saved by
+   * hideAllRouteOverlays().  Does nothing if no state was saved.
+   */
+  function restoreRouteOverlays() {
+    if (!savedRouteVisibility) return;
+    Object.keys(savedRouteVisibility).forEach(function (id) {
+      if (savedRouteVisibility[id] && routeLayers[id]) {
+        if (!map.hasLayer(routeLayers[id])) {
+          routeLayers[id].addTo(map);
+        }
+      }
+    });
+    savedRouteVisibility = null;
+  }
+
   // ── Map helpers ─────────────────────────────────────────────────────────────
 
   /**
-   * Clear all itinerary-specific layers from the map.
-   * Persistent route overlays and the base tile layer are preserved.
+   * Clear all itinerary-specific layers from the map and restore route overlays.
+   *
+   * Persistent route overlays and the base tile layer are preserved via
+   * restoreRouteOverlays().
    */
   function clearMap() {
     if (itineraryLayer) {
       itineraryLayer.clearLayers();
     }
+    restoreRouteOverlays();
   }
 
   /**
@@ -364,28 +413,104 @@
     });
   }
 
+  // ── Curved arc geometry ────────────────────────────────────────────────────
+
+  /**
+   * Compute BEZIER_NUM_POINTS + 1 points along a quadratic Bézier arc between
+   * two geographic coordinates.
+   *
+   * The quadratic control point is placed at the geographic midpoint, offset
+   * perpendicularly by 25% of the straight-line distance to produce a gentle
+   * curve that is clearly distinct from a straight line without being
+   * exaggerated over short distances.
+   *
+   * @param {number} latA - Start latitude.
+   * @param {number} lonA - Start longitude.
+   * @param {number} latB - End latitude.
+   * @param {number} lonB - End longitude.
+   * @returns {Array<[number, number]>} Array of [lat, lon] pairs.
+   */
+  function computeBezierPoints(latA, lonA, latB, lonB) {
+    const midLat = (latA + latB) / 2;
+    const midLon = (lonA + lonB) / 2;
+    const dLat   = latB - latA;
+    const dLon   = lonB - lonA;
+    // Perpendicular offset: rotate the delta 90° and scale
+    const cpLat = midLat - dLon * 0.25;
+    const cpLon = midLon + dLat * 0.25;
+
+    const points = [];
+    for (let i = 0; i <= BEZIER_NUM_POINTS; i++) {
+      const t = i / BEZIER_NUM_POINTS;
+      const u = 1 - t;
+      points.push([
+        u * u * latA + 2 * u * t * cpLat + t * t * latB,
+        u * u * lonA + 2 * u * t * cpLon + t * t * lonB,
+      ]);
+    }
+    return points;
+  }
+
+  /**
+   * Draw a train journey arc on the itinerary layer.
+   *
+   * Uses actual decoded leg geometry (legPoints) when available from the
+   * Transitous API.  Falls back to a quadratic Bézier arc when no geometry
+   * is available.
+   *
+   * @param {number} fromLat - Arc start latitude.
+   * @param {number} fromLon - Arc start longitude.
+   * @param {number} toLat - Arc end latitude.
+   * @param {number} toLon - Arc end longitude.
+   * @param {string} color - Stroke color.
+   * @param {Array<[number,number]>} [legPoints] - Optional decoded polyline from Transitous.
+   */
+  function drawTrainArc(fromLat, fromLon, toLat, toLon, color, legPoints) {
+    const points =
+      legPoints && legPoints.length > 1
+        ? legPoints
+        : computeBezierPoints(fromLat, fromLon, toLat, toLon);
+
+    const polyline = L.polyline(points, {
+      color: color,
+      weight: 3,
+      opacity: 0.85,
+      dashArray: "6 5",
+    });
+    itineraryLayer.addLayer(polyline);
+  }
+
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
-   * Draw the biked segment and station markers for a selected itinerary.
+   * Draw the biked segment, train arcs, and station markers for a selected
+   * itinerary.
    *
-   * The segment polyline uses the route's own color at a heavier weight (6) to
-   * distinguish it from the always-on thin overlay. Departure and arrival
-   * stations use blue and red markers respectively. The map is fitted to all
-   * visible elements.
+   * Hides all EuroVelo route overlays while the itinerary is shown (restored
+   * by clearMap).  Draws:
+   *   - Biked segment in the route's own color (bold, solid).
+   *   - Train aller arc in TRAIN_ALLER_COLOR (dashed).
+   *   - Train retour arc in TRAIN_RETOUR_COLOR (dashed).
+   *   - Markers at departure city (grey), departure station (blue),
+   *     arrival station (red).
    *
    * @param {Object} itinerary - Itinerary object assembled by search.js.
-   * @param {string} itinerary.route_id - Route ID for color lookup.
-   * @param {Array<[number, number]>} itinerary.geometry - [[lat,lon], …].
-   * @param {Object} itinerary.departure_station - {nom, lat, lon}.
-   * @param {Object} itinerary.arrival_station - {nom, lat, lon}.
+   * @param {string}  itinerary.route_id
+   * @param {Array}   itinerary.geometry - [[lat,lon], …] biked segment.
+   * @param {Object}  itinerary.departure_station - {nom, lat, lon}.
+   * @param {Object}  itinerary.arrival_station   - {nom, lat, lon}.
+   * @param {Object}  itinerary.departure_city    - {nom, lat, lon}.
+   * @param {Object}  [itinerary.outbound]        - Journey with optional legPoints.
+   * @param {Object}  [itinerary.return_train]    - Journey with optional legPoints.
    */
   function showItineraryOnMap(itinerary) {
     clearMap();
+    hideAllRouteOverlays();
 
     const segmentColor = routeColors[itinerary.route_id] || "#2ecc71";
     const bounds = [];
 
+    // ── Biked segment ──
     if (itinerary.geometry && itinerary.geometry.length > 1) {
       const polyline = L.polyline(itinerary.geometry, {
         color: segmentColor,
@@ -396,22 +521,48 @@
       bounds.push(...itinerary.geometry);
     }
 
-    const dep = itinerary.departure_station;
+    const dep  = itinerary.departure_station;
+    const arr  = itinerary.arrival_station;
+    const city = itinerary.departure_city;
+
+    // ── Train aller arc: departure city → departure station ──
+    if (city && dep && dep.lat && dep.lon) {
+      const legPoints = itinerary.outbound && itinerary.outbound.legPoints;
+      drawTrainArc(city.lat, city.lon, dep.lat, dep.lon, TRAIN_ALLER_COLOR, legPoints);
+    }
+
+    // ── Train retour arc: arrival station → departure city ──
+    if (city && arr && arr.lat && arr.lon) {
+      const legPoints = itinerary.return_train && itinerary.return_train.legPoints;
+      drawTrainArc(arr.lat, arr.lon, city.lat, city.lon, TRAIN_RETOUR_COLOR, legPoints);
+    }
+
+    // ── Departure city marker (grey) ──
+    if (city && city.lat && city.lon) {
+      const marker = L.marker([city.lat, city.lon], {
+        icon: buildStationIcon("#7f8c8d"),
+        title: city.nom,
+      }).bindPopup(`<b>Ville de départ</b><br>${city.nom}`);
+      itineraryLayer.addLayer(marker);
+      bounds.push([city.lat, city.lon]);
+    }
+
+    // ── Departure station marker (blue) ──
     if (dep && dep.lat && dep.lon) {
       const marker = L.marker([dep.lat, dep.lon], {
-        icon: buildStationIcon("#2980b9"),
+        icon: buildStationIcon(TRAIN_ALLER_COLOR),
         title: dep.nom,
-      }).bindPopup(`<b>Arrivée train aller</b><br>${dep.nom}`);
+      }).bindPopup(`<b>Arrivée train aller · Départ vélo</b><br>${dep.nom}`);
       itineraryLayer.addLayer(marker);
       bounds.push([dep.lat, dep.lon]);
     }
 
-    const arr = itinerary.arrival_station;
+    // ── Arrival station marker (orange) ──
     if (arr && arr.lat && arr.lon) {
       const marker = L.marker([arr.lat, arr.lon], {
-        icon: buildStationIcon("#e74c3c"),
+        icon: buildStationIcon(TRAIN_RETOUR_COLOR),
         title: arr.nom,
-      }).bindPopup(`<b>Départ train retour</b><br>${arr.nom}`);
+      }).bindPopup(`<b>Fin vélo · Départ train retour</b><br>${arr.nom}`);
       itineraryLayer.addLayer(marker);
       bounds.push([arr.lat, arr.lon]);
     }
@@ -441,5 +592,9 @@
     clearMap,
     showItineraryOnMap,
     centerOn,
+    // Exposed for unit tests
+    computeBezierPoints,
+    TRAIN_ALLER_COLOR,
+    TRAIN_RETOUR_COLOR,
   };
 })();

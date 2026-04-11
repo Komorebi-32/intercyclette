@@ -5,12 +5,14 @@
   --green: #2ecc71;
   --green-dark: #27ae60;
   --blue: #2980b9;
+  --orange: #e67e22;
   --red: #e74c3c;
   --grey-bg: #f4f6f8;
   --grey-border: #dce1e7;
   --grey-text: #555;
   --white: #fff;
   --shadow: 0 2px 8px rgba(0,0,0,.10);
+  --shadow-panel: 0 4px 20px rgba(0,0,0,.18);
   --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 
@@ -24,96 +26,119 @@
   --route-EV19: #2ecc71;
   --route-VEL:  #e91e63;
   --route-VIA:  #00bcd4;
+
+  /* Train journey colors */
+  --train-aller:  #2980b9;
+  --train-retour: #e67e22;
 }
 
-body { font-family: var(--font); background: var(--grey-bg); color: #2c3e50; font-size: 14px; height: 100vh; display: flex; flex-direction: column; }
+body {
+  font-family: var(--font);
+  color: #2c3e50;
+  font-size: 14px;
+  height: 100vh;
+  overflow: hidden;
+}
 
-/* ── Header ──────────────────────────────────────────────────────────────── */
-.site-header {
+/* ── Fullscreen map ───────────────────────────────────────────────────────── */
+.map-container {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+/* ── Floating left panel ──────────────────────────────────────────────────── */
+.panel-left {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  z-index: 10;
+  width: 380px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+  background: var(--white);
+}
+
+/* Green header — sits at top of floating panel, panel-width only */
+.panel-header {
   background: var(--green-dark);
   color: var(--white);
-  padding: 10px 20px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  border-radius: var(--radius) var(--radius) 0 0;
   flex-shrink: 0;
 }
-.logo { font-size: 1.2rem; font-weight: 700; }
-.tagline { font-size: 0.85rem; opacity: .85; }
+.logo  { font-size: 1.1rem; font-weight: 700; }
+.tagline { font-size: 0.80rem; opacity: .88; }
 
-/* Settings button in header */
-.btn-settings {
-  margin-left: auto;
+/* Panel body (search form / results) */
+.panel-body { padding: 16px; }
+
+/* ── Credits widget (bottom-right corner) ─────────────────────────────────── */
+.credits-widget {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(255, 255, 255, .88);
+  border-radius: var(--radius);
+  padding: 5px 10px;
+  font-size: 11px;
+  color: var(--grey-text);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(4px);
+}
+.credits-widget a { color: var(--grey-text); text-decoration: underline; }
+.credits-widget a:hover { color: #2c3e50; }
+
+/* ── Sources popup ────────────────────────────────────────────────────────── */
+.sources-popup {
+  position: fixed;
+  bottom: 48px;
+  right: 16px;
+  z-index: 11;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  padding: 14px 16px 12px;
+  width: 300px;
+  font-size: 12px;
+  line-height: 1.75;
+}
+.sources-popup[hidden] { display: none; }
+
+.sources-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+.sources-list {
+  list-style: none;
+  padding: 0;
+  color: var(--grey-text);
+}
+.sources-list li { margin-bottom: 4px; }
+.sources-list a { color: var(--blue); text-decoration: none; }
+.sources-list a:hover { text-decoration: underline; }
+
+.sources-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,.5);
-  color: var(--white);
-  border-radius: var(--radius);
-  padding: 4px 8px;
-  cursor: pointer;
-  font-size: 14px;
-}
-.btn-settings:hover { background: rgba(255,255,255,.15); }
-
-/* Settings panel (proxy URL) */
-.settings-panel {
-  background: var(--white);
-  border-bottom: 1px solid var(--grey-border);
-  padding: 12px 20px;
-  flex-shrink: 0;
-}
-.settings-inner { max-width: 480px; }
-.settings-hint { font-size: 12px; color: var(--grey-text); margin: 4px 0 8px; }
-.settings-inner input[type="text"] { margin-bottom: 8px; }
-.btn-save-proxy {
-  padding: 6px 14px;
-  background: var(--green-dark);
-  color: var(--white);
   border: none;
-  border-radius: var(--radius);
+  font-size: 14px;
   cursor: pointer;
-  font-size: 13px;
+  color: var(--grey-text);
+  line-height: 1;
+  padding: 2px 4px;
 }
-.btn-save-proxy:hover { background: var(--green); }
-
-/* ── Layout ──────────────────────────────────────────────────────────────── */
-.app-layout {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
-/* Left panel */
-.panel-left {
-  width: 340px;
-  min-width: 280px;
-  background: var(--white);
-  border-right: 1px solid var(--grey-border);
-  overflow-y: auto;
-  padding: 16px;
-  flex-shrink: 0;
-}
-
-/* Right panel */
-.panel-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.results-container {
-  flex: 0 0 auto;
-  max-height: 45vh;
-  overflow-y: auto;
-  padding: 12px 16px;
-  background: var(--white);
-  border-bottom: 1px solid var(--grey-border);
-}
-
-.map-container {
-  flex: 1;
-  min-height: 200px;
-}
+.sources-close:hover { color: var(--red); }
 
 /* ── Form ────────────────────────────────────────────────────────────────── */
 .form-group { margin-bottom: 16px; }
@@ -146,7 +171,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
-  width: 290px;
+  width: 348px;
 }
 .autocomplete-item {
   padding: 8px 12px;
@@ -214,6 +239,21 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .status-info { background: #eaf7f0; color: var(--green-dark); }
 .status-error { background: #fdecea; color: var(--red); }
 
+/* Modify search button */
+.btn-modify-search {
+  width: 100%;
+  margin-top: 12px;
+  padding: 9px;
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: background .15s;
+}
+.btn-modify-search:hover { background: #e8ecf0; }
+
 /* ── Results ─────────────────────────────────────────────────────────────── */
 .results-placeholder, .no-results { color: var(--grey-text); padding: 12px 0; font-size: 13px; }
 
@@ -269,21 +309,69 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .journey-duration { color: var(--grey-text); }
 .journey-unknown { font-size: 12px; color: #aaa; font-style: italic; }
 
-/* Expanded card detail */
+/* ── Expanded card detail ────────────────────────────────────────────────── */
 .card-detail { padding: 10px 12px 12px; border-top: 1px solid var(--grey-border); }
-.detail-section { margin-bottom: 12px; }
+.detail-section { margin-bottom: 14px; }
 .detail-section:last-child { margin-bottom: 0; }
+
+/* Train aller/retour section headings with colored labels */
 .detail-section h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #2c3e50; }
-.day-list { list-style: disc; padding-left: 18px; font-size: 12px; color: var(--grey-text); line-height: 1.7; }
+.detail-section h4.train-aller-heading  { color: var(--train-aller); }
+.detail-section h4.train-retour-heading { color: var(--train-retour); }
+
 .detail-section p { font-size: 12px; line-height: 1.6; color: var(--grey-text); }
 .detail-section strong { color: #2c3e50; }
-.journey-detail { font-size: 12px; margin-bottom: 6px; line-height: 1.6; }
+.journey-detail { font-size: 12px; margin-bottom: 4px; line-height: 1.6; }
 .journey-missing { color: #aaa; font-style: italic; }
 
+/* SNCF Connect booking link-button */
+.btn-book-train {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  background: var(--blue);
+  color: var(--white);
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s;
+}
+.btn-book-train:hover { background: #1f6fa6; }
+
+/* Connection details expand/collapse */
+.btn-expand-connections {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: var(--grey-text);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.btn-expand-connections:hover { color: #2c3e50; }
+
+.connections-detail {
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--grey-bg);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--grey-text);
+  line-height: 1.7;
+}
+.connections-detail[hidden] { display: none; }
+
+.connection-row { display: flex; gap: 6px; align-items: center; }
+.connection-stations { flex: 1; }
+.connection-duration { white-space: nowrap; }
+
 /* ── Map tile greyscale filter ───────────────────────────────────────────── */
-/* Applied to OSM France tiles to desaturate the background while keeping    */
-/* French labels readable. Route color overlays are unaffected (different    */
-/* layer pane).                                                               */
 .map-tiles-greyscale {
   filter: grayscale(100%) brightness(1.05);
 }
@@ -345,104 +433,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 .route-panel-link:hover { text-decoration: underline; }
 
-/* ── Help button ─────────────────────────────────────────────────────────── */
-.btn-help {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid var(--blue);
-  background: transparent;
-  color: var(--blue);
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  vertical-align: middle;
-  margin-left: 6px;
-  line-height: 1;
-  padding: 0;
-  transition: background .15s, color .15s;
-}
-.btn-help:hover { background: var(--blue); color: var(--white); }
-
-/* ── Help modal ──────────────────────────────────────────────────────────── */
-.help-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0,0,0,.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.help-modal[hidden] { display: none; }
-.help-modal-box {
-  position: relative;
-  width: 50vw;
-  min-width: 320px;
-  max-width: 720px;
-  height: 88vh;
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: 0 8px 32px rgba(0,0,0,.25);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.help-modal-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--green-dark);
-  padding: 18px 20px 12px;
-  border-bottom: 1px solid var(--grey-border);
-  flex-shrink: 0;
-}
-.help-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: transparent;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  color: var(--grey-text);
-  line-height: 1;
-}
-.help-modal-close:hover { color: var(--red); }
-.help-modal-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 20px 24px;
-  font-size: 13px;
-  line-height: 1.65;
-  color: #2c3e50;
-}
-.help-modal-content h3 {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--green-dark);
-  margin: 16px 0 6px;
-}
-.help-modal-content h3:first-child { margin-top: 0; }
-.help-modal-content p { margin-bottom: 8px; }
-.help-modal-content ol,
-.help-modal-content ul { padding-left: 20px; margin-bottom: 8px; }
-.help-modal-content li { margin-bottom: 5px; }
-
 /* ── Scrollbar styling (webkit) ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--grey-border); border-radius: 4px; }
-
-/* ── Site footer ─────────────────────────────────────────────────────────── */
-.site-footer {
-  text-align: center;
-  font-size: 11px;
-  color: var(--grey-text);
-  padding: 8px 16px;
-  background: var(--grey-panel);
-  border-top: 1px solid var(--grey-border);
-}
-.site-footer a { color: var(--grey-text); text-decoration: underline; }
