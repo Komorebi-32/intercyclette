@@ -10,7 +10,10 @@
 <body>
   <header class="site-header">
     <span class="logo">🚲 Intercyclette</span>
-    <!-- <span class="tagline">Trouvez votre randovélo en train</span> -->
+    <nav class="header-nav">
+      <button class="btn-header-link" id="btn-roadmap">Développements futurs</button>
+      <button class="btn-header-link" id="btn-credits">Crédits</button>
+    </nav>
   </header>
 
   <div class="app-layout">
@@ -241,6 +244,63 @@
     Contact : <a href="mailto:railnbikefever@proton.me">railnbikefever@proton.me</a>
     &nbsp;·&nbsp; Horaires via <a href="https://transitous.org" target="_blank" rel="noopener">Transitous</a>
   </footer>
+
+  <!-- ── Roadmap modal ── -->
+  <div id="roadmap-modal" class="overlay-modal" hidden>
+    <div class="overlay-modal-box roadmap-modal-box">
+      <button class="overlay-modal-close" id="roadmap-modal-close" title="Fermer">✕</button>
+      <h2 class="overlay-modal-title">🗺️ Développements futurs</h2>
+      <div class="overlay-modal-content">
+
+        <details class="roadmap-item">
+          <summary class="roadmap-summary">Intégration des hébergements dans les recherches d'itinéraires</summary>
+          <div class="roadmap-detail">
+            <div class="roadmap-img-placeholder"></div>
+            <p>Description à venir.</p>
+          </div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary class="roadmap-summary">Affichage des réductions d'émissions de GES</summary>
+          <div class="roadmap-detail">
+            <div class="roadmap-img-placeholder"></div>
+            <p>Description à venir.</p>
+          </div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary class="roadmap-summary">Fonctionnalités collaboratives</summary>
+          <div class="roadmap-detail">
+            <div class="roadmap-img-placeholder"></div>
+            <p>Description à venir.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Credits modal ── -->
+  <div id="credits-modal" class="overlay-modal" hidden>
+    <div class="overlay-modal-box credits-modal-box">
+      <button class="overlay-modal-close" id="credits-modal-close" title="Fermer">✕</button>
+      <h2 class="overlay-modal-title">Crédits</h2>
+      <div class="overlay-modal-content">
+        <h3>Réutilisations de données Open Data</h3>
+        <ul>
+          <li><a href="https://defis.data.gouv.fr/datasets/65d81858179dc96581d981db" target="_blank" rel="noopener">Gares de voyageurs SNCF</a></li>
+          <li>Hébergements : OpenStreetMap, extraits avec <a href="https://geodatamine.fr" target="_blank" rel="noopener">GéoDataMine</a></li>
+        </ul>
+        <p>Traces GPX et descriptions des routes EuroVelo : <a href="https://www.francevelotourisme.com" target="_blank" rel="noopener">France Vélo Tourisme</a></p>
+        <p>Itinéraires en train : <a href="https://transitous.org" target="_blank" rel="noopener">Transitous</a></p>
+        <hr class="credits-separator" />
+        <p>Outil créé dans le cadre de l'<a href="https://www.opendatauniversity.org/" target="_blank" rel="noopener">Open Data University 2026</a>, défi Tourisme en Train.</p>
+        <p>Réalisation : Benjamin Karas et Claude Code <em>(soyons honnêtes)</em></p>
+        <p>Licence <strong>GNU GPL v3</strong></p>
+        <p><a href="https://github.com/Komorebi-32/intercyclette" target="_blank" rel="noopener">GitHub →</a></p>
+      </div>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="static/js/map.js"></script>

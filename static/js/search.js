@@ -547,10 +547,35 @@
     });
   }
 
+  /**
+   * Wire open/close behaviour for a simple overlay modal.
+   *
+   * @param {string} btnId - ID of the button that opens the modal.
+   * @param {string} modalId - ID of the modal element.
+   * @param {string} closeId - ID of the close button inside the modal.
+   */
+  function initOverlayModal(btnId, modalId, closeId) {
+    const btn   = document.getElementById(btnId);
+    const modal = document.getElementById(modalId);
+    const close = document.getElementById(closeId);
+    if (!btn || !modal) return;
+
+    btn.addEventListener("click", function () { modal.hidden = false; });
+    if (close) close.addEventListener("click", function () { modal.hidden = true; });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) modal.hidden = true;
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !modal.hidden) modal.hidden = true;
+    });
+  }
+
   // ── Initialisation ─────────────────────────────────────────────────────────
 
   initFrenchDateInput();
   initHelpModal();
+  initOverlayModal("btn-roadmap", "roadmap-modal", "roadmap-modal-close");
+  initOverlayModal("btn-credits", "credits-modal", "credits-modal-close");
 
   fetch("static/data/route_stations.json")
     .then((r) => r.json())

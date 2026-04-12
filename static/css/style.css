@@ -41,6 +41,25 @@ body { font-family: var(--font); background: var(--grey-bg); color: #2c3e50; fon
 .logo { font-size: 1.2rem; font-weight: 700; }
 .tagline { font-size: 0.85rem; opacity: .85; }
 
+/* Header nav links */
+.header-nav {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+.btn-header-link {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.5);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: var(--font);
+  transition: background .15s;
+}
+.btn-header-link:hover { background: rgba(255,255,255,.15); }
+
 /* Settings button in header */
 .btn-settings {
   margin-left: auto;
@@ -453,6 +472,135 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .help-modal-content ol,
 .help-modal-content ul { padding-left: 20px; margin-bottom: 8px; }
 .help-modal-content li { margin-bottom: 5px; }
+
+/* ── Shared overlay modal (roadmap & credits) ────────────────────────────── */
+.overlay-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay-modal[hidden] { display: none; }
+.overlay-modal-box {
+  position: relative;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.overlay-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--grey-border);
+  flex-shrink: 0;
+}
+.overlay-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--grey-text);
+  line-height: 1;
+}
+.overlay-modal-close:hover { color: var(--red); }
+.overlay-modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #2c3e50;
+}
+.overlay-modal-content h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 16px 0 6px;
+}
+.overlay-modal-content h3:first-child { margin-top: 0; }
+.overlay-modal-content p { margin-bottom: 8px; }
+.overlay-modal-content ul { padding-left: 20px; margin-bottom: 8px; }
+.overlay-modal-content li { margin-bottom: 5px; }
+.overlay-modal-content a { color: var(--blue); }
+.overlay-modal-content a:hover { text-decoration: underline; }
+
+/* Roadmap modal — wide */
+.roadmap-modal-box {
+  width: 80vw;
+  max-width: 1100px;
+  height: 88vh;
+}
+
+/* Roadmap accordion */
+.roadmap-item {
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.roadmap-summary {
+  font-weight: 600;
+  font-size: 13px;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--grey-bg);
+  user-select: none;
+}
+.roadmap-summary::-webkit-details-marker { display: none; }
+.roadmap-summary::after {
+  content: "▶";
+  font-size: 10px;
+  color: var(--grey-text);
+  transition: transform .2s;
+}
+details[open] > .roadmap-summary::after { transform: rotate(90deg); }
+.roadmap-summary:hover { background: #eaf7f0; }
+.roadmap-detail {
+  padding: 16px 14px;
+  border-top: 1px solid var(--grey-border);
+}
+.roadmap-img-placeholder {
+  width: 100%;
+  height: 200px;
+  background: var(--grey-border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-text);
+  font-size: 12px;
+}
+.roadmap-img-placeholder::after { content: "Image à venir"; }
+.roadmap-detail p { margin: 0; font-size: 13px; color: var(--grey-text); }
+
+/* Credits modal — auto height */
+.credits-modal-box {
+  width: 50vw;
+  min-width: 320px;
+  max-width: 600px;
+  height: auto;
+  max-height: 80vh;
+}
+.credits-separator {
+  border: none;
+  border-top: 1px solid var(--grey-border);
+  margin: 14px 0;
+}
 
 /* ── Scrollbar styling (webkit) ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
