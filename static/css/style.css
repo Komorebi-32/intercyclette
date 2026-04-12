@@ -227,6 +227,11 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .btn-search:hover { background: var(--green); }
 .btn-search:disabled { background: #aaa; cursor: not-allowed; }
 
+.form-group.housing-toggle {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
 /* Status message */
 .search-status { margin-top: 8px; font-size: 13px; padding: 6px 8px; border-radius: 4px; }
 .status-info { background: #eaf7f0; color: var(--green-dark); }

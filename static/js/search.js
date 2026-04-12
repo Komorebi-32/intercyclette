@@ -566,6 +566,16 @@
     window.InterMap.loadAllRoutes();
     window.InterMap.loadHousingPoints();
   }
+
+  const toggleHousingCb = document.getElementById("toggle-housing");
+  if (toggleHousingCb) {
+    toggleHousingCb.addEventListener("change", function () {
+      if (window.InterMap) {
+        window.InterMap.toggleHousingPoints(!this.checked);
+      }
+    });
+  }
+
   initStationAutocomplete();
 
   // Expose for testing

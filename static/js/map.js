@@ -24,6 +24,9 @@
   /** @type {L.LayerGroup} Holds itinerary-specific layers (cleared on each select). */
   let itineraryLayer = null;
 
+  /** @type {L.LayerGroup} Holds all housing circle markers (toggled by checkbox). */
+  let housingLayer = null;
+
   /**
    * Route color map loaded from the JSON files.
    * Key: route_id (e.g. 'EV3'), value: hex color string.
@@ -478,6 +481,7 @@
    * @returns {Promise<void>} Resolves when all markers have been added.
    */
   function loadHousingPoints() {
+    housingLayer = L.layerGroup();
     return fetch("static/data/housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
@@ -502,12 +506,27 @@
             scheduleClosePanel();
           });
 
-          if (map) marker.addTo(map);
+          housingLayer.addLayer(marker);
         });
+        if (map) housingLayer.addTo(map);
       })
       .catch(function (err) {
         console.warn("Could not load housing points:", err);
       });
+  }
+
+  /**
+   * Show or hide the housing points layer.
+   *
+   * @param {boolean} visible - True to show the layer, false to hide it.
+   */
+  function toggleHousingPoints(visible) {
+    if (!housingLayer || !map) return;
+    if (visible) {
+      if (!map.hasLayer(housingLayer)) housingLayer.addTo(map);
+    } else {
+      if (map.hasLayer(housingLayer)) map.removeLayer(housingLayer);
+    }
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
@@ -520,5 +539,6 @@
     showItineraryOnMap,
     centerOn,
     loadHousingPoints,
+    toggleHousingPoints,
   };
 })();
