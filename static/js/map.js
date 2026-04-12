@@ -450,7 +450,7 @@
   function buildHousingPanelHtml(point) {
     const nullHtml = '<em class="housing-null">non renseigné</em>';
     const nameHtml = point.name || nullHtml;
-    const typeHtml = point.type || nullHtml;
+    // const typeHtml = point.type || nullHtml;
     const phoneHtml = point.phone || nullHtml;
     const websiteHtml = point.website
       ? `<a href="${point.website}" target="_blank" rel="noopener noreferrer" class="route-panel-link">Visiter le site →</a>`
@@ -460,7 +460,6 @@
       <div class="route-panel-body">
         <div class="route-panel-title">${nameHtml}</div>
         <ul class="route-panel-meta">
-          <li><span>🏠</span> ${typeHtml}</li>
           <li><span>📞</span> ${phoneHtml}</li>
         </ul>
         ${websiteHtml}
