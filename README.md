@@ -14,6 +14,7 @@ Site statique (GitHub Pages / http.server)
   static/data/stations.json          ← autocomplete gares
   static/data/route_stations.json    ← index gares ↔ routes
   static/data/routes/ev*.json        ← géométries colorées
+  static/data/housing.json           ← hébergements ≤ 5 km des routes
   static/js/{map,planner,transitous,
     results,search}.js
   static/css/style.css
@@ -80,6 +81,7 @@ Résultat : `data/processed/route_stations.json`.
 ```bash
 python3 scripts/export_stations_json.py      # → static/data/stations.json
 python3 scripts/export_route_geometries.py   # → static/data/routes/ev*.json (×9)
+python3 scripts/export_housing_json.py       # → static/data/housing.json
 cp data/processed/route_stations.json static/data/route_stations.json
 ```
 
@@ -123,20 +125,23 @@ intercyclette/
 ├── data/
 │   ├── raw/
 │   │   ├── gares-de-voyageurs.geojson     Gares SNCF
+│   │   ├── housing.geojson                Hébergements OSM (hôtels, campings, etc.)
 │   │   ├── Eurovelo_France_gpx/           Traces GPX des 9 routes
 │   └── processed/
 │       └── route_stations.json            Index gares ↔ routes (avec track_points)
 ├── scripts/
 │   ├── preprocess.py                  Pré-traitement GPX + gares (exécuté une fois)
 │   ├── export_stations_json.py        Export → static/data/stations.json
-│   └── export_route_geometries.py     Export → static/data/routes/*.json
+│   ├── export_route_geometries.py     Export → static/data/routes/*.json
+│   └── export_housing_json.py         Export hébergements → static/data/housing.json
 ├── app/
 │   ├── constants.py                   Constantes, couleurs, chemins
 │   ├── routes.py                      Handlers Flask (développement local)
 │   ├── geo/
 │   │   ├── distance.py                Géométrie pure (haversine, polyligne)
 │   │   ├── gpx_parser.py             Lecture des fichiers GPX
-│   │   └── station_matcher.py        Correspondance gares ↔ routes
+│   │   ├── station_matcher.py        Correspondance gares ↔ routes
+│   │   └── housing_matcher.py        Correspondance hébergements ↔ routes
 │   └── itinerary/
 │       ├── rhythm.py                  Calcul de distance selon le rythme
 │       └── planner.py                 Assemblage des itinéraires candidats
@@ -145,9 +150,10 @@ intercyclette/
 │   ├── data/
 │   │   ├── stations.json              Gares SNCF (autocomplete)
 │   │   ├── route_stations.json        Index gares ↔ routes (site statique)
+│   │   ├── housing.json               Hébergements ≤ 5 km des routes (site statique)
 │   │   └── routes/                    Géométries colorées (9 fichiers)
 │   └── js/
-│       ├── map.js                     Carte Leaflet, overlays colorés, fond gris FR
+│       ├── map.js                     Carte Leaflet, overlays colorés, points hébergement
 │       ├── planner.js                 Port JS du planificateur Python
 │       ├── transitous.js              Client API Transitous (horaires en temps réel)
 │       ├── results.js                 Rendu des cartes itinéraires
@@ -167,7 +173,7 @@ intercyclette/
 
 ## Pipeline de traitement
 
-### Pré-traitement (scripts/preprocess.py)
+### Pré-traitement (scripts/preprocess.py + scripts/export_housing_json.py)
 
 ```
 gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
@@ -182,6 +188,19 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
                   │
                   ▼
          route_stations.json  (index gares ↔ routes, track_points)
+
+housing.geojson  +  Eurovelo_France_gpx/*.gpx
+         │                 │
+         ▼                 ▼
+   Chargement OSM    Parsing GPX → GpxTrack
+         │                 │
+         └────────┬─────────┘
+                  ▼
+     find_features_near_route() — même logique boîte englobante
+     Déduplication par osm_id (première occurrence gagne)
+                  │
+                  ▼
+         static/data/housing.json  (tableau plat d'hébergements ≤ 5 km)
 ```
 
 ### Recherche (navigateur + API Transitous)
@@ -207,6 +226,7 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
         ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
    9 overlays colorés permanents (un par route Eurovelo)
+   Points hébergements bleus pâles permanents (housing.json)
    Segment bikeé en couleur de la route sélectionnée
 ```
 
@@ -247,7 +267,6 @@ Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour les détails.
 
 ## Développements futurs envisagés
 
-- Recherche de logements le long des routes Eurovelo
 - Itinéraire entre deux villes (départ ≠ arrivée)
 - Affichage du type de train (TER / Intercités) sur chaque carte
 - Filtrage par type de train dans le formulaire

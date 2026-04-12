@@ -13,6 +13,7 @@ from app.geo.station_matcher import (
     parse_uic_codes,
     load_stations,
     closest_point_on_route_km,
+    find_features_near_route,
     find_stations_near_route,
     serialize_route_stations,
     StationOnRoute,
@@ -282,3 +283,68 @@ class TestSerializeRouteStations:
         # Should not raise
         serialized = json.dumps(result)
         assert "Test" in serialized
+
+
+# ---------------------------------------------------------------------------
+# find_features_near_route
+# ---------------------------------------------------------------------------
+
+def _make_generic_feature(lat: float, lon: float, osm_id: str = "node/1") -> dict:
+    """Build a minimal GeoJSON feature dict with Point geometry."""
+    return {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [lon, lat]},
+        "properties": {"osm_id": osm_id, "name": "Test Point"},
+    }
+
+
+class TestFindFeaturesNearRoute:
+    def test_feature_on_route_is_found(self):
+        """Feature sitting exactly on a track point is returned."""
+        track = _make_track([(48.0, 2.0), (49.0, 2.0), (50.0, 2.0)])
+        features = [_make_generic_feature(49.0, 2.0, "node/1")]
+        result = find_features_near_route(track, features, max_distance_km=5.0)
+        assert len(result) == 1
+        assert result[0][0]["properties"]["osm_id"] == "node/1"
+
+    def test_far_feature_is_excluded(self):
+        """Feature > max_distance_km from route is not returned."""
+        track = _make_track([(48.0, 2.0), (49.0, 2.0)])
+        features = [_make_generic_feature(48.5, 3.5, "node/2")]
+        result = find_features_near_route(track, features, max_distance_km=5.0)
+        assert result == []
+
+    def test_results_sorted_by_cumulative_km(self):
+        """Tuples are sorted ascending by the third element (cumulative_km)."""
+        track = _make_track([(44.0, 2.0), (46.0, 2.0), (48.0, 2.0)])
+        features = [
+            _make_generic_feature(47.9, 2.0, "node/north"),
+            _make_generic_feature(44.1, 2.0, "node/south"),
+            _make_generic_feature(45.9, 2.0, "node/middle"),
+        ]
+        result = find_features_near_route(track, features, max_distance_km=20.0)
+        cum_kms = [t[2] for t in result]
+        assert cum_kms == sorted(cum_kms)
+
+    def test_tuple_has_three_elements(self):
+        """Each result tuple is (feature, distance_km, cumulative_km)."""
+        track = _make_track([(48.0, 2.0), (49.0, 2.0)])
+        features = [_make_generic_feature(48.5, 2.0, "node/3")]
+        result = find_features_near_route(track, features, max_distance_km=5.0)
+        assert len(result) == 1
+        feat, dist_km, cum_km = result[0]
+        assert isinstance(feat, dict)
+        assert dist_km >= 0.0
+        assert cum_km >= 0.0
+
+    def test_feature_missing_geometry_skipped(self):
+        """Feature with missing or invalid geometry is silently skipped."""
+        track = _make_track([(48.0, 2.0), (49.0, 2.0)])
+        bad_feature = {"type": "Feature", "geometry": {"type": "Point", "coordinates": []}, "properties": {}}
+        result = find_features_near_route(track, [bad_feature], max_distance_km=5.0)
+        assert result == []
+
+    def test_empty_feature_list_returns_empty(self):
+        track = _make_track([(48.0, 2.0), (49.0, 2.0)])
+        result = find_features_near_route(track, [], max_distance_km=5.0)
+        assert result == []

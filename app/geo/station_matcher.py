@@ -17,6 +17,10 @@ from app.geo.distance import (
 from app.geo.gpx_parser import GpxTrack
 from app.constants import BBOX_MARGIN_DEG
 
+# Grid cell size for spatial indexing. Must equal BBOX_MARGIN_DEG so that a
+# single margin-radius lookup covers 2–3 cells in each axis.
+_GRID_CELL_DEG = 0.1
+
 
 @dataclass
 class StationOnRoute:
@@ -159,6 +163,111 @@ def _filter_polyline_in_bbox(
     return [polyline[i] for i in sorted(indices_in_box)]
 
 
+def _build_route_spatial_grid(
+    polyline: list[tuple[float, float]],
+) -> dict[tuple[int, int], list[int]]:
+    """
+    Build a spatial hash grid mapping grid cells to polyline point indices.
+
+    Divides the polyline into cells of _GRID_CELL_DEG × _GRID_CELL_DEG degrees.
+    Each point is recorded in its cell. For segments that span multiple cells,
+    intermediate cells are also recorded so that proximity queries near a segment
+    midpoint cannot miss a nearby segment. Used to retrieve candidate nearby
+    points in O(cells) rather than O(N segments) during proximity search.
+
+    Args:
+        polyline: Ordered list of (lat, lon) tuples.
+
+    Returns:
+        Dict mapping (lat_cell, lon_cell) integer cell keys to lists of
+        point indices. Cell keys are math.floor(coord / _GRID_CELL_DEG).
+    """
+    grid: dict[tuple[int, int], list[int]] = {}
+    for i, (lat, lon) in enumerate(polyline):
+        cell = (
+            math.floor(lat / _GRID_CELL_DEG),
+            math.floor(lon / _GRID_CELL_DEG),
+        )
+        grid.setdefault(cell, []).append(i)
+
+        # For segments that span more than one cell, also record intermediate
+        # cells so that points near the segment midpoint are not missed.
+        # (Real GPX segments are ~20 m, so this branch is rarely taken in
+        # production; it is mainly needed for synthetic long-segment test data.)
+        if i + 1 >= len(polyline):
+            continue
+        next_lat, next_lon = polyline[i + 1]
+        dlat = next_lat - lat
+        dlon = next_lon - lon
+        steps = max(abs(dlat), abs(dlon)) / _GRID_CELL_DEG
+        if steps <= 1.0:
+            continue
+        n = int(math.ceil(steps))
+        for k in range(1, n):
+            t = k / n
+            mid_cell = (
+                math.floor((lat + t * dlat) / _GRID_CELL_DEG),
+                math.floor((lon + t * dlon) / _GRID_CELL_DEG),
+            )
+            grid.setdefault(mid_cell, []).append(i)
+
+    return grid
+
+
+def _extract_local_polyline_from_grid(
+    polyline: list[tuple[float, float]],
+    grid: dict[tuple[int, int], list[int]],
+    lat: float,
+    lon: float,
+    margin_deg: float,
+) -> list[tuple[float, float]]:
+    """
+    Return the subset of polyline points within margin_deg of (lat, lon).
+
+    Looks up all grid cells that overlap the query bounding box and collects
+    the corresponding polyline points. For each segment-start index i found,
+    also includes i+1 so that the full segment (i → i+1) participates in the
+    distance check — without this, a point near the midpoint of a long segment
+    would only receive one endpoint in the local polyline. This is O(cells + k)
+    where cells ≈ 4–9 and k is the number of nearby points, versus O(N) for
+    the segment scan.
+
+    Args:
+        polyline: Full route polyline.
+        grid: Spatial grid built by _build_route_spatial_grid.
+        lat: Query latitude, decimal degrees.
+        lon: Query longitude, decimal degrees.
+        margin_deg: Search radius in degrees.
+
+    Returns:
+        Sorted list of nearby (lat, lon) tuples. Empty if no points are found.
+    """
+    lat_min_cell = math.floor((lat - margin_deg) / _GRID_CELL_DEG)
+    lat_max_cell = math.floor((lat + margin_deg) / _GRID_CELL_DEG)
+    lon_min_cell = math.floor((lon - margin_deg) / _GRID_CELL_DEG)
+    lon_max_cell = math.floor((lon + margin_deg) / _GRID_CELL_DEG)
+
+    indices: set[int] = set()
+    for clat in range(lat_min_cell, lat_max_cell + 1):
+        for clon in range(lon_min_cell, lon_max_cell + 1):
+            cell_indices = grid.get((clat, clon))
+            if cell_indices:
+                indices.update(cell_indices)
+
+    if not indices:
+        return []
+
+    # Include the next point for each segment-start index so that full segments
+    # are represented in the local polyline used for distance computation.
+    n = len(polyline)
+    expanded = set(indices)
+    for i in indices:
+        if i + 1 < n:
+            expanded.add(i + 1)
+
+    return [polyline[i] for i in sorted(expanded)]
+
+
 def closest_point_on_route_km(
     station_lat: float,
     station_lon: float,
@@ -226,6 +335,105 @@ def closest_point_on_route_km(
     return min_dist, best_cum_km
 
 
+def _extract_lat_lon(feature: dict) -> tuple[float, float] | None:
+    """
+    Extract a representative (lat, lon) from a GeoJSON feature.
+
+    Handles Point, Polygon, and MultiPolygon geometry types.  For polygons the
+    centroid of the exterior ring is used as the representative position.
+
+    Args:
+        feature: GeoJSON feature dict. The geometry may be Point, Polygon, or
+                 MultiPolygon.
+
+    Returns:
+        (lat, lon) tuple in decimal degrees, or None if the geometry type is
+        unsupported or the coordinate array is malformed.
+    """
+    geom = feature.get("geometry") or {}
+    geom_type = geom.get("type")
+    coords = geom.get("coordinates") or []
+
+    if geom_type == "Point":
+        if len(coords) < 2:
+            return None
+        return float(coords[1]), float(coords[0])
+
+    if geom_type == "Polygon":
+        ring = coords[0] if coords else []
+        if not ring:
+            return None
+        lat = sum(float(p[1]) for p in ring) / len(ring)
+        lon = sum(float(p[0]) for p in ring) / len(ring)
+        return lat, lon
+
+    if geom_type == "MultiPolygon":
+        ring = coords[0][0] if coords and coords[0] else []
+        if not ring:
+            return None
+        lat = sum(float(p[1]) for p in ring) / len(ring)
+        lon = sum(float(p[0]) for p in ring) / len(ring)
+        return lat, lon
+
+    return None
+
+
+def find_features_near_route(
+    track: GpxTrack,
+    features: list[dict],
+    max_distance_km: float,
+) -> list[tuple[dict, float, float]]:
+    """
+    Return GeoJSON features within max_distance_km of the route polyline.
+
+    Generic version of find_stations_near_route — works with any GeoJSON
+    FeatureCollection.  Supports Point, Polygon, and MultiPolygon geometry;
+    for polygons the centroid of the exterior ring is used as the
+    representative position.  Uses a spatial grid pre-filter to keep the
+    scan tractable for large GPX files (e.g. 76 k points).
+
+    Args:
+        track: Parsed GPX track to check against.
+        features: List of GeoJSON feature dicts (Point, Polygon, or
+                  MultiPolygon geometry).
+        max_distance_km: Maximum allowed distance from feature to route, in km.
+
+    Returns:
+        List of (feature, distance_km, cumulative_km) tuples, sorted ascending
+        by cumulative_km.  Empty list if no features are within range.
+    """
+    polyline = track.points
+    cum_km = cumulative_distances_km(polyline)
+    # Build spatial grid once (O(N)); each per-feature lookup is then O(cells).
+    route_grid = _build_route_spatial_grid(polyline)
+    results: list[tuple[dict, float, float]] = []
+
+    for feature in features:
+        lat_lon = _extract_lat_lon(feature)
+        if lat_lon is None:
+            continue
+        lat, lon = lat_lon
+
+        local_polyline = _extract_local_polyline_from_grid(
+            polyline, route_grid, lat, lon, BBOX_MARGIN_DEG
+        )
+        if not local_polyline:
+            continue
+
+        dist_to_local = point_to_polyline_distance_km(lat, lon, local_polyline)
+        if dist_to_local > max_distance_km:
+            continue
+
+        dist_km, cum_km_at_closest = closest_point_on_route_km(
+            lat, lon, polyline, cum_km
+        )
+        if dist_km <= max_distance_km:
+            results.append((feature, round(dist_km, 3), round(cum_km_at_closest, 3)))
+
+    results.sort(key=lambda t: t[2])
+    return results
+
+
 def find_stations_near_route(
     track: GpxTrack,
     stations: list[dict],
@@ -234,8 +442,9 @@ def find_stations_near_route(
     """
     Return all stations within max_distance_km of the route polyline.
 
-    Uses a bounding-box pre-filter to limit the number of segments checked per
-    station, making the function tractable for large GPX files (e.g. 76k points).
+    Thin typed wrapper over find_features_near_route.  Applies the additional
+    UIC-code filter required for SNCF station features and constructs
+    StationOnRoute objects from the returned generic tuples.
 
     Args:
         track: Parsed GPX track to check against.
@@ -246,57 +455,28 @@ def find_stations_near_route(
         List of StationOnRoute, sorted ascending by cumulative_km.
         Empty list if no stations are within range.
     """
-    polyline = track.points
-    cum_km = cumulative_distances_km(polyline)
     results: list[StationOnRoute] = []
 
-    for feature in stations:
+    for feature, dist_km, cum_km_at_closest in find_features_near_route(
+        track, stations, max_distance_km
+    ):
         props = feature.get("properties", {})
-        coords = feature.get("geometry", {}).get("coordinates", [])
-        if len(coords) < 2:
-            continue
-
-        lon, lat = float(coords[0]), float(coords[1])
-        nom = props.get("nom", "")
-        libellecourt = props.get("libellecourt", "")
         codes_uic = parse_uic_codes(props.get("codes_uic", ""))
-
         if not codes_uic:
             continue
-
-        # Bounding-box pre-filter: only process segments near the station
-        lat_min, lat_max, lon_min, lon_max = _station_bounding_box(
-            lat, lon, BBOX_MARGIN_DEG
-        )
-        local_polyline = _filter_polyline_in_bbox(
-            polyline, lat_min, lat_max, lon_min, lon_max
-        )
-        if not local_polyline:
-            continue
-
-        # Full distance check against filtered sub-polyline
-        dist_to_local = point_to_polyline_distance_km(lat, lon, local_polyline)
-        if dist_to_local > max_distance_km:
-            continue
-
-        # Exact cumulative-km using full polyline for accurate position
-        dist_km, cum_km_at_closest = closest_point_on_route_km(
-            lat, lon, polyline, cum_km
-        )
-        if dist_km <= max_distance_km:
-            results.append(
-                StationOnRoute(
-                    nom=nom,
-                    libellecourt=libellecourt,
-                    codes_uic=codes_uic,
-                    lat=lat,
-                    lon=lon,
-                    distance_to_route_km=round(dist_km, 3),
-                    cumulative_km=round(cum_km_at_closest, 3),
-                )
+        results.append(
+            StationOnRoute(
+                nom=props.get("nom", ""),
+                libellecourt=props.get("libellecourt", ""),
+                codes_uic=codes_uic,
+                lat=float(feature["geometry"]["coordinates"][1]),
+                lon=float(feature["geometry"]["coordinates"][0]),
+                distance_to_route_km=dist_km,
+                cumulative_km=cum_km_at_closest,
             )
+        )
 
-    results.sort(key=lambda s: s.cumulative_km)
+    # find_features_near_route already sorts by cumulative_km; keep the order.
     return results
 
 

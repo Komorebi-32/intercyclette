@@ -432,6 +432,85 @@
     if (map) map.setView([lat, lon], zoom, { animate: true });
   }
 
+  // ── Housing points ─────────────────────────────────────────────────────────
+
+  /**
+   * Build the HTML content for the housing hover panel.
+   *
+   * Reuses existing panel CSS classes. Null fields are shown as
+   * <em class="housing-null">non renseigné</em>.
+   *
+   * @param {Object} point - Housing point object from housing.json.
+   * @param {string|null} point.name - Establishment name.
+   * @param {string|null} point.type - Accommodation type (e.g. "hotel").
+   * @param {string|null} point.phone - Phone number.
+   * @param {string|null} point.website - Website URL.
+   * @returns {string} HTML string for the panel.
+   */
+  function buildHousingPanelHtml(point) {
+    const nullHtml = '<em class="housing-null">non renseigné</em>';
+    const nameHtml = point.name || nullHtml;
+    const typeHtml = point.type || nullHtml;
+    const phoneHtml = point.phone || nullHtml;
+    const websiteHtml = point.website
+      ? `<a href="${point.website}" target="_blank" rel="noopener noreferrer" class="route-panel-link">Visiter le site →</a>`
+      : nullHtml;
+
+    return `
+      <div class="route-panel-body">
+        <div class="route-panel-title">${nameHtml}</div>
+        <ul class="route-panel-meta">
+          <li><span>🏠</span> ${typeHtml}</li>
+          <li><span>📞</span> ${phoneHtml}</li>
+        </ul>
+        ${websiteHtml}
+      </div>
+    `;
+  }
+
+  /**
+   * Fetch housing.json and add a pale-blue circle marker for each point.
+   *
+   * Markers are added directly to the map (not to itineraryLayer) so they
+   * remain visible regardless of itinerary selection state. Hovering a marker
+   * shows the floating info panel via the shared showPanel / scheduleClosePanel
+   * helpers.
+   *
+   * @returns {Promise<void>} Resolves when all markers have been added.
+   */
+  function loadHousingPoints() {
+    return fetch("static/data/housing.json")
+      .then(function (r) { return r.json(); })
+      .then(function (points) {
+        points.forEach(function (p) {
+          const marker = L.circleMarker([p.lat, p.lon], {
+            radius: 4,
+            color: "#5DADE2",
+            fillColor: "#AED6F1",
+            fillOpacity: 0.85,
+            weight: 1.5,
+          });
+
+          const panelHtml = buildHousingPanelHtml(p);
+
+          marker.on("mouseover", function (e) {
+            showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mousemove", function (e) {
+            positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mouseout", function () {
+            scheduleClosePanel();
+          });
+
+          if (map) marker.addTo(map);
+        });
+      })
+      .catch(function (err) {
+        console.warn("Could not load housing points:", err);
+      });
+  }
+
   // ── Public API ─────────────────────────────────────────────────────────────
 
   window.InterMap = {
@@ -441,5 +520,6 @@
     clearMap,
     showItineraryOnMap,
     centerOn,
+    loadHousingPoints,
   };
 })();

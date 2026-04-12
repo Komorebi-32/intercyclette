@@ -209,6 +209,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 .btn-book:hover { background: var(--green); }
 .journey-book { margin-top: 6px; }
+.housing-null { font-style: italic; color: var(--grey-text); }
 
 /* Search button */
 .btn-search {

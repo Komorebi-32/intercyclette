@@ -564,6 +564,7 @@
   if (window.InterMap) {
     window.InterMap.initMap("map");
     window.InterMap.loadAllRoutes();
+    window.InterMap.loadHousingPoints();
   }
   initStationAutocomplete();
 

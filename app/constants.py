@@ -134,3 +134,13 @@ ROUTE_COLORS = {
 GPX_DIR          = "data/raw/Eurovelo_France_gpx"
 STATIONS_GEOJSON = "data/raw/gares-de-voyageurs.geojson"
 PROCESSED_OUTPUT = "data/processed/route_stations.json"
+HOUSING_GEOJSON  = "data/raw/housing.geojson"
+HOUSING_OUTPUT   = "static/data/housing.json"
+
+# ---------------------------------------------------------------------------
+# Housing proximity
+# ---------------------------------------------------------------------------
+
+# Maximum distance (km) from a housing point to a Eurovelo route for inclusion
+# in the exported housing dataset. Mirrors STATION_PROXIMITY_KM.
+HOUSING_PROXIMITY_KM = 5.0
