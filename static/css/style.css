@@ -521,13 +521,13 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   color: #2c3e50;
 }
 .overlay-modal-content h3 {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--green-dark);
+  /* color: var(--green-dark); */
   margin: 16px 0 6px;
 }
 .overlay-modal-content h3:first-child { margin-top: 0; }
-.overlay-modal-content p { margin-bottom: 8px; }
+.overlay-modal-content p { margin-bottom: 16px; }
 .overlay-modal-content ul { padding-left: 20px; margin-bottom: 8px; }
 .overlay-modal-content li { margin-bottom: 5px; }
 .overlay-modal-content a { color: var(--blue); }
@@ -577,7 +577,7 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   height: 200px;
   background: var(--grey-border);
   border-radius: var(--radius);
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -585,7 +585,8 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   font-size: 12px;
 }
 .roadmap-img-placeholder::after { content: "Image à venir"; }
-.roadmap-detail p { margin: 0; font-size: 14px; color: var(--grey-text); }
+.roadmap-detail p { margin-bottom: 16px; font-size: 14px; color: var(--grey-text); }
+.roadmap-detail p:last-child { margin-bottom: 0; }
 
 /* Credits modal — auto height */
 .credits-modal-box {

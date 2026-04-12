@@ -249,24 +249,70 @@
         <details class="roadmap-item">
           <summary class="roadmap-summary">Intégration des hébergements dans les recherches d'itinéraires</summary>
           <div class="roadmap-detail">
-            <div class="roadmap-img-placeholder"></div>
-            <p>Description à venir.</p>
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Les recherches d'itinéraires de 2 jours ou plus proposeront directement des hébergements à moins de 5 km de la route sélectionnée. L'utilisateur.ice pourra
+              sélectionner le type d'hébergement (Hôtel, Camping, etc.).
+            </p>
+          </div>
+        </details>
+
+         <details class="roadmap-item">
+          <summary class="roadmap-summary">Affichage de points d'intérêt touristique</summary>
+          <div class="roadmap-detail">
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Les points d'intérêt touristique seraient extraits de la base DATAtourisme et seraient classés par type. 
+              Ils pourraient être affichés et masqués, comme actuellement pour les hébergements, afin de ne pas surcharger
+              inutilement la carte. En survolant un point d'intérêt, des informations pratiques s'afficheraient.  
+            </p>
+          </div>
+        </details>
+
+         <details class="roadmap-item">
+          <summary class="roadmap-summary">Affichage de points indispensables à la survie de tout cycliste : points d'eau et toilettes</summary>
+          <div class="roadmap-detail">
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Les sources de données sont encore à identifier.  
+            </p>
           </div>
         </details>
 
         <details class="roadmap-item">
-          <summary class="roadmap-summary">Affichage des réductions d'émissions de GES</summary>
+          <summary class="roadmap-summary">Affichage des émissions de Gaz à Effet de Serre (GES) évitées</summary>
           <div class="roadmap-detail">
-            <div class="roadmap-img-placeholder"></div>
-            <p>Description à venir.</p>
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Pour une randovélo d'un point A à un point B d'une route EuroVelo, il est peu probable que les usagers auraient
+              pu prendre la voiture à la place du train. Afficher des émissions de GES évitées ne serait donc pas pertinent.
+            </p>
+            <p>Par contre, l'outil pourrait permettre à terme de planifier des itinéraires qui forment une boucle à vélo. Dans ce cas d'usage, 
+              il devient tout à fait pertinent de comparer le train à la voiture et d'estimer des émissions de GES évitées grâce au train.
+            </p>
+            <p>Dans une certaine mesure, il est aussi possible de comparer une randovélo de 2 jours ou plus à un séjour de vacances en avion. En choisissant des
+              vacances bas-carbone, l'utilisateur.ice évite des émissions de GES par rapport à un voyage plus "classique". Un message de ce type peut être envisagé : "Si vous étiez
+              parti à Madrid en avion au lieu de cette randovélo, vous auriez émis X tonnes de CO2 en plus, soit X % de l'empreinte carbone moyenne d'un.e Français.e !" 
+            </p>
+            <p>Les facteurs d'émission pour estimer les réductions d'émissions seront récupérés de la Base Empreinte de l'Ademe, ou de données plus précises si disponible.</p>
           </div>
         </details>
 
         <details class="roadmap-item">
           <summary class="roadmap-summary">Fonctionnalités collaboratives</summary>
           <div class="roadmap-detail">
-            <div class="roadmap-img-placeholder"></div>
-            <p>Description à venir.</p>
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Ces fonctionnalités pourraient inclure la possibilité de proposer des itinéraires personnalisés, de les commenter et les noter, 
+              ou encore d'indiquer sur les itinéraires des points d'intérêt touristique ou des dangers.</p>
+          </div>
+        </details>
+
+        <details class="roadmap-item">
+          <summary class="roadmap-summary">Bugs connus</summary>
+          <div class="roadmap-detail">
+            <!-- <div class="roadmap-img-placeholder"></div> -->
+            <p>Beaucoup d'hébergements affichés n'ont pas de coordonnées de contact. L'exploitation des données de DATATourisme pourrait y remédier.  
+            </p>
+            <p>Certains horaires de train identifiés par l'outil ne sont pas valides. La communication avec l'API de Transitous nécessite d'être améliorée.
+            </p>
+            <p>En sélectionnant une randovélo de 1 jour, le train retour identifié peut partir bien avant que le ou la cycliste n'ait le temps d'arriver à la station.
+            </p>
           </div>
         </details>
 
