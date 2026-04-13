@@ -597,8 +597,8 @@
   if (toggleHousingCb) {
     toggleHousingCb.addEventListener("change", function () {
       if (window.InterMap) {
-        window.InterMap.toggleHousingPoints(!this.checked);
-        window.InterMap.toggleAccueilVeloHousing(!this.checked);
+        window.InterMap.toggleHousingPoints(this.checked);
+        window.InterMap.toggleAccueilVeloHousing(this.checked);
       }
     });
   }
@@ -607,7 +607,7 @@
   if (toggleRestaurantsCb) {
     toggleRestaurantsCb.addEventListener("change", function () {
       if (window.InterMap) {
-        window.InterMap.toggleAccueilVeloRestaurants(!this.checked);
+        window.InterMap.toggleAccueilVeloRestaurants(this.checked);
       }
     });
   }

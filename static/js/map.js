@@ -516,7 +516,7 @@
 
           housingLayer.addLayer(marker);
         });
-        if (map) housingLayer.addTo(map);
+        // Layer loaded but hidden by default; toggled by checkbox.
       })
       .catch(function (err) {
         console.warn("Could not load housing points:", err);
@@ -605,7 +605,7 @@
 
           accueilVeloHousingLayer.addLayer(marker);
         });
-        if (map) accueilVeloHousingLayer.addTo(map);
+        // Layer loaded but hidden by default; toggled by checkbox.
       })
       .catch(function (err) {
         console.warn("Could not load Accueil Vélo housing points:", err);
@@ -647,7 +647,7 @@
 
     return `
       <div class="route-panel-body">
-        <div class="route-panel-title">🍴 Restaurant labellisé Accueil Vélo</div>
+        <div class="route-panel-title">😋 Restaurant labellisé Accueil Vélo</div>
         <ul class="route-panel-meta">
           <li>${nameHtml}</li>
         </ul>
@@ -671,7 +671,7 @@
       .then(function (r) { return r.json(); })
       .then(function (points) {
         const icon = L.divIcon({
-          html: "🍴",
+          html: "😋",
           className: "restaurant-marker",
           iconSize: [16, 16],
           iconAnchor: [8, 8],
@@ -694,7 +694,7 @@
 
           accueilVeloRestaurantsLayer.addLayer(marker);
         });
-        if (map) accueilVeloRestaurantsLayer.addTo(map);
+        // Layer loaded but hidden by default; toggled by checkbox.
       })
       .catch(function (err) {
         console.warn("Could not load Accueil Vélo restaurant points:", err);
