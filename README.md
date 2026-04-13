@@ -4,6 +4,16 @@ Outil de recherche d'itinéraires **randovélo + train** en France.
 
 Planifiez des séjours à vélo le long des routes Eurovelo en combinant les trains SNCF pour rejoindre et quitter le parcours.
 
+**Site web : [komorebi-32.github.io/intercyclette](https://komorebi-32.github.io/intercyclette/)**
+
+---
+
+## Fonctionnalités
+
+- **Recherche d'itinéraires randovélo + train** : indiquez votre ville de départ, la durée de votre séjour, votre rythme de pédalage et les routes Eurovelo souhaitées. L'outil identifie les gares SNCF proches des routes et recherche les trains aller-retour via l'API Transitous (avec correspondances).
+- **Hébergements sur la carte** : les hébergements situés à moins de 5 km des routes Eurovelo sont affichés sur la carte (OpenStreetMap et label Accueil Vélo), avec coordonnées de contact au survol.
+- **Restaurants labellisés Accueil Vélo** : les restaurants Accueil Vélo proches des routes sont également affichables sur la carte.
+
 ---
 
 ## Architecture
@@ -293,6 +303,19 @@ Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour les détails.
 
 ## Développements futurs envisagés
 
-- Itinéraire entre deux villes (départ ≠ arrivée)
-- Affichage du type de train (TER / Intercités) sur chaque carte
-- Filtrage par type de train dans le formulaire
+- **Affichage des émissions de GES évitées** : estimation des émissions de gaz à effet de serre évitées, notamment pertinent pour les itinéraires en boucle à vélo ou en comparaison avec un voyage en avion. Les facteurs d'émission seront issus de la Base Empreinte de l'Ademe.
+- **Diversification de la recherche d'itinéraire** : nouvelle option permettant de sélectionner une ville de départ et une ville d'arrivée, l'outil identifiant la route Eurovelo la plus adaptée et calculant la durée du séjour en résultat.
+- **Informations sur le transport de vélo** : affichage du type de train (TER, Intercités, Ouigo Train Classique), du coût et des modalités de réservation pour le transport du vélo. Priorisation des trains les plus adaptés aux vélos.
+- **Intégration des hébergements dans les itinéraires** : pour les séjours de 2 jours ou plus, proposition directe d'hébergements à moins de 5 km de la route, adaptée au rythme du cycliste et aux km parcourus par jour.
+- **Points d'intérêt touristique** : extraction depuis la base DATAtourisme, classés par type, affichables/masquables sur la carte avec informations pratiques au survol.
+- **Points d'eau et toilettes** : affichage des ressources indispensables aux cyclistes (sources de données à identifier).
+- **Fonctionnalités collaboratives** : propositions d'itinéraires personnalisés, commentaires, notes, signalement de points d'intérêt ou de dangers.
+
+### Bugs connus
+
+- Beaucoup d'hébergements affichés n'ont pas de coordonnées de contact (à corriger via DATAtourisme).
+- L'affichage des hébergements peut provoquer des ralentissements lors du déplacement de la carte.
+- Certains horaires de train identifiés ne sont pas valides (communication avec l'API Transitous à améliorer).
+- Pour un séjour d'1 jour, le train retour peut partir avant que le cycliste ait le temps d'arriver à la gare.
+- Les segments proposés partent toujours de la même gare SNCF ; il serait plus pertinent de varier selon la proximité géographique du départ ou l'intérêt touristique.
+- Certains hébergements apparaissent en doublon (présents à la fois dans OpenStreetMap et DATAtourisme via le label Accueil Vélo).
