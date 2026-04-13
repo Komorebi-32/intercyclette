@@ -27,9 +27,6 @@
   /** @type {L.LayerGroup} Holds all housing circle markers (toggled by checkbox). */
   let housingLayer = null;
 
-  /** @type {L.LayerGroup} Holds Accueil Vélo housing markers (toggled by checkbox). */
-  let accueilVeloHousingLayer = null;
-
   /** @type {L.LayerGroup} Holds Accueil Vélo restaurant markers (toggled by checkbox). */
   let accueilVeloRestaurantsLayer = null;
 
@@ -375,6 +372,40 @@
     });
   }
 
+  /**
+   * Build a custom cluster DivIcon showing an emoji and the child count.
+   *
+   * @param {L.MarkerCluster} cluster - The cluster object provided by markercluster.
+   * @param {string} emoji - Emoji displayed inside the cluster bubble.
+   * @param {string} bgColor - CSS background color of the bubble.
+   * @returns {L.DivIcon}
+   */
+  function buildClusterIcon(cluster, emoji, bgColor) {
+    return L.divIcon({
+      html: `<div class="cluster-bubble" style="background:${bgColor}">${emoji} ${cluster.getChildCount()}</div>`,
+      className: "",
+      iconSize: L.point(44, 44),
+      iconAnchor: L.point(22, 22),
+    });
+  }
+
+  /**
+   * Build a DivIcon that renders as a small colored circle, replicating the
+   * appearance of the former L.circleMarker while remaining compatible with
+   * L.markerClusterGroup (which only clusters L.marker instances).
+   *
+   * @param {string} cssClass - CSS class(es) controlling the circle colors.
+   * @returns {L.DivIcon}
+   */
+  function buildDotIcon(cssClass) {
+    return L.divIcon({
+      html: `<div class="${cssClass}"></div>`,
+      className: "",
+      iconSize: L.point(10, 10),
+      iconAnchor: L.point(5, 5),
+    });
+  }
+
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
@@ -489,17 +520,19 @@
    * @returns {Promise<void>} Resolves when all markers have been added.
    */
   function loadHousingPoints() {
-    housingLayer = L.layerGroup();
+    housingLayer = L.markerClusterGroup({
+      disableClusteringAtZoom: 10,
+      iconCreateFunction: function (cluster) {
+        return buildClusterIcon(cluster, "🏠", "rgba(174, 214, 241, 0.6)");
+      },
+    });
     return fetch("static/data/housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
         points.forEach(function (p) {
-          const marker = L.circleMarker([p.lat, p.lon], {
-            radius: 4,
-            color: "#5DADE2",
-            fillColor: "#AED6F1",
-            fillOpacity: 0.85,
-            weight: 1.5,
+          const marker = L.marker([p.lat, p.lon], {
+            icon: buildDotIcon("housing-dot housing-dot--osm"),
+            title: p.name || "",
           });
 
           const panelHtml = buildHousingPanelHtml(p);
@@ -578,17 +611,13 @@
    * @returns {Promise<void>} Resolves when all markers have been added.
    */
   function loadAccueilVeloHousing() {
-    accueilVeloHousingLayer = L.layerGroup();
     return fetch("static/data/accueil_velo_housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
         points.forEach(function (p) {
-          const marker = L.circleMarker([p.lat, p.lon], {
-            radius: 4,
-            color: "#1E8449",
-            fillColor: "#A9DFBF",
-            fillOpacity: 0.85,
-            weight: 1.5,
+          const marker = L.marker([p.lat, p.lon], {
+            icon: buildDotIcon("housing-dot housing-dot--av"),
+            title: p.name || "",
           });
 
           const panelHtml = buildAccueilVeloHousingPanelHtml(p);
@@ -603,9 +632,9 @@
             scheduleClosePanel();
           });
 
-          accueilVeloHousingLayer.addLayer(marker);
+          housingLayer.addLayer(marker);
         });
-        // Layer loaded but hidden by default; toggled by checkbox.
+        // Markers added to the shared housingLayer cluster group.
       })
       .catch(function (err) {
         console.warn("Could not load Accueil Vélo housing points:", err);
@@ -613,18 +642,12 @@
   }
 
   /**
-   * Show or hide the Accueil Vélo housing layer.
+   * No-op: Accueil Vélo housing markers are merged into the shared housingLayer
+   * cluster group and toggled via toggleHousingPoints().
    *
-   * @param {boolean} visible - True to show the layer, false to hide it.
+   * Kept in the public API so existing callers (search.js) do not break.
    */
-  function toggleAccueilVeloHousing(visible) {
-    if (!accueilVeloHousingLayer || !map) return;
-    if (visible) {
-      if (!map.hasLayer(accueilVeloHousingLayer)) accueilVeloHousingLayer.addTo(map);
-    } else {
-      if (map.hasLayer(accueilVeloHousingLayer)) map.removeLayer(accueilVeloHousingLayer);
-    }
-  }
+  function toggleAccueilVeloHousing(_visible) { /* merged into housingLayer */ }
 
   // ── Accueil Vélo restaurants ───────────────────────────────────────────────
 
@@ -666,7 +689,12 @@
    * @returns {Promise<void>} Resolves when all markers have been added.
    */
   function loadAccueilVeloRestaurants() {
-    accueilVeloRestaurantsLayer = L.layerGroup();
+    accueilVeloRestaurantsLayer = L.markerClusterGroup({
+      disableClusteringAtZoom: 14,
+      iconCreateFunction: function (cluster) {
+        return buildClusterIcon(cluster, "😋", "rgba(253, 235, 208, 0.6)");
+      },
+    });
     return fetch("static/data/accueil_velo_restaurants.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
