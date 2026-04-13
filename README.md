@@ -246,13 +246,13 @@ housing.geojson  +  Eurovelo_France_gpx/*.gpx
 |---|---|---|
 | EV3 | La Scandibérique | Rouge |
 | EV4 | La Vélomaritime | Bleu |
-| EV5 | Eurovelo 5 Moselle Alsace | Orange |
+| EV5 | Eurovelo 5 Moselle Alsace | Cyan |
 | EV6 | Entre Rhin et Loire à Vélo | Violet |
 | EV8 | La Méditerranée à Vélo | Sarcelle |
 | EV15 | Véloroute du Rhin | Ambre |
 | EV19 | La Meuse à Vélo | Vert |
 | VEL | La Vélodyssée | Rose |
-| VIA | ViaRhôna | Cyan |
+| VIA | ViaRhôna | Orange |
 
 ---
 
