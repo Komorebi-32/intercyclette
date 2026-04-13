@@ -34,7 +34,7 @@
 
         <!-- Number of days -->
         <div class="form-group">
-          <label for="days-select">Nombre de jours</label>
+          <label for="days-select">Durée du séjour</label>
           <select id="days-select">
             {% for d in range(1, 16) %}
             <option value="{{ d }}" {% if d == 3 %}selected{% endif %}>{{ d }} jour{% if d > 1 %}s{% endif %}</option>

@@ -30,7 +30,7 @@ Le backend Flask (`app/`) est conservé uniquement pour le développement local 
 
 L'utilisateur renseigne :
 - Sa **gare de départ** (ville de référence pour les trains)
-- Le **nombre de jours** disponibles (1 à 15)
+- La **Durée du séjour** disponibles (1 à 15)
 - Son **rythme de pédalage** (Escargot tranquille / Habitué des randovélo / Athlète olympique)
 - Les **routes Eurovelo** souhaitées (sélection multiple)
 - La **date de départ**
