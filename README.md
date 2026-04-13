@@ -12,7 +12,7 @@ Planifiez des séjours à vélo le long des routes Eurovelo en combinant les tra
 
 - **Recherche d'itinéraires randovélo + train** : indiquez votre ville de départ, la durée de votre séjour, votre rythme de pédalage et les routes Eurovelo souhaitées. L'outil identifie les gares SNCF proches des routes et recherche les trains aller-retour via l'API Transitous (avec correspondances).
 - **Hébergements sur la carte** : les hébergements situés à moins de 5 km des routes Eurovelo sont affichés sur la carte (OpenStreetMap et label Accueil Vélo), avec coordonnées de contact au survol.
-- **Restaurants labellisés Accueil Vélo** : les restaurants Accueil Vélo proches des routes sont également affichables sur la carte.
+- **Restaurants labellisés Accueil Vélo** : les restaurants labellisés Accueil Vélo à moins de 5 km des routes sont également affichables sur la carte.
 
 ---
 
