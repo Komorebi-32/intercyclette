@@ -14,7 +14,9 @@ Site statique (GitHub Pages / http.server)
   static/data/stations.json          ← autocomplete gares
   static/data/route_stations.json    ← index gares ↔ routes
   static/data/routes/ev*.json        ← géométries colorées
-  static/data/housing.json           ← hébergements ≤ 5 km des routes
+  static/data/housing.json           ← hébergements OSM ≤ 5 km des routes
+  static/data/accueil_velo_housing.json     ← hébergements Accueil Vélo ≤ 5 km
+  static/data/accueil_velo_restaurants.json ← restaurants Accueil Vélo ≤ 5 km
   static/js/{map,planner,transitous,
     results,search}.js
   static/css/style.css
@@ -82,6 +84,8 @@ Résultat : `data/processed/route_stations.json`.
 python3 scripts/export_stations_json.py      # → static/data/stations.json
 python3 scripts/export_route_geometries.py   # → static/data/routes/ev*.json (×9)
 python3 scripts/export_housing_json.py       # → static/data/housing.json
+python3 scripts/export_accueil_velo_json.py  # → static/data/accueil_velo_housing.json
+                                             #   static/data/accueil_velo_restaurants.json
 cp data/processed/route_stations.json static/data/route_stations.json
 ```
 
@@ -133,7 +137,8 @@ intercyclette/
 │   ├── preprocess.py                  Pré-traitement GPX + gares (exécuté une fois)
 │   ├── export_stations_json.py        Export → static/data/stations.json
 │   ├── export_route_geometries.py     Export → static/data/routes/*.json
-│   └── export_housing_json.py         Export hébergements → static/data/housing.json
+│   ├── export_housing_json.py         Export hébergements OSM → static/data/housing.json
+│   └── export_accueil_velo_json.py    Export Accueil Vélo → housing + restaurants JSON
 ├── app/
 │   ├── constants.py                   Constantes, couleurs, chemins
 │   ├── routes.py                      Handlers Flask (développement local)
@@ -141,7 +146,8 @@ intercyclette/
 │   │   ├── distance.py                Géométrie pure (haversine, polyligne)
 │   │   ├── gpx_parser.py             Lecture des fichiers GPX
 │   │   ├── station_matcher.py        Correspondance gares ↔ routes
-│   │   └── housing_matcher.py        Correspondance hébergements ↔ routes
+│   │   ├── housing_matcher.py        Correspondance hébergements OSM ↔ routes
+│   │   └── accueil_velo_matcher.py   Correspondance Accueil Vélo CSV ↔ routes
 │   └── itinerary/
 │       ├── rhythm.py                  Calcul de distance selon le rythme
 │       └── planner.py                 Assemblage des itinéraires candidats
@@ -150,7 +156,9 @@ intercyclette/
 │   ├── data/
 │   │   ├── stations.json              Gares SNCF (autocomplete)
 │   │   ├── route_stations.json        Index gares ↔ routes (site statique)
-│   │   ├── housing.json               Hébergements ≤ 5 km des routes (site statique)
+│   │   ├── housing.json               Hébergements OSM ≤ 5 km des routes
+│   │   ├── accueil_velo_housing.json  Hébergements Accueil Vélo ≤ 5 km des routes
+│   │   ├── accueil_velo_restaurants.json  Restaurants Accueil Vélo ≤ 5 km des routes
 │   │   └── routes/                    Géométries colorées (9 fichiers)
 │   └── js/
 │       ├── map.js                     Carte Leaflet, overlays colorés, points hébergement
@@ -173,7 +181,7 @@ intercyclette/
 
 ## Pipeline de traitement
 
-### Pré-traitement (scripts/preprocess.py + scripts/export_housing_json.py)
+### Pré-traitement (scripts/preprocess.py + scripts/export_housing_json.py + scripts/export_accueil_velo_json.py)
 
 ```
 gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
@@ -200,7 +208,23 @@ housing.geojson  +  Eurovelo_France_gpx/*.gpx
      Déduplication par osm_id (première occurrence gagne)
                   │
                   ▼
-         static/data/housing.json  (tableau plat d'hébergements ≤ 5 km)
+         static/data/housing.json  (tableau plat d'hébergements OSM ≤ 5 km)
+
+accueil-velo.csv  +  Eurovelo_France_gpx/*.gpx
+         │                    │
+         ▼                    ▼
+   Chargement CSV        Parsing GPX → GpxTrack
+   Filtre Sous-type           │
+   "Hébergement" / "Restauration"
+         │                    │
+         └────────┬────────────┘
+                  ▼
+     find_features_near_route() — même logique de proximité
+     Déduplication par Identifiant (première occurrence gagne)
+                  │
+                  ▼
+         static/data/accueil_velo_housing.json     (≈ 1 978 hébergements)
+         static/data/accueil_velo_restaurants.json (≈ 425 restaurants)
 ```
 
 ### Recherche (navigateur + API Transitous)
@@ -226,8 +250,10 @@ housing.geojson  +  Eurovelo_France_gpx/*.gpx
         ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
    9 overlays colorés permanents (un par route Eurovelo)
-   Points hébergements bleus pâles permanents (housing.json)
-   Segment bikeé en couleur de la route sélectionnée
+   Points hébergements OSM bleus pâles (housing.json)
+   Points hébergements Accueil Vélo verts pâles (accueil_velo_housing.json)
+   Points restaurants Accueil Vélo 🍴 (accueil_velo_restaurants.json)
+   Segment bikeable en couleur de la route sélectionnée
 ```
 
 ### Rythmes de pédalage

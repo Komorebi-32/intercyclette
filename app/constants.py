@@ -136,6 +136,9 @@ STATIONS_GEOJSON = "data/raw/gares-de-voyageurs.geojson"
 PROCESSED_OUTPUT = "data/processed/route_stations.json"
 HOUSING_GEOJSON  = "data/raw/housing.geojson"
 HOUSING_OUTPUT   = "static/data/housing.json"
+ACCUEIL_VELO_CSV                = "data/raw/accueil-velo.csv"
+ACCUEIL_VELO_HOUSING_OUTPUT     = "static/data/accueil_velo_housing.json"
+ACCUEIL_VELO_RESTAURANTS_OUTPUT = "static/data/accueil_velo_restaurants.json"
 
 # ---------------------------------------------------------------------------
 # Housing proximity

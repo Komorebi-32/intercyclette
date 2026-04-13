@@ -589,6 +589,8 @@
     window.InterMap.initMap("map");
     window.InterMap.loadAllRoutes();
     window.InterMap.loadHousingPoints();
+    window.InterMap.loadAccueilVeloHousing();
+    window.InterMap.loadAccueilVeloRestaurants();
   }
 
   const toggleHousingCb = document.getElementById("toggle-housing");
@@ -596,6 +598,16 @@
     toggleHousingCb.addEventListener("change", function () {
       if (window.InterMap) {
         window.InterMap.toggleHousingPoints(!this.checked);
+        window.InterMap.toggleAccueilVeloHousing(!this.checked);
+      }
+    });
+  }
+
+  const toggleRestaurantsCb = document.getElementById("toggle-restaurants");
+  if (toggleRestaurantsCb) {
+    toggleRestaurantsCb.addEventListener("change", function () {
+      if (window.InterMap) {
+        window.InterMap.toggleAccueilVeloRestaurants(!this.checked);
       }
     });
   }

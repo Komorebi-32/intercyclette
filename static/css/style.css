@@ -612,6 +612,17 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   margin: 14px 0;
 }
 
+/* ── Restaurant emoji marker ─────────────────────────────────────────────── */
+.restaurant-marker {
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
+
 /* ── Scrollbar styling (webkit) ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }

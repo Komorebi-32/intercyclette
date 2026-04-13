@@ -1,0 +1,3402 @@
+[
+  {
+    "id": "6048875",
+    "name": "Hôtel le Château de la Motte",
+    "website": "https://www.chateaudelamotte.fr/",
+    "lat": 50.109731,
+    "lon": 4.076648,
+    "distance_to_route_km": 0.258
+  },
+  {
+    "id": "6048746",
+    "name": "Restaurant Le Château de la Motte",
+    "website": "https://www.chateaudelamotte.fr/",
+    "lat": 50.109629,
+    "lon": 4.080383,
+    "distance_to_route_km": 0.524
+  },
+  {
+    "id": "RESPIC000V50500Z",
+    "name": "Le Château de la Motte",
+    "website": "https://www.chateaudelamotte.fr/",
+    "lat": 50.1092728,
+    "lon": 4.075988,
+    "distance_to_route_km": 0.208
+  },
+  {
+    "id": "6474708",
+    "name": "Café Rando Nord : Brasserie Bar Le Hututu",
+    "website": null,
+    "lat": 50.054803,
+    "lon": 4.150853,
+    "distance_to_route_km": 4.238
+  },
+  {
+    "id": "HOTPIC0020010194",
+    "name": "Hôtel le clos du Montvinage",
+    "website": "https://www.hotel-clos-du-montvinage.com/",
+    "lat": 49.9057325,
+    "lon": 3.9141782,
+    "distance_to_route_km": 0.042
+  },
+  {
+    "id": "RESPIC002V504DA4",
+    "name": "Restaurant L'Ermite",
+    "website": "http://www.lermite.com/",
+    "lat": 49.8986806,
+    "lon": 3.82223659,
+    "distance_to_route_km": 0.43
+  },
+  {
+    "id": "RESPIC002V50XFCD",
+    "name": "Estaminet La Halle",
+    "website": "https://www.la-halle-estaminet.com/",
+    "lat": 49.9062855,
+    "lon": 3.78298851,
+    "distance_to_route_km": 0.02
+  },
+  {
+    "id": "RESPIC002V500E7T",
+    "name": "L'Estaminet Godin",
+    "website": null,
+    "lat": 49.9043463,
+    "lon": 3.62647341,
+    "distance_to_route_km": 0.124
+  },
+  {
+    "id": "HOTPIC060V5086C4",
+    "name": "Aiden By Bestwestern T'Aim Hôtel",
+    "website": "https://www.taimhotel.com/",
+    "lat": 49.417832,
+    "lon": 2.8163919,
+    "distance_to_route_km": 0.152
+  },
+  {
+    "id": "RESPIC060FS001Q8",
+    "name": "L'Escapade",
+    "website": null,
+    "lat": 49.4040761,
+    "lon": 2.7478286,
+    "distance_to_route_km": 2.803
+  },
+  {
+    "id": "RESPIC060FS001E6",
+    "name": "La Porte Bellon",
+    "website": "https://www.portebellon.fr/",
+    "lat": 49.2051152,
+    "lon": 2.5902352,
+    "distance_to_route_km": 0.133
+  },
+  {
+    "id": "HOTPIC1600000365",
+    "name": "La Porte Bellon",
+    "website": "http://www.portebellon.fr/",
+    "lat": 49.205026,
+    "lon": 2.590185,
+    "distance_to_route_km": 0.143
+  },
+  {
+    "id": "HOTPIC1600000339",
+    "name": "Ibis Senlis",
+    "website": "https://all.accor.com/hotel/0709/index.fr.shtml",
+    "lat": 49.206313,
+    "lon": 2.60028362,
+    "distance_to_route_km": 0.405
+  },
+  {
+    "id": "HOTPIC1600000377",
+    "name": "Domaine d'Ermenonville",
+    "website": "http://www.domainechateauermenonville.com/",
+    "lat": 49.130227,
+    "lon": 2.691054,
+    "distance_to_route_km": 1.944
+  },
+  {
+    "id": "6073071",
+    "name": "Hôtel - Maison Montmartre",
+    "website": "https://www.theoriginalshotels.com/hotels/paris-maison-montmartre",
+    "lat": 48.900536,
+    "lon": 2.335784,
+    "distance_to_route_km": 3.156
+  },
+  {
+    "id": "7312980",
+    "name": "Drawing House",
+    "website": "https://www.drawinghouse.com/",
+    "lat": 48.83735,
+    "lon": 2.319941,
+    "distance_to_route_km": 2.552
+  },
+  {
+    "id": "731055",
+    "name": "Ibis Styles Evry-Courcouronnes Hôtel & Events",
+    "website": "http://www.accorhotels.com/fr/hotel-1986-ibis-styles-evry-cathedrale/index.shtml",
+    "lat": 48.624444,
+    "lon": 2.429166,
+    "distance_to_route_km": 2.105
+  },
+  {
+    "id": "731019",
+    "name": "Novotel Evry-Courcouronnes",
+    "website": "http://www.novotel.com/fr/hotel-0389-novotel-evry-courcouronnes/index.shtml",
+    "lat": 48.616564,
+    "lon": 2.424446,
+    "distance_to_route_km": 2.993
+  },
+  {
+    "id": "HOTCEN0450010078",
+    "name": "Logis Hôtel de l'Abbaye",
+    "website": "https://fr-fr.facebook.com/abbayeinfo/",
+    "lat": 48.0859605,
+    "lon": 2.789269,
+    "distance_to_route_km": 2.366
+  },
+  {
+    "id": "HOTCEN045FS000LA",
+    "name": "Ibis Styles Montargis Arboria",
+    "website": "https://all.accor.com/hotel/B4A1/index.fr.shtml",
+    "lat": 47.9956622,
+    "lon": 2.6729781,
+    "distance_to_route_km": 4.018
+  },
+  {
+    "id": "HOTCEN0450010102",
+    "name": "Hôtel Ibis Montargis",
+    "website": "https://all.accor.com/hotel/0861/index.fr.shtml",
+    "lat": 47.994886,
+    "lon": 2.732226,
+    "distance_to_route_km": 0.233
+  },
+  {
+    "id": "HOTCENCEN9991670",
+    "name": "Le Domaine des Roches Hôtel & Cottages",
+    "website": "https://www.domainedesroches-briare.fr/",
+    "lat": 47.6438757,
+    "lon": 2.73994272,
+    "distance_to_route_km": 0.385
+  },
+  {
+    "id": "HOTCEN0450010151",
+    "name": "Villa Hôtel",
+    "website": "https://www.villa-hotel-gien.fr/",
+    "lat": 47.666436,
+    "lon": 2.6105489,
+    "distance_to_route_km": 1.985
+  },
+  {
+    "id": "HOTCEN0450010320",
+    "name": "Hostellerie du Grand Sully",
+    "website": "http://www.grandsully.com/",
+    "lat": 47.7643371,
+    "lon": 2.3760366,
+    "distance_to_route_km": 0.438
+  },
+  {
+    "id": "HOTCEN0450010166",
+    "name": "Logis Hôtel Sully le Château",
+    "website": "https://www.sullylechateau.com/",
+    "lat": 47.7732918,
+    "lon": 2.3719597,
+    "distance_to_route_km": 0.324
+  },
+  {
+    "id": "HOTCEN0450010087",
+    "name": "Hôtel Le Cheval Blanc",
+    "website": "http://www.lechevalblancjargeau.fr/",
+    "lat": 47.8650157,
+    "lon": 2.12158708,
+    "distance_to_route_km": 0.323
+  },
+  {
+    "id": "HOTCEN0450010161",
+    "name": "Brit Hotel Orléans St-Jean-de-Braye - L'Antarès",
+    "website": "https://hotel-orleans-antares.brithotel.fr/",
+    "lat": 47.9141021,
+    "lon": 1.96480237,
+    "distance_to_route_km": 1.621
+  },
+  {
+    "id": "HOTCEN0450010130",
+    "name": "B&B Orléans Centre Foch",
+    "website": "https://www.hotel-bb.com/fr/hotel/orleans-centre-foch?utm_source=googlemaps&utm_medium=fichehotel&utm_campaign=yext",
+    "lat": 47.9061732,
+    "lon": 1.8978543,
+    "distance_to_route_km": 0.928
+  },
+  {
+    "id": "HOTCEN0450010121",
+    "name": "Hôtel Mercure Orléans Centre Bords de Loire",
+    "website": "https://all.accor.com/hotel/0581/index.fr.shtml",
+    "lat": 47.8984661,
+    "lon": 1.89623779,
+    "distance_to_route_km": 0.076
+  },
+  {
+    "id": "HOTCEN0450010032",
+    "name": "Le Beaugency",
+    "website": "https://www.hotelbeaugency.fr/",
+    "lat": 47.7778335,
+    "lon": 1.6279623,
+    "distance_to_route_km": 0.494
+  },
+  {
+    "id": "HOT41AAHOT100076",
+    "name": "Manoir Bel-Air",
+    "website": "http://www.manoirbelair.com/",
+    "lat": 47.6582248,
+    "lon": 1.494712,
+    "distance_to_route_km": 0.739
+  },
+  {
+    "id": "HOTCEN041V5064DA",
+    "name": "Hôtel le relais de la Loire",
+    "website": "https://www.relaisdelaloire.fr/fr",
+    "lat": 47.6412,
+    "lon": 1.4455,
+    "distance_to_route_km": 1.647
+  },
+  {
+    "id": "HOT41AAHOT100044",
+    "name": "Kyriad Blois-Vineuil",
+    "website": null,
+    "lat": 47.5833222,
+    "lon": 1.3681439,
+    "distance_to_route_km": 1.685
+  },
+  {
+    "id": "HOT41AAHOT100016",
+    "name": "Novotel Blois - Centre Val de Loire",
+    "website": "https://www.accorhotels.com/fr/hotel-B2W9-novotel-blois-centre-val-de-loire/index.shtml",
+    "lat": 47.5916773,
+    "lon": 1.3361703,
+    "distance_to_route_km": 0.453
+  },
+  {
+    "id": "HOT41AAHOT100043",
+    "name": "Hôtel Le Cosy Blois Nord",
+    "website": "http://www.hotelcosy-blois.com/",
+    "lat": 47.5952595,
+    "lon": 1.3285742,
+    "distance_to_route_km": 1.131
+  },
+  {
+    "id": "HOT41AAHOT100021",
+    "name": "Le Monarque",
+    "website": "http://www.hotel-lemonarque.com/",
+    "lat": 47.5888521,
+    "lon": 1.3314353,
+    "distance_to_route_km": 0.472
+  },
+  {
+    "id": "HOT41AAHOT100034",
+    "name": "Le Pavillon",
+    "website": "https://www.hotelrestaurant-lepavillon.com/",
+    "lat": 47.5840681,
+    "lon": 1.3395194,
+    "distance_to_route_km": 0.045
+  },
+  {
+    "id": "HOTCEN041V505FC4",
+    "name": "Fleur de Loire",
+    "website": "https://www.fleurdeloire.com/fr/",
+    "lat": 47.58261,
+    "lon": 1.33677,
+    "distance_to_route_km": 0.016
+  },
+  {
+    "id": "HOT41AAHOT100035",
+    "name": "Hôtel Côté Loire - Auberge Ligérienne",
+    "website": "http://www.coteloire.com/",
+    "lat": 47.582773,
+    "lon": 1.3308136,
+    "distance_to_route_km": 0.305
+  },
+  {
+    "id": "HOT41AAHOT100051",
+    "name": "Auberge de la Caillère",
+    "website": "http://www.auberge-de-la-caillere.com/",
+    "lat": 47.4943784,
+    "lon": 1.2705183,
+    "distance_to_route_km": 0.774
+  },
+  {
+    "id": "HOT41AAHOT100072",
+    "name": "Le relais des landes",
+    "website": "https://www.relaisdeslandes.com/fr/",
+    "lat": 47.4807476,
+    "lon": 1.3037197,
+    "distance_to_route_km": 3.588
+  },
+  {
+    "id": "HOTCEN041V5004U4",
+    "name": "Hôtel Restaurant de la Gare",
+    "website": "http://www.hotel-restaurant-41.fr/",
+    "lat": 47.4916378,
+    "lon": 1.184207,
+    "distance_to_route_km": 1.046
+  },
+  {
+    "id": "HOTCEN041V505FN6",
+    "name": "Hôtel Le Bois des Chambres",
+    "website": "https://leboisdeschambres.fr/hotel-arts-et-nature",
+    "lat": 47.48129,
+    "lon": 1.188,
+    "distance_to_route_km": 0.092
+  },
+  {
+    "id": "HOTCENCEN9991382",
+    "name": "Hotel-Restaurant & Spa du Domaine des Thomeaux",
+    "website": "https://www.domainedesthomeaux.fr/",
+    "lat": 47.4547905,
+    "lon": 1.0981825,
+    "distance_to_route_km": 0.056
+  },
+  {
+    "id": "HOTCEN0370000174",
+    "name": "Auberge de Launay",
+    "website": "http://reservation-hotel.logishotels.com/reservit/avail-info.php?userid=50510301290198e248f648970c83c62ac0a9&hotelid=2492&partid=568",
+    "lat": 47.4463193,
+    "lon": 1.0484539,
+    "distance_to_route_km": 1.287
+  },
+  {
+    "id": "HOTCEN0370000004",
+    "name": "Château de Pray",
+    "website": "http://hotel.reservit.com/reservit/fiche_htl.php?hotelid=10048&userid=5502cefdae1818d99fbf2c29e62db362bcd9",
+    "lat": 47.4250488,
+    "lon": 1.01605459,
+    "distance_to_route_km": 0.458
+  },
+  {
+    "id": "HOTCEN0370000026",
+    "name": "Hôtel La Bonne Etape",
+    "website": "http://www.hotelrestaurant-labonneetape.com/",
+    "lat": 47.4243315,
+    "lon": 1.0095175,
+    "distance_to_route_km": 0.69
+  },
+  {
+    "id": "HOTCEN0370000078",
+    "name": "Hôtel Ibis Amboise",
+    "website": "https://all.accor.com/hotel/0908/index.fr.shtml",
+    "lat": 47.4141221,
+    "lon": 1.0186668,
+    "distance_to_route_km": 0.574
+  },
+  {
+    "id": "HOTCEN0370000100",
+    "name": "Le Relais d'Amboise",
+    "website": "https://www.relaisdamboise.com/",
+    "lat": 47.4148075,
+    "lon": 0.9884849,
+    "distance_to_route_km": 0.224
+  },
+  {
+    "id": "HOTCEN0370000135",
+    "name": "Hôtel Novotel Amboise",
+    "website": "http://www.accorhotels.com/fr/hotel-0395-novotel-amboise/index.shtml",
+    "lat": 47.3977636,
+    "lon": 0.9902791,
+    "distance_to_route_km": 1.42
+  },
+  {
+    "id": "HOTCEN0370000414",
+    "name": "Hôtel Le Clos d'Amboise",
+    "website": "http://leclosdamboise.com/",
+    "lat": 47.4104716,
+    "lon": 0.9837255,
+    "distance_to_route_km": 0.268
+  },
+  {
+    "id": "HOTCEN0370000021",
+    "name": "Hôtel Bellevue",
+    "website": "http://www.hotel-bellevue-amboise.com/fr/reservations-et-contact",
+    "lat": 47.4134345,
+    "lon": 0.9844137,
+    "distance_to_route_km": 0.026
+  },
+  {
+    "id": "HOTCEN0370000027",
+    "name": "Hôtel La Brèche",
+    "website": "http://www.labreche-amboise.com/",
+    "lat": 47.4202651,
+    "lon": 0.9818227,
+    "distance_to_route_km": 0.725
+  },
+  {
+    "id": "HOTCEN0370000324",
+    "name": "Hôtel Chaptal",
+    "website": "http://www.hotel-chaptal.com/",
+    "lat": 47.4110791,
+    "lon": 0.9825241,
+    "distance_to_route_km": 0.222
+  },
+  {
+    "id": "HOTCEN0370000066",
+    "name": "Logis Hotel Maison Voltaire",
+    "website": "https://www.maison-voltaire-amboise.com/",
+    "lat": 47.411998,
+    "lon": 0.9813509,
+    "distance_to_route_km": 0.099
+  },
+  {
+    "id": "HOTCEN037V50O28X",
+    "name": "Westotel Tours - Val de Loire",
+    "website": "https://www.westotel-tours.com/",
+    "lat": 47.3963467,
+    "lon": 0.7843371,
+    "distance_to_route_km": 0.744
+  },
+  {
+    "id": "HOTCEN0370000102",
+    "name": "Les Hautes Roches",
+    "website": "http://www.leshautesroches.com/",
+    "lat": 47.4106504,
+    "lon": 0.7744763,
+    "distance_to_route_km": 0.87
+  },
+  {
+    "id": "HOTCEN0370000086",
+    "name": "Hôtel Kyriad Tours Saint Pierre-des-Corps Gare TGV",
+    "website": "http://www.kyriad.com/fr",
+    "lat": 47.3863865,
+    "lon": 0.72274101,
+    "distance_to_route_km": 1.174
+  },
+  {
+    "id": "HOTCEN0370000382",
+    "name": "The Originals Tours Hôtel la Terrasse",
+    "website": "http://www.tours-hotel-la-terrasse.com/",
+    "lat": 47.422633,
+    "lon": 0.7009262,
+    "distance_to_route_km": 2.78
+  },
+  {
+    "id": "HOTCEN037FS000E0",
+    "name": "Château Belmont The Crest Collection",
+    "website": "https://www.chateaubelmont.com/fr",
+    "lat": 47.406655,
+    "lon": 0.6863044,
+    "distance_to_route_km": 1.123
+  },
+  {
+    "id": "HOTCEN037V50LOOQ",
+    "name": "Hampton By Hilton Tours Centre",
+    "website": "https://hilton.com/",
+    "lat": 47.3966747,
+    "lon": 0.6864193,
+    "distance_to_route_km": 0.491
+  },
+  {
+    "id": "HOTCEN037V50LOOR",
+    "name": "Hilton Garden Inn Tours Centre",
+    "website": "https://hilton.com/",
+    "lat": 47.3962712,
+    "lon": 0.6860257,
+    "distance_to_route_km": 0.53
+  },
+  {
+    "id": "HOTCEN0370000079",
+    "name": "Ibis Tours Centre Gare",
+    "website": "https://all.accor.com/",
+    "lat": 47.3875499,
+    "lon": 0.6980462,
+    "distance_to_route_km": 0.503
+  },
+  {
+    "id": "HOTCEN0370000162",
+    "name": "Hôtel Oceania l'Univers Tours",
+    "website": "http://www.oceaniahotels.com/h/hotel-oceania-l-univers-tours/presentation",
+    "lat": 47.3903263,
+    "lon": 0.6904466,
+    "distance_to_route_km": 0.014
+  },
+  {
+    "id": "HOTCEN0370000126",
+    "name": "Hôtel Ibis Styles Tours Centre",
+    "website": "https://www.all.accor.com/",
+    "lat": 47.3796609,
+    "lon": 0.6922752,
+    "distance_to_route_km": 0.041
+  },
+  {
+    "id": "HOTCEN0370000036",
+    "name": "The Originals Château de Beaulieu et Magnolia Spa",
+    "website": "http://www.chateaudebeaulieu37.com/",
+    "lat": 47.3622995,
+    "lon": 0.6610566,
+    "distance_to_route_km": 2.796
+  },
+  {
+    "id": "HOTCEN0370000128",
+    "name": "Mercure Tours Sud",
+    "website": "https://www.mercure-tours-sud.fr/",
+    "lat": 47.3537106,
+    "lon": 0.64312934,
+    "distance_to_route_km": 4.408
+  },
+  {
+    "id": "HOTCEN0370000039",
+    "name": "Brit Hotel Tours Sud - Le Cheops",
+    "website": "https://hotel-tours.brithotel.fr/",
+    "lat": 47.3492039,
+    "lon": 0.66460847,
+    "distance_to_route_km": 3.348
+  },
+  {
+    "id": "HOTCEN0370000080",
+    "name": "Hôtel Ibis Tours Sud",
+    "website": "https://all.accor.com/hotel/0643/index.fr.shtml",
+    "lat": 47.335407,
+    "lon": 0.6996084,
+    "distance_to_route_km": 2.846
+  },
+  {
+    "id": "HOTCEN0370000236",
+    "name": "Ibis Styles Tours Sud",
+    "website": "http://www.ibis.com/fr/hotel-0453-ibis-styles-tours-sud-ex-novotel/index.shtml",
+    "lat": 47.3355814,
+    "lon": 0.69863227,
+    "distance_to_route_km": 2.919
+  },
+  {
+    "id": "HOTCEN0370000007",
+    "name": "Sure Hotel by Best Western Tours Sud",
+    "website": "https://www.bestwestern.fr/fr/hotel-chambray-les-tours-sure-hotel-by-best-western-tours-sud-87118",
+    "lat": 47.3341482,
+    "lon": 0.7194784,
+    "distance_to_route_km": 1.375
+  },
+  {
+    "id": "HOTCEN0370000215",
+    "name": "Château Hôtel Domaine de la Tortinière",
+    "website": "http://www.tortiniere.com/fr/hotel-tortiniere-chateaux-loire.php",
+    "lat": 47.301384,
+    "lon": 0.7121975,
+    "distance_to_route_km": 1.996
+  },
+  {
+    "id": "RESAQU086V50033T",
+    "name": "La Table des Orangeries",
+    "website": "http://www.lesorangeries.fr/",
+    "lat": 46.4033817,
+    "lon": 0.7226727,
+    "distance_to_route_km": 1.643
+  },
+  {
+    "id": "5718203",
+    "name": "Hôtel Emeraude",
+    "website": "http://www.emeraude-hotel-confolens.com/",
+    "lat": 46.01358,
+    "lon": 0.671231,
+    "distance_to_route_km": 0.102
+  },
+  {
+    "id": "5753976",
+    "name": "Hôtel Ibis Styles",
+    "website": "https://all.accor.com/hotel/0397/index.fr.shtml",
+    "lat": 45.693838,
+    "lon": 0.178913,
+    "distance_to_route_km": 2.31
+  },
+  {
+    "id": "7442873",
+    "name": "La Musette de Papa",
+    "website": "https://la-musette-de-papa.eatbu.com/?lang=fr",
+    "lat": 45.655442,
+    "lon": 0.159069,
+    "distance_to_route_km": 0.249
+  },
+  {
+    "id": "5666307",
+    "name": "Mercure Hôtel de France",
+    "website": "https://all.accor.com/hotel/1213/index.en.shtml",
+    "lat": 45.649476,
+    "lon": 0.15782,
+    "distance_to_route_km": 0.711
+  },
+  {
+    "id": "5670956",
+    "name": "Hôtel La Boule d'Or",
+    "website": "https://labouledor.net/",
+    "lat": 45.470813,
+    "lon": -0.154524,
+    "distance_to_route_km": 0.468
+  },
+  {
+    "id": "5958746",
+    "name": "Le Ma Restaurant",
+    "website": "http://ileauxcabanes.com/",
+    "lat": 45.289015,
+    "lon": -0.280958,
+    "distance_to_route_km": 3.264
+  },
+  {
+    "id": "RESAQU047V50FFJG",
+    "name": "La Gondole du Canal",
+    "website": "http://lagondoleducanal.fr/",
+    "lat": 44.4137739,
+    "lon": 0.21737945,
+    "distance_to_route_km": 0.01
+  },
+  {
+    "id": "RESAQU047V50NIA7",
+    "name": "Ô Bistro Madeline",
+    "website": "https://obistromadeline.fr/",
+    "lat": 44.4116715,
+    "lon": 0.21735206,
+    "distance_to_route_km": 0.171
+  },
+  {
+    "id": "RESAQU047FS000EA",
+    "name": "Chez Marcel",
+    "website": null,
+    "lat": 44.3935366,
+    "lon": 0.2514592,
+    "distance_to_route_km": 0.016
+  },
+  {
+    "id": "RESAQU047V50INSM",
+    "name": "Côté Garonne : Le Balcon des Dames",
+    "website": "https://www.cotegaronne47.com/",
+    "lat": 44.3881548,
+    "lon": 0.30962632,
+    "distance_to_route_km": 3.913
+  },
+  {
+    "id": "RESNOR050FS000IH",
+    "name": "La Ferme Saint-Michel",
+    "website": "https://www.instagram.com/lafermesaintmichel/",
+    "lat": 48.6111696,
+    "lon": -1.5089518,
+    "distance_to_route_km": 0.235
+  },
+  {
+    "id": "HOTNOR050FS001VO",
+    "name": "Hôtel Vert",
+    "website": "https://hotels.le-mont-saint-michel.com/hotel-vert/",
+    "lat": 48.6146259,
+    "lon": -1.5091777,
+    "distance_to_route_km": 0.082
+  },
+  {
+    "id": "HOTNOR050FS001WI",
+    "name": "Hôtel Auberge de la Baie",
+    "website": "http://manche.for-system.com/?_wos=AVAI-49334",
+    "lat": 48.6158125,
+    "lon": -1.4883605,
+    "distance_to_route_km": 0.039
+  },
+  {
+    "id": "RESNOR050FS000FG",
+    "name": "Manoir de la Roche Torin",
+    "website": "http://www.manoir-rochetorin.com/",
+    "lat": 48.6368358,
+    "lon": -1.4258699,
+    "distance_to_route_km": 0.06
+  },
+  {
+    "id": "HOTNOR050FS001UQ",
+    "name": "Hôtel Manoir de la Roche Torin",
+    "website": "http://www.manoir-rochetorin.com/",
+    "lat": 48.6373654,
+    "lon": -1.4250176,
+    "distance_to_route_km": 0.062
+  },
+  {
+    "id": "HOTNOR050FS001W4",
+    "name": "Hôtel Les 13 Assiettes",
+    "website": "https://www.instagram.com/13assiettes/",
+    "lat": 48.6394403,
+    "lon": -1.3518944,
+    "distance_to_route_km": 0.777
+  },
+  {
+    "id": "RESNOR050FS000GN",
+    "name": "Les Treize Assiettes",
+    "website": "https://www.les13assiettes.com/",
+    "lat": 48.6391248,
+    "lon": -1.3519212,
+    "distance_to_route_km": 0.745
+  },
+  {
+    "id": "RESNOR050FS000FL",
+    "name": "Auberge de la Sélune",
+    "website": "https://www.instagram.com/aubergedelaselune/",
+    "lat": 48.619902,
+    "lon": -1.294539,
+    "distance_to_route_km": 0.415
+  },
+  {
+    "id": "HOTNOR050FS001UW",
+    "name": "Best Western Hôtel Le Moulin de Ducey",
+    "website": "https://www.moulindeducey.com/",
+    "lat": 48.619295,
+    "lon": -1.2954418,
+    "distance_to_route_km": 0.495
+  },
+  {
+    "id": "HOTNOR050FS001V0",
+    "name": "Hôtel Auberge de la Sélune",
+    "website": "http://manche.for-system.com/?_wos=HRIT-19504",
+    "lat": 48.6197885,
+    "lon": -1.2948394,
+    "distance_to_route_km": 0.431
+  },
+  {
+    "id": "RESNOR050V52KMHU",
+    "name": "La Cour des Grands",
+    "website": null,
+    "lat": 48.6196961,
+    "lon": -0.9192772,
+    "distance_to_route_km": 3.097
+  },
+  {
+    "id": "HOTNOR014FS001UM",
+    "name": "Hôtel de France",
+    "website": "https://www.facebook.com/hoteldefrancevire",
+    "lat": 48.8397531,
+    "lon": -0.8905051,
+    "distance_to_route_km": 0.616
+  },
+  {
+    "id": "RESNOR014V54ZLOY",
+    "name": "La Baratte sans beurre",
+    "website": null,
+    "lat": 48.87477,
+    "lon": -0.8815,
+    "distance_to_route_km": 0.017
+  },
+  {
+    "id": "RESNOR050V52BQBH",
+    "name": "Le Coq Hardi",
+    "website": null,
+    "lat": 48.93609,
+    "lon": -1.03591,
+    "distance_to_route_km": 0.189
+  },
+  {
+    "id": "RESNOR050V51BPD7",
+    "name": "Le Comptoir de Gourfaleur",
+    "website": "http://lecomptoirdegourfaleur.fr/",
+    "lat": 49.0847031,
+    "lon": -1.0935545,
+    "distance_to_route_km": 0.108
+  },
+  {
+    "id": "HOTNOR050V52SDPW",
+    "name": "Hôtel Le Pavillon de Saint-Lô",
+    "website": "https://www.hotelpavillonsaint-lo.com/",
+    "lat": 49.1013753,
+    "lon": -1.1151074,
+    "distance_to_route_km": 0.714
+  },
+  {
+    "id": "HOTNOR050FS00200",
+    "name": "Hôtel Le Sainte-Mère",
+    "website": "https://www.facebook.com/pages/H%C3%B4tel-Le-Sainte-M%C3%A8re-Restaurant-La-Cotentine-Sainte-M%C3%A8re-Eglise/222255791181936",
+    "lat": 49.4041896,
+    "lon": -1.3129794,
+    "distance_to_route_km": 4.36
+  },
+  {
+    "id": "RESNOR050V504HC1",
+    "name": "Chez Arsène",
+    "website": "https://www.facebook.com/domaineutahbeach",
+    "lat": 49.4052654,
+    "lon": -1.2143133,
+    "distance_to_route_km": 2.248
+  },
+  {
+    "id": "HOTNOR050FS0022R",
+    "name": "Domaine Utah Beach - Hôtel Le Grand Hard",
+    "website": "https://domaine-utah-beach.com/",
+    "lat": 49.4052099,
+    "lon": -1.2143676,
+    "distance_to_route_km": 2.254
+  },
+  {
+    "id": "HOTNOR014FS001U1",
+    "name": "Mercure Omaha Beach",
+    "website": "https://all.accor.com/ssr/app/mercure/rates/1215/index.fr.shtml?",
+    "lat": 49.3422586,
+    "lon": -0.7672372,
+    "distance_to_route_km": 0.337
+  },
+  {
+    "id": "HOTNOR014FS001PG",
+    "name": "Château La Chenevière",
+    "website": "https://www.secure-hotel-booking.com/smart/La-Cheneviere/2A8Q/fr-FR/",
+    "lat": 49.33198,
+    "lon": -0.75534,
+    "distance_to_route_km": 0.549
+  },
+  {
+    "id": "HOTNOR014V528WBF",
+    "name": "Gold Beach Hotel",
+    "website": "https://www.secure-direct-hotel-booking.com/module_booking_engine/index.php?id_etab=6efa0252c5b4701963f5a72504fd0e1e&langue=francais&date_deb=&nb_nuit=1",
+    "lat": 49.3402862,
+    "lon": -0.5844365,
+    "distance_to_route_km": 0.084
+  },
+  {
+    "id": "HOTNOR014FS001VB",
+    "name": "Hôtel Le Saint-Aubin",
+    "website": "https://www.hotelsaintaubin.com/",
+    "lat": 49.3322412,
+    "lon": -0.3944967,
+    "distance_to_route_km": 0.19
+  },
+  {
+    "id": "HOTNOR014FS001PT",
+    "name": "Hôtel THALAZUR Ouistreham",
+    "website": "https://www.instagram.com/ThalazurOuistreham",
+    "lat": 49.2892949,
+    "lon": -0.2618069,
+    "distance_to_route_km": 0.094
+  },
+  {
+    "id": "HOTNOR014V51BSSM",
+    "name": "Manoir' Hastings Hôtel",
+    "website": "http://www.manoirdhastings.fr/",
+    "lat": 49.2471498,
+    "lon": -0.276047,
+    "distance_to_route_km": 0.282
+  },
+  {
+    "id": "RESNOR014V54ONI0",
+    "name": "Bistrot June",
+    "website": "https://www.instagram.com/bistrotjune/",
+    "lat": 49.38332,
+    "lon": 0.24369,
+    "distance_to_route_km": 3.259
+  },
+  {
+    "id": "HOTNOR076FS00292",
+    "name": "Hôtel Birgit Le Havre Centre",
+    "website": "http://www.seine-maritime-tourisme.com/diffusio/fr/je-choisis/un-hebergement/hotel/le-havre/hotel-kyriad-le-havre-centre_TFOHOTNOR076FS00292.php",
+    "lat": 49.49315,
+    "lon": 0.13078689,
+    "distance_to_route_km": 0.423
+  },
+  {
+    "id": "RESNOR076V51P9S1",
+    "name": "L'Havrais Bière",
+    "website": "https://www.instagram.com/l_havrais_biere/",
+    "lat": 49.4854745,
+    "lon": 0.10702792,
+    "distance_to_route_km": 0.021
+  },
+  {
+    "id": "HOTNOR076FS0026Q",
+    "name": "Le Donjon - Domaine Saint Clair",
+    "website": "https://www.instagram.com/domainesaintclair/",
+    "lat": 49.7065859,
+    "lon": 0.21132,
+    "distance_to_route_km": 0.163
+  },
+  {
+    "id": "HOTNOR076FS002C9",
+    "name": "Maison de la Source - Hôtel",
+    "website": "https://www.facebook.com/people/Auberge-de-la-source/61562589698485/?_rdr",
+    "lat": 49.7468988,
+    "lon": 0.3473668,
+    "distance_to_route_km": 0.002
+  },
+  {
+    "id": "HOTNOR076FS00269",
+    "name": "Hôtel Les Arcades",
+    "website": "https://www.logishotels.com/fr/hotel/logis-hotel-les-arcades-3250",
+    "lat": 49.9267667,
+    "lon": 1.079382,
+    "distance_to_route_km": 0.013
+  },
+  {
+    "id": "RESPIC080V506Y0C",
+    "name": "Chés Troés Piots Coéchons",
+    "website": "https://www.bistrotdepays.com/ches-troes-piots-coechons",
+    "lat": 50.1094223,
+    "lon": 1.49516988,
+    "distance_to_route_km": 1.823
+  },
+  {
+    "id": "RESPIC080V510A64",
+    "name": "La Réserve - Domaine de la Mer",
+    "website": "https://ledomainedelamer.fr/",
+    "lat": 50.1241118,
+    "lon": 1.48336417,
+    "distance_to_route_km": 0.061
+  },
+  {
+    "id": "RESPIC080V516BJE",
+    "name": "Poissonnerie du Marais",
+    "website": "https://jordancottrelle.wixsite.com/jordanmaree?fbclid=IwAR0UYCmp6iDNY4xqiOe0xTQdjZcqyQFE4KC_SQIbrEbaNRTYiPHnrXJKtHM",
+    "lat": 50.12426,
+    "lon": 1.48755,
+    "distance_to_route_km": 0.234
+  },
+  {
+    "id": "HOTPIC080V50BC2M",
+    "name": "Les Galets Bleus",
+    "website": "http://www.hotel-galetsbleus.fr/",
+    "lat": 50.1844613,
+    "lon": 1.49423386,
+    "distance_to_route_km": 0.022
+  },
+  {
+    "id": "RESPIC080FS00164",
+    "name": "La Table du Cap",
+    "website": "http://www.baiedesomme.fr/themes/1-12-5635-le-restaurant",
+    "lat": 50.1896625,
+    "lon": 1.61110638,
+    "distance_to_route_km": 1.24
+  },
+  {
+    "id": "HOTPIC0800010075",
+    "name": "Le Cap Hornu",
+    "website": "https://www.hotelcaphornu.fr/",
+    "lat": 50.189568,
+    "lon": 1.620561,
+    "distance_to_route_km": 1.544
+  },
+  {
+    "id": "RESPIC080V516T1W",
+    "name": "Le bistrot de Mons-Boubert",
+    "website": null,
+    "lat": 50.12951,
+    "lon": 1.66314,
+    "distance_to_route_km": 4.876
+  },
+  {
+    "id": "HOTPIC080FS0003D",
+    "name": "Les Corderies",
+    "website": "https://www.lescorderies.com/",
+    "lat": 50.1850614,
+    "lon": 1.6375816,
+    "distance_to_route_km": 1.114
+  },
+  {
+    "id": "RESPIC080V50X3K3",
+    "name": "Restaurant de La Canoterie",
+    "website": "https://lacanoterie.fr/",
+    "lat": 50.177265,
+    "lon": 1.64908499,
+    "distance_to_route_km": 0.013
+  },
+  {
+    "id": "HOTPIC080FS00002",
+    "name": "Domaine Les Saules",
+    "website": "https://www.domaine-les-saules.fr/",
+    "lat": 50.2382353,
+    "lon": 1.66845723,
+    "distance_to_route_km": 2.613
+  },
+  {
+    "id": "RESPIC080FS001PH",
+    "name": "La Table de Flo",
+    "website": "https://ww25.hotel-baie-somme.com/?subid1=20241216-2052-3543-9795-1405e9dbbbc6",
+    "lat": 50.2382735,
+    "lon": 1.6687513,
+    "distance_to_route_km": 2.625
+  },
+  {
+    "id": "HOTPIC0800010077",
+    "name": "Les Tourelles",
+    "website": "https://www.lestourelles.com/",
+    "lat": 50.2144706,
+    "lon": 1.62413553,
+    "distance_to_route_km": 1.235
+  },
+  {
+    "id": "RESPIC080V50FQU0",
+    "name": "La Tablée du Marquenterre",
+    "website": "https://www.baiedesomme.fr/themes/?lang=1&id_lieu=14&id_article=5640",
+    "lat": 50.2638515,
+    "lon": 1.58578519,
+    "distance_to_route_km": 0.612
+  },
+  {
+    "id": "RESPIC080V50DL71",
+    "name": "L'Alcyone",
+    "website": "https://alcyonefmp.fr/",
+    "lat": 50.3394709,
+    "lon": 1.5547741,
+    "distance_to_route_km": 0.767
+  },
+  {
+    "id": "RESPIC0800010107",
+    "name": "Dune - Le Fiacre",
+    "website": "http://www.hotel-le-fiacre.fr/",
+    "lat": 50.329683,
+    "lon": 1.59387588,
+    "distance_to_route_km": 1.207
+  },
+  {
+    "id": "HOTPIC0800010043",
+    "name": "Le Fiacre",
+    "website": "https://www.hotel-le-fiacre.fr/",
+    "lat": 50.3295006,
+    "lon": 1.5953583,
+    "distance_to_route_km": 1.233
+  },
+  {
+    "id": "58412",
+    "name": "Chez Mireille",
+    "website": "http://www.chezmireille.fr/",
+    "lat": 50.416956,
+    "lon": 1.574662,
+    "distance_to_route_km": 0.323
+  },
+  {
+    "id": "55761",
+    "name": "Les Terrasses Du Green",
+    "website": null,
+    "lat": 50.461228,
+    "lon": 1.581978,
+    "distance_to_route_km": 0.474
+  },
+  {
+    "id": "81466",
+    "name": "Le Maison Mer",
+    "website": "https://spa.accor.com/",
+    "lat": 50.514095,
+    "lon": 1.57786,
+    "distance_to_route_km": 1.841
+  },
+  {
+    "id": "81472",
+    "name": "Le Potj'",
+    "website": "https://spa.accor.com/",
+    "lat": 50.51426,
+    "lon": 1.578125,
+    "distance_to_route_km": 1.843
+  },
+  {
+    "id": "81323",
+    "name": "Hôtel Barrière Le Westminster",
+    "website": "http://www.lewestminster-letouquet.com/",
+    "lat": 50.521882,
+    "lon": 1.591245,
+    "distance_to_route_km": 1.762
+  },
+  {
+    "id": "124076",
+    "name": "Café Proqua",
+    "website": "https://cafe-proqua.com/",
+    "lat": 50.729138,
+    "lon": 1.598281,
+    "distance_to_route_km": 0.051
+  },
+  {
+    "id": "85266",
+    "name": "L'ANTRE DU DRAGON",
+    "website": "https://www.compagniedudragon.com/sur-place/restaurant-bar/",
+    "lat": 50.965829,
+    "lon": 1.844929,
+    "distance_to_route_km": 0.03
+  },
+  {
+    "id": "85264",
+    "name": "AU VOL AU VENT",
+    "website": "https://auvolauvent.fr/",
+    "lat": 50.958132,
+    "lon": 1.95534,
+    "distance_to_route_km": 0.235
+  },
+  {
+    "id": "223012872",
+    "name": "Restaurant Ciarus",
+    "website": "http://www.ciarus.com/",
+    "lat": 48.5894651,
+    "lon": 7.74748810000006,
+    "distance_to_route_km": 1.656
+  },
+  {
+    "id": "223006036",
+    "name": "Restaurant Au Petit Bois Vert",
+    "website": "http://www.aupetitboisvert.fr/",
+    "lat": 48.5809500977824,
+    "lon": 7.73894642883608,
+    "distance_to_route_km": 0.719
+  },
+  {
+    "id": "218001528",
+    "name": "Restaurant Lucien Doriath",
+    "website": "http://www.lucien-doriath.fr/",
+    "lat": 48.5694839441731,
+    "lon": 7.48955182670595,
+    "distance_to_route_km": 0.188
+  },
+  {
+    "id": "258003363",
+    "name": "Bar éphémère Le Schnakeloch",
+    "website": "http://www.schnakeloch-bar.com/",
+    "lat": 48.5019123824892,
+    "lon": 7.48089802009889,
+    "distance_to_route_km": 0.437
+  },
+  {
+    "id": "213011128",
+    "name": "L'atelier W",
+    "website": "https://latelierw.alsace/",
+    "lat": 48.3218480546508,
+    "lon": 7.42884647116394,
+    "distance_to_route_km": 0.545
+  },
+  {
+    "id": "222006263",
+    "name": "Restaurant Les Humanistes",
+    "website": "http://hotel-les-humanistes.fr/",
+    "lat": 48.2553190155088,
+    "lon": 7.42347147672126,
+    "distance_to_route_km": 1.516
+  },
+  {
+    "id": "222004461",
+    "name": "Restaurant Au Parc des Cigognes",
+    "website": "http://complexe-hotelier-cigoland.fr/",
+    "lat": 48.2549126629139,
+    "lon": 7.40742444992065,
+    "distance_to_route_km": 0.594
+  },
+  {
+    "id": "229001154",
+    "name": "Restaurant Au Riesling",
+    "website": "http://www.au-riesling.com/",
+    "lat": 48.1702642655047,
+    "lon": 7.31852531433105,
+    "distance_to_route_km": 1.914
+  },
+  {
+    "id": "235008566",
+    "name": "Restaurant Campanile",
+    "website": "https://colmar-aeroport.campanile.com/",
+    "lat": 48.10407,
+    "lon": 7.363128,
+    "distance_to_route_km": 3.438
+  },
+  {
+    "id": "235017044",
+    "name": "Restaurant Au Soleil",
+    "website": "http://www.hotel-restaurant-au-soleil.fr/restaurant/",
+    "lat": 48.0592085,
+    "lon": 7.2983943,
+    "distance_to_route_km": 0.573
+  },
+  {
+    "id": "253001137",
+    "name": "Restaurant au Soleil",
+    "website": "http://www.hotel-restaurant-au-soleil.com/",
+    "lat": 48.0583915184885,
+    "lon": 7.29861259460449,
+    "distance_to_route_km": 0.555
+  },
+  {
+    "id": "253001399",
+    "name": "Restaurant Côté Plaine",
+    "website": "https://hoteldubollenberg.com/",
+    "lat": 47.9440940073333,
+    "lon": 7.25696325302124,
+    "distance_to_route_km": 1.15
+  },
+  {
+    "id": "239003639",
+    "name": "Restaurant Auberge du Hirtz",
+    "website": "http://www.domaine-hirtz.com/",
+    "lat": 47.8467474405864,
+    "lon": 7.16808199882507,
+    "distance_to_route_km": 2.881
+  },
+  {
+    "id": "239000555",
+    "name": "Restaurant Le Moschenross",
+    "website": "http://www.moschenross.fr/",
+    "lat": 47.8085395387211,
+    "lon": 7.10658252239227,
+    "distance_to_route_km": 4.889
+  },
+  {
+    "id": "252000179",
+    "name": "Au Lion Rouge",
+    "website": "http://www.lion-rouge.fr/",
+    "lat": 47.635053,
+    "lon": 7.475757,
+    "distance_to_route_km": 0.029
+  },
+  {
+    "id": "252000092",
+    "name": "Au Lion d'Or",
+    "website": "http://www.auliondor-rosenau.com/",
+    "lat": 47.6364667770086,
+    "lon": 7.5355589389801,
+    "distance_to_route_km": 3.5
+  },
+  {
+    "id": "252002930",
+    "name": "L'Envol",
+    "website": "https://complexe-airport-club.com/gastronomie/#restaurant",
+    "lat": 47.6082551034725,
+    "lon": 7.50160617192591,
+    "distance_to_route_km": 0.117
+  },
+  {
+    "id": "252000228",
+    "name": "Le Vauban",
+    "website": "http://www.restaurant-vauban.fr/",
+    "lat": 47.5928801849617,
+    "lon": 7.58395433862302,
+    "distance_to_route_km": 0.325
+  },
+  {
+    "id": "RESBFC090309012370",
+    "name": "L'Auberge du Canal",
+    "website": "https://www.facebook.com/p/Lauberge-du-canal-100033809636080/?locale=fr_FR",
+    "lat": 47.5813312,
+    "lon": 6.96890229,
+    "distance_to_route_km": 0.207
+  },
+  {
+    "id": "RESBFC025313009020",
+    "name": "Restaurant de la Rive",
+    "website": "https://www.facebook.com/profile.php?id=100063696962609",
+    "lat": 47.4743105,
+    "lon": 6.76554179,
+    "distance_to_route_km": 0.442
+  },
+  {
+    "id": "RESBFC000V524GD9",
+    "name": "Le Don Camillo",
+    "website": "https://www.restaurantdoncamillo.fr/",
+    "lat": 47.44959,
+    "lon": 6.58157,
+    "distance_to_route_km": 0.008
+  },
+  {
+    "id": "RESBFC000V52EHO2",
+    "name": "Le Clervalois - Restaurant et Traiteur",
+    "website": "https://www.leclervalois.fr/",
+    "lat": 47.39276,
+    "lon": 6.49372,
+    "distance_to_route_km": 0.005
+  },
+  {
+    "id": "RESBFC025367000250",
+    "name": "Restaurant La Bonne Auberge",
+    "website": "https://www.hotel-labonneauberge.com/",
+    "lat": 47.3908874,
+    "lon": 6.4952369,
+    "distance_to_route_km": 0.113
+  },
+  {
+    "id": "HOTBFC025367000245",
+    "name": "Hôtel la Bonne Auberge",
+    "website": "https://www.hotellabonneauberge.com/",
+    "lat": 47.3908333,
+    "lon": 6.4952778,
+    "distance_to_route_km": 0.12
+  },
+  {
+    "id": "HOTBFC039318000059",
+    "name": "Les Tilleuls",
+    "website": "https://lestilleuls-hotel.fr/",
+    "lat": 47.12489,
+    "lon": 5.56093,
+    "distance_to_route_km": 0.165
+  },
+  {
+    "id": "RESBFC039318003273",
+    "name": "Les Tilleuls",
+    "website": "https://lestilleuls-hotel.fr/",
+    "lat": 47.1242916,
+    "lon": 5.56129049,
+    "distance_to_route_km": 0.113
+  },
+  {
+    "id": "RESBOU000V50QVAW",
+    "name": "Cascarot",
+    "website": "https://cascarot-lechatelet.eatbu.com/?lang=fr",
+    "lat": 47.0604911,
+    "lon": 5.14321769,
+    "distance_to_route_km": 0.012
+  },
+  {
+    "id": "RESBOU071141361",
+    "name": "Hostellerie Bourguignonne",
+    "website": "http://www.hostelleriebourguignonne.com/",
+    "lat": 46.8906709,
+    "lon": 5.0261227,
+    "distance_to_route_km": 0.428
+  },
+  {
+    "id": "RESBOU071141365",
+    "name": "Les Trois Maures",
+    "website": null,
+    "lat": 46.8961739,
+    "lon": 5.0244585,
+    "distance_to_route_km": 0.012
+  },
+  {
+    "id": "RESBOU071178193",
+    "name": "Le Caveau",
+    "website": "https://www.lecaveaudeverdun.fr/",
+    "lat": 46.8981338,
+    "lon": 5.02439553,
+    "distance_to_route_km": 0.032
+  },
+  {
+    "id": "HOTBOU071146215",
+    "name": "Hôtel Restaurant Campanile Chalon sur Saône",
+    "website": "https://chalon-sur-saone.campanile.com/fr-fr/",
+    "lat": 46.7917874,
+    "lon": 4.833353,
+    "distance_to_route_km": 2.506
+  },
+  {
+    "id": "RESBOU071228985",
+    "name": "Restaurant de l'Hôtel du Nord",
+    "website": "http://www.hotel-du-nord-fontaines.com/",
+    "lat": 46.8500732,
+    "lon": 4.7704864,
+    "distance_to_route_km": 2.24
+  },
+  {
+    "id": "HOTBOU071228984",
+    "name": "Hôtel du Nord",
+    "website": "https://fr-fr.facebook.com/hoteldunord.fontaines",
+    "lat": 46.8500732,
+    "lon": 4.7704864,
+    "distance_to_route_km": 2.24
+  },
+  {
+    "id": "RESBOU071V505VP8",
+    "name": "Domaine de Rymska",
+    "website": "https://www.domaine-rymska.com/cuisine-et-vins/",
+    "lat": 46.8395805,
+    "lon": 4.5734658,
+    "distance_to_route_km": 2.516
+  },
+  {
+    "id": "HOTBFC000V50D1HB",
+    "name": "Domaine de Rymska & spa | Relais & Châteaux",
+    "website": "https://www.domaine-rymska.com/chambres/",
+    "lat": 46.83982,
+    "lon": 4.574302,
+    "distance_to_route_km": 2.484
+  },
+  {
+    "id": "HOTBOU071146271",
+    "name": "Kyriad Montchanin - Le Creusot",
+    "website": "http://www.kyriad-montchanin-le-creusot.fr/",
+    "lat": 46.7538723,
+    "lon": 4.488836,
+    "distance_to_route_km": 0.887
+  },
+  {
+    "id": "RESBFC000V529N34",
+    "name": "L'Essentiel",
+    "website": "https://www.facebook.com/Ciry71420",
+    "lat": 46.6046498,
+    "lon": 4.3001572,
+    "distance_to_route_km": 0.456
+  },
+  {
+    "id": "RESBFC000V52NHYS",
+    "name": "Les Bonnes Choses",
+    "website": "https://www.facebook.com/people/Les-bonnes-choses/100095040475658/",
+    "lat": 46.553871,
+    "lon": 4.219499,
+    "distance_to_route_km": 0.005
+  },
+  {
+    "id": "RESBFC000V52H4SP",
+    "name": "La Fourchette",
+    "website": "https://www.facebook.com/profile.php?id=61582580445705",
+    "lat": 46.4716985,
+    "lon": 4.15977929,
+    "distance_to_route_km": 0.009
+  },
+  {
+    "id": "HOTBFC000V52H6JW",
+    "name": "Domaine des Marguerites",
+    "website": "https://www.facebook.com/ledomainedesmarguerites",
+    "lat": 46.44814,
+    "lon": 4.11324,
+    "distance_to_route_km": 0.153
+  },
+  {
+    "id": "RESBFC000V52OP99",
+    "name": "Domaine des Marguerites",
+    "website": "https://www.domaine-des-marguerites.fr/",
+    "lat": 46.44814,
+    "lon": 4.11324,
+    "distance_to_route_km": 0.153
+  },
+  {
+    "id": "HOTBOU071146310",
+    "name": "Hôtel-Restaurant Le Merle Blanc",
+    "website": "https://www.logishotels.com/fr/hotel/logis-hotel-le-merle-blanc-3067",
+    "lat": 46.5000024,
+    "lon": 4.01309102,
+    "distance_to_route_km": 1.307
+  },
+  {
+    "id": "RESBOU071141510",
+    "name": "Restaurant du Cloître",
+    "website": "https://www.instagram.com/lecloitrebourbonlancy",
+    "lat": 46.6178904,
+    "lon": 3.76859382,
+    "distance_to_route_km": 1.057
+  },
+  {
+    "id": "6793128",
+    "name": "Basilico",
+    "website": "https://www.facebook.com/basilico.gannay47/",
+    "lat": 46.731398,
+    "lon": 3.611607,
+    "distance_to_route_km": 2.247
+  },
+  {
+    "id": "7202614",
+    "name": "Basilico-Épicerie",
+    "website": "https://www.facebook.com/basilico.gannay47/",
+    "lat": 46.731398,
+    "lon": 3.611607,
+    "distance_to_route_km": 2.247
+  },
+  {
+    "id": "5589121",
+    "name": "La Cabane",
+    "website": null,
+    "lat": 46.726571,
+    "lon": 3.599906,
+    "distance_to_route_km": 3.191
+  },
+  {
+    "id": "RESBOU058382358",
+    "name": "Au St-Hilaire",
+    "website": "https://www.facebook.com/profile.php?id=100089650592209",
+    "lat": 46.8060184,
+    "lon": 3.5753403,
+    "distance_to_route_km": 0.797
+  },
+  {
+    "id": "HOTBOU058113176",
+    "name": "Hôtel-Restaurant du Port",
+    "website": "http://www.port-decize.fr/",
+    "lat": 46.820972,
+    "lon": 3.45403399,
+    "distance_to_route_km": 0.002
+  },
+  {
+    "id": "RESBOU058341225",
+    "name": "Restaurant de la Halte nautique de Fleury-sur-Loire",
+    "website": null,
+    "lat": 46.8374624,
+    "lon": 3.3281057,
+    "distance_to_route_km": 0.428
+  },
+  {
+    "id": "RESBFC000V52M38J",
+    "name": "Restaurant de La Halte du Canal",
+    "website": "https://www.lahalteducanal.fr/",
+    "lat": 46.872559,
+    "lon": 3.2696519,
+    "distance_to_route_km": 0.109
+  },
+  {
+    "id": "HOTBOU058102474",
+    "name": "Hôtel-Restaurant Kyriad Nevers Centre",
+    "website": "http://www.kyriad-nevers-centre.fr/",
+    "lat": 46.9976704,
+    "lon": 3.15381979,
+    "distance_to_route_km": 4.528
+  },
+  {
+    "id": "RESBFC000V50HL8L",
+    "name": "Café Vélo",
+    "website": "https://www.instagram.com/cafe.velo.nevers/",
+    "lat": 46.9851333,
+    "lon": 3.15704687,
+    "distance_to_route_km": 3.266
+  },
+  {
+    "id": "RESLAR066V50OEBJ",
+    "name": "LE HARAS",
+    "website": "http://www.camping-le-haras.com/",
+    "lat": 42.575892,
+    "lon": 2.96465065,
+    "distance_to_route_km": 3.607
+  },
+  {
+    "id": "HOTLAR066FS0005J",
+    "name": "AUBERGE DU BON VIVANT",
+    "website": "https://www.auberge-du-bon-vivant.com/fr/booking/room",
+    "lat": 42.5404993,
+    "lon": 3.0275802,
+    "distance_to_route_km": 0.953
+  },
+  {
+    "id": "RESLAR066FS000N9",
+    "name": "AUBERGE DU BON VIVANT",
+    "website": "https://www.auberge-du-bon-vivant.com/",
+    "lat": 42.549925,
+    "lon": 3.03186,
+    "distance_to_route_km": 0.185
+  },
+  {
+    "id": "HOTLAR0660001056",
+    "name": "GRAND HOTEL DU GOLFE",
+    "website": "https://ghdg.thais-hotel.com/direct-booking/calendar",
+    "lat": 42.5338403,
+    "lon": 3.06441306,
+    "distance_to_route_km": 2.99
+  },
+  {
+    "id": "HOTLAR0660004385",
+    "name": "GRAND HÔTEL LES FLAMANTS ROSES",
+    "website": "https://www.hotel-flamants-roses.com/",
+    "lat": 42.6747726,
+    "lon": 3.03313314,
+    "distance_to_route_km": 0.062
+  },
+  {
+    "id": "RESLAR066V50DBBR",
+    "name": "L'EFFET MER",
+    "website": "http://www.hotel-flamants-roses.com/",
+    "lat": 42.674722,
+    "lon": 3.03319445,
+    "distance_to_route_km": 0.063
+  },
+  {
+    "id": "RESLAR066FS00113",
+    "name": "L'HORIZON",
+    "website": "https://www.hotel-flamants-roses.com/",
+    "lat": 42.6745131,
+    "lon": 3.03292085,
+    "distance_to_route_km": 0.032
+  },
+  {
+    "id": "HOTLAR0660000002",
+    "name": "HÔTEL LE REGINA",
+    "website": "https://www.leregina-canet.com/",
+    "lat": 42.6844009,
+    "lon": 3.0337196,
+    "distance_to_route_km": 0.07
+  },
+  {
+    "id": "HOTLAR0660001081",
+    "name": "HÔTEL DU PORT",
+    "website": "http://www.hotel-du-port.net/",
+    "lat": 42.7013949,
+    "lon": 3.0343426,
+    "distance_to_route_km": 0.593
+  },
+  {
+    "id": "RESLAR066V525VHP",
+    "name": "CREPERIE BRETONNE DE LA COLLINE",
+    "website": "http://www.creperie66.com/",
+    "lat": 42.7020764,
+    "lon": 3.01909853,
+    "distance_to_route_km": 0.11
+  },
+  {
+    "id": "RESLAR011V50ZLE6",
+    "name": "LE BISTROT DES COPAINS",
+    "website": "https://bistrot-des-copains.fr/",
+    "lat": 42.8565455,
+    "lon": 3.03649734,
+    "distance_to_route_km": 0.305
+  },
+  {
+    "id": "RESLAR011V5099LH",
+    "name": "LA PEÑA",
+    "website": null,
+    "lat": 43.0131255,
+    "lon": 3.0625312,
+    "distance_to_route_km": 1.722
+  },
+  {
+    "id": "HOTLAR011FS000CC",
+    "name": "LOGIS HÔTEL MÉDITERRANÉE",
+    "website": "https://www.hotelmediterranee.com/",
+    "lat": 43.0108073,
+    "lon": 3.06099168,
+    "distance_to_route_km": 1.747
+  },
+  {
+    "id": "RESLAR011FS000CH",
+    "name": "LE MÉDITERRANÉE",
+    "website": "https://www.hotelmediterranee.com/",
+    "lat": 43.010879,
+    "lon": 3.06108773,
+    "distance_to_route_km": 1.749
+  },
+  {
+    "id": "RESLAR011V50GWCY",
+    "name": "LA RÉSERVE DU STELSIA CASINO",
+    "website": null,
+    "lat": 43.014128,
+    "lon": 3.0640036,
+    "distance_to_route_km": 1.787
+  },
+  {
+    "id": "RESLAR011FS0012S",
+    "name": "LA CAMBUSE DU SAUNIER",
+    "website": "https://www.lesalindegruissan.fr/content/16-restaurant-la-cambuse-du-saunier",
+    "lat": 43.0969623,
+    "lon": 3.08476479,
+    "distance_to_route_km": 4.356
+  },
+  {
+    "id": "RESLAR011FS000P1",
+    "name": "B.A.-BA",
+    "website": null,
+    "lat": 43.1061221,
+    "lon": 3.08614015,
+    "distance_to_route_km": 4.362
+  },
+  {
+    "id": "RESLAR011V502Y9J",
+    "name": "LA PETITE BRASSERIE",
+    "website": null,
+    "lat": 43.1062164,
+    "lon": 3.08642229,
+    "distance_to_route_km": 4.385
+  },
+  {
+    "id": "RESLAR011FS000AW",
+    "name": "L'ESTAGNOL",
+    "website": null,
+    "lat": 43.107825,
+    "lon": 3.08827935,
+    "distance_to_route_km": 4.537
+  },
+  {
+    "id": "RESLAR011FS000OU",
+    "name": "LA CRANQUETTE",
+    "website": "https://www.lacranquette.com/",
+    "lat": 43.1068457,
+    "lon": 3.08573406,
+    "distance_to_route_km": 4.33
+  },
+  {
+    "id": "RESLAR011FS000NJ",
+    "name": "AUX DEUX OLIVIERS",
+    "website": "https://www.auxdeuxoliviers.com/",
+    "lat": 43.1084169,
+    "lon": 3.09223175,
+    "distance_to_route_km": 4.86
+  },
+  {
+    "id": "RESLAR011V50J7TV",
+    "name": "CHEZ LULU",
+    "website": null,
+    "lat": 43.1833922,
+    "lon": 3.008391,
+    "distance_to_route_km": 0.202
+  },
+  {
+    "id": "RESLAR011V50Q6K8",
+    "name": "MAISON BÉBELLE",
+    "website": "https://www.maison-bebelle.fr/",
+    "lat": 43.181475,
+    "lon": 3.005107,
+    "distance_to_route_km": 0.131
+  },
+  {
+    "id": "RESLAR011V505JSB",
+    "name": "LA TAVERNE DE LISLE",
+    "website": "https://la-taverne-de-lisle.business.site/",
+    "lat": 43.1852279,
+    "lon": 3.00445539,
+    "distance_to_route_km": 0.175
+  },
+  {
+    "id": "RESLAR011V5018C0",
+    "name": "MOULIN DU GUA",
+    "website": "https://www.moulindugua.com/la-brasserie-du-moulin/",
+    "lat": 43.1913971,
+    "lon": 3.00084785,
+    "distance_to_route_km": 0.044
+  },
+  {
+    "id": "RESLAR011V50UD2H",
+    "name": "LE P'TIT D'OC",
+    "website": "https://www.leptitdoc.fr/",
+    "lat": 43.2580306,
+    "lon": 2.94855052,
+    "distance_to_route_km": 0.061
+  },
+  {
+    "id": "RESLAR011V50GJUD",
+    "name": "L'ESCALE DU SOMAIL",
+    "website": "https://www.lescaledusomail.fr/",
+    "lat": 43.2654387,
+    "lon": 2.90398609,
+    "distance_to_route_km": 2.409
+  },
+  {
+    "id": "RESLAR011FS000S2",
+    "name": "AUBERGE DU SOMAIL",
+    "website": "https://aubergedusomail.com/",
+    "lat": 43.2661315,
+    "lon": 2.90446048,
+    "distance_to_route_km": 2.331
+  },
+  {
+    "id": "RESLAR011FS000S3",
+    "name": "LE COMPTOIR NATURE",
+    "website": null,
+    "lat": 43.2662609,
+    "lon": 2.90458559,
+    "distance_to_route_km": 2.314
+  },
+  {
+    "id": "RESLAR011V504AX4",
+    "name": "L'Ô A LA BOUCHE",
+    "website": "https://www.loalabouche-somail.com/",
+    "lat": 43.2664041,
+    "lon": 2.90351266,
+    "distance_to_route_km": 2.372
+  },
+  {
+    "id": "RESLAR011V50G4CA",
+    "name": "MAISON DE L'ÉCURIE",
+    "website": null,
+    "lat": 43.2830764,
+    "lon": 2.92217279,
+    "distance_to_route_km": 0.032
+  },
+  {
+    "id": "RESLAR011FS0011G",
+    "name": "LE CHAT QUI PÊCHE",
+    "website": null,
+    "lat": 43.3132896,
+    "lon": 2.92015314,
+    "distance_to_route_km": 0.053
+  },
+  {
+    "id": "RESLAR034V51CN4B",
+    "name": "CHÉ OLIVE",
+    "website": null,
+    "lat": 43.3722509,
+    "lon": 3.01029295,
+    "distance_to_route_km": 4.698
+  },
+  {
+    "id": "RESLAR034FS002FW",
+    "name": "LA BATELIERE",
+    "website": null,
+    "lat": 43.3313224,
+    "lon": 3.04220839,
+    "distance_to_route_km": 0.046
+  },
+  {
+    "id": "RESLAR034V51ZLTG",
+    "name": "LE VAUBAN",
+    "website": null,
+    "lat": 43.3283796,
+    "lon": 3.045864,
+    "distance_to_route_km": 0.264
+  },
+  {
+    "id": "RESLAR034V524NRQ",
+    "name": "AUX DÉLICES DE CAMIL",
+    "website": null,
+    "lat": 43.32632,
+    "lon": 3.04468,
+    "distance_to_route_km": 0.512
+  },
+  {
+    "id": "HOTLAR0340001019",
+    "name": "LOGIS HÔTEL RESTAURANT RESIDENCE",
+    "website": "http://ldf.reservit.com/reservit/avail-info.php?userid=0206ee6fd4d7374a2620be4512dc91087160&hotelid=1856",
+    "lat": 43.2903358,
+    "lon": 3.1270642,
+    "distance_to_route_km": 1.2
+  },
+  {
+    "id": "RESLAR034V515VRN",
+    "name": "LE 9 - LE RESTAURANT DES 9 ÉCLUSES",
+    "website": "https://le9.fr/",
+    "lat": 43.3307179,
+    "lon": 3.19993769,
+    "distance_to_route_km": 0.013
+  },
+  {
+    "id": "HOTLAR034V52ACVI",
+    "name": "HOTEL LA PRISON",
+    "website": "https://www.hotellaprison.com/",
+    "lat": 43.3418853,
+    "lon": 3.20950031,
+    "distance_to_route_km": 0.798
+  },
+  {
+    "id": "RESLAR034V52J3KV",
+    "name": "LE CAFÉ DES OSTALS",
+    "website": "https://www.lesostals.com/",
+    "lat": 43.34257,
+    "lon": 3.21156,
+    "distance_to_route_km": 0.806
+  },
+  {
+    "id": "RESLAR034V52M9N2",
+    "name": "ARLETT CAFE CYCLISTE",
+    "website": "https://wearearlett.cc/",
+    "lat": 43.3459592,
+    "lon": 3.22318533,
+    "distance_to_route_km": 1.32
+  },
+  {
+    "id": "RESLAR034V52AAF9",
+    "name": "MAISON JULLIAN",
+    "website": "https://maisonjullian.com/",
+    "lat": 43.3335854,
+    "lon": 3.2218896,
+    "distance_to_route_km": 0.01
+  },
+  {
+    "id": "RESLAR0340070068",
+    "name": "L'ÉCLUSE",
+    "website": "http://www.restaurant-ecluse-beziers.fr/",
+    "lat": 43.3231825,
+    "lon": 3.26465142,
+    "distance_to_route_km": 0.079
+  },
+  {
+    "id": "HOTLAR0340002351",
+    "name": "PALMYRA GOLF HÔTEL",
+    "website": "https://secure.reservit.com/fo/booking/2/132159/dates?langcode=fr",
+    "lat": 43.283503,
+    "lon": 3.49651192,
+    "distance_to_route_km": 2.505
+  },
+  {
+    "id": "RESLAR034V525CAJ",
+    "name": "LE ST BARTH - TARBOURIECH",
+    "website": "https://www.lestbarth.com/",
+    "lat": 43.381669,
+    "lon": 3.555112,
+    "distance_to_route_km": 4.64
+  },
+  {
+    "id": "RESLAR034V51K5FT",
+    "name": "L'ESSENTIEL",
+    "website": "https://www.lessentielsete.com/",
+    "lat": 43.390324,
+    "lon": 3.6523759,
+    "distance_to_route_km": 0.025
+  },
+  {
+    "id": "RESLAR034V52946S",
+    "name": "BRASSERIE LE CORSAIRE",
+    "website": "https://www.lecorsairesete.com/restaurant-reservations",
+    "lat": 43.39439,
+    "lon": 3.66388,
+    "distance_to_route_km": 0.085
+  },
+  {
+    "id": "RESLAR034V5114VY",
+    "name": "LE 7 RIVER",
+    "website": "https://www.7-river-restaurant-sete.fr/v2/reservation/date?restaurantToken=56c3af31f2547794748cc89c091e817d",
+    "lat": 43.3964486,
+    "lon": 3.695462,
+    "distance_to_route_km": 0.026
+  },
+  {
+    "id": "HOTLAR034V507LFI",
+    "name": "BEST WESTERN HOTEL DES THERMES",
+    "website": "http://www.bwhoteldesthermes.com/",
+    "lat": 43.4379453,
+    "lon": 3.67674848,
+    "distance_to_route_km": 3.862
+  },
+  {
+    "id": "HOTLAR0340000852",
+    "name": "HOTEL IBIS",
+    "website": "http://www.all.accor.com/fr/hotel-1822-ibis-sete-balaruc-les-bains/index.shtml",
+    "lat": 43.4473927,
+    "lon": 3.68563547,
+    "distance_to_route_km": 4.045
+  },
+  {
+    "id": "HOTLAR0340000858",
+    "name": "HOTEL RESTAURANT BEL AIR",
+    "website": "https://secure.reservit.com/engine/booking/2/441725/dates",
+    "lat": 43.4434086,
+    "lon": 3.68021718,
+    "distance_to_route_km": 4.11
+  },
+  {
+    "id": "RESLAR034FS001QJ",
+    "name": "LE MG",
+    "website": "https://restaurant-mg.fr/",
+    "lat": 43.4351741,
+    "lon": 3.77337455,
+    "distance_to_route_km": 0.008
+  },
+  {
+    "id": "HOTLAR0340000906",
+    "name": "LOGIS HÔTELLERIE DE BALAJAN",
+    "website": "https://www.hotel-balajan.com/fr",
+    "lat": 43.4773858,
+    "lon": 3.77240628,
+    "distance_to_route_km": 2.322
+  },
+  {
+    "id": "HOTLAR0340002347",
+    "name": "HOTEL LES ALIZES",
+    "website": "https://www.les-alizes-palavas.com/",
+    "lat": 43.5277848,
+    "lon": 3.93237261,
+    "distance_to_route_km": 0.649
+  },
+  {
+    "id": "HOTLAR0340001025",
+    "name": "HOTEL DU MIDI",
+    "website": "https://www.hotel-midi-palavas.com/",
+    "lat": 43.5360898,
+    "lon": 3.9556825,
+    "distance_to_route_km": 0.365
+  },
+  {
+    "id": "HOTLAR0340000892",
+    "name": "THE ORIGINALS MONTPELLIER SUD NEPTUNE",
+    "website": "http://www.hotel-neptune.fr/",
+    "lat": 43.5456785,
+    "lon": 3.97395013,
+    "distance_to_route_km": 0.046
+  },
+  {
+    "id": "HOTLAR0340000917",
+    "name": "HOTEL NOVOTEL LA GRANDE MOTTE GOLF",
+    "website": "https://all.accor.com/hotel/2190/index.fr.shtml",
+    "lat": 43.5712105,
+    "lon": 4.10293625,
+    "distance_to_route_km": 1.157
+  },
+  {
+    "id": "RESLAR034FS0020N",
+    "name": "RESTAURANT ORATA",
+    "website": "https://www.thalasso-grandemotte.com/",
+    "lat": 43.5559972,
+    "lon": 4.09530401,
+    "distance_to_route_km": 0.345
+  },
+  {
+    "id": "HOTLAR0340000923",
+    "name": "HÔTEL LES CORALLINES THALASSO & RESORT",
+    "website": "https://www.thalasso-grandemotte.com/",
+    "lat": 43.555935,
+    "lon": 4.09534692,
+    "distance_to_route_km": 0.345
+  },
+  {
+    "id": "6143332",
+    "name": "Splendid Hôtel Camargue ***",
+    "website": "http://www.splendid-camargue.com/",
+    "lat": 43.53423,
+    "lon": 4.136953,
+    "distance_to_route_km": 0.353
+  },
+  {
+    "id": "6354595",
+    "name": "L'Oustau Camarguen ****",
+    "website": "https://oustaucamarguen.com/",
+    "lat": 43.511628,
+    "lon": 4.137323,
+    "distance_to_route_km": 2.863
+  },
+  {
+    "id": "6775381",
+    "name": "Restaurant Le Miramar",
+    "website": "http://www.cafe-miramar.fr/",
+    "lat": 43.531749,
+    "lon": 4.140011,
+    "distance_to_route_km": 0.652
+  },
+  {
+    "id": "6143559",
+    "name": "Hôtel  Café Le Miramar ***",
+    "website": "http://www.cafe-miramar.fr/",
+    "lat": 43.531749,
+    "lon": 4.140011,
+    "distance_to_route_km": 0.652
+  },
+  {
+    "id": "6214924",
+    "name": "Hôtel - Le Mas des Sables",
+    "website": "https://www.lemasdessables.com/",
+    "lat": 43.586206,
+    "lon": 4.197474,
+    "distance_to_route_km": 0.927
+  },
+  {
+    "id": "5217793",
+    "name": "Flamant Rose",
+    "website": "http://www.leflamantrose.com/",
+    "lat": 43.611548,
+    "lon": 4.475641,
+    "distance_to_route_km": 4.354
+  },
+  {
+    "id": "5234640",
+    "name": "Flamant Rose",
+    "website": "https://www.leflamantrose.com/restaurant/#lacarte",
+    "lat": 43.61155,
+    "lon": 4.475676,
+    "distance_to_route_km": 4.356
+  },
+  {
+    "id": "6171141",
+    "name": "Hôtel Le Cours ***",
+    "website": "https://www.hotel-le-cours.com/",
+    "lat": 43.673324,
+    "lon": 4.432229,
+    "distance_to_route_km": 1.012
+  },
+  {
+    "id": "6164558",
+    "name": "Restaurant Le Cours",
+    "website": "https://www.hotel-le-cours.com/",
+    "lat": 43.673324,
+    "lon": 4.432229,
+    "distance_to_route_km": 1.012
+  },
+  {
+    "id": "6214834",
+    "name": "Restaurant Le Saint Gillois",
+    "website": "https://www.hotelrestaurantsaintgilles.com/",
+    "lat": 43.67385,
+    "lon": 4.432323,
+    "distance_to_route_km": 1.029
+  },
+  {
+    "id": "6012082",
+    "name": "Hôtel- Restaurant Le Président",
+    "website": "https://www.hotelpresidentbellegarde.com/",
+    "lat": 43.735529,
+    "lon": 4.520153,
+    "distance_to_route_km": 0.046
+  },
+  {
+    "id": "6012110",
+    "name": "Le Président",
+    "website": "https://www.hotelpresidentbellegarde.com/",
+    "lat": 43.735897,
+    "lon": 4.520126,
+    "distance_to_route_km": 0.048
+  },
+  {
+    "id": "5725088",
+    "name": "Restaurant La Halte Nautique",
+    "website": null,
+    "lat": 43.74477,
+    "lon": 4.520896,
+    "distance_to_route_km": 0.031
+  },
+  {
+    "id": "6016022",
+    "name": "Restaurant Café de l'Union",
+    "website": null,
+    "lat": 43.754212,
+    "lon": 4.514124,
+    "distance_to_route_km": 1.179
+  },
+  {
+    "id": "6015967",
+    "name": "Hôtel - Domaine des Clos",
+    "website": "https://www.domaine-des-clos.com/",
+    "lat": 43.775168,
+    "lon": 4.55992,
+    "distance_to_route_km": 0.541
+  },
+  {
+    "id": "6023332",
+    "name": "Hôtel-restaurant Les Vignes Blanches",
+    "website": "https://www.lesvignesblanches.com/",
+    "lat": 43.813683,
+    "lon": 4.624462,
+    "distance_to_route_km": 0.845
+  },
+  {
+    "id": "6023305",
+    "name": "Restaurant Les Vignes Blanches",
+    "website": "https://www.lesvignesblanches.com/",
+    "lat": 43.813683,
+    "lon": 4.624462,
+    "distance_to_route_km": 0.845
+  },
+  {
+    "id": "6013687",
+    "name": "Restaurant Auberge de l'Amandin",
+    "website": "https://www.auberge-lamandin.com/",
+    "lat": 43.793723,
+    "lon": 4.634645,
+    "distance_to_route_km": 1.321
+  },
+  {
+    "id": "6990575",
+    "name": "Restaurant Espace Le Chalet",
+    "website": null,
+    "lat": 43.812407,
+    "lon": 4.645737,
+    "distance_to_route_km": 0.819
+  },
+  {
+    "id": "6212885",
+    "name": "Restaurant L'Instant Bonheur",
+    "website": "https://linstantbonheur.fr/",
+    "lat": 43.808263,
+    "lon": 4.645718,
+    "distance_to_route_km": 0.365
+  },
+  {
+    "id": "7391452",
+    "name": "La Guinguette",
+    "website": "https://www.laguinguetteprovence.fr/",
+    "lat": 43.784477,
+    "lon": 4.878252,
+    "distance_to_route_km": 0.02
+  },
+  {
+    "id": "836747",
+    "name": "Hôtel Mercure",
+    "website": "http://www.mercure.com/fr/hotel-1951-hotel-mercure-cavaillon/index.shtml",
+    "lat": 43.818763,
+    "lon": 5.039466,
+    "distance_to_route_km": 0.648
+  },
+  {
+    "id": "5254712",
+    "name": "Jeannette Restaurant",
+    "website": "https://restaurantsandbars.accor.com/fr/restaurant/1951_R001",
+    "lat": 43.819024,
+    "lon": 5.03946,
+    "distance_to_route_km": 0.62
+  },
+  {
+    "id": "2997295",
+    "name": "Hôtel Le Mas des Grès & Restaurant Sous les Platanes",
+    "website": "https://www.hotel-mas-des-gres-luberon.fr/",
+    "lat": 43.883379,
+    "lon": 5.101712,
+    "distance_to_route_km": 2.574
+  },
+  {
+    "id": "777479",
+    "name": "La Bergerie",
+    "website": "https://www.beaumier.com/fr/proprietes/hotel-capelongue/gastronomie/",
+    "lat": 43.821441,
+    "lon": 5.317709,
+    "distance_to_route_km": 4.402
+  },
+  {
+    "id": "730352",
+    "name": "Capelongue",
+    "website": "https://www.beaumier.com/fr/proprietes/hotel-capelongue/",
+    "lat": 43.821441,
+    "lon": 5.317709,
+    "distance_to_route_km": 4.402
+  },
+  {
+    "id": "732079",
+    "name": "Coquillade Provence",
+    "website": "https://coquillade.fr/fr/",
+    "lat": 43.88,
+    "lon": 5.31667,
+    "distance_to_route_km": 1.181
+  },
+  {
+    "id": "761378",
+    "name": "Cipressa",
+    "website": "https://coquillade.fr/fr/cipressa.html",
+    "lat": 43.88,
+    "lon": 5.31667,
+    "distance_to_route_km": 1.181
+  },
+  {
+    "id": "730164",
+    "name": "Hôtel Restaurant Le Manoir",
+    "website": "http://www.hotel-lemanoir84.fr/",
+    "lat": 43.883833,
+    "lon": 5.353751,
+    "distance_to_route_km": 0.105
+  },
+  {
+    "id": "731318",
+    "name": "Hôtel Restaurant Le Carina",
+    "website": "https://www.hotel-carina-apt.fr/",
+    "lat": 43.884036,
+    "lon": 5.354803,
+    "distance_to_route_km": 0.107
+  },
+  {
+    "id": "752252",
+    "name": "Mona Lisa",
+    "website": null,
+    "lat": 43.876223,
+    "lon": 5.395074,
+    "distance_to_route_km": 0.226
+  },
+  {
+    "id": "4612114",
+    "name": "Le Bélico",
+    "website": null,
+    "lat": 43.675716,
+    "lon": 5.496987,
+    "distance_to_route_km": 4.944
+  },
+  {
+    "id": "4611951",
+    "name": "Ibis Styles Pertuis Portes du Luberon",
+    "website": "https://all.accor.com/hotel/7010/index.fr.shtml",
+    "lat": 43.675951,
+    "lon": 5.496961,
+    "distance_to_route_km": 4.964
+  },
+  {
+    "id": "3263252",
+    "name": "Le Mas des Collines",
+    "website": "http://www.lemasdescollines.fr/",
+    "lat": 43.590838,
+    "lon": 6.288777,
+    "distance_to_route_km": 4.249
+  },
+  {
+    "id": "903687",
+    "name": "La Table de Mentone",
+    "website": "http://www.chateaumentone.com/",
+    "lat": 43.52558,
+    "lon": 6.277452,
+    "distance_to_route_km": 0.123
+  },
+  {
+    "id": "5151662",
+    "name": "Natur'Evasion - Cyclisme",
+    "website": "https://naturevasion.com/velo-e-bike/",
+    "lat": 43.481835,
+    "lon": 6.28856,
+    "distance_to_route_km": 3.382
+  },
+  {
+    "id": "5512426",
+    "name": "Le Petit Prince",
+    "website": "http://www.lepetitprince-cabris.fr/",
+    "lat": 43.656062,
+    "lon": 6.874557,
+    "distance_to_route_km": 2.763
+  },
+  {
+    "id": "5574105",
+    "name": "Hôtel de la Poste",
+    "website": "http://www.hotelpiscinedelaposte.fr/",
+    "lat": 43.644301,
+    "lon": 6.884674,
+    "distance_to_route_km": 2.029
+  },
+  {
+    "id": "4735584",
+    "name": "So Blue Hôtel",
+    "website": "https://www.sobluehotel.com/",
+    "lat": 43.614517,
+    "lon": 7.126939,
+    "distance_to_route_km": 0.09
+  },
+  {
+    "id": "4673341",
+    "name": "Le Domaine du Mas de Pierre",
+    "website": "https://www.instagram.com/lemasdepierre/",
+    "lat": 43.682577,
+    "lon": 7.124117,
+    "distance_to_route_km": 4.141
+  },
+  {
+    "id": "5153356",
+    "name": "Café du Cycliste",
+    "website": "http://www.cafeducycliste.com/",
+    "lat": 43.6964,
+    "lon": 7.28615,
+    "distance_to_route_km": 0.014
+  },
+  {
+    "id": "2994094",
+    "name": "Eze Hermitage Hôtel",
+    "website": "http://www.ezehermitage.com/fr",
+    "lat": 43.731453,
+    "lon": 7.341592,
+    "distance_to_route_km": 0.028
+  },
+  {
+    "id": "730476",
+    "name": "Hôtel Napoléon",
+    "website": null,
+    "lat": 43.745558,
+    "lon": 7.399706,
+    "distance_to_route_km": 0.014
+  },
+  {
+    "id": "4739637",
+    "name": "Hôtel Prince de Galles Best Western Plus",
+    "website": "https://www.princedegalles.com/",
+    "lat": 43.766231,
+    "lon": 7.488186,
+    "distance_to_route_km": 0.048
+  },
+  {
+    "id": "222002221",
+    "name": "Auberge de l'Illwald",
+    "website": "http://www.illwald.fr/",
+    "lat": 48.2177389373564,
+    "lon": 7.49951541423798,
+    "distance_to_route_km": 4.773
+  },
+  {
+    "id": "277000172",
+    "name": "Restaurant Oberlé",
+    "website": "http://www.hotel-restaurant-oberle.fr/",
+    "lat": 48.6793440443554,
+    "lon": 7.85537481307983,
+    "distance_to_route_km": 0.018
+  },
+  {
+    "id": "836000049",
+    "name": "Hôtel-restaurant le Provençal",
+    "website": "https://www.logishotels.com/fr/hotel/logis-hotel-le-provencal-349111",
+    "lat": 48.749493,
+    "lon": 5.62438099999997,
+    "distance_to_route_km": 0.011
+  },
+  {
+    "id": "837000177",
+    "name": "Hôtel-restaurant la Table des Bons Pères",
+    "website": "http://www.relais-romainville.com/",
+    "lat": 48.869288,
+    "lon": 5.517626,
+    "distance_to_route_km": 2.302
+  },
+  {
+    "id": "750000538",
+    "name": "Lodge hôtel du domaine de Sommedieue",
+    "website": "https://fly-in-sommedieue.com/",
+    "lat": 49.088441929231,
+    "lon": 5.46923031509709,
+    "distance_to_route_km": 4.638
+  },
+  {
+    "id": "939000728",
+    "name": "Hôtel-restaurant le Privilège",
+    "website": "https://www.balladins.com/fr/mon-hotel/hotel-le-privilege-by-balladins",
+    "lat": 49.1399071150108,
+    "lon": 5.4105213888855,
+    "distance_to_route_km": 0.884
+  },
+  {
+    "id": "939000260",
+    "name": "Hôtel-restaurant les Orchidées",
+    "website": "http://www.orchidees-hotel.com/",
+    "lat": 49.1650700900088,
+    "lon": 5.41959390625152,
+    "distance_to_route_km": 2.329
+  },
+  {
+    "id": "740002220",
+    "name": "Restaurant l'éclat de rire",
+    "website": "https://www.l-eclat-de-rire-restaurant-vilosnes-haraumont.fr/",
+    "lat": 49.3239843,
+    "lon": 5.2354606,
+    "distance_to_route_km": 0.021
+  },
+  {
+    "id": "HOTCHA0080000012",
+    "name": "Hôtel \"La Sapinière\"",
+    "website": "http://www.la-sapiniere08.com/",
+    "lat": 49.65287,
+    "lon": 4.993372,
+    "distance_to_route_km": 0.2
+  },
+  {
+    "id": "HOTCHA0080000004",
+    "name": "Robinson",
+    "website": "https://www.robinson-ardennes.com/",
+    "lat": 50.00059,
+    "lon": 4.714026,
+    "distance_to_route_km": 0.416
+  },
+  {
+    "id": "RESPDL044V50MAKM",
+    "name": "GUINGUETTE DES JANETTES",
+    "website": null,
+    "lat": 47.45547,
+    "lon": -1.6319804,
+    "distance_to_route_km": 0.241
+  },
+  {
+    "id": "RESPDL044V50HT19",
+    "name": "LA CUEILLEUSE - CAFE - FOURNIL - JARDIN - ECLUSE - BIVOUAC",
+    "website": "http://lacueilleuse.com/",
+    "lat": 47.4427813,
+    "lon": -1.5604713,
+    "distance_to_route_km": 0.008
+  },
+  {
+    "id": "RESPDL044V510ZT9",
+    "name": "GUINGUETTE 40 PIEDS ERDRE",
+    "website": null,
+    "lat": 47.436068,
+    "lon": -1.4969324,
+    "distance_to_route_km": 2.381
+  },
+  {
+    "id": "RESPDL044V50ECV1",
+    "name": "TERRASSE GOURMANDE ÉCLUSE LA TINDIÈRE",
+    "website": "https://www.eclusedelatindiere.com/",
+    "lat": 47.4196916,
+    "lon": -1.5359111,
+    "distance_to_route_km": 0.027
+  },
+  {
+    "id": "RESPDL044V51FPB9",
+    "name": "L'ESPLANADE HÔTEL · RESTAURANT · BAR A VIN",
+    "website": "https://hotel-lesplanade.fr/",
+    "lat": 47.20197,
+    "lon": -1.75217,
+    "distance_to_route_km": 0.019
+  },
+  {
+    "id": "RESPDL044V50LGGE",
+    "name": "BARAPOM",
+    "website": "https://www.barapom.com/",
+    "lat": 47.2717635,
+    "lon": -2.2045077,
+    "distance_to_route_km": 2.697
+  },
+  {
+    "id": "RESRESTTSMLAPETITEGOURMANDISE",
+    "name": "La petite gourmandise",
+    "website": null,
+    "lat": 47.17391,
+    "lon": -2.16447,
+    "distance_to_route_km": 0.004
+  },
+  {
+    "id": "RESTRESPDL044V5046U3",
+    "name": "L'Atelier",
+    "website": "http://www.lagressiere.com/",
+    "lat": 47.08662,
+    "lon": -2.03492,
+    "distance_to_route_km": 0.197
+  },
+  {
+    "id": "5840770",
+    "name": "La Table - Bar et restaurant des Cabanes Urbaines",
+    "website": "https://www.lescabanesurbaines.fr/",
+    "lat": 46.151934,
+    "lon": -1.155716,
+    "distance_to_route_km": 0.167
+  },
+  {
+    "id": "6219707",
+    "name": "Le Bistrot de Côté Océan",
+    "website": "https://cote-ocean.com/restaurant-angoulins/",
+    "lat": 46.095636,
+    "lon": -1.097823,
+    "distance_to_route_km": 0.203
+  },
+  {
+    "id": "5713750",
+    "name": "Hôtel Majestic",
+    "website": "http://www.majestic-chatelaillon.com/",
+    "lat": 46.074792,
+    "lon": -1.090681,
+    "distance_to_route_km": 0.218
+  },
+  {
+    "id": "5761443",
+    "name": "Mercure Rochefort La Corderie Royale",
+    "website": "https://www.accorhotels.com/fr/hotel-B2Q7-hotel-mercure-rochefort-la-corderie-royale/index.shtml#origin=mercure",
+    "lat": 45.9412,
+    "lon": -0.954897,
+    "distance_to_route_km": 0.053
+  },
+  {
+    "id": "5705575",
+    "name": "La P'tite Crêperie",
+    "website": null,
+    "lat": 45.822557,
+    "lon": -1.107235,
+    "distance_to_route_km": 1.125
+  },
+  {
+    "id": "6107628",
+    "name": "Huîtres Cocollos",
+    "website": "https://www.huitres-cocollos.com/",
+    "lat": 45.843928,
+    "lon": -1.153197,
+    "distance_to_route_km": 2.898
+  },
+  {
+    "id": "6984140",
+    "name": "Ô de Frères",
+    "website": "http://www.huitreslegerfreres.fr/",
+    "lat": 45.838509,
+    "lon": -1.153068,
+    "distance_to_route_km": 2.617
+  },
+  {
+    "id": "6337639",
+    "name": "Hôtel Thalazur Royan",
+    "website": "https://www.thalazur.fr/royan/hotel/",
+    "lat": 45.618301,
+    "lon": -1.041237,
+    "distance_to_route_km": 0.071
+  },
+  {
+    "id": "RESAQU033V509HPB",
+    "name": "La Part des Anges",
+    "website": null,
+    "lat": 45.3799699,
+    "lon": -1.1581386,
+    "distance_to_route_km": 0.02
+  },
+  {
+    "id": "RESAQU033V51A5CW",
+    "name": "Seaster's",
+    "website": null,
+    "lat": 45.37739,
+    "lon": -1.15803,
+    "distance_to_route_km": 0.011
+  },
+  {
+    "id": "140843",
+    "name": "Hôtel Côté Sud Léman",
+    "website": "https://www.hotel-thonon.com/",
+    "lat": 46.352586,
+    "lon": 6.443095,
+    "distance_to_route_km": 0.927
+  },
+  {
+    "id": "109659",
+    "name": "L'Auberge d'Anthy",
+    "website": "https://reservation.elloha.com/?IdPublication=af2ef8d5-a467-4e81-9b0a-4d0986727e1e&culture=fr-FR&idoi=f5d7fac4-51ee-416b-bebc-0d889f2f5aa0&searchFirstAvailableDates=1",
+    "lat": 46.35543,
+    "lon": 6.427219,
+    "distance_to_route_km": 0.094
+  },
+  {
+    "id": "147185",
+    "name": "L'Auberge d'Anthy",
+    "website": "https://www.auberge-anthy.com/",
+    "lat": 46.355596,
+    "lon": 6.427217,
+    "distance_to_route_km": 0.075
+  },
+  {
+    "id": "169206",
+    "name": "Mercure Annemasse Porte de Genève",
+    "website": "https://all.accor.com/hotel/0343/index.fr.shtml",
+    "lat": 46.184065,
+    "lon": 6.221546,
+    "distance_to_route_km": 4.85
+  },
+  {
+    "id": "531196",
+    "name": "Auberge de Portout",
+    "website": "https://aubergedeportout.com/",
+    "lat": 45.805,
+    "lon": 5.8176,
+    "distance_to_route_km": 1.908
+  },
+  {
+    "id": "141447",
+    "name": "La Jetée",
+    "website": "https://www.la-jetee-bourget.com/",
+    "lat": 45.79416,
+    "lon": 5.819192,
+    "distance_to_route_km": 2.661
+  },
+  {
+    "id": "498842",
+    "name": "Restaurant - Relais Gourmand",
+    "website": "http://www.le-doux-nid.com/relais-gourmand",
+    "lat": 45.809078,
+    "lon": 5.789604,
+    "distance_to_route_km": 0.041
+  },
+  {
+    "id": "715691",
+    "name": "Restaurant l'Auberge de La Paillère",
+    "website": null,
+    "lat": 45.816525,
+    "lon": 5.782005,
+    "distance_to_route_km": 0.578
+  },
+  {
+    "id": "720798",
+    "name": "Hôtel-restaurant :  Auberge de la Paillère",
+    "website": null,
+    "lat": 45.816525,
+    "lon": 5.781984,
+    "distance_to_route_km": 0.579
+  },
+  {
+    "id": "162870",
+    "name": "Hôtel Sweet Home",
+    "website": "https://sweethomebelley.fr/",
+    "lat": 45.759327,
+    "lon": 5.690426,
+    "distance_to_route_km": 1.289
+  },
+  {
+    "id": "7309778",
+    "name": "Le Château de Saint-Genix",
+    "website": "https://chateaustgenix.com/",
+    "lat": 45.602009,
+    "lon": 5.641558,
+    "distance_to_route_km": 3.562
+  },
+  {
+    "id": "562412",
+    "name": "Le Relais des Vieilles Postes",
+    "website": "https://www.hotel-restaurant-lesavenieres.fr/",
+    "lat": 45.651528,
+    "lon": 5.569427,
+    "distance_to_route_km": 2.08
+  },
+  {
+    "id": "106571",
+    "name": "Le Relais des Vieilles Postes",
+    "website": "https://www.hotel-restaurant-lesavenieres.fr/",
+    "lat": 45.651528,
+    "lon": 5.569427,
+    "distance_to_route_km": 2.08
+  },
+  {
+    "id": "5347446",
+    "name": "Le Bistrot des Saveurs",
+    "website": "http://www.le-bistrot-des-saveurs.fr/",
+    "lat": 45.68383,
+    "lon": 5.453239,
+    "distance_to_route_km": 0.396
+  },
+  {
+    "id": "4884758",
+    "name": "Un coin de paradis",
+    "website": null,
+    "lat": 45.708302,
+    "lon": 5.421008,
+    "distance_to_route_km": 0.009
+  },
+  {
+    "id": "271612",
+    "name": "Hôtel Restaurant La Source",
+    "website": "https://hotelrestaurantlasource.com/",
+    "lat": 45.84073,
+    "lon": 5.415273,
+    "distance_to_route_km": 0.072
+  },
+  {
+    "id": "504288",
+    "name": "Restaurant La Source",
+    "website": "https://hotelrestaurantlasource.com/",
+    "lat": 45.84073,
+    "lon": 5.415273,
+    "distance_to_route_km": 0.072
+  },
+  {
+    "id": "4779281",
+    "name": "Les Platanes",
+    "website": null,
+    "lat": 45.87293,
+    "lon": 5.367999,
+    "distance_to_route_km": 0.444
+  },
+  {
+    "id": "5394820",
+    "name": "Le Marché Balmolan, restaurant-épicerie- service traiteur",
+    "website": "https://lemarchebalmolan.fr/",
+    "lat": 45.852229,
+    "lon": 5.336899,
+    "distance_to_route_km": 0.399
+  },
+  {
+    "id": "138866",
+    "name": "Le Val d'Amby",
+    "website": "https://www.hotel-levaldamby.com/",
+    "lat": 45.796851,
+    "lon": 5.292899,
+    "distance_to_route_km": 0.018
+  },
+  {
+    "id": "213167",
+    "name": "Hôtel restaurant du Val d'Amby",
+    "website": "https://www.hotel-levaldamby.com/",
+    "lat": 45.797182,
+    "lon": 5.292342,
+    "distance_to_route_km": 0.011
+  },
+  {
+    "id": "141007",
+    "name": "Hôtel-Restaurant La Batisse",
+    "website": "https://www.hotel-labatisse.fr/",
+    "lat": 45.724351,
+    "lon": 5.248512,
+    "distance_to_route_km": 4.779
+  },
+  {
+    "id": "5124951",
+    "name": "La Batisse",
+    "website": "https://www.hotel-labatisse.fr/",
+    "lat": 45.724305,
+    "lon": 5.248218,
+    "distance_to_route_km": 4.775
+  },
+  {
+    "id": "103544",
+    "name": "Maison Grand Large",
+    "website": "https://www.maisongrandlarge.fr/",
+    "lat": 45.777532,
+    "lon": 4.976074,
+    "distance_to_route_km": 1.711
+  },
+  {
+    "id": "6816910",
+    "name": "Ponyo café vélo",
+    "website": "https://ponyocafevelo.fr/",
+    "lat": 45.777406,
+    "lon": 4.869321,
+    "distance_to_route_km": 0.932
+  },
+  {
+    "id": "4620701",
+    "name": "Tibone & Dorade",
+    "website": "https://www.hotelparksaone.com/fr/restaurant-bar.html",
+    "lat": 45.7925,
+    "lon": 4.819444,
+    "distance_to_route_km": 2.42
+  },
+  {
+    "id": "4620632",
+    "name": "Spark by Hilton Lyon park Saone",
+    "website": "https://www.hilton.com/fr/hotels/lysfnpe-spark-lyon-park-saone/",
+    "lat": 45.792261,
+    "lon": 4.818844,
+    "distance_to_route_km": 2.447
+  },
+  {
+    "id": "214876",
+    "name": "Hotel Lyon Métropole",
+    "website": "http://www.lyonmetropole.com/",
+    "lat": 45.788725,
+    "lon": 4.819838,
+    "distance_to_route_km": 2.181
+  },
+  {
+    "id": "222358",
+    "name": "Quai 50",
+    "website": "https://www.hotellyonouest.com/fr/restaurant-bar.html",
+    "lat": 45.788479,
+    "lon": 4.815237,
+    "distance_to_route_km": 2.493
+  },
+  {
+    "id": "205578",
+    "name": "Brasserie Lyon Plage",
+    "website": "https://www.lyonmetropole.com/fr/brasserie-bar.html",
+    "lat": 45.7872,
+    "lon": 4.81755,
+    "distance_to_route_km": 2.27
+  },
+  {
+    "id": "214866",
+    "name": "Spark by Hilton Lyon Ouest",
+    "website": "https://www.hilton.com/fr/hotels/lysfrpe-spark-lyon-ouest/",
+    "lat": 45.788158,
+    "lon": 4.815081,
+    "distance_to_route_km": 2.488
+  },
+  {
+    "id": "838162",
+    "name": "Coffee Shop - Slo Lyon Les Pentes",
+    "website": "https://slohostels.com/fr/lyon-les-pentes/",
+    "lat": 45.770689,
+    "lon": 4.836758,
+    "distance_to_route_km": 0.305
+  },
+  {
+    "id": "214869",
+    "name": "Collège Hôtel",
+    "website": "http://www.college-hotel.com/",
+    "lat": 45.765846,
+    "lon": 4.827698,
+    "distance_to_route_km": 1.029
+  },
+  {
+    "id": "214861",
+    "name": "Campanile Prime Lyon Centre - Gare Part-Dieu",
+    "website": "https://lyon-centre-gare-part-dieu.campanile.com/fr-fr/",
+    "lat": 45.760623,
+    "lon": 4.863529,
+    "distance_to_route_km": 1.769
+  },
+  {
+    "id": "306699",
+    "name": "Le Vin Gourmand - Mercure Lyon Part-Dieu",
+    "website": "https://all.accor.com/hotel/7360/index.fr.shtml#section-facilities",
+    "lat": 45.759589,
+    "lon": 4.861521,
+    "distance_to_route_km": 1.624
+  },
+  {
+    "id": "157375",
+    "name": "Ibis Styles Lyon Centre Gare Part-Dieu",
+    "website": "https://all.accor.com/hotel/7373/index.fr.shtml",
+    "lat": 45.760732,
+    "lon": 4.861655,
+    "distance_to_route_km": 1.623
+  },
+  {
+    "id": "158177",
+    "name": "Mercure Lyon La Part-Dieu",
+    "website": "http://www.mercure.com/fr/hotel-7360-mercure-lyon-la-part-dieu/index.shtml",
+    "lat": 45.760433,
+    "lon": 4.861741,
+    "distance_to_route_km": 1.632
+  },
+  {
+    "id": "169994",
+    "name": "Ibis Lyon Gare La Part-Dieu",
+    "website": "https://all.accor.com/hotel/0618/index.fr.shtml",
+    "lat": 45.757035,
+    "lon": 4.857444,
+    "distance_to_route_km": 1.335
+  },
+  {
+    "id": "214216",
+    "name": "Sofitel Lyon Bellecour",
+    "website": "https://sofitel.accor.com/hotel/0553/index.fr.shtml",
+    "lat": 45.754379,
+    "lon": 4.83436,
+    "distance_to_route_km": 0.257
+  },
+  {
+    "id": "539266",
+    "name": "Fourvière Hôtel",
+    "website": "https://www.fourviere-hotel.com/",
+    "lat": 45.758309,
+    "lon": 4.817512,
+    "distance_to_route_km": 1.622
+  },
+  {
+    "id": "7711854",
+    "name": "Mama Shelter Lyon",
+    "website": "https://fr.mamashelter.com/lyon/",
+    "lat": 45.746947,
+    "lon": 4.845225,
+    "distance_to_route_km": 0.862
+  },
+  {
+    "id": "558064",
+    "name": "Ibis Styles Lyon Confluence",
+    "website": "https://all.accor.com/hotel/9659/index.fr.shtml?msockid=305623ea17a36b4a03eb37a616486a75",
+    "lat": 45.743365,
+    "lon": 4.82581,
+    "distance_to_route_km": 0.217
+  },
+  {
+    "id": "5616231",
+    "name": "HEAT - Halle à manger",
+    "website": "https://h-eat.eu/",
+    "lat": 45.736912,
+    "lon": 4.820208,
+    "distance_to_route_km": 0.246
+  },
+  {
+    "id": "214855",
+    "name": "Novotel Lyon Gerland - Musée des Confluences",
+    "website": "http://www.novotel.com/0736",
+    "lat": 45.732993,
+    "lon": 4.823039,
+    "distance_to_route_km": 0.091
+  },
+  {
+    "id": "72302",
+    "name": "Kyriad Lyon Sud Givors",
+    "website": "http://www.kyriad-lyon-sud-givors.fr/",
+    "lat": 45.586075,
+    "lon": 4.773281,
+    "distance_to_route_km": 0.412
+  },
+  {
+    "id": "177444",
+    "name": "Restaurant Kyriad Direct",
+    "website": "https://direct-lyon-sud-chasse-sur-rhone.kyriad.com/fr-fr/",
+    "lat": 45.586203,
+    "lon": 4.787722,
+    "distance_to_route_km": 0.604
+  },
+  {
+    "id": "177417",
+    "name": "Ibis Styles Lyon Sud Vienne",
+    "website": "https://all.accor.com/hotel/0349/index.fr.shtml",
+    "lat": 45.576171,
+    "lon": 4.807205,
+    "distance_to_route_km": 1.102
+  },
+  {
+    "id": "177494",
+    "name": "La Pyramide Maison Henriroux**",
+    "website": "https://www.lapyramide.com/fr/",
+    "lat": 45.516494,
+    "lon": 4.867252,
+    "distance_to_route_km": 0.497
+  },
+  {
+    "id": "167118",
+    "name": "La Pyramide Maison Henriroux - Relais & Châteaux",
+    "website": "https://www.lapyramide.com/fr/",
+    "lat": 45.516542,
+    "lon": 4.867244,
+    "distance_to_route_km": 0.493
+  },
+  {
+    "id": "6774541",
+    "name": "Les Gagères",
+    "website": "http://www.lesgageres.fr/",
+    "lat": 45.4836,
+    "lon": 4.788829,
+    "distance_to_route_km": 0.079
+  },
+  {
+    "id": "5501209",
+    "name": "Café de l'Arche",
+    "website": null,
+    "lat": 45.463603,
+    "lon": 4.76851,
+    "distance_to_route_km": 0.54
+  },
+  {
+    "id": "6078414",
+    "name": "Camino café",
+    "website": "https://caminocafe.fr/",
+    "lat": 45.384962,
+    "lon": 4.749542,
+    "distance_to_route_km": 0.441
+  },
+  {
+    "id": "120289",
+    "name": "Restaurant du Port",
+    "website": "http://www.lerestoduport.fr/",
+    "lat": 45.380305,
+    "lon": 4.751473,
+    "distance_to_route_km": 0.327
+  },
+  {
+    "id": "162933",
+    "name": "Hôtel Schaeffer",
+    "website": "http://www.hotel-schaeffer.com/",
+    "lat": 45.31758,
+    "lon": 4.765955,
+    "distance_to_route_km": 0.218
+  },
+  {
+    "id": "162812",
+    "name": "Hôtel Restaurant la Désirade",
+    "website": "http://www.hotel-ladesirade.fr/",
+    "lat": 45.257302,
+    "lon": 4.787783,
+    "distance_to_route_km": 1.684
+  },
+  {
+    "id": "205867",
+    "name": "Restaurant le 19",
+    "website": "https://le-19.fr/",
+    "lat": 45.233845,
+    "lon": 4.845636,
+    "distance_to_route_km": 3.101
+  },
+  {
+    "id": "205905",
+    "name": "Hôtel-Restaurant Best Western Golf d'Albon",
+    "website": "https://domainegolfalbon.fr/",
+    "lat": 45.23364,
+    "lon": 4.844692,
+    "distance_to_route_km": 3.032
+  },
+  {
+    "id": "616308",
+    "name": "Restaurant Café L'Ambigu",
+    "website": "https://www.restaurant-ambigu.fr/",
+    "lat": 45.190311,
+    "lon": 4.811116,
+    "distance_to_route_km": 0.074
+  },
+  {
+    "id": "162859",
+    "name": "Hôtel le Vivarais",
+    "website": null,
+    "lat": 45.186493,
+    "lon": 4.801199,
+    "distance_to_route_km": 0.718
+  },
+  {
+    "id": "119857",
+    "name": "Hôtel-restaurant Azalées",
+    "website": "http://www.hotel-azalees.com/",
+    "lat": 45.063946,
+    "lon": 4.834408,
+    "distance_to_route_km": 0.375
+  },
+  {
+    "id": "148340",
+    "name": "Hôtel Noemys Valence Nord",
+    "website": "https://noemys.fr/etablissement-noemys-valence-nord/etablissement-38.html",
+    "lat": 44.960771,
+    "lon": 4.889891,
+    "distance_to_route_km": 0.913
+  },
+  {
+    "id": "4862925",
+    "name": "Jul's",
+    "website": "http://restaurant-juls.fr/",
+    "lat": 44.944974,
+    "lon": 4.886191,
+    "distance_to_route_km": 0.11
+  },
+  {
+    "id": "209673",
+    "name": "Hôtel-Restaurant les Négociants",
+    "website": "https://www.hotel-les-negociants.com/",
+    "lat": 44.928364,
+    "lon": 4.892603,
+    "distance_to_route_km": 0.531
+  },
+  {
+    "id": "129428",
+    "name": "Le Café Victor Hugo",
+    "website": null,
+    "lat": 44.929024,
+    "lon": 4.890476,
+    "distance_to_route_km": 0.35
+  },
+  {
+    "id": "169904",
+    "name": "Hôtel-Restaurant Novotel Valence Sud",
+    "website": "https://all.accor.com/hotel/0455/index.fr.shtml?dateIn=&nights=&compositions=2&stayplus=false#origin=novotel",
+    "lat": 44.919085,
+    "lon": 4.878562,
+    "distance_to_route_km": 0.347
+  },
+  {
+    "id": "7145053",
+    "name": "Maison Nivon Valence Sud",
+    "website": "https://nivon.com/",
+    "lat": 44.903187,
+    "lon": 4.87907,
+    "distance_to_route_km": 0.607
+  },
+  {
+    "id": "152261",
+    "name": "Hôtel-Restaurant Mercure Valence Sud",
+    "website": "https://www.accorhotels.com/fr/hotel-6398-hotel-mercure-valence-sud/index.shtml",
+    "lat": 44.903224,
+    "lon": 4.879378,
+    "distance_to_route_km": 0.626
+  },
+  {
+    "id": "136428",
+    "name": "Hôtel-Restaurant Le Carré d'Alethius",
+    "website": "http://www.lecarredalethius.com/",
+    "lat": 44.861433,
+    "lon": 4.833157,
+    "distance_to_route_km": 0.287
+  },
+  {
+    "id": "6774561",
+    "name": "Tourisme d'affaires : Hôtel Ibis",
+    "website": "http://www.accorhotels.com/",
+    "lat": 44.756437,
+    "lon": 4.757006,
+    "distance_to_route_km": 0.01
+  },
+  {
+    "id": "131697",
+    "name": "Hôtel Ibis",
+    "website": "http://www.accorhotels.com/",
+    "lat": 44.756437,
+    "lon": 4.757006,
+    "distance_to_route_km": 0.01
+  },
+  {
+    "id": "144212",
+    "name": "Restaurant la table de l'Eden",
+    "website": "https://www.restaurantleden.com/",
+    "lat": 44.659059,
+    "lon": 4.776286,
+    "distance_to_route_km": 0.183
+  },
+  {
+    "id": "7614709",
+    "name": "La Maison Perret",
+    "website": null,
+    "lat": 44.612398,
+    "lon": 4.716147,
+    "distance_to_route_km": 1.854
+  },
+  {
+    "id": "7646792",
+    "name": "Snack la Maison Perret",
+    "website": null,
+    "lat": 44.609764,
+    "lon": 4.723447,
+    "distance_to_route_km": 1.207
+  },
+  {
+    "id": "358498",
+    "name": "Le Marmitroll",
+    "website": null,
+    "lat": 44.608107,
+    "lon": 4.722387,
+    "distance_to_route_km": 1.206
+  },
+  {
+    "id": "6948177",
+    "name": "Snack Le Moulin de Bruno",
+    "website": null,
+    "lat": 44.588055,
+    "lon": 4.704579,
+    "distance_to_route_km": 0.149
+  },
+  {
+    "id": "5862699",
+    "name": "Boulangerie le Moulin de Bruno",
+    "website": null,
+    "lat": 44.588055,
+    "lon": 4.704579,
+    "distance_to_route_km": 0.149
+  },
+  {
+    "id": "206000",
+    "name": "Hôtel-Spa-Restaurant Manoir le Roure",
+    "website": "https://manoirleroure.com/",
+    "lat": 44.512068,
+    "lon": 4.756712,
+    "distance_to_route_km": 2.594
+  },
+  {
+    "id": "6060444",
+    "name": "Le Provenc'Hall",
+    "website": "http://www.provenc-hall.fr/",
+    "lat": 44.48656,
+    "lon": 4.717224,
+    "distance_to_route_km": 0.692
+  },
+  {
+    "id": "214719",
+    "name": "Hôtel Le Domaine du Colombier",
+    "website": "https://www.domaine-colombier.com/",
+    "lat": 44.468904,
+    "lon": 4.743124,
+    "distance_to_route_km": 3.503
+  },
+  {
+    "id": "119709",
+    "name": "Hôtel le Relais du Vivarais",
+    "website": "http://www.relaisduvivarais.fr/",
+    "lat": 44.487092,
+    "lon": 4.674886,
+    "distance_to_route_km": 1.832
+  },
+  {
+    "id": "5143778",
+    "name": "Hostellerie Charles de Foucauld",
+    "website": "http://hotelviviers.fr/",
+    "lat": 44.483946,
+    "lon": 4.687214,
+    "distance_to_route_km": 0.794
+  },
+  {
+    "id": "119698",
+    "name": "Hôtel le Clos des Oliviers",
+    "website": "http://www.hotel-ardeche-sud.com/",
+    "lat": 44.372889,
+    "lon": 4.643226,
+    "distance_to_route_km": 0.36
+  },
+  {
+    "id": "122324",
+    "name": "Hôtel-Restaurant le Robinson",
+    "website": "http://www.lerobinson.fr/",
+    "lat": 44.36859,
+    "lon": 4.656438,
+    "distance_to_route_km": 0.09
+  },
+  {
+    "id": "128128",
+    "name": "Restaurant le Robinson",
+    "website": "http://www.lerobinson.fr/",
+    "lat": 44.368598,
+    "lon": 4.656465,
+    "distance_to_route_km": 0.091
+  },
+  {
+    "id": "5890531",
+    "name": "Restaurant Caviste de la Bourse",
+    "website": "https://la-bourse.eatbu.com/",
+    "lat": 44.255221,
+    "lon": 4.648093,
+    "distance_to_route_km": 0.377
+  },
+  {
+    "id": "5860154",
+    "name": "Hôtel Restaurant Le Mas de l'Olivier",
+    "website": "https://www.mas-olivier.com/",
+    "lat": 44.242792,
+    "lon": 4.642495,
+    "distance_to_route_km": 1.823
+  },
+  {
+    "id": "5860216",
+    "name": "Restaurant Le Mas de l'Olivier",
+    "website": "https://www.mas-olivier.com/",
+    "lat": 44.242792,
+    "lon": 4.642495,
+    "distance_to_route_km": 1.823
+  },
+  {
+    "id": "6888929",
+    "name": "Bistrot Demols",
+    "website": null,
+    "lat": 44.240337,
+    "lon": 4.710777,
+    "distance_to_route_km": 0.425
+  },
+  {
+    "id": "679604",
+    "name": "Mercure Orange",
+    "website": "https://all.accor.com/hotel/9703/index.fr.shtml",
+    "lat": 44.136838,
+    "lon": 4.788241,
+    "distance_to_route_km": 4.881
+  },
+  {
+    "id": "6632338",
+    "name": "Guinguette Bonobrousse",
+    "website": null,
+    "lat": 44.023524,
+    "lon": 4.840644,
+    "distance_to_route_km": 0.021
+  },
+  {
+    "id": "668125",
+    "name": "Chocolaterie Castelain",
+    "website": "http://www.chocolat-castelain.fr/",
+    "lat": 44.038299,
+    "lon": 4.854261,
+    "distance_to_route_km": 1.893
+  },
+  {
+    "id": "6024116",
+    "name": "L'Espresso",
+    "website": "https://lespresso-restaurant-sorgues.eatbu.com/?lang=fr",
+    "lat": 44.008184,
+    "lon": 4.873747,
+    "distance_to_route_km": 2.539
+  },
+  {
+    "id": "4618463",
+    "name": "Auberge de Cassagne & Spa",
+    "website": "http://www.aubergedecassagne.com/",
+    "lat": 43.96085,
+    "lon": 4.874131,
+    "distance_to_route_km": 4.525
+  },
+  {
+    "id": "4618437",
+    "name": "Auberge de Cassagne & Spa",
+    "website": "https://www.aubergedecassagne.com/",
+    "lat": 43.96085,
+    "lon": 4.874131,
+    "distance_to_route_km": 4.525
+  },
+  {
+    "id": "2995005",
+    "name": "Ibis Styles Avignon Sud",
+    "website": "http://www.accorhotels.com/fr/hotel-0399-ibis-styles-avignon-sud/index.shtml",
+    "lat": 43.926336,
+    "lon": 4.84422,
+    "distance_to_route_km": 4.575
+  },
+  {
+    "id": "4793655",
+    "name": "Maison Bronzini - Le Bistrot du Moulin",
+    "website": "http://www.maisonbronzini.com/",
+    "lat": 43.96697,
+    "lon": 4.796072,
+    "distance_to_route_km": 1.229
+  },
+  {
+    "id": "4909314",
+    "name": "Aubergine",
+    "website": "http://www.aubergine-villeneuve.restaurant/",
+    "lat": 43.964117,
+    "lon": 4.796649,
+    "distance_to_route_km": 0.923
+  },
+  {
+    "id": "5399152",
+    "name": "Crêperie Le L",
+    "website": null,
+    "lat": 43.963477,
+    "lon": 4.797104,
+    "distance_to_route_km": 0.843
+  },
+  {
+    "id": "4808261",
+    "name": "Restaurant Pizzeria Bagatelle",
+    "website": "http://www.aubergebagatelle.com/",
+    "lat": 43.953525,
+    "lon": 4.798625,
+    "distance_to_route_km": 0.121
+  },
+  {
+    "id": "4615484",
+    "name": "Hôtel Bagatelle - Le Pavillon Bleu",
+    "website": "http://www.aubergebagatelle.com/",
+    "lat": 43.95286,
+    "lon": 4.799775,
+    "distance_to_route_km": 0.221
+  },
+  {
+    "id": "6447919",
+    "name": "Youpi !",
+    "website": "https://youpi-avignon.fr/",
+    "lat": 43.939623,
+    "lon": 4.80979,
+    "distance_to_route_km": 1.76
+  },
+  {
+    "id": "4618652",
+    "name": "Najeti Hôtel La Magnaneraie",
+    "website": "http://www.magnaneraie.najeti.fr/",
+    "lat": 43.966134,
+    "lon": 4.788105,
+    "distance_to_route_km": 1.33
+  },
+  {
+    "id": "6311081",
+    "name": "Bistrot de Pays Bistrot de l'Hoste",
+    "website": "https://www.bistrotdepays.com/bistrot-de-l-hoste",
+    "lat": 43.928669,
+    "lon": 4.651611,
+    "distance_to_route_km": 4.127
+  },
+  {
+    "id": "6514141",
+    "name": "Bar Restaurant du Cours",
+    "website": "https://www.bar-du-cours-restaurant-vallabregues.fr/",
+    "lat": 43.852845,
+    "lon": 4.628891,
+    "distance_to_route_km": 1.539
+  }
+]

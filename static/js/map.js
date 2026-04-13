@@ -27,6 +27,12 @@
   /** @type {L.LayerGroup} Holds all housing circle markers (toggled by checkbox). */
   let housingLayer = null;
 
+  /** @type {L.LayerGroup} Holds Accueil Vélo housing markers (toggled by checkbox). */
+  let accueilVeloHousingLayer = null;
+
+  /** @type {L.LayerGroup} Holds Accueil Vélo restaurant markers (toggled by checkbox). */
+  let accueilVeloRestaurantsLayer = null;
+
   /**
    * Route color map loaded from the JSON files.
    * Key: route_id (e.g. 'EV3'), value: hex color string.
@@ -531,6 +537,184 @@
     }
   }
 
+  // ── Accueil Vélo housing ───────────────────────────────────────────────────
+
+  /**
+   * Build the HTML content for an Accueil Vélo housing hover panel.
+   *
+   * Null fields are shown as <em class="housing-null">non renseigné</em>.
+   *
+   * @param {Object} point - AccueilVeloPoint object from accueil_velo_housing.json.
+   * @param {string|null} point.name - Establishment name.
+   * @param {string|null} point.website - Website URL.
+   * @returns {string} HTML string for the panel.
+   */
+  function buildAccueilVeloHousingPanelHtml(point) {
+    const nullHtml = '<em class="housing-null">non renseigné</em>';
+    const nameHtml = point.name || nullHtml;
+    const websiteHtml = point.website
+      ? `<a href="${point.website}" target="_blank" rel="noopener noreferrer" class="route-panel-link">Visiter le site →</a>`
+      : nullHtml;
+
+    return `
+      <div class="route-panel-body">
+        <div class="route-panel-title">Hébergement labellisé Accueil Vélo</div>
+        <ul class="route-panel-meta">
+          <li>${nameHtml}</li>
+        </ul>
+        ${websiteHtml}
+      </div>
+    `;
+  }
+
+  /**
+   * Fetch accueil_velo_housing.json and add a pale green circle marker for
+   * each point.
+   *
+   * Markers are added to a dedicated layer group so they can be toggled
+   * independently.  Hovering a marker shows the floating info panel via the
+   * shared showPanel / scheduleClosePanel helpers.
+   *
+   * @returns {Promise<void>} Resolves when all markers have been added.
+   */
+  function loadAccueilVeloHousing() {
+    accueilVeloHousingLayer = L.layerGroup();
+    return fetch("static/data/accueil_velo_housing.json")
+      .then(function (r) { return r.json(); })
+      .then(function (points) {
+        points.forEach(function (p) {
+          const marker = L.circleMarker([p.lat, p.lon], {
+            radius: 4,
+            color: "#1E8449",
+            fillColor: "#A9DFBF",
+            fillOpacity: 0.85,
+            weight: 1.5,
+          });
+
+          const panelHtml = buildAccueilVeloHousingPanelHtml(p);
+
+          marker.on("mouseover", function (e) {
+            showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mousemove", function (e) {
+            positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mouseout", function () {
+            scheduleClosePanel();
+          });
+
+          accueilVeloHousingLayer.addLayer(marker);
+        });
+        if (map) accueilVeloHousingLayer.addTo(map);
+      })
+      .catch(function (err) {
+        console.warn("Could not load Accueil Vélo housing points:", err);
+      });
+  }
+
+  /**
+   * Show or hide the Accueil Vélo housing layer.
+   *
+   * @param {boolean} visible - True to show the layer, false to hide it.
+   */
+  function toggleAccueilVeloHousing(visible) {
+    if (!accueilVeloHousingLayer || !map) return;
+    if (visible) {
+      if (!map.hasLayer(accueilVeloHousingLayer)) accueilVeloHousingLayer.addTo(map);
+    } else {
+      if (map.hasLayer(accueilVeloHousingLayer)) map.removeLayer(accueilVeloHousingLayer);
+    }
+  }
+
+  // ── Accueil Vélo restaurants ───────────────────────────────────────────────
+
+  /**
+   * Build the HTML content for an Accueil Vélo restaurant hover panel.
+   *
+   * Null fields are shown as <em class="housing-null">non renseigné</em>.
+   *
+   * @param {Object} point - AccueilVeloPoint object from accueil_velo_restaurants.json.
+   * @param {string|null} point.name - Restaurant name.
+   * @param {string|null} point.website - Website URL.
+   * @returns {string} HTML string for the panel.
+   */
+  function buildAccueilVeloRestaurantPanelHtml(point) {
+    const nullHtml = '<em class="housing-null">non renseigné</em>';
+    const nameHtml = point.name || nullHtml;
+    const websiteHtml = point.website
+      ? `<a href="${point.website}" target="_blank" rel="noopener noreferrer" class="route-panel-link">Visiter le site →</a>`
+      : nullHtml;
+
+    return `
+      <div class="route-panel-body">
+        <div class="route-panel-title">🍴 Restaurant labellisé Accueil Vélo</div>
+        <ul class="route-panel-meta">
+          <li>${nameHtml}</li>
+        </ul>
+        ${websiteHtml}
+      </div>
+    `;
+  }
+
+  /**
+   * Fetch accueil_velo_restaurants.json and add a fork emoji marker for each
+   * point.
+   *
+   * Markers use L.divIcon to display the 🍴 emoji.  Hovering shows the
+   * floating info panel via the shared showPanel / scheduleClosePanel helpers.
+   *
+   * @returns {Promise<void>} Resolves when all markers have been added.
+   */
+  function loadAccueilVeloRestaurants() {
+    accueilVeloRestaurantsLayer = L.layerGroup();
+    return fetch("static/data/accueil_velo_restaurants.json")
+      .then(function (r) { return r.json(); })
+      .then(function (points) {
+        const icon = L.divIcon({
+          html: "🍴",
+          className: "restaurant-marker",
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
+        });
+
+        points.forEach(function (p) {
+          const marker = L.marker([p.lat, p.lon], { icon: icon });
+
+          const panelHtml = buildAccueilVeloRestaurantPanelHtml(p);
+
+          marker.on("mouseover", function (e) {
+            showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mousemove", function (e) {
+            positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+          });
+          marker.on("mouseout", function () {
+            scheduleClosePanel();
+          });
+
+          accueilVeloRestaurantsLayer.addLayer(marker);
+        });
+        if (map) accueilVeloRestaurantsLayer.addTo(map);
+      })
+      .catch(function (err) {
+        console.warn("Could not load Accueil Vélo restaurant points:", err);
+      });
+  }
+
+  /**
+   * Show or hide the Accueil Vélo restaurants layer.
+   *
+   * @param {boolean} visible - True to show the layer, false to hide it.
+   */
+  function toggleAccueilVeloRestaurants(visible) {
+    if (!accueilVeloRestaurantsLayer || !map) return;
+    if (visible) {
+      if (!map.hasLayer(accueilVeloRestaurantsLayer)) accueilVeloRestaurantsLayer.addTo(map);
+    } else {
+      if (map.hasLayer(accueilVeloRestaurantsLayer)) map.removeLayer(accueilVeloRestaurantsLayer);
+    }
+  }
+
   // ── Public API ─────────────────────────────────────────────────────────────
 
   window.InterMap = {
@@ -542,5 +726,9 @@
     centerOn,
     loadHousingPoints,
     toggleHousingPoints,
+    loadAccueilVeloHousing,
+    loadAccueilVeloRestaurants,
+    toggleAccueilVeloHousing,
+    toggleAccueilVeloRestaurants,
   };
 })();
