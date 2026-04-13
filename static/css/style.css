@@ -260,6 +260,14 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   margin-bottom: 24px;
 }
 
+.housing-legend {
+  margin-top: 8px;
+  margin-left: 20px;
+  font-size: 13px;
+  color: var(--grey-text);
+  line-height: 1.4;
+}
+
 /* Status message */
 .search-status { margin-top: 8px; font-size: 14px; padding: 6px 8px; border-radius: 4px; }
 .status-info { background: #eaf7f0; color: var(--green-dark); }
