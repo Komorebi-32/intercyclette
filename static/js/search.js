@@ -374,8 +374,7 @@
 
     const travelDate = params.travel_date || new Date().toISOString().split("T")[0];
 
-    // Outbound: travel date if 1-day trip, otherwise travel date +1 day
-    const outboundDate = params.n_days === 1 ? travelDate : addDaysIso(travelDate, 1);
+    const outboundDate = travelDate;
     const returnDate   = addDaysIso(travelDate, params.n_days - 1);
 
     const outboundIso = `${outboundDate}T08:00:00`;

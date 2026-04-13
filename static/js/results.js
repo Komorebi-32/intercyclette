@@ -40,6 +40,20 @@
   }
 
   /**
+   * Format an ISO 8601 datetime string to French date display.
+   *
+   * @param {string|null} isoStr - e.g. "2026-04-13T08:15:00"
+   * @returns {string} e.g. "13/04/2026" or "—"
+   */
+  function formatDate(isoStr) {
+    if (!isoStr) return "—";
+    const parts = isoStr.split("T");
+    if (parts.length < 1 || parts[0].length < 10) return "—";
+    const [yyyy, mm, dd] = parts[0].split("-");
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  /**
    * Build the compact (collapsed) summary line for one train journey.
    *
    * @param {Object|null} journey - Journey object from the API card.
@@ -53,6 +67,7 @@
     return `
       <span class="journey-summary">
         <span class="journey-label">${label}</span>
+        <span class="journey-date">${formatDate(journey.departure)}</span>
         <span class="journey-stations">${journey.from} → ${journey.to}</span>
         <span class="journey-time">${formatTime(journey.departure)} – ${formatTime(journey.arrival)}</span>
         <span class="journey-duration">(${journey.duration})</span>
@@ -89,7 +104,7 @@
 
     const outboundDetail = ob
       ? `<div class="journey-detail">
-           <h4>Train aller</h4> ${ob.from} → ${ob.to}<br/>
+           <h4>Train aller : ${formatDate(ob.departure)}</h4> ${ob.from} → ${ob.to}<br/>
            Départ ${formatTime(ob.departure)} · Arrivée ${formatTime(ob.arrival)} · ${ob.duration}
            ${ob.nb_transfers > 0 ? `· ${ob.nb_transfers} correspondance(s)` : ""}
            <div class="journey-book">${buildBookingButtonHtml(ob.from, ob.to)}</div>
@@ -98,7 +113,7 @@
 
     const returnDetail = ret
       ? `<div class="journey-detail">
-           <h4>Train retour</h4> ${ret.from} → ${ret.to}<br/>
+           <h4>Train retour : ${formatDate(ret.departure)}</h4> ${ret.from} → ${ret.to}<br/>
            Départ ${formatTime(ret.departure)} · Arrivée ${formatTime(ret.arrival)} · ${ret.duration}
            ${ret.nb_transfers > 0 ? `· ${ret.nb_transfers} correspondance(s)` : ""}
            <div class="journey-book">${buildBookingButtonHtml(ret.from, ret.to)}</div>
