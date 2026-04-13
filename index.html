@@ -161,7 +161,7 @@
           Afficher / Masquer les hébergements
         </label>
         <div class="housing-legend">
-          <p>🔵 Hébergements répertoriés sur OpenStreetMaps</p>
+          <p>🔵 Hébergements répertoriés sur OpenStreetMap</p>
           <p>🟢 Hébergements labellisés Accueil Vélo</p>
         </div>
       </div>
@@ -264,6 +264,24 @@
       <div class="overlay-modal-content">
 
         <details class="roadmap-item">
+          <summary class="roadmap-summary">Affichage des émissions de Gaz à Effet de Serre (GES) évitées</summary>
+          <div class="roadmap-detail">
+            <p>Pour une randovélo d'un point A à un point B d'une route EuroVelo, il est peu probable que les usagers aient
+              pu prendre la voiture à la place du train. Afficher des émissions de GES évitées ne serait donc pas pertinent.
+            </p>
+            <p>Par contre, l'outil pourrait permettre à terme de planifier des itinéraires qui forment une boucle à vélo. Dans ce cas d'usage, 
+              il devient tout à fait pertinent de comparer le train à la voiture et d'estimer des émissions de GES évitées grâce au train. En effet, le ou la cycliste aurait très 
+              bien pu prendre la voiture au lieu du train pour le trajet aller, puis faire une boucle à vélo pour regagner sa voiture et effectuer le trajet retour. 
+            </p>
+            <p>Dans une certaine mesure, il est aussi possible de comparer une randovélo de 2 jours ou plus à des vacances en avion. En choisissant des
+              vacances bas-carbone, l'utilisateur.ice évite des émissions de GES par rapport à un voyage plus "classique". Un message de ce type peut être envisagé : "Si vous étiez
+              parti à Madrid en avion au lieu de cette randovélo, vous auriez émis X tonnes de CO2 en plus, soit X % de l'empreinte carbone moyenne d'un.e Français.e !" 
+            </p>
+            <p>Les facteurs d'émission pour estimer les réductions d'émissions seront récupérés de la Base Empreinte de l'Ademe, ou de données plus précises si disponible.</p>
+          </div>
+        </details>
+
+        <details class="roadmap-item">
           <summary class="roadmap-summary">Affichage d'informations sur le transport de vélo en fonction du type de train</summary>
           <div class="roadmap-detail">
             <!-- <div class="roadmap-img-placeholder"></div> -->
@@ -307,23 +325,6 @@
           </div>
         </details>
 
-        <details class="roadmap-item">
-          <summary class="roadmap-summary">Affichage des émissions de Gaz à Effet de Serre (GES) évitées</summary>
-          <div class="roadmap-detail">
-            <p>Pour une randovélo d'un point A à un point B d'une route EuroVelo, il est peu probable que les usagers aient
-              pu prendre la voiture à la place du train. Afficher des émissions de GES évitées ne serait donc pas pertinent.
-            </p>
-            <p>Par contre, l'outil pourrait permettre à terme de planifier des itinéraires qui forment une boucle à vélo. Dans ce cas d'usage, 
-              il devient tout à fait pertinent de comparer le train à la voiture et d'estimer des émissions de GES évitées grâce au train. En effet, le ou la cycliste aurait très 
-              bien pu prendre la voiture au lieu du train pour le trajet aller, puis faire une boucle à vélo pour regagner sa voiture et effectuer le trajet retour. 
-            </p>
-            <p>Dans une certaine mesure, il est aussi possible de comparer une randovélo de 2 jours ou plus à des vacances en avion. En choisissant des
-              vacances bas-carbone, l'utilisateur.ice évite des émissions de GES par rapport à un voyage plus "classique". Un message de ce type peut être envisagé : "Si vous étiez
-              parti à Madrid en avion au lieu de cette randovélo, vous auriez émis X tonnes de CO2 en plus, soit X % de l'empreinte carbone moyenne d'un.e Français.e !" 
-            </p>
-            <p>Les facteurs d'émission pour estimer les réductions d'émissions seront récupérés de la Base Empreinte de l'Ademe, ou de données plus précises si disponible.</p>
-          </div>
-        </details>
 
         <details class="roadmap-item">
           <summary class="roadmap-summary">Fonctionnalités collaboratives</summary>
@@ -338,14 +339,18 @@
           <summary class="roadmap-summary">Bugs connus</summary>
           <div class="roadmap-detail">
             <!-- <div class="roadmap-img-placeholder"></div> -->
-            <p>Beaucoup d'hébergements affichés n'ont pas de coordonnées de contact. L'exploitation des données de DATATourisme pourra y remédier.  
+            <p>Beaucoup d'hébergements affichés n'ont pas de coordonnées de contact. L'exploitation des données de DATAtourisme pourra y remédier.  
+            </p>
+            <p>L'affichage des hébergements peut provoquer des ralentissements lors du déplacement de la carte. Une optimisation est nécessaire.
             </p>
             <p>Certains horaires de train identifiés par l'outil ne sont pas valides. La communication avec l'API de Transitous nécessite d'être améliorée.
             </p>
             <p>En sélectionnant une randovélo de 1 jour, le train retour identifié peut partir bien avant que le ou la cycliste n'ait le temps d'arriver à la station.
             </p>
             <p>Les segments proposés des routes EuroVelo partent toujours de la même gare SNCF. Il serait plus intéressant de proposer des segments différents en fonction
-              de la proximité géographique du point de départ.
+              de la proximité géographique du point de départ et / ou de l'intérêt touristique des segments.
+            </p>
+            <p>Certains hébergements sont indiqués en doublon sur la carte, car issus à la fois de la base OpenStreetMap et DATAtourisme (label Accueil Vélo).
             </p>
           </div>
         </details>
