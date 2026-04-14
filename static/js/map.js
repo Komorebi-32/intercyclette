@@ -358,6 +358,22 @@
   }
 
   /**
+   * Build a custom Leaflet icon for a station marker with an emoji.
+   *
+   * @param {string} emoji - The emoji to display.
+   * @param {number} size - Font size in pixels.
+   * @returns {L.DivIcon}
+   */
+  function buildEmojiStationIcon(emoji, size = 24) {
+    return L.divIcon({
+      className: "",
+      html: `<div class="station-emoji-marker" style="font-size:${size}px">${emoji}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
+  }
+
+  /**
    * Build a custom Leaflet icon for a station marker.
    *
    * @param {string} color - CSS colour string for the marker background.
@@ -441,7 +457,7 @@
     const dep = itinerary.departure_station;
     if (dep && dep.lat && dep.lon) {
       const marker = L.marker([dep.lat, dep.lon], {
-        icon: buildStationIcon("#2980b9"),
+        icon: buildEmojiStationIcon("🚴", 32),
         title: dep.nom,
       }).bindPopup(`<b>Arrivée train aller</b><br>${dep.nom}`);
       itineraryLayer.addLayer(marker);
@@ -451,7 +467,7 @@
     const arr = itinerary.arrival_station;
     if (arr && arr.lat && arr.lon) {
       const marker = L.marker([arr.lat, arr.lon], {
-        icon: buildStationIcon("#e74c3c"),
+        icon: buildEmojiStationIcon("🏁", 28),
         title: arr.nom,
       }).bindPopup(`<b>Départ train retour</b><br>${arr.nom}`);
       itineraryLayer.addLayer(marker);

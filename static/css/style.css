@@ -348,6 +348,17 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 
 /* ── Station markers on map ──────────────────────────────────────────────── */
+.station-emoji-marker {
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+
 .station-marker {
   width: 14px;
   height: 14px;
