@@ -11,6 +11,7 @@ Planifiez des séjours à vélo le long des routes Eurovelo en combinant les tra
 ## Fonctionnalités
 
 - **Recherche d'itinéraires randovélo + train** : indiquez votre ville de départ, la durée de votre séjour, votre rythme de pédalage et les routes Eurovelo souhaitées. L'outil identifie les gares SNCF proches des routes et recherche les trains aller-retour via l'API Transitous (avec correspondances).
+- **Bilan carbone** : chaque itinéraire détaillé affiche l'empreinte carbone des trajets en train (facteurs ADEME Base Empreinte 2023) et les émissions évitées par rapport à un vol aller-retour Paris–Madrid.
 - **Hébergements sur la carte** : les hébergements situés à moins de 5 km des routes Eurovelo sont affichés sur la carte (OpenStreetMap et label Accueil Vélo), avec coordonnées de contact au survol.
 - **Restaurants labellisés Accueil Vélo** : les restaurants labellisés Accueil Vélo à moins de 5 km des routes sont également affichables sur la carte.
 
@@ -28,7 +29,7 @@ Site statique (GitHub Pages / http.server)
   static/data/accueil_velo_housing.json     ← hébergements Accueil Vélo ≤ 5 km
   static/data/accueil_velo_restaurants.json ← restaurants Accueil Vélo ≤ 5 km
   static/js/{map,planner,transitous,
-    results,search}.js
+    co2,results,search}.js
   static/css/style.css
 ```
 
@@ -51,7 +52,8 @@ L'application :
 1. Identifie les gares SNCF proches de chaque route Eurovelo sélectionnée
 2. Cherche les trains aller et retour via l'API Transitous (avec correspondances)
 3. Calcule la distance vélo réalisable selon le rythme
-4. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap
+4. Calcule l'empreinte carbone des trajets en train et les émissions évitées vs. vol Madrid A/R
+5. Affiche les itinéraires sous forme de cartes et sur une carte Leaflet/OpenStreetMap
    avec les 9 routes Eurovelo colorées en permanence
 
 ---
@@ -174,6 +176,7 @@ intercyclette/
 │       ├── map.js                     Carte Leaflet, overlays colorés, points hébergement
 │       ├── planner.js                 Port JS du planificateur Python
 │       ├── transitous.js              Client API Transitous (horaires en temps réel)
+│       ├── co2.js                     Calcul d'empreinte carbone et émissions évitées
 │       ├── results.js                 Rendu des cartes itinéraires
 │       └── search.js                  Formulaire, autocomplétion, date FR, aide, orchestration
 ├── templates/
@@ -258,6 +261,12 @@ accueil-velo.csv  +  Eurovelo_France_gpx/*.gpx
    → meilleurs itinéraires (avec correspondances)
         │
         ▼
+[co2.js — calcul pur JS, sans réseau]
+   computeJourneyCo2(journey)  →  Σ (facteur_train × distance_km) par segment
+   computeAvoidedCo2(outboundCo2, returnCo2)  →  388 kg CO2e − total train
+   Facteurs ADEME 2023 : TGV 1,73 g/km · Intercités 5,14 g/km · TER 24,4 g/km
+        │
+        ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
    9 overlays colorés permanents (un par route Eurovelo)
    Points hébergements OSM bleus pâles (housing.json)
@@ -303,7 +312,6 @@ Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour les détails.
 
 ## Développements futurs envisagés
 
-- **Affichage des émissions de GES évitées** : estimation des émissions de gaz à effet de serre évitées, notamment pertinent pour les itinéraires en boucle à vélo ou en comparaison avec un voyage en avion. Les facteurs d'émission seront issus de la Base Empreinte de l'Ademe.
 - **Diversification de la recherche d'itinéraire** : nouvelle option permettant de sélectionner une ville de départ et une ville d'arrivée, l'outil identifiant la route Eurovelo la plus adaptée et calculant la durée du séjour en résultat.
 - **Informations sur le transport de vélo** : affichage du type de train (TER, Intercités, Ouigo Train Classique), du coût et des modalités de réservation pour le transport du vélo. Priorisation des trains les plus adaptés aux vélos.
 - **Intégration des hébergements dans les itinéraires** : pour les séjours de 2 jours ou plus, proposition directe d'hébergements à moins de 5 km de la route, adaptée au rythme du cycliste et aux km parcourus par jour.

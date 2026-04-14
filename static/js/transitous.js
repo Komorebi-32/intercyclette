@@ -77,6 +77,126 @@
     });
   }
 
+  /**
+   * Classify a Transitous leg into a train type string recognised by co2.js.
+   *
+   * Uses `leg.mode` as the primary classifier. Mode values observed in
+   * Transitous API responses: "HIGHSPEED_RAIL" (TGV), "LONG_DISTANCE_RAIL"
+   * (Intercités), "REGIONAL_RAIL" (TER). Falls back to "TER" (most emissive,
+   * conservative) for any unrecognised mode.
+   *
+   * @param {Object} leg - A single transit leg from the Transitous API.
+   * @returns {"TGV"|"TER"|"INTERCITES"} Train type identifier.
+   */
+  function _classifyTrainType(leg) {
+    const mode = leg.mode || "";
+    if (mode === "HIGHSPEED_RAIL")    return "TGV";
+    if (mode === "LONG_DISTANCE_RAIL") return "INTERCITES";
+    if (mode === "REGIONAL_RAIL")      return "TER";
+    return "TER";
+  }
+
+  /**
+   * Compute the great-circle distance in km between two WGS84 coordinates
+   * using the Haversine formula.
+   *
+   * @param {number} lat1 - Latitude of first point in decimal degrees.
+   * @param {number} lon1 - Longitude of first point in decimal degrees.
+   * @param {number} lat2 - Latitude of second point in decimal degrees.
+   * @param {number} lon2 - Longitude of second point in decimal degrees.
+   * @returns {number} Distance in kilometres.
+   */
+  function _haversineKm(lat1, lon1, lat2, lon2) {
+    const R    = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a    = Math.sin(dLat / 2) ** 2
+               + Math.cos(lat1 * Math.PI / 180)
+               * Math.cos(lat2 * Math.PI / 180)
+               * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /**
+   * Decode a Google Polyline-encoded string into an array of [lat, lon] pairs.
+   *
+   * Supports configurable precision (the Transitous API uses precision 6,
+   * i.e. a scale factor of 1e-6, unlike the standard Google precision of 5).
+   *
+   * @param {string} encoded - Encoded polyline string.
+   * @param {number} [precision=6] - Number of decimal digits (precision factor
+   *   = 10^precision).
+   * @returns {Array<[number, number]>} Array of [latitude, longitude] pairs.
+   */
+  function _decodePolyline(encoded, precision) {
+    const factor = Math.pow(10, precision !== undefined ? precision : 6);
+    const points = [];
+    let index = 0;
+    let lat   = 0;
+    let lon   = 0;
+
+    while (index < encoded.length) {
+      let shift  = 0;
+      let result = 0;
+      let byte;
+      do {
+        byte    = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift  += 5;
+      } while (byte >= 0x20);
+      lat += (result & 1) ? ~(result >> 1) : result >> 1;
+
+      shift  = 0;
+      result = 0;
+      do {
+        byte    = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift  += 5;
+      } while (byte >= 0x20);
+      lon += (result & 1) ? ~(result >> 1) : result >> 1;
+
+      points.push([lat / factor, lon / factor]);
+    }
+
+    return points;
+  }
+
+  /**
+   * Compute the total length of an encoded polyline in kilometres by summing
+   * Haversine distances between consecutive decoded points.
+   *
+   * @param {string} encoded - Google Polyline-encoded string.
+   * @param {number} precision - Precision passed to _decodePolyline().
+   * @returns {number} Total length in km (0 if fewer than 2 points).
+   */
+  function _polylineDistanceKm(encoded, precision) {
+    const points = _decodePolyline(encoded, precision);
+    let total = 0;
+    for (let i = 1; i < points.length; i++) {
+      total += _haversineKm(points[i - 1][0], points[i - 1][1],
+                            points[i][0],     points[i][1]);
+    }
+    return total;
+  }
+
+  /**
+   * Compute the leg distance in kilometres from the Transitous leg geometry.
+   *
+   * Transit legs in the Transitous API have `distance: 0` at the top level;
+   * the actual route length is encoded in `leg.legGeometry.points` as a
+   * Google Polyline (precision 6). Returns null if geometry is absent or
+   * decodes to a zero-length path.
+   *
+   * @param {Object} leg - A single transit leg from the Transitous API.
+   * @returns {number|null} Distance in km, or null if unavailable.
+   */
+  function _legDistanceKm(leg) {
+    const geom = leg.legGeometry;
+    if (!geom || !geom.points) return null;
+    const km = _polylineDistanceKm(geom.points, geom.precision);
+    return km > 0 ? km : null;
+  }
+
   // ── API query ───────────────────────────────────────────────────────────────
 
   /**
@@ -170,6 +290,8 @@
       const legArrMs  = new Date(leg.to.arrival).getTime();
       return {
         mode:         leg.mode,
+        train_type:   _classifyTrainType(leg),
+        distance_km:  _legDistanceKm(leg),
         from:         leg.from.name,
         to:           leg.to.name,
         duration_min: Math.round((legArrMs - legDepMs) / 60000),

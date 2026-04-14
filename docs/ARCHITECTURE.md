@@ -16,6 +16,7 @@ public routing API. No proxy server and no API token are required.
 │    map.js          Leaflet map, colored route overlays              │
 │    planner.js      JS port of Python itinerary planner              │
 │    transitous.js   Transitous API client (live train schedules)     │
+│    co2.js          Carbon footprint computation and avoided CO2     │
 │    results.js      Render itinerary cards                           │
 │    search.js       Form, autocomplete, orchestrates search          │
 │  static/data/                                                       │
@@ -63,13 +64,18 @@ planner.js.findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythm)
   ▼
 transitous.js.buildJourneyResult(itinerary)
   │  strips WALK legs; reads station names from first/last transit leg;
-  │  converts UTC timestamps to browser-local ISO strings
+  │  converts UTC timestamps to browser-local ISO strings;
+  │  classifies train type (HIGHSPEED_RAIL→TGV, LONG_DISTANCE_RAIL→INTERCITES,
+  │  REGIONAL_RAIL→TER) and computes segment distance from legGeometry polyline
   │
   ▼
 search.js.buildItineraryCard(candidate, outboundJourney, returnJourney)
   │
   ▼
 results.js.renderResults(itineraries, container)
+  │  buildDetailHtml() calls co2.js.buildCarbonInfoHtml(outbound, return_train)
+  │    → computeJourneyCo2: Σ (emission_factor[train_type] × distance_km)
+  │    → computeAvoidedCo2: 388 kg CO2e (Madrid flight A/R) − total train CO2
   │
   └─ click card → map.js.showItineraryOnMap(itinerary)
 ```
@@ -127,15 +133,43 @@ may differ from the user's selected city), converts UTC timestamps to
 browser-local ISO strings (for correct French time display), and returns the
 shape expected by `buildItineraryCard()` in `search.js`.
 
+Each section in the returned `sections` array includes:
+- `train_type` — classified from `leg.mode`: `"TGV"` (HIGHSPEED_RAIL), `"INTERCITES"` (LONG_DISTANCE_RAIL), `"TER"` (REGIONAL_RAIL or unknown)
+- `distance_km` — decoded from `leg.legGeometry.points` (Google Polyline, precision 6) via haversine sum; `null` if geometry is absent
+
 The browser sends a `Referer` header automatically on every cross-origin
 request, satisfying the Transitous attribution requirement.
 
 Public API: `window.InterTimetable = { queryJourney, buildJourneyResult, formatDurationMinutes, minutesToTime }`
 
+### `static/js/co2.js`
+
+Pure JS (no network). Computes the carbon footprint of train journeys and
+the avoided CO2 vs. a reference Madrid round-trip flight.
+
+Emission factors (ADEME Base Empreinte 2023, kg CO2e per passenger-km):
+
+| Train type | Factor |
+|---|---|
+| TGV | 0.00173 kg CO2e/km |
+| Intercités | 0.00514 kg CO2e/km |
+| TER | 0.02440 kg CO2e/km |
+
+Reference: Paris–Madrid round-trip flight = 388 kg CO2e (194 kg × 2).
+
+Key functions:
+- `computeSectionCo2(section)` — `emission_factor[train_type] × distance_km`; returns `null` if distance unknown
+- `computeJourneyCo2(journey)` — sums section CO2 values
+- `computeAvoidedCo2(outboundCo2Kg, returnCo2Kg)` — `388 − (outbound + return)`
+- `buildCarbonInfoHtml(outboundJourney, returnJourney)` — returns the "Info Carbone 🌎" HTML block
+
+Public API: `window.InterCo2`
+
 ### `static/js/results.js`
 
 Renders itinerary cards (expandable). Each card carries a `data-route` attribute
-on the route badge so CSS can apply the correct color.
+on the route badge so CSS can apply the correct color. The expanded detail
+includes an "Info Carbone 🌎" section built by `window.InterCo2.buildCarbonInfoHtml()`.
 
 Public API: `window.InterResults`
 
@@ -198,7 +232,10 @@ from the Transitous API.
           "mode": "REGIONAL_RAIL",
           "from": { "name": "Paris Austerlitz", "departure": "2026-05-02T06:22:00Z" },
           "to":   { "name": "Orléans", "arrival": "2026-05-02T07:26:00Z" },
-          "duration": 3840
+          "duration": 3840,
+          "distance": 0,
+          "routeLongName": "Paris - Orléans",
+          "legGeometry": { "points": "<encoded polyline>", "precision": 6, "length": 42 }
         }
       ]
     }
@@ -210,3 +247,6 @@ from the Transitous API.
   browser timezone before storing in the journey result.
 - Walking legs (`mode: "WALK"`) are stripped by `buildJourneyResult()`.
 - `transitModes=RAIL` is sent in the request to restrict results to rail services.
+- `leg.distance` is always `0` for transit legs; actual rail distance is decoded
+  from `leg.legGeometry.points` (Google Polyline Encoding, precision 6).
+- Observed `leg.mode` values: `WALK`, `REGIONAL_RAIL`, `HIGHSPEED_RAIL`, `SUBWAY`.

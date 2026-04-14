@@ -134,6 +134,9 @@
         <div class="detail-section">
           ${returnDetail}
         </div>
+        <div class="detail-section">
+          ${window.InterCo2.buildCarbonInfoHtml(itinerary.outbound, itinerary.return_train)}
+        </div>
       </div>
     `;
   }
