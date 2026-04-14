@@ -606,6 +606,20 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 .roadmap-detail p { margin-bottom: 16px; font-size: 14px; color: var(--grey-text); }
 .roadmap-detail p:last-child { margin-bottom: 0; }
 
+.impact-co2-wrapper {
+  max-width: 1000px;
+  margin: 0 auto 16px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  max-height: 907px; /* Force container height to match scaled iframe height */
+}
+.impact-co2-wrapper iframe {
+  width: 100% !important;
+  transform: scale(0.8);
+  transform-origin: top center;
+}
+
 /* Credits modal — auto height */
 .credits-modal-box {
   width: 50vw;

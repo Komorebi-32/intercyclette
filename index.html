@@ -267,14 +267,20 @@
 
         <details class="roadmap-item">
           <summary class="roadmap-summary">Affichage des émissions de Gaz à Effet de Serre (GES) évitées</summary>
+
           <div class="roadmap-detail">
             <p>Pour une randovélo d'un point A à un point B d'une route EuroVelo, il est peu probable que les usagers aient
               pu prendre la voiture à la place du train. Afficher des émissions de GES évitées ne serait donc pas pertinent.
             </p>
-            <p>Par contre, l'outil pourrait permettre à terme de planifier des itinéraires qui forment une boucle à vélo. Dans ce cas d'usage, 
+            <p><b>Par contre, l'outil pourrait permettre à terme de planifier des itinéraires qui forment une boucle à vélo.</b> Dans ce cas d'usage, 
               il devient tout à fait pertinent de comparer le train à la voiture et d'estimer des émissions de GES évitées grâce au train. En effet, le ou la cycliste aurait très 
-              bien pu prendre la voiture au lieu du train pour le trajet aller, puis faire une boucle à vélo pour regagner sa voiture et effectuer le trajet retour. 
+              bien pu prendre la voiture au lieu du train pour le trajet aller, puis faire une boucle à vélo pour regagner sa voiture et effectuer le trajet retour.
+              L'affichage des émissions évitées peut être réalisé grâce à 
+              <a href="https://impactco2.fr" target="_blank" rel="noopener">impactco2.fr</a> qui propose des iframes personnalisables, comme celui ci-dessous.
             </p>
+            <div class="impact-co2-wrapper">
+              <script data-name="impact-co2" src="https://impactco2.fr/iframe.js" data-type="transport/itineraire" data-search="?theme=default&language=fr&km=10&itineraireStart=Gare de Lyon Place Louis Armand Paris 75012 France&itineraireEnd=Morlaix 29600 France&defaultMode=comparison&comparison=voiturethermique,ter&modes=avion,tgv,intercites,voiturethermique+1,voiturethermique,voitureelectrique,ter,voitureelectrique+1&roundTrip=true"></script>
+            </div>
             <p>Dans une certaine mesure, il est aussi possible de comparer une randovélo de 2 jours ou plus à des vacances en avion. En choisissant des
               vacances bas-carbone, l'utilisateur.ice évite des émissions de GES par rapport à un voyage plus "classique". Un message de ce type peut être envisagé : "Si vous étiez
               parti à Madrid en avion au lieu de cette randovélo, vous auriez émis X tonnes de CO2 en plus, soit X % de l'empreinte carbone moyenne d'un.e Français.e !" 
