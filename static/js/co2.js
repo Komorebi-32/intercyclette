@@ -155,7 +155,8 @@
     }
 
     const avoidedText = avoided >= 0
-      ? `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> de plus !`
+      ? `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> en plus !
+      <p><i>Hypothèse : Paris Madrid en avion. Dans une version ultérieure de l'outil, cette comparaison sera personnalisée en fonction de votre ville de départ.</i></p>`
       : `Note : ces trajets en train émettent <strong>${formatCo2Kg(-avoided)}</strong> de plus que le vol Madrid aller-retour.`;
 
     return `
