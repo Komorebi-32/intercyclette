@@ -98,6 +98,12 @@
     autocompleteList.hidden = true;
     if (window.InterMap && station.lat && station.lon) {
       window.InterMap.centerOn(station.lat, station.lon, 10);
+      window.InterMap.setDepartureMarker(
+        station.lat,
+        station.lon,
+        station.nom,
+        `<b>Ville de départ</b><br>${station.nom}`
+      );
     }
   }
 

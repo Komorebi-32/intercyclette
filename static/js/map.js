@@ -24,6 +24,9 @@
   /** @type {L.LayerGroup} Holds itinerary-specific layers (cleared on each select). */
   let itineraryLayer = null;
 
+  /** @type {L.LayerGroup} Holds the departure city marker (home emoji). */
+  let departureLayer = null;
+
   /** @type {L.LayerGroup} Holds all housing circle markers (toggled by checkbox). */
   let housingLayer = null;
 
@@ -238,6 +241,7 @@
     }).addTo(map);
 
     itineraryLayer = L.layerGroup().addTo(map);
+    departureLayer = L.layerGroup().addTo(map);
     return map;
   }
 
@@ -457,8 +461,8 @@
     const dep = itinerary.departure_station;
     if (dep && dep.lat && dep.lon) {
       const marker = L.marker([dep.lat, dep.lon], {
-        icon: buildEmojiStationIcon("🚴", 32),
-        title: dep.nom,
+        icon: buildEmojiStationIcon("🚴", 23),
+        title: "Départ vélo : " + dep.nom,
       }).bindPopup(`<b>Arrivée train aller</b><br>${dep.nom}`);
       itineraryLayer.addLayer(marker);
       bounds.push([dep.lat, dep.lon]);
@@ -467,8 +471,8 @@
     const arr = itinerary.arrival_station;
     if (arr && arr.lat && arr.lon) {
       const marker = L.marker([arr.lat, arr.lon], {
-        icon: buildEmojiStationIcon("🏁", 28),
-        title: arr.nom,
+        icon: buildEmojiStationIcon("🏁", 23),
+        title: "Arrivée vélo : " + arr.nom,
       }).bindPopup(`<b>Départ train retour</b><br>${arr.nom}`);
       itineraryLayer.addLayer(marker);
       bounds.push([arr.lat, arr.lon]);
@@ -488,6 +492,43 @@
    */
   function centerOn(lat, lon, zoom) {
     if (map) map.setView([lat, lon], zoom, { animate: true });
+  }
+
+  /**
+   * Add a single marker to the itinerary layer.
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @param {string} emoji
+   * @param {number} size
+   * @param {string} title
+   * @param {string} popupContent
+   */
+  function addMarker(lat, lon, emoji, size, title, popupContent) {
+    if (!itineraryLayer) return;
+    const marker = L.marker([lat, lon], {
+      icon: buildEmojiStationIcon(emoji, size),
+      title: title,
+    }).bindPopup(popupContent);
+    itineraryLayer.addLayer(marker);
+  }
+
+  /**
+   * Set or update the persistent departure city marker (home emoji).
+   *
+   * @param {number} lat
+   * @param {number} lon
+   * @param {string} title
+   * @param {string} popupContent
+   */
+  function setDepartureMarker(lat, lon, title, popupContent) {
+    if (!departureLayer) return;
+    departureLayer.clearLayers();
+    const marker = L.marker([lat, lon], {
+      icon: buildEmojiStationIcon("🏠", 23),
+      title: "Ville de départ : " + title,
+    }).bindPopup(popupContent);
+    departureLayer.addLayer(marker);
   }
 
   // ── Housing points ─────────────────────────────────────────────────────────
@@ -548,7 +589,6 @@
         points.forEach(function (p) {
           const marker = L.marker([p.lat, p.lon], {
             icon: buildDotIcon("housing-dot housing-dot--osm"),
-            title: p.name || "",
           });
 
           const panelHtml = buildHousingPanelHtml(p);
@@ -633,7 +673,6 @@
         points.forEach(function (p) {
           const marker = L.marker([p.lat, p.lon], {
             icon: buildDotIcon("housing-dot housing-dot--av"),
-            title: p.name || "",
           });
 
           const panelHtml = buildAccueilVeloHousingPanelHtml(p);
@@ -774,5 +813,8 @@
     loadAccueilVeloRestaurants,
     toggleAccueilVeloHousing,
     toggleAccueilVeloRestaurants,
+    buildEmojiStationIcon,
+    addMarker,
+    setDepartureMarker,
   };
 })();
