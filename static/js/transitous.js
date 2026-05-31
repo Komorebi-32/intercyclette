@@ -207,22 +207,47 @@
    * @returns {Array<[number, number]>|null} Array of [lat, lon] points.
    */
   function _legGeometry(leg) {
+    return _decodeLegGeometry(leg) || _fallbackLegGeometry(leg);
+  }
+
+  /**
+   * Decode the polyline geometry for a leg, if present.
+   *
+   * @param {Object} leg - A single transit leg from the Transitous API.
+   * @returns {Array<[number, number]>|null} Decoded polyline points.
+   */
+  function _decodeLegGeometry(leg) {
     const geom = leg.legGeometry;
-    if (geom && geom.points) {
-      const decoded = _decodePolyline(geom.points, geom.precision);
-      if (decoded.length > 1) return decoded;
-    }
-    const from = leg.from || {};
-    const to = leg.to || {};
-    const fromLat = from.lat !== undefined ? from.lat : from.latitude;
-    const fromLon = from.lon !== undefined ? from.lon : from.longitude;
-    const toLat = to.lat !== undefined ? to.lat : to.latitude;
-    const toLon = to.lon !== undefined ? to.lon : to.longitude;
-    if (typeof fromLat === "number" && typeof fromLon === "number" &&
-        typeof toLat === "number" && typeof toLon === "number") {
-      return [[fromLat, fromLon], [toLat, toLon]];
-    }
+    if (!geom || !geom.points) return null;
+    const decoded = _decodePolyline(geom.points, geom.precision);
+    return decoded.length > 1 ? decoded : null;
+  }
+
+  /**
+   * Build a straight-line fallback geometry from leg endpoints.
+   *
+   * @param {Object} leg - A single transit leg from the Transitous API.
+   * @returns {Array<[number, number]>|null} Two-point line, or null if missing.
+   */
+  function _fallbackLegGeometry(leg) {
+    const from = _extractPointLatLon(leg.from);
+    const to = _extractPointLatLon(leg.to);
+    if (from && to) return [from, to];
     return null;
+  }
+
+  /**
+   * Normalize a point object into [lat, lon] coordinates.
+   *
+   * @param {Object|undefined} point - Transitous point object.
+   * @returns {Array<[number, number]>|null} Lat/lon pair or null when invalid.
+   */
+  function _extractPointLatLon(point) {
+    if (!point) return null;
+    const lat = point.lat !== undefined ? point.lat : point.latitude;
+    const lon = point.lon !== undefined ? point.lon : point.longitude;
+    if (typeof lat !== "number" || typeof lon !== "number") return null;
+    return [lat, lon];
   }
 
   // ── API query ───────────────────────────────────────────────────────────────

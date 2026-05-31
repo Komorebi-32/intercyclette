@@ -479,6 +479,28 @@
    * @param {Object} itinerary.departure_station - {nom, lat, lon}.
    * @param {Object} itinerary.arrival_station - {nom, lat, lon}.
    */
+  /**
+   * Render train segments for a journey onto the itinerary layer.
+   *
+   * @param {Object|null} journey - Journey object with a `sections` array.
+   * @param {Array<[number, number]>} bounds - Bounds accumulator for fitBounds.
+   */
+  function renderTrainSegments(journey, bounds) {
+    if (!journey || !journey.sections) return;
+    journey.sections.forEach(function (section) {
+      const geometry = section.geometry;
+      if (!geometry || geometry.length < 2) return;
+      const polyline = L.polyline(geometry, {
+        color: TRAIN_SEGMENT_COLOR,
+        weight: 4,
+        opacity: 0.85,
+        dashArray: "6 6",
+      });
+      itineraryLayer.addLayer(polyline);
+      bounds.push(...geometry);
+    });
+  }
+
   function showItineraryOnMap(itinerary) {
     clearMap();
     setRoutesHidden(true);
@@ -486,24 +508,8 @@
     const segmentColor = routeColors[itinerary.route_id] || "#2ecc71";
     const bounds = [];
 
-    function addTrainSegments(journey) {
-      if (!journey || !journey.sections) return;
-      journey.sections.forEach(function (section) {
-        const geometry = section.geometry;
-        if (!geometry || geometry.length < 2) return;
-        const polyline = L.polyline(geometry, {
-          color: TRAIN_SEGMENT_COLOR,
-          weight: 4,
-          opacity: 0.85,
-          dashArray: "6 6",
-        });
-        itineraryLayer.addLayer(polyline);
-        bounds.push(...geometry);
-      });
-    }
-
-    addTrainSegments(itinerary.outbound);
-    addTrainSegments(itinerary.return_train);
+    renderTrainSegments(itinerary.outbound, bounds);
+    renderTrainSegments(itinerary.return_train, bounds);
 
     if (itinerary.geometry && itinerary.geometry.length > 1) {
       const polyline = L.polyline(itinerary.geometry, {
