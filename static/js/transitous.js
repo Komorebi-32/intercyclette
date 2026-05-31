@@ -197,6 +197,34 @@
     return km > 0 ? km : null;
   }
 
+  /**
+   * Extract a decoded geometry for a transit leg.
+   *
+   * Falls back to a straight line between the leg endpoints when the encoded
+   * polyline is missing.
+   *
+   * @param {Object} leg - A single transit leg from the Transitous API.
+   * @returns {Array<[number, number]>|null} Array of [lat, lon] points.
+   */
+  function _legGeometry(leg) {
+    const geom = leg.legGeometry;
+    if (geom && geom.points) {
+      const decoded = _decodePolyline(geom.points, geom.precision);
+      if (decoded.length > 1) return decoded;
+    }
+    const from = leg.from || {};
+    const to = leg.to || {};
+    const fromLat = from.lat !== undefined ? from.lat : from.latitude;
+    const fromLon = from.lon !== undefined ? from.lon : from.longitude;
+    const toLat = to.lat !== undefined ? to.lat : to.latitude;
+    const toLon = to.lon !== undefined ? to.lon : to.longitude;
+    if (typeof fromLat === "number" && typeof fromLon === "number" &&
+        typeof toLat === "number" && typeof toLon === "number") {
+      return [[fromLat, fromLon], [toLat, toLon]];
+    }
+    return null;
+  }
+
   // ── API query ───────────────────────────────────────────────────────────────
 
   /**
@@ -295,6 +323,7 @@
         from:         leg.from.name,
         to:           leg.to.name,
         duration_min: Math.round((legArrMs - legDepMs) / 60000),
+        geometry:     _legGeometry(leg),
       };
     });
 

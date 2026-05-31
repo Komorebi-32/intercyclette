@@ -443,6 +443,9 @@
       showStatus("Recherche en cours…", "info");
       searchBtn.disabled = true;
       window.InterMap.clearMap();
+      if (window.InterMap.setRoutesHidden) {
+        window.InterMap.setRoutesHidden(false);
+      }
       resultsContainer.innerHTML = "";
 
       runSearch(params)

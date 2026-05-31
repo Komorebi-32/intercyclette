@@ -196,6 +196,7 @@
         const icon = card.querySelector(".card-expand-icon");
         if (icon) icon.textContent = "▼";
         window.InterMap.clearMap();
+        window.InterMap.setRoutesHidden(false);
       } else {
         card.classList.add("expanded");
         const detailEl = document.createElement("div");
