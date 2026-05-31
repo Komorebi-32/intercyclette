@@ -562,6 +562,48 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .overlay-modal-content a { color: var(--blue); }
 .overlay-modal-content a:hover { text-decoration: underline; }
 
+/* Welcome modal on site opening */
+.welcome-modal-box {
+  width: min(680px, 92vw);
+  max-height: 90vh;
+}
+.welcome-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.welcome-modal-content .panel-intro {
+  margin: 0;
+  font-weight: 500;
+}
+.welcome-modal-content .how-it-works {
+  margin: 0;
+  padding-left: 0;
+  list-style-position: inside;
+}
+.welcome-modal-content .benefit-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.welcome-modal-content .benefit-pills span {
+  background: #eaf7f0;
+  color: var(--green-dark);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.welcome-modal-box .btn-search {
+  width: auto;
+  min-width: 180px;
+  margin: 0 auto 20px;
+  padding-inline: 24px;
+}
+
 /* Roadmap modal — wide */
 .roadmap-modal-box {
   width: 80vw;

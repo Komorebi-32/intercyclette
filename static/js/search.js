@@ -39,6 +39,8 @@
   const btnHelp           = document.getElementById("btn-help");
   const helpModal         = document.getElementById("help-modal");
   const helpModalClose    = document.getElementById("help-modal-close");
+  const welcomeModal      = document.getElementById("welcome-modal");
+  const welcomeModalClose = document.getElementById("welcome-modal-close");
 
   // ── Autocomplete ──────────────────────────────────────────────────────────
 
@@ -575,9 +577,31 @@
     });
   }
 
+  /**
+   * Show welcome modal on page opening and wire close interactions.
+   */
+  function initWelcomeModal() {
+    if (!welcomeModal) return;
+
+    welcomeModal.hidden = false;
+    if (welcomeModalClose) {
+      welcomeModalClose.addEventListener("click", function () {
+        welcomeModal.hidden = true;
+      });
+    }
+
+    welcomeModal.addEventListener("click", function (e) {
+      if (e.target === welcomeModal) welcomeModal.hidden = true;
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !welcomeModal.hidden) welcomeModal.hidden = true;
+    });
+  }
+
   // ── Initialisation ─────────────────────────────────────────────────────────
 
   initFrenchDateInput();
+  initWelcomeModal();
   initHelpModal();
   initOverlayModal("btn-roadmap", "roadmap-modal", "roadmap-modal-close");
   initOverlayModal("btn-credits", "credits-modal", "credits-modal-close");
