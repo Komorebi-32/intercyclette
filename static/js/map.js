@@ -40,8 +40,8 @@
    */
   const routeColors = {};
 
-  /** Neutral color used for train segments. */
-  const TRAIN_SEGMENT_COLOR = "#6b7280";
+  /** Shades used for each train correspondence segment. */
+  const TRAIN_SEGMENT_COLORS = ["#6b7280", "#9ca3af", "#4b5563", "#94a3b8", "#a1a1aa"];
 
   /**
    * Persistent route overlay layers, keyed by route_id.
@@ -463,6 +463,79 @@
     });
   }
 
+  /**
+   * Build a small triangular arrow icon with the given rotation.
+   *
+   * @param {string} color - Fill color for the triangle.
+   * @param {number} rotationDeg - Rotation in degrees.
+   * @param {number} size - Pixel size of the icon.
+   * @returns {L.DivIcon}
+   */
+  function buildTriangleArrowIcon(color, rotationDeg, size) {
+    const half = size / 2;
+    const svg = `
+      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"
+           style="transform: rotate(${rotationDeg}deg); transform-origin: ${half}px ${half}px;">
+        <polygon points="0,0 ${size},${half} 0,${size}" fill="${color}" />
+      </svg>
+    `;
+    return L.divIcon({
+      className: "",
+      html: svg.trim(),
+      iconSize: [size, size],
+      iconAnchor: [half, half],
+    });
+  }
+
+  /**
+   * Add a direction arrow along a geometry line.
+   *
+   * @param {Array<[number, number]>} geometry - Array of [lat, lon] points.
+   * @param {string} color - Arrow color.
+   */
+  function addDirectionArrow(geometry, color) {
+    if (!itineraryLayer || !geometry || geometry.length < 2) return;
+    const midIndex = Math.floor((geometry.length - 1) / 2);
+    const start = geometry[midIndex];
+    const end = geometry[midIndex + 1];
+    if (!start || !end) return;
+    const midPoint = [(start[0] + end[0]) / 2, (start[1] + end[1]) / 2];
+    let rotation = 0;
+    if (map) {
+      const p1 = map.latLngToLayerPoint(start);
+      const p2 = map.latLngToLayerPoint(end);
+      rotation = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    } else {
+      rotation = Math.atan2(end[0] - start[0], end[1] - start[1]) * 180 / Math.PI;
+    }
+    const arrowIcon = buildTriangleArrowIcon(color, rotation, 12);
+    const marker = L.marker(midPoint, { icon: arrowIcon, interactive: false });
+    itineraryLayer.addLayer(marker);
+  }
+
+  /**
+   * Add a white dot marker for train stations (start, transfers, end).
+   *
+   * @param {Array<[number, number]>|null} point - Lat/lon pair.
+   * @param {Array<[number, number]>} bounds - Bounds accumulator.
+   * @param {Set<string>} stationKeys - Set of already-used station keys.
+   */
+  function addTrainStationDot(point, bounds, stationKeys) {
+    if (!itineraryLayer || !point) return;
+    const key = point[0].toFixed(5) + "," + point[1].toFixed(5);
+    if (stationKeys.has(key)) return;
+    stationKeys.add(key);
+    const marker = L.circleMarker(point, {
+      radius: 5,
+      color: "#4b5563",
+      weight: 2,
+      fillColor: "#ffffff",
+      fillOpacity: 1,
+    });
+    itineraryLayer.addLayer(marker);
+    bounds.push(point);
+  }
+
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
@@ -487,17 +560,22 @@
    */
   function renderTrainSegments(journey, bounds) {
     if (!journey || !journey.sections) return;
-    journey.sections.forEach(function (section) {
+    const stationKeys = new Set();
+    journey.sections.forEach(function (section, index) {
       const geometry = section.geometry;
       if (!geometry || geometry.length < 2) return;
+      const segmentColor = TRAIN_SEGMENT_COLORS[index % TRAIN_SEGMENT_COLORS.length];
       const polyline = L.polyline(geometry, {
-        color: TRAIN_SEGMENT_COLOR,
+        color: segmentColor,
         weight: 4,
         opacity: 0.85,
         dashArray: "6 6",
       });
       itineraryLayer.addLayer(polyline);
       bounds.push(...geometry);
+      addDirectionArrow(geometry, segmentColor);
+      addTrainStationDot(section.from_point, bounds, stationKeys);
+      addTrainStationDot(section.to_point, bounds, stationKeys);
     });
   }
 
@@ -514,11 +592,12 @@
     if (itinerary.geometry && itinerary.geometry.length > 1) {
       const polyline = L.polyline(itinerary.geometry, {
         color: segmentColor,
-        weight: 6,
+        weight: 3,
         opacity: 0.9,
       });
       itineraryLayer.addLayer(polyline);
       bounds.push(...itinerary.geometry);
+      addDirectionArrow(itinerary.geometry, segmentColor);
     }
 
     const dep = itinerary.departure_station;

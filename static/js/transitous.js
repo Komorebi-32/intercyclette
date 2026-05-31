@@ -341,6 +341,8 @@
     const sections = transitLegs.map(function (leg) {
       const legDepMs  = new Date(leg.from.departure).getTime();
       const legArrMs  = new Date(leg.to.arrival).getTime();
+      const fromPoint = _extractPointLatLon(leg.from);
+      const toPoint   = _extractPointLatLon(leg.to);
       return {
         mode:         leg.mode,
         train_type:   _classifyTrainType(leg),
@@ -349,6 +351,8 @@
         to:           leg.to.name,
         duration_min: Math.round((legArrMs - legDepMs) / 60000),
         geometry:     _legGeometry(leg),
+        from_point:   fromPoint,
+        to_point:     toPoint,
       };
     });
 
