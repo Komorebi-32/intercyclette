@@ -579,22 +579,35 @@
 
   /**
    * Show welcome modal on page opening and wire close interactions.
+   *
+   * If the modal is missing, the function exits without side effects.
+   * Event listeners are attached only once even if this function is called
+   * multiple times.
+   *
+   * @returns {void}
    */
   function initWelcomeModal() {
     if (!welcomeModal) return;
 
+    const closeWelcomeModal = function () {
+      welcomeModal.hidden = true;
+    };
+
     welcomeModal.hidden = false;
+    if (welcomeModal.dataset.wired === "true") return;
+    welcomeModal.dataset.wired = "true";
+
     if (welcomeModalClose) {
-      welcomeModalClose.addEventListener("click", function () {
-        welcomeModal.hidden = true;
-      });
+      welcomeModalClose.addEventListener("click", closeWelcomeModal);
     }
 
     welcomeModal.addEventListener("click", function (e) {
-      if (e.target === welcomeModal) welcomeModal.hidden = true;
+      if (e.target === welcomeModal) closeWelcomeModal();
     });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !welcomeModal.hidden) welcomeModal.hidden = true;
+      if (e.key !== "Escape" || welcomeModal.hidden) return;
+      const activeOverlay = document.querySelector(".overlay-modal:not([hidden])");
+      if (activeOverlay === welcomeModal) closeWelcomeModal();
     });
   }
 
