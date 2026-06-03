@@ -16,6 +16,7 @@
   <div class="app-layout">
     <!-- ── Left panel: search form ── -->
     <aside class="panel-left">
+      <div id="search-view">
       <form id="search-form">
 
         <!-- Departure city -->
@@ -99,15 +100,19 @@
 
         <div id="search-status" class="search-status" hidden></div>
       </form>
+      </div>
+      <div id="results-view" style="display: none;">
+        <div class="results-actions" style="display: flex; gap: 10px; margin-bottom: 1rem;">
+          <button type="button" id="btn-new-search" class="btn-secondary" style="flex: 1;">Nouvelle recherche</button>
+          <button type="button" id="btn-edit-search" class="btn-secondary" style="flex: 1;">Modifier la recherche</button>
+        </div>
+        <div id="results-container" class="results-container"></div>
+      </div>
     </aside>
 
     <!-- ── Right panel: results + map ── -->
     <main class="panel-right">
-      <div id="results-container" class="results-container">
-        <div class="results-placeholder">
-          <p>Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.</p>
-        </div>
-      </div>
+
       <div id="map" class="map-container"></div>
     </main>
   </div>
