@@ -230,10 +230,21 @@
       return;
     }
 
+    const search_synthesis = document.createElement("h2");
+    search_synthesis.className = document.createElement("h2");
+    search_synthesis.className = "results-heading";
+    search_synthesis.textContent = `Départ de ${itineraries[0].outbound.from} - ${formatKm(itineraries[0].total_biking_km)} à vélo - ${itineraries[0].n_days} jour${itineraries[0].n_days > 1 ? "s" : ""}`;
+    container.appendChild(search_synthesis);
+
     const heading = document.createElement("h2");
     heading.className = "results-heading";
     heading.textContent = `${itineraries.length} itinéraire${itineraries.length > 1 ? "s" : ""} trouvé${itineraries.length > 1 ? "s" : ""}`;
-    container.appendChild(heading);
+    container.appendChild(heading);    
+    
+    // const km = document.createElement("h2");
+    // km.className = "meta-km";
+    // km.textContent = `${formatKm(itineraries[0].total_biking_km)} à vélo`;
+    // container.appendChild(km);
 
     itineraries.forEach((itinerary, i) => {
       container.appendChild(buildCardElement(itinerary, i));

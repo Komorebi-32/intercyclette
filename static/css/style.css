@@ -474,7 +474,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .route-badge[data-route="VEL"]  { background: var(--route-VEL); }
 .route-badge[data-route="VIA"]  { background: var(--route-VIA); }
 .card-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--grey-text); }
-.meta-km { font-weight: 600; color: var(--green-dark); }
+.meta-km { font-weight: 600; font-size: 13px; color: var(--green-dark); }
 .card-expand-icon { font-size: 10px; }
 
 .card-journeys { padding: 0 12px 10px; display: flex; flex-direction: column; gap: 4px; }
