@@ -89,13 +89,11 @@ results.js.renderResults(itineraries, container)
 Leaflet + OpenStreetMap France tiles (French labels, greyscale CSS filter).
 Manages two layer groups:
 
-- **routeLayers** — colored thin polylines (weight 3), one per route, loaded
-  from `static/data/routes/*.json` at page start. Each polyline shows a floating
-  info panel on hover (photo, description, distance, status, connections, link)
-  that stays open when the mouse moves onto it. When an itinerary card is
-  selected, these overlays are temporarily hidden.
+- **routeLayers** — always-visible colored thin polylines (weight 3), one per
+  route, loaded from `static/data/routes/*.json` at page start. Each polyline
+  shows a floating info panel on hover (photo, description, distance, status,
+  connections, link) that stays open when the mouse moves onto it.
 - **itineraryLayer** — cleared and redrawn on each card click:
-  - train legs (dashed neutral polylines)
   - biked segment in route color (weight 6)
   - blue circle marker at departure station
   - red circle marker at arrival station

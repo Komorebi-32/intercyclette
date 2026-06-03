@@ -11,10 +11,7 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="header-brand">
-      <span class="logo">🚲 Intercyclette</span>
-      <span class="header-tagline">Séjours vélo + train en France</span>
-    </div>
+    <span class="logo">🚲 Intercyclette</span>
     <nav class="header-nav">
       <button class="btn-header-link" id="btn-help" title="Comment utiliser l'outil ?">Aide</button>
       <button class="btn-header-link" id="btn-roadmap">Développements futurs</button>
@@ -66,20 +63,11 @@
   <div class="app-layout">
     <!-- ── Left panel: search form ── -->
     <aside class="panel-left">
-
-      <div class="panel-intro">
-        <p class="panel-intro-text">Planifiez un séjour à vélo le long des grandes routes Eurovelo en France — train aller-retour compris, sans compte, en temps réel.</p>
-      </div>
-
       <form id="search-form">
 
-        <!-- Step 1: Departure city -->
-        <div class="form-step-header">
-          <span class="form-step-num">1</span>
-          <span class="form-step-label">Votre point de départ</span>
-        </div>
+        <!-- Departure city -->
         <div class="form-group">
-          <label for="departure-input">Gare ou ville 🏠</label>
+          <label for="departure-input">Ville de départ 🏠</label>
           <input
             type="text"
             id="departure-input"
@@ -91,15 +79,9 @@
           <ul id="autocomplete-list" class="autocomplete-dropdown" hidden></ul>
         </div>
 
-        <!-- Step 2: Stay details -->
-        <div class="form-step-header">
-          <span class="form-step-num">2</span>
-          <span class="form-step-label">Votre séjour</span>
-        </div>
-
         <!-- Number of days -->
         <div class="form-group">
-          <label for="days-select">Durée <span class="form-label-hint">(transport inclus)</span></label>
+          <label for="days-select">Durée du séjour</label>
           <select id="days-select">
             <option value="1">1 jour</option>
             <option value="2">2 jours</option>
@@ -121,7 +103,7 @@
 
         <!-- Biking rhythm -->
         <div class="form-group">
-          <label>Votre rythme de pédalage</label>
+          <label>Rythme de pédalage</label>
           <div class="rhythm-options">
             <label class="rhythm-label">
               <input type="radio" name="rhythm" value="escargot" />
@@ -147,25 +129,9 @@
           </div>
         </div>
 
-        <!-- Travel date (displayed in French DD/MM/YYYY, stored in ISO YYYY-MM-DD) -->
+        <!-- Eurovelo routes -->
         <div class="form-group">
-          <label for="travel-date-display">Date de départ</label>
-          <input
-            type="text"
-            id="travel-date-display"
-            placeholder="JJ/MM/AAAA"
-            maxlength="10"
-            autocomplete="off"
-          />
-          <input type="hidden" id="travel-date" />
-        </div>
-
-        <!-- Step 3: Eurovelo routes -->
-        <div class="form-step-header">
-          <span class="form-step-num">3</span>
-          <span class="form-step-label">Routes Eurovelo</span>
-        </div>
-        <div class="form-group">
+          <label>Routes Eurovelo</label>
           <div class="route-select-all">
             <label>
               <input type="checkbox" id="select-all-routes" />
@@ -212,69 +178,51 @@
           </div>
         </div>
 
+        <!-- Travel date (displayed in French DD/MM/YYYY, stored in ISO YYYY-MM-DD) -->
+        <div class="form-group">
+          <label for="travel-date-display">Date de départ</label>
+          <input
+            type="text"
+            id="travel-date-display"
+            placeholder="JJ/MM/AAAA"
+            maxlength="10"
+            autocomplete="off"
+          />
+          <input type="hidden" id="travel-date" />
+        </div>
+
         <button type="submit" id="search-btn" class="btn-search">
-          🔍 Rechercher des itinéraires
+          Rechercher des itinéraires
         </button>
 
         <div id="search-status" class="search-status" hidden></div>
       </form>
 
-      <!-- Map options (collapsible) -->
-      <details class="map-options-toggle">
-        <summary class="map-options-summary">🗺️ Options de la carte</summary>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-housing" />
-            Afficher / Masquer les hébergements
-          </label>
-          <div class="housing-legend">
-            <p>🔵 Hébergements répertoriés sur OpenStreetMap</p>
-            <p>🟢 Hébergements labellisés Accueil Vélo</p>
-          </div>
+      <div class="form-group housing-toggle">
+        <label class="route-label">
+          <input type="checkbox" id="toggle-housing" />
+          Afficher / Masquer les hébergements
+        </label>
+        <div class="housing-legend">
+          <p>🔵 Hébergements répertoriés sur OpenStreetMap</p>
+          <p>🟢 Hébergements labellisés Accueil Vélo</p>
         </div>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-restaurants" />
-            😋 Afficher / Masquer les restaurants labellisés Accueil Vélo
-          </label>
-        </div>
-      </details>
+      </div>
+      <div class="form-group housing-toggle">
+        <label class="route-label">
+          <input type="checkbox" id="toggle-restaurants" />
+          😋 Afficher / Masquer les restaurants labellisés Accueil Vélo
+        </label>
+      </div>
     </aside>
 
     <!-- ── Right panel: results + map ── -->
     <main class="panel-right">
       <div id="results-container" class="results-container">
         <div class="results-placeholder">
-          <p class="placeholder-lead">Remplissez le formulaire à gauche et découvrez vos prochains itinéraires vélo.</p>
-          <div class="how-it-works">
-            <div class="hiw-step">
-              <span class="hiw-step-icon">🚉</span>
-              <div class="hiw-step-body">
-                <strong>Train aller-retour</strong>
-                <p>L'outil trouve les meilleurs trains depuis votre ville pour rejoindre et quitter la route Eurovelo.</p>
-              </div>
-            </div>
-            <div class="hiw-step">
-              <span class="hiw-step-icon">🚲</span>
-              <div class="hiw-step-body">
-                <strong>Itinéraire à vélo</strong>
-                <p>Selon votre rythme et votre durée de séjour, il calcule la portion de route réalisable.</p>
-              </div>
-            </div>
-            <div class="hiw-step">
-              <span class="hiw-step-icon">🏕️</span>
-              <div class="hiw-step-body">
-                <strong>Hébergements &amp; carte</strong>
-                <p>Hébergements labellisés Accueil Vélo sur la carte, avec contacts directement accessibles.</p>
-              </div>
-            </div>
-          </div>
-          <div class="benefit-pills">
-            <span class="benefit-pill">✅ Sans compte</span>
-            <span class="benefit-pill">⚡ Temps réel</span>
-            <span class="benefit-pill">🌿 Bilan carbone inclus</span>
-            <span class="benefit-pill">🗺️ 9 routes Eurovelo</span>
-          </div>
+          <p>Trouvez votre randovélo en train. Remplissez le formulaire et lancez une recherche pour découvrir vos itinéraires.
+            <!-- <button class="btn-help" id="btn-help" title="Comment utiliser l'outil ?">?</button> -->
+          </p>
         </div>
       </div>
 
