@@ -3,7 +3,7 @@
  *
  * Manages a single Leaflet map instance.
  *
- * Colored route overlays (one per Eurovelo route) are loaded from
+ * Always-on colored overlays (one per Eurovelo route) are loaded from
  * static/data/routes/*.json at page start. Individual route visibility is
  * toggled by setRouteVisible() when the user ticks/unticks checkboxes.
  *
@@ -40,23 +40,11 @@
    */
   const routeColors = {};
 
-  /** Neutral color used for train segments. */
-  const TRAIN_SEGMENT_COLOR = "#6b7280";
-
   /**
    * Persistent route overlay layers, keyed by route_id.
    * @type {Object.<string, L.Polyline>}
    */
   const routeLayers = {};
-
-  /**
-   * Desired visibility for each route overlay (synced with checkboxes).
-   * @type {Object.<string, boolean>}
-   */
-  const routeVisibility = {};
-
-  /** Whether route overlays are temporarily hidden while a result is selected. */
-  let routesHidden = false;
 
   // ── Floating hover panel ───────────────────────────────────────────────────
 
@@ -306,9 +294,6 @@
       .then(function (data) {
         const color = data.color || "#888";
         routeColors[routeId] = color;
-        if (routeVisibility[routeId] === undefined) {
-          routeVisibility[routeId] = true;
-        }
 
         const panelHtml = buildRoutePanelHtml(routeId, data.name, color);
 
@@ -331,9 +316,7 @@
         });
 
         routeLayers[routeId] = polyline;
-        if (map && !routesHidden && routeVisibility[routeId] !== false) {
-          polyline.addTo(map);
-        }
+        if (map) polyline.addTo(map);
       })
       .catch(function (err) {
         console.warn("Could not load route geometry for " + routeId + ":", err);
@@ -358,32 +341,12 @@
    */
   function setRouteVisible(routeId, visible) {
     const layer = routeLayers[routeId];
-    routeVisibility[routeId] = visible;
     if (!layer || !map) return;
-    if (routesHidden || !visible) {
+    if (visible) {
+      if (!map.hasLayer(layer)) layer.addTo(map);
+    } else {
       if (map.hasLayer(layer)) map.removeLayer(layer);
-      return;
     }
-    if (!map.hasLayer(layer)) layer.addTo(map);
-  }
-
-  /**
-   * Hide or show all route overlays while preserving checkbox visibility state.
-   *
-   * @param {boolean} hidden - True to hide all overlays, false to restore.
-   */
-  function setRoutesHidden(hidden) {
-    routesHidden = hidden;
-    if (!map) return;
-    Object.keys(routeLayers).forEach(function (routeId) {
-      const layer = routeLayers[routeId];
-      const shouldShow = !routesHidden && routeVisibility[routeId] !== false;
-      if (shouldShow) {
-        if (!map.hasLayer(layer)) layer.addTo(map);
-      } else if (map.hasLayer(layer)) {
-        map.removeLayer(layer);
-      }
-    });
   }
 
   // ── Map helpers ─────────────────────────────────────────────────────────────
@@ -466,7 +429,7 @@
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
-   * Draw the train legs, biked segment, and station markers for a selected itinerary.
+   * Draw the biked segment and station markers for a selected itinerary.
    *
    * The segment polyline uses the route's own color at a heavier weight (6) to
    * distinguish it from the always-on thin overlay. Departure and arrival
@@ -479,37 +442,11 @@
    * @param {Object} itinerary.departure_station - {nom, lat, lon}.
    * @param {Object} itinerary.arrival_station - {nom, lat, lon}.
    */
-  /**
-   * Render train segments for a journey onto the itinerary layer.
-   *
-   * @param {Object|null} journey - Journey object with a `sections` array.
-   * @param {Array<[number, number]>} bounds - Bounds accumulator for fitBounds.
-   */
-  function renderTrainSegments(journey, bounds) {
-    if (!journey || !journey.sections) return;
-    journey.sections.forEach(function (section) {
-      const geometry = section.geometry;
-      if (!geometry || geometry.length < 2) return;
-      const polyline = L.polyline(geometry, {
-        color: TRAIN_SEGMENT_COLOR,
-        weight: 4,
-        opacity: 0.85,
-        dashArray: "6 6",
-      });
-      itineraryLayer.addLayer(polyline);
-      bounds.push(...geometry);
-    });
-  }
-
   function showItineraryOnMap(itinerary) {
     clearMap();
-    setRoutesHidden(true);
 
     const segmentColor = routeColors[itinerary.route_id] || "#2ecc71";
     const bounds = [];
-
-    renderTrainSegments(itinerary.outbound, bounds);
-    renderTrainSegments(itinerary.return_train, bounds);
 
     if (itinerary.geometry && itinerary.geometry.length > 1) {
       const polyline = L.polyline(itinerary.geometry, {
@@ -867,7 +804,6 @@
     initMap,
     loadAllRoutes,
     setRouteVisible,
-    setRoutesHidden,
     clearMap,
     showItineraryOnMap,
     centerOn,

@@ -39,6 +39,8 @@
   const btnHelp           = document.getElementById("btn-help");
   const helpModal         = document.getElementById("help-modal");
   const helpModalClose    = document.getElementById("help-modal-close");
+  const welcomeModal      = document.getElementById("welcome-modal");
+  const welcomeModalClose = document.getElementById("welcome-modal-close");
 
   // ── Autocomplete ──────────────────────────────────────────────────────────
 
@@ -443,9 +445,6 @@
       showStatus("Recherche en cours…", "info");
       searchBtn.disabled = true;
       window.InterMap.clearMap();
-      if (window.InterMap.setRoutesHidden) {
-        window.InterMap.setRoutesHidden(false);
-      }
       resultsContainer.innerHTML = "";
 
       runSearch(params)
@@ -578,9 +577,44 @@
     });
   }
 
+  /**
+   * Show welcome modal on page opening and wire close interactions.
+   *
+   * If the modal is missing, the function exits without side effects.
+   * Event listeners are attached only once even if this function is called
+   * multiple times.
+   *
+   * @returns {void}
+   */
+  function initWelcomeModal() {
+    if (!welcomeModal) return;
+
+    const closeWelcomeModal = function () {
+      welcomeModal.hidden = true;
+    };
+
+    welcomeModal.hidden = false;
+    if (welcomeModal.dataset.wired === "true") return;
+    welcomeModal.dataset.wired = "true";
+
+    if (welcomeModalClose) {
+      welcomeModalClose.addEventListener("click", closeWelcomeModal);
+    }
+
+    welcomeModal.addEventListener("click", function (e) {
+      if (e.target === welcomeModal) closeWelcomeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || welcomeModal.hidden) return;
+      const activeOverlay = document.querySelector(".overlay-modal:not([hidden])");
+      if (activeOverlay === welcomeModal) closeWelcomeModal();
+    });
+  }
+
   // ── Initialisation ─────────────────────────────────────────────────────────
 
   initFrenchDateInput();
+  initWelcomeModal();
   initHelpModal();
   initOverlayModal("btn-roadmap", "roadmap-modal", "roadmap-modal-close");
   initOverlayModal("btn-credits", "credits-modal", "credits-modal-close");
