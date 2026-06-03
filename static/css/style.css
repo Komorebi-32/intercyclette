@@ -404,13 +404,13 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 .hiw-step-body strong {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 4px;
 }
 .hiw-step-body p {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--grey-text);
   line-height: 1.5;
   margin: 0;
@@ -420,7 +420,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .benefit-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 10px;
 }
 .benefit-pill {
   display: inline-block;
@@ -428,7 +428,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   background: #eaf7f0;
   border: 1px solid #c3e6d4;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #1a5c38;
 }
@@ -724,8 +724,29 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   width: min(50vw, 760px);
   max-height: 88vh;
 }
+.welcome-modal-box .overlay-modal-title {
+  text-align: center;
+}
 .welcome-modal-content {
   padding-bottom: 14px;
+}
+.welcome-modal-content .panel-intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+.welcome-modal-content .panel-intro-text {
+  font-size: 14px;
+  line-height: 1.45;
+  margin-left: auto;
+  margin-right: auto;
+}
+.welcome-modal-content .benefit-pills {
+  justify-content: center;
 }
 .welcome-modal-close-btn {
   width: auto;

@@ -39,6 +39,8 @@
   const btnHelp           = document.getElementById("btn-help");
   const helpModal         = document.getElementById("help-modal");
   const helpModalClose    = document.getElementById("help-modal-close");
+  const welcomeModal      = document.getElementById("welcome-modal");
+  const welcomeModalClose = document.getElementById("welcome-modal-close");
 
   // ── Autocomplete ──────────────────────────────────────────────────────────
 
@@ -556,6 +558,34 @@
   }
 
   /**
+   * Wire the welcome modal close button and backdrop interactions.
+   *
+   * The modal is shown on page load and hidden when the close button,
+   * the backdrop, or Escape are used.
+   */
+  function initWelcomeModal() {
+    if (!welcomeModal) return;
+
+    if (welcomeModalClose) {
+      welcomeModalClose.addEventListener("click", function () {
+        welcomeModal.hidden = true;
+      });
+    }
+
+    welcomeModal.addEventListener("click", function (e) {
+      if (e.target === welcomeModal) {
+        welcomeModal.hidden = true;
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !welcomeModal.hidden) {
+        welcomeModal.hidden = true;
+      }
+    });
+  }
+
+  /**
    * Wire open/close behaviour for a simple overlay modal.
    *
    * @param {string} btnId - ID of the button that opens the modal.
@@ -581,6 +611,7 @@
   // ── Initialisation ─────────────────────────────────────────────────────────
 
   initFrenchDateInput();
+  initWelcomeModal();
   initHelpModal();
   initOverlayModal("btn-roadmap", "roadmap-modal", "roadmap-modal-close");
   initOverlayModal("btn-credits", "credits-modal", "credits-modal-close");
