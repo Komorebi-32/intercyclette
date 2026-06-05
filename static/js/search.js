@@ -442,22 +442,23 @@
         return;
       }
 
-      showStatus("Recherche en cours…", "info");
+            // Switch to results view and show loading state
+      showResultsView();
+      resultsContainer.innerHTML = '<div class="results-placeholder"><p class="placeholder-lead">Recherche en cours…</p></div>';
       searchBtn.disabled = true;
       window.InterMap.clearMap();
       if (window.InterMap.setRoutesHidden) {
         window.InterMap.setRoutesHidden(false);
       }
-      resultsContainer.innerHTML = "";
 
       runSearch(params)
         .then((itineraries) => {
-          hideStatus();
+          resultsContainer.innerHTML = "";
           window.InterResults.renderResults(itineraries, resultsContainer);
           searchBtn.disabled = false;
         })
         .catch((err) => {
-          showStatus(`Erreur : ${err.message}`, "error");
+          resultsContainer.innerHTML = `<div class="search-status error">Erreur : ${err.message}</div>`;
           searchBtn.disabled = false;
         });
     });
@@ -656,4 +657,46 @@
 
   // Expose for testing
   window.InterSearch = { filterStations, getFormValues, handleSelectAll };
+
+  // ── View switching ────────────────────────────────────────────────────────
+
+  const searchView = document.getElementById("search-view");
+  const resultsView = document.getElementById("results-view");
+  const btnNewSearch = document.getElementById("btn-new-search");
+  const btnEditSearch = document.getElementById("btn-edit-search");
+
+  function showSearchView() {
+    if (searchView && resultsView) {
+      searchView.style.display = "block";
+      resultsView.style.display = "none";
+    }
+  }
+
+  function showResultsView() {
+    if (searchView && resultsView) {
+      searchView.style.display = "none";
+      resultsView.style.display = "block";
+    }
+  }
+
+  if (btnNewSearch) {
+    btnNewSearch.addEventListener("click", () => {
+      showSearchView();
+      if (form) {
+        form.reset();
+        const deptUic = document.getElementById("departure-uic");
+        if (deptUic) deptUic.value = "";
+      }
+      window.InterMap.clearMap();
+      if (window.InterMap.setRoutesHidden) window.InterMap.setRoutesHidden(false);
+      hideStatus();
+    });
+  }
+
+  if (btnEditSearch) {
+    btnEditSearch.addEventListener("click", () => {
+      showSearchView();
+    });
+  }
+
 })();

@@ -70,7 +70,6 @@
         <span class="journey-date">${formatDate(journey.departure)}</span>
         <span class="journey-stations">${journey.from} → ${journey.to}</span>
         <span class="journey-time">${formatTime(journey.departure)} – ${formatTime(journey.arrival)}</span>
-        <span class="journey-duration">(${journey.duration})</span>
       </span>
     `;
   }
@@ -163,8 +162,6 @@
           <span class="route-name">${itinerary.route_name}</span>
         </div>
         <div class="card-meta">
-          <span class="meta-km">${formatKm(itinerary.total_biking_km)} à vélo</span>
-          <span class="meta-days">${itinerary.n_days} jour${itinerary.n_days > 1 ? "s" : ""}</span>
           <span class="card-expand-icon">▼</span>
         </div>
       </div>
@@ -230,10 +227,16 @@
       return;
     }
 
+    const search_synthesis = document.createElement("h2");
+    search_synthesis.className = document.createElement("h2");
+    search_synthesis.className = "results-heading";
+    search_synthesis.textContent = `Départ de ${itineraries[0].outbound.from} - ${formatKm(itineraries[0].total_biking_km)} à vélo - ${itineraries[0].n_days} jour${itineraries[0].n_days > 1 ? "s" : ""}`;
+    container.appendChild(search_synthesis);
+
     const heading = document.createElement("h2");
     heading.className = "results-heading";
     heading.textContent = `${itineraries.length} itinéraire${itineraries.length > 1 ? "s" : ""} trouvé${itineraries.length > 1 ? "s" : ""}`;
-    container.appendChild(heading);
+    container.appendChild(heading);    
 
     itineraries.forEach((itinerary, i) => {
       container.appendChild(buildCardElement(itinerary, i));

@@ -69,6 +69,7 @@
 
       
 
+      <div id="search-view">
       <form id="search-form">
 
         <!-- Step 1: Departure city -->
@@ -237,15 +238,20 @@
           </label>
         </div>
       </details>
+      </div>
+
+      <div id="results-view" style="display: none;">
+        <div class="results-actions" style="display: flex; gap: 10px; margin-bottom: 1rem;">
+          <button type="button" id="btn-new-search" class="btn-secondary" style="flex: 1;">Nouvelle recherche</button>
+          <button type="button" id="btn-edit-search" class="btn-secondary" style="flex: 1;">Modifier la recherche</button>
+        </div>
+        <div id="results-container" class="results-container"></div>
+      </div>
     </aside>
 
     <!-- ── Right panel: results + map ── -->
     <main class="panel-right">
-      <div id="results-container" class="results-container">
-        <div class="results-placeholder">
-          <p class="placeholder-lead">Remplissez le formulaire à gauche et découvrez vos prochains itinéraires vélo.</p>
-        </div>
-      </div>
+
 
       <!-- Help modal -->
       <div id="help-modal" class="help-modal" hidden>
