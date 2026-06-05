@@ -90,6 +90,19 @@
           <span class="form-step-label">Votre séjour</span>
         </div>
 
+        <!-- Travel date (displayed in French DD/MM/YYYY, stored in ISO YYYY-MM-DD) -->
+        <div class="form-group">
+          <label for="travel-date-display">Date de départ</label>
+          <input
+            type="text"
+            id="travel-date-display"
+            placeholder="JJ/MM/AAAA"
+            maxlength="10"
+            autocomplete="off"
+          />
+          <input type="hidden" id="travel-date" />
+        </div>
+
         <!-- Number of days -->
         <div class="form-group">
           <label for="days-select">Durée <span class="form-label-hint">(transport inclus)</span></label>
@@ -138,19 +151,6 @@
               </span>
             </label>
           </div>
-        </div>
-
-        <!-- Travel date (displayed in French DD/MM/YYYY, stored in ISO YYYY-MM-DD) -->
-        <div class="form-group">
-          <label for="travel-date-display">Date de départ</label>
-          <input
-            type="text"
-            id="travel-date-display"
-            placeholder="JJ/MM/AAAA"
-            maxlength="10"
-            autocomplete="off"
-          />
-          <input type="hidden" id="travel-date" />
         </div>
 
         <!-- Step 3: Eurovelo routes -->
