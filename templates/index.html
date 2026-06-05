@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 </head>
 <body>
-  <header class="site-header">
-    <span class="logo">🚲 Intercyclette</span>
-    <span class="tagline">Trouvez votre randovélo en train</span>
-  </header>
+  <nav class="top-nav">
+    <button class="btn-header-link" id="btn-help" title="Comment utiliser l'outil ?">Aide</button>
+    <button class="btn-header-link" id="btn-roadmap">Développements futurs</button>
+    <button class="btn-header-link" id="btn-credits">Crédits</button>
+  </nav>
 
   <div class="app-layout">
     <!-- ── Left panel: search form ── -->

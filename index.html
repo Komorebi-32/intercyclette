@@ -10,17 +10,11 @@
   <link rel="stylesheet" href="static/css/style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-brand">
-      <span class="logo">🚲 Intercyclette</span>
-      <span class="header-tagline">Séjours vélo + train en France</span>
-    </div>
-    <nav class="header-nav">
-      <button class="btn-header-link" id="btn-help" title="Comment utiliser l'outil ?">Aide</button>
-      <button class="btn-header-link" id="btn-roadmap">Développements futurs</button>
-      <button class="btn-header-link" id="btn-credits">Crédits</button>
-    </nav>
-  </header>
+  <nav class="top-nav">
+    <button class="btn-header-link" id="btn-help" title="Comment utiliser l'outil ?">Aide</button>
+    <button class="btn-header-link" id="btn-roadmap">Développements futurs</button>
+    <button class="btn-header-link" id="btn-credits">Crédits</button>
+  </nav>
 
   <div id="welcome-modal" class="overlay-modal">
     <div class="overlay-modal-box welcome-modal-box">
@@ -218,26 +212,6 @@
         <div id="search-status" class="search-status" hidden></div>
       </form>
 
-      <!-- Map options (collapsible) -->
-      <details class="map-options-toggle">
-        <summary class="map-options-summary">🗺️ Options de la carte</summary>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-housing" />
-            Afficher / Masquer les hébergements
-          </label>
-          <div class="housing-legend">
-            <p>🔵 Hébergements répertoriés sur OpenStreetMap</p>
-            <p>🟢 Hébergements labellisés Accueil Vélo</p>
-          </div>
-        </div>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-restaurants" />
-            😋 Afficher / Masquer les restaurants labellisés Accueil Vélo
-          </label>
-        </div>
-      </details>
       </div>
 
       <div id="results-view" style="display: none;">
@@ -352,12 +326,15 @@
         </div>
       </div>
       <div id="map" class="map-container"></div>
+
+      <!-- Map layer toggles (overlaid bottom-right, above the zoom control) -->
+      <div class="map-pills">
+        <button type="button" class="map-pill" data-layer="housing-osm">🔵 Hébergements OSM</button>
+        <button type="button" class="map-pill" data-layer="housing-av">🟢 Hébergements Accueil Vélo</button>
+        <button type="button" class="map-pill" data-layer="restaurants">😋 Restaurants</button>
+      </div>
     </main>
   </div>
-  <footer class="site-footer">
-    Contact : <a href="mailto:railnbikefever@proton.me">railnbikefever@proton.me</a>
-  </footer>
-
   <!-- ── Roadmap modal ── -->
   <div id="roadmap-modal" class="overlay-modal" hidden>
     <div class="overlay-modal-box roadmap-modal-box">

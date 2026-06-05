@@ -1,5 +1,19 @@
 # CLAUDE.md
 
+## Codebase Orientation
+
+The full project structure, module map, data flow, and data-generation pipeline
+are documented in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — the single
+source of truth for how the codebase fits together. Do **not** duplicate
+structural details here; update `docs/ARCHITECTURE.md` whenever the structure
+changes.
+
+**When handling a GitHub issue (or any task touching this repo), read
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) first** to locate the right module
+before making changes. **When the GitHub issue (or any task touching this repo) is 
+succesfully implemented, update the [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+accordingly.**
+
 ## Engineering Standards (Non-Negotiable)
 
 These instructions apply to all code and documentation in this repository.

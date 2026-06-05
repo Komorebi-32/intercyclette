@@ -609,6 +609,34 @@
     });
   }
 
+  /**
+   * Wire the map layer toggle pills (bottom-right overlay).
+   *
+   * Each `.map-pill` carries a `data-layer` value mapping to an `InterMap`
+   * toggle function. Pills start inactive (layers hidden by default); clicking
+   * a pill flips its layer visibility and toggles the `is-active` class, which
+   * switches the pill from its lighter (off) to darker (on) styling.
+   *
+   * Inputs: reads `.map-pill[data-layer]` elements from the DOM; requires
+   * `window.InterMap`. Outputs: none (side effects on the map and DOM classes).
+   */
+  function initMapLayerPills() {
+    const layerToggles = {
+      "housing-osm": "toggleHousingPoints",
+      "housing-av": "toggleAccueilVeloHousing",
+      "restaurants": "toggleAccueilVeloRestaurants",
+    };
+
+    document.querySelectorAll(".map-pill").forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        const toggleFn = layerToggles[pill.dataset.layer];
+        if (!window.InterMap || !toggleFn) return;
+        const active = pill.classList.toggle("is-active");
+        window.InterMap[toggleFn](active);
+      });
+    });
+  }
+
   // ── Initialisation ─────────────────────────────────────────────────────────
 
   initFrenchDateInput();
@@ -634,25 +662,7 @@
     window.InterMap.loadAccueilVeloRestaurants();
   }
 
-  const toggleHousingCb = document.getElementById("toggle-housing");
-  if (toggleHousingCb) {
-    toggleHousingCb.addEventListener("change", function () {
-      if (window.InterMap) {
-        window.InterMap.toggleHousingPoints(this.checked);
-        window.InterMap.toggleAccueilVeloHousing(this.checked);
-      }
-    });
-  }
-
-  const toggleRestaurantsCb = document.getElementById("toggle-restaurants");
-  if (toggleRestaurantsCb) {
-    toggleRestaurantsCb.addEventListener("change", function () {
-      if (window.InterMap) {
-        window.InterMap.toggleAccueilVeloRestaurants(this.checked);
-      }
-    });
-  }
-
+  initMapLayerPills();
   initStationAutocomplete();
 
   // Expose for testing
