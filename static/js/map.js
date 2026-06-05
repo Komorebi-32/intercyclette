@@ -27,10 +27,13 @@
   /** @type {L.LayerGroup} Holds the departure city marker (home emoji). */
   let departureLayer = null;
 
-  /** @type {L.LayerGroup} Holds all housing circle markers (toggled by checkbox). */
+  /** @type {L.LayerGroup} Holds OSM housing circle markers (toggled by pill). */
   let housingLayer = null;
 
-  /** @type {L.LayerGroup} Holds Accueil Vélo restaurant markers (toggled by checkbox). */
+  /** @type {L.LayerGroup} Holds Accueil Vélo housing markers (toggled by pill). */
+  let accueilVeloHousingLayer = null;
+
+  /** @type {L.LayerGroup} Holds Accueil Vélo restaurant markers (toggled by pill). */
   let accueilVeloRestaurantsLayer = null;
 
   /**
@@ -241,7 +244,8 @@
    * @returns {L.Map} The created Leaflet map instance.
    */
   function initMap(containerId) {
-    map = L.map(containerId).setView([46.8, 2.3], 6);
+    map = L.map(containerId, { zoomControl: false }).setView([46.8, 2.3], 6);
+    L.control.zoom({ position: "bottomright" }).addTo(map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
       attribution:
@@ -723,13 +727,20 @@
    * Fetch accueil_velo_housing.json and add a pale green circle marker for
    * each point.
    *
-   * Markers are added to a dedicated layer group so they can be toggled
-   * independently.  Hovering a marker shows the floating info panel via the
-   * shared showPanel / scheduleClosePanel helpers.
+   * Markers are added to a dedicated cluster group (accueilVeloHousingLayer) so
+   * they can be toggled independently of the OSM housing layer.  Hovering a
+   * marker shows the floating info panel via the shared showPanel /
+   * scheduleClosePanel helpers.
    *
    * @returns {Promise<void>} Resolves when all markers have been added.
    */
   function loadAccueilVeloHousing() {
+    accueilVeloHousingLayer = L.markerClusterGroup({
+      disableClusteringAtZoom: 10,
+      iconCreateFunction: function (cluster) {
+        return buildClusterIcon(cluster, "🏠", "rgba(163, 228, 190, 0.6)");
+      },
+    });
     return fetch("static/data/accueil_velo_housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
@@ -750,9 +761,9 @@
             scheduleClosePanel();
           });
 
-          housingLayer.addLayer(marker);
+          accueilVeloHousingLayer.addLayer(marker);
         });
-        // Markers added to the shared housingLayer cluster group.
+        // Layer loaded but hidden by default; toggled by pill.
       })
       .catch(function (err) {
         console.warn("Could not load Accueil Vélo housing points:", err);
@@ -760,12 +771,18 @@
   }
 
   /**
-   * No-op: Accueil Vélo housing markers are merged into the shared housingLayer
-   * cluster group and toggled via toggleHousingPoints().
+   * Show or hide the Accueil Vélo housing layer.
    *
-   * Kept in the public API so existing callers (search.js) do not break.
+   * @param {boolean} visible - True to show the layer, false to hide it.
    */
-  function toggleAccueilVeloHousing(_visible) { /* merged into housingLayer */ }
+  function toggleAccueilVeloHousing(visible) {
+    if (!accueilVeloHousingLayer || !map) return;
+    if (visible) {
+      if (!map.hasLayer(accueilVeloHousingLayer)) accueilVeloHousingLayer.addTo(map);
+    } else {
+      if (map.hasLayer(accueilVeloHousingLayer)) map.removeLayer(accueilVeloHousingLayer);
+    }
+  }
 
   // ── Accueil Vélo restaurants ───────────────────────────────────────────────
 

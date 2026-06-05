@@ -6,30 +6,41 @@ Intercyclette is a fully static web application. Precomputed data files are
 served as static JSON; train schedules are fetched live from the Transitous
 public routing API. No proxy server and no API token are required.
 
+The UI is a full-page Leaflet map with a floating left search panel. A welcome
+modal greets the user on load; the top nav exposes help, roadmap, and credits
+modals.
+
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │  Static site (GitHub Pages / any static host)                       │
 │                                                                     │
-│  index.html                    ─── single HTML page, no server     │
+│  index.html       full-page map + floating search panel + modals    │
+│                   (welcome / help / roadmap / credits)              │
 │  static/css/style.css                                               │
 │  static/js/                                                         │
-│    map.js          Leaflet map, colored route overlays              │
+│    map.js          Leaflet map, colored route overlays,             │
+│                    housing + restaurant point layers                │
 │    planner.js      JS port of Python itinerary planner              │
 │    transitous.js   Transitous API client (live train schedules)     │
 │    co2.js          Carbon footprint computation and avoided CO2     │
 │    results.js      Render itinerary cards                           │
-│    search.js       Form, autocomplete, orchestrates search          │
+│    search.js       Form, autocomplete, modals, layer toggles,       │
+│                    orchestrates search                              │
 │  static/data/                                                       │
-│    stations.json           All SNCF stations (autocomplete)         │
-│    route_stations.json     Route–station proximity index            │
-│    routes/                 One JSON per Eurovelo route              │
+│    stations.json                  All SNCF stations (autocomplete)  │
+│    route_stations.json            Route–station proximity index     │
+│    housing.json                   OSM accommodations ≤ 5 km         │
+│    accueil_velo_housing.json      Accueil Vélo accommodations ≤ 5km │
+│    accueil_velo_restaurants.json  Accueil Vélo restaurants ≤ 5 km   │
+│    routes/                        One JSON per Eurovelo route        │
 │      ev3.json, ev4.json, … (9 files, colored polylines)            │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-At page load the browser fetches the two precomputed data files (stations,
-route_stations) and the nine route geometry files. At search time it issues
-live API calls to Transitous for each candidate journey pair.
+At page load the browser fetches the precomputed data files (stations,
+route_stations, the three accommodation/restaurant files) and the nine route
+geometry files. At search time it issues live API calls to Transitous for each
+candidate journey pair.
 
 ---
 
@@ -87,20 +98,35 @@ results.js.renderResults(itineraries, container)
 ### `static/js/map.js`
 
 Leaflet + OpenStreetMap France tiles (French labels, greyscale CSS filter).
-Manages two layer groups:
+Requires both **Leaflet 1.9.4** and **leaflet.markercluster 1.5.3** (the
+accommodation layers are clustered). Manages several layer groups:
 
 - **routeLayers** — colored thin polylines (weight 3), one per route, loaded
   from `static/data/routes/*.json` at page start. Each polyline shows a floating
   info panel on hover (photo, description, distance, status, connections, link)
   that stays open when the mouse moves onto it. When an itinerary card is
-  selected, these overlays are temporarily hidden.
+  selected, these overlays are temporarily hidden (`setRoutesHidden`).
 - **itineraryLayer** — cleared and redrawn on each card click:
   - train legs (dashed neutral polylines)
   - biked segment in route color (weight 6)
   - blue circle marker at departure station
   - red circle marker at arrival station
+- **housingLayer** — an `L.markerClusterGroup` of OSM accommodations from
+  `housing.json`, rendered as pale-blue dots (`housing-dot housing-dot--osm`).
+  Each marker shows a hover panel built by `buildHousingPanelHtml(point)`
+  (name, contact, website; missing fields shown as "non renseigné"). Toggled by
+  `toggleHousingPoints(visible)`.
+- **accueilVeloHousingLayer** — Accueil Vélo accommodations from
+  `accueil_velo_housing.json`, hover panel via
+  `buildAccueilVeloHousingPanelHtml(point)`; toggled by `toggleAccueilVeloHousing`.
+- **accueilVeloRestaurantsLayer** — Accueil Vélo restaurants from
+  `accueil_velo_restaurants.json`; toggled by `toggleAccueilVeloRestaurants`.
 
-Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible, showItineraryOnMap, clearMap, centerOn }`
+Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible,
+setRoutesHidden, clearMap, showItineraryOnMap, centerOn, loadHousingPoints,
+toggleHousingPoints, loadAccueilVeloHousing, loadAccueilVeloRestaurants,
+toggleAccueilVeloHousing, toggleAccueilVeloRestaurants, buildEmojiStationIcon,
+addMarker, setDepartureMarker }`
 
 ### `static/js/planner.js`
 
@@ -178,12 +204,21 @@ Public API: `window.InterResults`
 ### `static/js/search.js`
 
 Orchestrates the search flow:
-1. Loads static data files (stations, route index)
-2. Handles station autocomplete (local filtering); selecting a city centres the map
+1. Loads static data files (stations, route index) and triggers the map's point
+   layers (`loadHousingPoints`, `loadAccueilVeloHousing`, `loadAccueilVeloRestaurants`)
+2. Handles station autocomplete (local filtering); selecting a city centres the
+   map and sets a departure marker via `InterMap.setDepartureMarker`
 3. Manages the French date input (DD/MM/YYYY display, ISO hidden field)
 4. On submit: calls `InterPlanner`, then awaits `InterTimetable.queryJourney` for each candidate
-5. Wires checkbox changes to `InterMap.setRouteVisible` (including Select All)
-6. Wires the "?" help button to open the help modal
+5. Wires route checkbox changes to `InterMap.setRouteVisible` (including Select All)
+6. Wires the bottom-right map layer pills (`.map-pill[data-layer]`, via
+   `initMapLayerPills`) to the map's `toggleHousingPoints` /
+   `toggleAccueilVeloHousing` / `toggleAccueilVeloRestaurants`; pills start
+   inactive (layers off) and gain `is-active` (darker styling) when enabled
+7. Wires the modals: the **welcome** modal (shown on load), the **help** modal
+   (`btn-help`), and via the generic `initOverlayModal(btnId, modalId, closeId)`
+   the **roadmap** (`btn-roadmap`) and **credits** (`btn-credits`) modals — each
+   closeable by ✕, backdrop click, or Escape
 
 Public API: `window.InterSearch`
 
@@ -205,9 +240,35 @@ journey search is handled entirely in the browser.
 | `static/data/stations.json` | ~350 KB | `scripts/export_stations_json.py` |
 | `static/data/route_stations.json` | ~540 KB | `scripts/preprocess.py` |
 | `static/data/routes/ev*.json` (×9) | ~20 KB each | `scripts/export_route_geometries.py` |
+| `static/data/housing.json` | ~3.2 MB | `scripts/export_housing_json.py` |
+| `static/data/accueil_velo_housing.json` | ~420 KB | `scripts/export_accueil_velo_json.py` |
+| `static/data/accueil_velo_restaurants.json` | ~86 KB | `scripts/export_accueil_velo_json.py` |
 
 No timetable data file is needed at runtime — train schedules are fetched live
 from the Transitous API.
+
+---
+
+## Preprocessing & Data Generation (offline)
+
+All `static/data/*.json` files are generated offline by the Python tooling and
+committed to the repo; the deployed app never runs Python. The geo matchers live
+in `app/geo/` and are invoked by the `scripts/*.py` exporters:
+
+| Module | Role |
+|---|---|
+| `app/geo/distance.py` | Pure geometry — haversine, point-to-polyline distance, interpolation |
+| `app/geo/gpx_parser.py` | Parse the 9 Eurovelo GPX tracks into `GpxTrack` |
+| `app/geo/station_matcher.py` | Match SNCF stations ≤ 5 km from each route → `route_stations.json` |
+| `app/geo/housing_matcher.py` | Match OSM accommodations ≤ 5 km from routes (dedup by `osm_id`) |
+| `app/geo/accueil_velo_matcher.py` | Match Accueil Vélo CSV entries ≤ 5 km, split into Hébergement / Restauration |
+
+**Python / JavaScript split.** The Python in `app/` and `scripts/` is used only
+for local development (Flask) and offline data generation. The deployed app is
+the static frontend in `static/js/`. The rhythm/distance logic and constants
+(RHYTHMS, ROUTE_COLORS, zone fractions) are **mirrored** in both
+`app/itinerary/` (Python) and `static/js/planner.js` (JS) — a change to one
+normally requires the matching change in the other.
 
 ---
 

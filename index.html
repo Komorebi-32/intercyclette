@@ -212,26 +212,6 @@
         <div id="search-status" class="search-status" hidden></div>
       </form>
 
-      <!-- Map options (collapsible) -->
-      <details class="map-options-toggle">
-        <summary class="map-options-summary">🗺️ Options de la carte</summary>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-housing" />
-            Afficher / Masquer les hébergements
-          </label>
-          <div class="housing-legend">
-            <p>🔵 Hébergements répertoriés sur OpenStreetMap</p>
-            <p>🟢 Hébergements labellisés Accueil Vélo</p>
-          </div>
-        </div>
-        <div class="form-group housing-toggle">
-          <label class="route-label">
-            <input type="checkbox" id="toggle-restaurants" />
-            😋 Afficher / Masquer les restaurants labellisés Accueil Vélo
-          </label>
-        </div>
-      </details>
       </div>
 
       <div id="results-view" style="display: none;">
@@ -346,6 +326,13 @@
         </div>
       </div>
       <div id="map" class="map-container"></div>
+
+      <!-- Map layer toggles (overlaid bottom-right, above the zoom control) -->
+      <div class="map-pills">
+        <button type="button" class="map-pill" data-layer="housing-osm">🔵 Hébergements OSM</button>
+        <button type="button" class="map-pill" data-layer="housing-av">🟢 Hébergements Accueil Vélo</button>
+        <button type="button" class="map-pill" data-layer="restaurants">😋 Restaurants</button>
+      </div>
     </main>
   </div>
   <!-- ── Roadmap modal ── -->

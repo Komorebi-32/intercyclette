@@ -152,39 +152,38 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   letter-spacing: 0.04em;
 }
 
-/* Collapsible map options */
-.map-options-toggle {
-  margin-top: 20px;
-  border: 1px solid var(--grey-border);
-  border-radius: var(--radius);
-  overflow: hidden;
+/* Map layer toggle pills — overlaid on the map, above the bottom-right zoom control */
+.map-pills {
+  position: absolute;
+  right: 10px;
+  bottom: 110px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
-.map-options-summary {
-  padding: 10px 14px;
+.map-pill {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 14px;
   font-size: 13px;
   font-weight: 600;
-  color: #2c3e50;
   cursor: pointer;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--grey-bg);
-  user-select: none;
+  /* Off state: lighter colors */
+  background: #f1f7f4;
+  border: 1px solid #d4e6dc;
+  color: #8aa399;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  transition: background .15s, border-color .15s, color .15s;
 }
-.map-options-summary::-webkit-details-marker { display: none; }
-.map-options-summary::after {
-  content: "▶";
-  font-size: 9px;
-  color: var(--grey-text);
-  transition: transform .2s;
+.map-pill:hover { border-color: #9fccb6; }
+.map-pill.is-active {
+  /* On state: darker colors */
+  background: #1a5c38;
+  border-color: #134529;
+  color: #ffffff;
 }
-details.map-options-toggle[open] > .map-options-summary::after { transform: rotate(90deg); }
-.map-options-summary:hover { background: #eaf7f0; }
-.map-options-toggle .housing-toggle {
-  padding: 0 14px;
-}
-.map-options-toggle .housing-toggle:first-of-type { padding-top: 12px; }
 
 input[type="text"],
 input[type="date"],
@@ -303,19 +302,6 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 }
 .btn-search:hover { background: var(--green); }
 .btn-search:disabled { background: #aaa; cursor: not-allowed; }
-
-.form-group.housing-toggle {
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-
-.housing-legend {
-  margin-top: 8px;
-  margin-left: 20px;
-  font-size: 13px;
-  color: var(--grey-text);
-  line-height: 1.4;
-}
 
 /* Status message */
 .search-status { margin-top: 8px; font-size: 14px; padding: 6px 8px; border-radius: 4px; }
