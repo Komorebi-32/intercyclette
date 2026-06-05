@@ -189,15 +189,28 @@ Key functions:
 - `computeSectionCo2(section)` — `emission_factor[train_type] × distance_km`; returns `null` if distance unknown
 - `computeJourneyCo2(journey)` — sums section CO2 values
 - `computeAvoidedCo2(outboundCo2Kg, returnCo2Kg)` — `388 − (outbound + return)`
-- `buildCarbonInfoHtml(outboundJourney, returnJourney)` — returns the "Info Carbone 🌎" HTML block
+- `buildCarbonInfoHtml(outboundJourney, returnJourney)` — returns the "Info Carbone 🌎" hover-tooltip pill: only the label is visible; hovering reveals the full carbon breakdown text
 
 Public API: `window.InterCo2`
 
 ### `static/js/results.js`
 
 Renders itinerary cards (expandable). Each card carries a `data-route` attribute
-on the route badge so CSS can apply the correct color. The expanded detail
-includes an "Info Carbone 🌎" section built by `window.InterCo2.buildCarbonInfoHtml()`.
+on the route badge so CSS can apply the correct color. The expanded detail uses
+three `detail-section` blocks (train aller, bike, train retour), each with a
+colored left-border line and a mode pill at the top. Train sections are grey;
+the bike section uses the route color (matched via the `data-route` attribute on
+both the section and pill). Dates are shown once per train leg and twice for
+the bike leg when departure and arrival fall on different days.
+
+Key helper functions:
+- `buildTrainLegHtml(journey, label)` — renders one train leg with pill, stop
+  rows (time + date + station), duration connector, and booking button.
+- `buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)`
+  — renders the bike leg with colored pill, station km markers, and conditional
+  dates.
+- `buildDetailHtml(itinerary)` — composes the full expanded card detail from the
+  above helpers and `InterCo2.buildCarbonInfoHtml()`.
 
 Public API: `window.InterResults`
 

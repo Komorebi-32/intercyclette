@@ -89,52 +89,123 @@
   }
 
   /**
+   * Build the HTML for a single train leg (aller or retour) with a pill header,
+   * departure/arrival stops, duration, and booking link.
+   *
+   * @param {Object|null} journey - Journey object from the API card. Null when
+   *   the connection was not found.
+   * @param {string} label - Human-readable label, e.g. "Train aller".
+   * @returns {string} Inner HTML string for the train detail section.
+   */
+  function buildTrainLegHtml(journey, label) {
+    if (!journey) {
+      return `
+        <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+        <p class="journey-missing">${label} : connexion non trouvée</p>
+      `;
+    }
+    const transfersText = journey.nb_transfers > 0
+      ? ` · ${journey.nb_transfers} correspondance(s)`
+      : "";
+    return `
+      <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+      <div class="leg-body">
+        <div class="leg-stop">
+          <span class="leg-time">${formatTime(journey.departure)}</span>
+          <span class="leg-date">${formatDate(journey.departure)}</span>
+          <span class="leg-station">${journey.from}</span>
+        </div>
+        <div class="leg-connector">
+          <span class="leg-duration-text">${journey.duration}${transfersText}</span>
+        </div>
+        <div class="leg-stop">
+          <span class="leg-time">${formatTime(journey.arrival)}</span>
+          <span class="leg-station">${journey.to}</span>
+        </div>
+        <div class="journey-book">${buildBookingButtonHtml(journey.from, journey.to)}</div>
+      </div>
+    `;
+  }
+
+  /**
+   * Build the HTML for the bike leg section with a colored pill header,
+   * departure/arrival stations, km range, and total distance.
+   *
+   * Dates are shown at departure and at arrival only when they differ (i.e.
+   * multi-day trips). When both dates are the same, the date is shown once at
+   * departure only.
+   *
+   * @param {Object} itinerary - Full itinerary card object.
+   * @param {string} rhythmLabel - Human-readable rhythm label.
+   * @param {string|null} bikeDepartureDate - Formatted date string for bike
+   *   departure (typically the outbound train arrival date), or null.
+   * @param {string|null} bikeArrivalDate - Formatted date string for bike
+   *   arrival (typically the return train departure date), or null.
+   * @returns {string} Inner HTML string for the bike detail section.
+   */
+  function buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate) {
+    const routeId = itinerary.route_id;
+    const datesAreDifferent = bikeDepartureDate !== null
+      && bikeArrivalDate !== null
+      && bikeDepartureDate !== bikeArrivalDate;
+
+    const depDateHtml = bikeDepartureDate
+      ? `<span class="leg-date">${bikeDepartureDate}</span>` : "";
+    const arrDateHtml = datesAreDifferent
+      ? `<span class="leg-date">${bikeArrivalDate}</span>` : "";
+
+    return `
+      <div class="leg-pill leg-pill--bike" data-route="${routeId}">🚲 ${itinerary.route_name}</div>
+      <div class="leg-body">
+        <div class="leg-stop">
+          ${depDateHtml}
+          <span class="leg-station">${itinerary.departure_station.nom}</span>
+          <span class="leg-km">km ${Math.round(itinerary.biking_start_km)}</span>
+        </div>
+        <div class="leg-connector">
+          <span class="leg-duration-text">${formatKm(itinerary.total_biking_km)} · ${rhythmLabel}</span>
+        </div>
+        <div class="leg-stop">
+          ${arrDateHtml}
+          <span class="leg-station">${itinerary.arrival_station.nom}</span>
+          <span class="leg-km">km ${Math.round(itinerary.biking_end_km)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
    * Build the expanded detail HTML for one itinerary card.
+   *
+   * Renders three detail sections with colored left-border lines:
+   * grey for both train legs, route color for the bike leg. Each section
+   * is headed by a colored pill identifying the transport mode and route.
+   * Bike dates are shown at departure and arrival when they differ; the
+   * carbon info is shown as a hover-tooltip pill.
    *
    * @param {Object} itinerary - Full itinerary card object from the API.
    * @returns {string} HTML string for the detail section.
    */
   function buildDetailHtml(itinerary) {
     const rhythmLabel = RHYTHM_LABELS[itinerary.rhythm_key] || itinerary.rhythm_key;
-
-    // Outbound section details
     const ob = itinerary.outbound;
     const ret = itinerary.return_train;
-
-    const outboundDetail = ob
-      ? `<div class="journey-detail">
-           <h4>Train aller : ${formatDate(ob.departure)}</h4> ${ob.from} → ${ob.to}<br/>
-           Départ ${formatTime(ob.departure)} · Arrivée ${formatTime(ob.arrival)} · ${ob.duration}
-           ${ob.nb_transfers > 0 ? `· ${ob.nb_transfers} correspondance(s)` : ""}
-           <div class="journey-book">${buildBookingButtonHtml(ob.from, ob.to)}</div>
-         </div>`
-      : `<div class="journey-detail journey-missing">Train aller : connexion non trouvée</div>`;
-
-    const returnDetail = ret
-      ? `<div class="journey-detail">
-           <h4>Train retour : ${formatDate(ret.departure)}</h4> ${ret.from} → ${ret.to}<br/>
-           Départ ${formatTime(ret.departure)} · Arrivée ${formatTime(ret.arrival)} · ${ret.duration}
-           ${ret.nb_transfers > 0 ? `· ${ret.nb_transfers} correspondance(s)` : ""}
-           <div class="journey-book">${buildBookingButtonHtml(ret.from, ret.to)}</div>
-         </div>`
-      : `<div class="journey-detail journey-missing">Train retour : connexion non trouvée</div>`;
+    const bikeDepartureDate = ob ? formatDate(ob.arrival) : null;
+    const bikeArrivalDate = ret ? formatDate(ret.departure) : null;
 
     return `
       <div class="card-detail">
-        <div class="detail-section">
-          ${outboundDetail}
+        <div class="detail-section detail-section--train">
+          ${buildTrainLegHtml(ob, "Train aller")}
         </div>
-        <div class="detail-section">
-          <h4>Rythme : ${rhythmLabel}</h4>
-          <p>Départ vélo depuis <strong>${itinerary.departure_station.nom}</strong> (km ${Math.round(itinerary.biking_start_km)})</p>
-          <p>Arrivée à <strong>${itinerary.arrival_station.nom}</strong> (km ${Math.round(itinerary.biking_end_km)})</p>
-          <p>Distance totale à vélo : <strong>${formatKm(itinerary.total_biking_km)}</strong></p>
+        <div class="detail-section detail-section--bike" data-route="${itinerary.route_id}">
+          ${buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)}
         </div>
-        <div class="detail-section">
-          ${returnDetail}
+        <div class="detail-section detail-section--train">
+          ${buildTrainLegHtml(ret, "Train retour")}
         </div>
-        <div class="detail-section">
-          ${window.InterCo2.buildCarbonInfoHtml(itinerary.outbound, itinerary.return_train)}
+        <div class="detail-section detail-section--carbon">
+          ${window.InterCo2.buildCarbonInfoHtml(ob, ret)}
         </div>
       </div>
     `;
@@ -228,7 +299,6 @@
     }
 
     const search_synthesis = document.createElement("h2");
-    search_synthesis.className = document.createElement("h2");
     search_synthesis.className = "results-heading";
     search_synthesis.textContent = `Départ de ${itineraries[0].outbound.from} - ${formatKm(itineraries[0].total_biking_km)} à vélo - ${itineraries[0].n_days} jour${itineraries[0].n_days > 1 ? "s" : ""}`;
     container.appendChild(search_synthesis);

@@ -126,16 +126,20 @@
   // ── HTML builder ────────────────────────────────────────────────────────────
 
   /**
-   * Build the "Info Carbone 🌎" HTML block for the itinerary detail card.
+   * Build the "Info Carbone 🌎" pill with a hover tooltip for the itinerary
+   * detail card.
    *
-   * Computes CO2 for each journey, then the avoided emissions vs. a Madrid
-   * round-trip flight. If distance data is unavailable for either journey,
-   * displays a fallback message instead of a misleading number.
+   * The pill shows only the label "🌎 Info Carbone". Hovering over it reveals
+   * the full carbon breakdown: total train CO2 and avoided emissions vs. a
+   * Madrid round-trip flight reference.
+   *
+   * If distance data is unavailable for either journey, the tooltip displays a
+   * fallback message instead of a misleading number.
    *
    * @param {Object|null} outboundJourney - Outbound journey card object
    *   (with a `sections` array carrying `train_type` and `distance_km`).
    * @param {Object|null} returnJourney - Return journey card object (same shape).
-   * @returns {string} HTML string for the carbon info box.
+   * @returns {string} HTML string for the carbon pill + tooltip wrapper.
    */
   function buildCarbonInfoHtml(outboundJourney, returnJourney) {
     const outboundCo2 = computeJourneyCo2(outboundJourney);
@@ -147,22 +151,26 @@
 
     if (totalCo2 === null) {
       return `
-        <div class="carbon-info">
-          <h4>Info Carbone 🌎</h4>
-          <p class="carbon-unavailable">Données de distance non disponibles pour calculer l'empreinte carbone des trajets en train.</p>
+        <div class="carbon-pill-wrapper">
+          <span class="benefit-pill carbon-pill">🌎 Info Carbone</span>
+          <div class="carbon-tooltip">
+            <p class="carbon-unavailable">Données de distance non disponibles pour calculer l'empreinte carbone des trajets en train.</p>
+          </div>
         </div>
       `;
     }
 
     const avoidedText = avoided >= 0
-      ? `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> en plus !
-      <p><i>Hypothèse : Paris Madrid en avion. Dans une version ultérieure de l'outil, cette comparaison sera personnalisée en fonction de votre ville de départ.</i></p>`
-      : `Note : ces trajets en train émettent <strong>${formatCo2Kg(-avoided)}</strong> de plus que le vol Madrid aller-retour.`;
+      ? `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> de plus !
+         <br/><em style="font-size:11px">Hypothèse : Paris-Madrid en avion A/R = 388 kg CO₂e.</em>`
+      : `Note : ces trajets en train émettent <strong>${formatCo2Kg(-avoided)}</strong> de plus que le vol Madrid A/R.`;
 
     return `
-      <div class="carbon-info">
-        <h4>Info Carbone 🌎</h4>
-        <p>Impact carbone de vos trajets en train : <strong>${formatCo2Kg(totalCo2)}</strong>. ${avoidedText}</p>
+      <div class="carbon-pill-wrapper">
+        <span class="benefit-pill carbon-pill">🌎 Info Carbone</span>
+        <div class="carbon-tooltip">
+          <p>Impact carbone de vos trajets en train : <strong>${formatCo2Kg(totalCo2)}</strong>. ${avoidedText}</p>
+        </div>
       </div>
     `;
   }

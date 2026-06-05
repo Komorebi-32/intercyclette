@@ -371,7 +371,18 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   color: #1a5c38;
 }
 
-.results-heading { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: #2c3e50; }
+.results-heading {
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--green-dark);
+  padding: 6px 10px 6px 12px;
+  background: linear-gradient(135deg, #eaf7f0 0%, #f0f9f4 100%);
+  border: 1px solid #c3e6d4;
+  border-left: 3px solid var(--green-dark);
+  border-radius: var(--radius);
+  letter-spacing: 0.01em;
+}
 
 .itinerary-card {
   background: var(--white);
@@ -821,21 +832,157 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 ::-webkit-scrollbar-thumb { background: var(--grey-border); border-radius: 4px; }
 
 
-.btn-secondary {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  background: #ecf0f1;
-  color: #2c3e50;
-  border: 1px solid #bdc3c7;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
+/* ── Results action buttons (Nouvelle recherche / Modifier) ──────────────── */
+.results-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-.btn-secondary:hover {
-  background: #bdc3c7;
+.btn-result-action {
+  display: inline-block;
+  flex: 1;
+  padding: 5px 10px;
+  background: var(--green-dark);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font);
+  transition: background .15s;
 }
+.btn-result-action:hover { background: var(--green); }
+
+/* ── Journey detail sections (redesigned) ────────────────────────────────── */
+
+.detail-section--train {
+  border-left: 4px solid #9e9e9e;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-section--bike {
+  border-left: 4px solid #9e9e9e;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+
+/* Per-route bike section border colors */
+.detail-section--bike[data-route="EV3"]  { border-left-color: var(--route-EV3); }
+.detail-section--bike[data-route="EV4"]  { border-left-color: var(--route-EV4); }
+.detail-section--bike[data-route="EV5"]  { border-left-color: var(--route-EV5); }
+.detail-section--bike[data-route="EV6"]  { border-left-color: var(--route-EV6); }
+.detail-section--bike[data-route="EV8"]  { border-left-color: var(--route-EV8); }
+.detail-section--bike[data-route="EV15"] { border-left-color: var(--route-EV15); }
+.detail-section--bike[data-route="EV19"] { border-left-color: var(--route-EV19); }
+.detail-section--bike[data-route="VEL"]  { border-left-color: var(--route-VEL); }
+.detail-section--bike[data-route="VIA"]  { border-left-color: var(--route-VIA); }
+
+.detail-section--carbon { margin-bottom: 0; }
+
+/* Mode pills (train / bike) at the top of each leg section */
+.leg-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+
+.leg-pill--train { background: #9e9e9e; }
+
+.leg-pill--bike  { background: #9e9e9e; }
+.leg-pill--bike[data-route="EV3"]  { background: var(--route-EV3); }
+.leg-pill--bike[data-route="EV4"]  { background: var(--route-EV4); }
+.leg-pill--bike[data-route="EV5"]  { background: var(--route-EV5); }
+.leg-pill--bike[data-route="EV6"]  { background: var(--route-EV6); }
+.leg-pill--bike[data-route="EV8"]  { background: var(--route-EV8); }
+.leg-pill--bike[data-route="EV15"] { background: var(--route-EV15); }
+.leg-pill--bike[data-route="EV19"] { background: var(--route-EV19); }
+.leg-pill--bike[data-route="VEL"]  { background: var(--route-VEL); }
+.leg-pill--bike[data-route="VIA"]  { background: var(--route-VIA); }
+
+/* Leg body — stop rows and connector */
+.leg-body { display: flex; flex-direction: column; gap: 4px; }
+
+.leg-stop {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.leg-time {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2c3e50;
+  min-width: 38px;
+}
+
+.leg-date {
+  font-size: 10px;
+  color: var(--grey-text);
+  background: var(--grey-bg);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.leg-station {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.leg-km {
+  font-size: 11px;
+  color: var(--grey-text);
+  font-style: italic;
+}
+
+.leg-connector {
+  padding: 2px 0 2px 4px;
+  border-left: 1px dashed #ccc;
+  margin: 0 0 0 18px;
+}
+
+.leg-duration-text {
+  font-size: 11px;
+  color: var(--grey-text);
+  margin-left: 4px;
+}
+
+/* ── Carbon info pill with hover tooltip ─────────────────────────────────── */
+.carbon-pill-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.carbon-pill { cursor: help; }
+
+.carbon-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  background: var(--white);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  min-width: 240px;
+  max-width: 290px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  font-size: 12px;
+  line-height: 1.6;
+  color: #2c3e50;
+  z-index: 10;
+}
+
+.carbon-pill-wrapper:hover .carbon-tooltip { display: block; }
