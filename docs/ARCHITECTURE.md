@@ -195,17 +195,24 @@ Public API: `window.InterCo2`
 
 ### `static/js/results.js`
 
-Renders itinerary cards (expandable). Each card carries a `data-route` attribute
-on the route badge so CSS can apply the correct color. The expanded detail uses
-three `detail-section` blocks (train aller, bike, train retour), each with a
-colored left-border line and a mode pill at the top. Train sections are grey;
-the bike section uses the route color (matched via the `data-route` attribute on
-both the section and pill). Dates are shown once per train leg and twice for
-the bike leg when departure and arrival fall on different days.
+Renders itinerary cards (expandable). Collapsed cards show only the
+`card-header` (route badge + name + expand icon); the journey summary is
+revealed on expansion. Each card carries a `data-route` attribute on the route
+badge so CSS can apply the correct color. The expanded detail uses three
+`detail-section` blocks (train aller, bike, train retour), each with a colored
+left-border line and a mode pill (wrapped in a `leg-pill-row`) at the top. The
+pill is pulled up with a negative margin so it bridges the junction between the
+previous leg's colored line and this leg's line. Train sections are grey; the
+bike section uses the route color (matched via the `data-route` attribute on
+both the section and pill). For train legs the departure date is shown to the
+right of the pill; the bike leg shows dates at departure and again at arrival
+when they fall on different days. Clicking the booking button does not collapse
+the card — the toggle handler ignores clicks inside `.btn-book`.
 
 Key helper functions:
-- `buildTrainLegHtml(journey, label)` — renders one train leg with pill, stop
-  rows (time + date + station), duration connector, and booking button.
+- `buildTrainLegHtml(journey, label)` — renders one train leg with a pill row
+  (pill + departure date), stop rows (time + station), duration connector, and
+  booking button.
 - `buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)`
   — renders the bike leg with colored pill, station km markers, and conditional
   dates.

@@ -54,27 +54,6 @@
   }
 
   /**
-   * Build the compact (collapsed) summary line for one train journey.
-   *
-   * @param {Object|null} journey - Journey object from the API card.
-   * @param {string} label - Direction label, e.g. "Aller" or "Retour".
-   * @returns {string} HTML string.
-   */
-  function buildJourneySummaryHtml(journey, label) {
-    if (!journey) {
-      return `<span class="journey-unknown">${label} : trajet non trouvé</span>`;
-    }
-    return `
-      <span class="journey-summary">
-        <span class="journey-label">${label}</span>
-        <span class="journey-date">${formatDate(journey.departure)}</span>
-        <span class="journey-stations">${journey.from} → ${journey.to}</span>
-        <span class="journey-time">${formatTime(journey.departure)} – ${formatTime(journey.arrival)}</span>
-      </span>
-    `;
-  }
-
-  /**
    * Build an anchor-styled booking button linking to SNCF Connect search.
    *
    * @param {string} from - Departure station name.
@@ -100,7 +79,9 @@
   function buildTrainLegHtml(journey, label) {
     if (!journey) {
       return `
-        <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+        <div class="leg-pill-row">
+          <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+        </div>
         <p class="journey-missing">${label} : connexion non trouvée</p>
       `;
     }
@@ -108,11 +89,13 @@
       ? ` · ${journey.nb_transfers} correspondance(s)`
       : "";
     return `
-      <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+      <div class="leg-pill-row">
+        <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+        <span class="leg-date">${formatDate(journey.departure)}</span>
+      </div>
       <div class="leg-body">
         <div class="leg-stop">
           <span class="leg-time">${formatTime(journey.departure)}</span>
-          <span class="leg-date">${formatDate(journey.departure)}</span>
           <span class="leg-station">${journey.from}</span>
         </div>
         <div class="leg-connector">
@@ -155,7 +138,9 @@
       ? `<span class="leg-date">${bikeArrivalDate}</span>` : "";
 
     return `
-      <div class="leg-pill leg-pill--bike" data-route="${routeId}">🚲 ${itinerary.route_name}</div>
+      <div class="leg-pill-row">
+        <div class="leg-pill leg-pill--bike" data-route="${routeId}">🚲 ${itinerary.route_name}</div>
+      </div>
       <div class="leg-body">
         <div class="leg-stop">
           ${depDateHtml}
@@ -223,9 +208,6 @@
     card.className = "itinerary-card";
     card.dataset.index = String(index);
 
-    const obSummary = buildJourneySummaryHtml(itinerary.outbound, "Aller");
-    const retSummary = buildJourneySummaryHtml(itinerary.return_train, "Retour");
-
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">
@@ -236,14 +218,13 @@
           <span class="card-expand-icon">▼</span>
         </div>
       </div>
-      <div class="card-journeys">
-        ${obSummary}
-        ${retSummary}
-      </div>
     `;
 
-    // Clicking the card header expands/collapses it and fires the map event
-    card.addEventListener("click", function () {
+    // Clicking the card header expands/collapses it and fires the map event.
+    // Clicks on the booking button are ignored so the details stay open.
+    card.addEventListener("click", function (event) {
+      if (event.target.closest(".btn-book")) return;
+
       const isExpanded = card.classList.contains("expanded");
 
       // Collapse all other cards

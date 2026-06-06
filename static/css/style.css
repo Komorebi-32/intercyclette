@@ -399,7 +399,7 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 10px 12px 6px;
+  padding: 10px 12px;
 }
 .card-title { display: flex; align-items: center; gap: 8px; }
 .route-badge {
@@ -425,14 +425,6 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .card-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--grey-text); }
 .meta-km { font-weight: 600; font-size: 13px; color: var(--green-dark); }
 .card-expand-icon { font-size: 10px; }
-
-.card-journeys { padding: 0 12px 10px; display: flex; flex-direction: column; gap: 4px; }
-.journey-summary { font-size: 13px; color: var(--grey-text); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-.journey-label { font-weight: 600; color: #2c3e50; min-width: 42px; }
-.journey-stations { color: #2c3e50; }
-.journey-time { color: var(--blue); }
-.journey-duration { color: var(--grey-text); }
-.journey-unknown { font-size: 13px; color: #aaa; font-style: italic; }
 
 /* Expanded card detail */
 .card-detail { padding: 10px 12px 12px; border-top: 1px solid var(--grey-border); }
@@ -881,9 +873,19 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 .detail-section--bike[data-route="VEL"]  { border-left-color: var(--route-VEL); }
 .detail-section--bike[data-route="VIA"]  { border-left-color: var(--route-VIA); }
 
-.detail-section--carbon { margin-bottom: 0; }
+.detail-section--carbon { margin-bottom: 0; text-align: center; }
 
-/* Mode pills (train / bike) at the top of each leg section */
+/* Row carrying the mode pill and, for train legs, the leg date on its right */
+.leg-pill-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Mode pills (train / bike) at the top of each leg section.
+   Negative offsets pull the pill onto the junction between the previous
+   leg's colored line and this leg's colored line. */
 .leg-pill {
   display: inline-flex;
   align-items: center;
@@ -892,8 +894,10 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   border-radius: 12px;
   font-size: 11px;
   font-weight: 700;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
   color: var(--white);
+  /* margin-top: -20px;
+  margin-left: -14px; */
 }
 
 .leg-pill--train { background: #9e9e9e; }
@@ -920,14 +924,14 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 }
 
 .leg-time {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   color: #2c3e50;
   min-width: 38px;
 }
 
 .leg-date {
-  font-size: 10px;
+  font-size: 13px;
   color: var(--grey-text);
   background: var(--grey-bg);
   padding: 1px 5px;
