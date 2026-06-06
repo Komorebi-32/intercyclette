@@ -221,7 +221,9 @@ Orchestrates the search flow:
    layers (`loadHousingPoints`, `loadAccueilVeloHousing`, `loadAccueilVeloRestaurants`)
 2. Handles station autocomplete (local filtering); selecting a city centres the
    map and sets a departure marker via `InterMap.setDepartureMarker`
-3. Manages the French date input (DD/MM/YYYY display, ISO hidden field)
+3. Initialises the native date picker (`#travel-date`, `initTravelDateInput`):
+   sets `min` to today, defaults to tomorrow; value is read directly as ISO
+   YYYY-MM-DD (browser renders it in the user's locale format)
 4. On submit: calls `InterPlanner`, then awaits `InterTimetable.queryJourney` for each candidate
 5. Wires route checkbox changes to `InterMap.setRouteVisible` (including Select All)
 6. Wires the bottom-right map layer pills (`.map-pill[data-layer]`, via
