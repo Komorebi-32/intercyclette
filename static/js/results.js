@@ -74,13 +74,14 @@
    * @param {Object|null} journey - Journey object from the API card. Null when
    *   the connection was not found.
    * @param {string} label - Human-readable label, e.g. "Train aller".
+   * @param {string} color - Hex color for the train pill (per-leg color).
    * @returns {string} Inner HTML string for the train detail section.
    */
-  function buildTrainLegHtml(journey, label) {
+  function buildTrainLegHtml(journey, label, color) {
     if (!journey) {
       return `
         <div class="leg-pill-row">
-          <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+          <div class="leg-pill leg-pill--train" style="background:${color}">🚂 ${label}</div>
         </div>
         <p class="journey-missing">${label} : connexion non trouvée</p>
       `;
@@ -90,7 +91,7 @@
       : "";
     return `
       <div class="leg-pill-row">
-        <div class="leg-pill leg-pill--train">🚂 ${label}</div>
+        <div class="leg-pill leg-pill--train" style="background:${color}">🚂 ${label}</div>
         <span class="leg-date">${formatDate(journey.departure)}</span>
       </div>
       <div class="leg-body">
@@ -162,11 +163,13 @@
   /**
    * Build the expanded detail HTML for one itinerary card.
    *
-   * Renders three detail sections with colored left-border lines:
-   * grey for both train legs, route color for the bike leg. Each section
-   * is headed by a colored pill identifying the transport mode and route.
-   * Bike dates are shown at departure and arrival when they differ; the
-   * carbon info is shown as a hover-tooltip pill.
+   * Renders three detail sections with colored left-border lines: a distinct
+   * per-leg color for each train leg (chosen to avoid clashing with the route
+   * color) and the route color for the bike leg. Each section is headed by a
+   * colored pill identifying the transport mode and route, and carries a
+   * `data-leg` attribute ("outbound" / "bike" / "return") so clicking it can
+   * focus the map on that leg. Bike dates are shown at departure and arrival
+   * when they differ; the carbon info is shown as a hover-tooltip pill.
    *
    * @param {Object} itinerary - Full itinerary card object from the API.
    * @returns {string} HTML string for the detail section.
@@ -177,23 +180,42 @@
     const ret = itinerary.return_train;
     const bikeDepartureDate = ob ? formatDate(ob.arrival) : null;
     const bikeArrivalDate = ret ? formatDate(ret.departure) : null;
+    const trainColors = window.InterMap.getTrainLegColors(itinerary.route_id);
 
     return `
       <div class="card-detail">
-        <div class="detail-section detail-section--train">
-          ${buildTrainLegHtml(ob, "Train aller")}
+        <div class="detail-section detail-section--train" data-leg="outbound" style="border-left-color:${trainColors.outbound}">
+          ${buildTrainLegHtml(ob, "Train aller", trainColors.outbound)}
         </div>
-        <div class="detail-section detail-section--bike" data-route="${itinerary.route_id}">
+        <div class="detail-section detail-section--bike" data-leg="bike" data-route="${itinerary.route_id}">
           ${buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)}
         </div>
-        <div class="detail-section detail-section--train">
-          ${buildTrainLegHtml(ret, "Train retour")}
+        <div class="detail-section detail-section--train" data-leg="return" style="border-left-color:${trainColors.return}">
+          ${buildTrainLegHtml(ret, "Train retour", trainColors.return)}
         </div>
         <div class="detail-section detail-section--carbon">
           ${window.InterCo2.buildCarbonInfoHtml(ob, ret)}
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Attach click handlers so clicking a leg's detail-section focuses the map on
+   * that leg instead of collapsing the card. Clicks on the booking button are
+   * ignored entirely (no focus, no collapse).
+   *
+   * @param {HTMLElement} card - The expanded itinerary card element.
+   * @param {Object} itinerary - The itinerary object backing the card.
+   */
+  function attachLegFocusHandlers(card, itinerary) {
+    card.querySelectorAll(".detail-section[data-leg]").forEach(function (section) {
+      section.addEventListener("click", function (event) {
+        event.stopPropagation();
+        if (event.target.closest(".btn-book")) return;
+        window.InterMap.focusOnLeg(itinerary, section.dataset.leg);
+      });
+    });
   }
 
   /**
@@ -251,6 +273,7 @@
         const detailEl = document.createElement("div");
         detailEl.innerHTML = buildDetailHtml(itinerary);
         card.appendChild(detailEl.firstElementChild);
+        attachLegFocusHandlers(card, itinerary);
         const icon = card.querySelector(".card-expand-icon");
         if (icon) icon.textContent = "▲";
 

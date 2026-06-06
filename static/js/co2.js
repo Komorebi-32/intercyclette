@@ -160,10 +160,8 @@
       `;
     }
 
-    const avoidedText = avoided >= 0
-      ? `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> de plus !
-         <br/><em style="font-size:11px">Hypothèse : Paris-Madrid en avion A/R = 388 kg CO₂e.</em>`
-      : `Note : ces trajets en train émettent <strong>${formatCo2Kg(-avoided)}</strong> de plus que le vol Madrid A/R.`;
+    const avoidedText = `Si vous étiez parti·e à Madrid en avion au lieu de cette randovélo, vous auriez émis <strong>${formatCo2Kg(avoided)}</strong> de plus !
+         <br/><em style="font-size:11px">Hypothèse : Paris-Madrid en avion A/R = 388 kg CO₂e.</em>`;
 
     return `
       <div class="carbon-pill-wrapper">

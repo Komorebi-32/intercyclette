@@ -107,10 +107,19 @@ accommodation layers are clustered). Manages several layer groups:
   that stays open when the mouse moves onto it. When an itinerary card is
   selected, these overlays are temporarily hidden (`setRoutesHidden`).
 - **itineraryLayer** — cleared and redrawn on each card click:
-  - train legs (dashed neutral polylines)
+  - train legs as dashed polylines, each in a distinct per-leg color chosen by
+    `getTrainLegColors(routeId)` (green/orange/blue/violet/red palette, filtered
+    to stay visually distinct from the selected route color via an RGB-distance
+    threshold)
   - biked segment in route color (weight 6)
+  - direction arrows (`addDirectionArrows`) placed at even arc-length intervals
+    along every train leg and the bike leg, rotated to the local travel bearing
   - blue circle marker at departure station
   - red circle marker at arrival station
+
+  `focusOnLeg(itinerary, legType)` fits the map to a single leg ("outbound" /
+  "bike" / "return") without redrawing — called when the user clicks a
+  detail-section in a results card.
 - **housingLayer** — an `L.markerClusterGroup` of OSM accommodations from
   `housing.json`, rendered as pale-blue dots (`housing-dot housing-dot--osm`).
   Each marker shows a hover panel built by `buildHousingPanelHtml(point)`
@@ -123,7 +132,8 @@ accommodation layers are clustered). Manages several layer groups:
   `accueil_velo_restaurants.json`; toggled by `toggleAccueilVeloRestaurants`.
 
 Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible,
-setRoutesHidden, clearMap, showItineraryOnMap, centerOn, loadHousingPoints,
+setRoutesHidden, clearMap, showItineraryOnMap, focusOnLeg, getTrainLegColors,
+centerOn, loadHousingPoints,
 toggleHousingPoints, loadAccueilVeloHousing, loadAccueilVeloRestaurants,
 toggleAccueilVeloHousing, toggleAccueilVeloRestaurants, buildEmojiStationIcon,
 addMarker, setDepartureMarker }`
@@ -202,17 +212,24 @@ badge so CSS can apply the correct color. The expanded detail uses three
 `detail-section` blocks (train aller, bike, train retour), each with a colored
 left-border line and a mode pill (wrapped in a `leg-pill-row`) at the top. The
 pill is pulled up with a negative margin so it bridges the junction between the
-previous leg's colored line and this leg's line. Train sections are grey; the
-bike section uses the route color (matched via the `data-route` attribute on
-both the section and pill). For train legs the departure date is shown to the
-right of the pill; the bike leg shows dates at departure and again at arrival
-when they fall on different days. Clicking the booking button does not collapse
-the card — the toggle handler ignores clicks inside `.btn-book`.
+previous leg's colored line and this leg's line. Each train leg gets its own
+color from `InterMap.getTrainLegColors(routeId)` (applied to the pill background
+and section border); the bike section uses the route color (via `data-route`).
+For train legs the departure date is shown to the right of the pill; the bike
+leg shows dates at departure and again at arrival when they fall on different
+days.
+
+Each train/bike section carries a `data-leg` attribute ("outbound" / "bike" /
+"return"); `attachLegFocusHandlers` makes clicking a section call
+`InterMap.focusOnLeg` to zoom the map to that leg (instead of collapsing the
+card) via `stopPropagation`. Clicking the booking button does nothing to the
+card — both the card toggle and the section handler ignore clicks inside
+`.btn-book`.
 
 Key helper functions:
-- `buildTrainLegHtml(journey, label)` — renders one train leg with a pill row
-  (pill + departure date), stop rows (time + station), duration connector, and
-  booking button.
+- `buildTrainLegHtml(journey, label, color)` — renders one train leg with a pill
+  row (colored pill + departure date), stop rows (time + station), duration
+  connector, and booking button.
 - `buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)`
   — renders the bike leg with colored pill, station km markers, and conditional
   dates.

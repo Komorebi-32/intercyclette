@@ -17,13 +17,13 @@
   /* Eurovelo route colors (must match ROUTE_COLORS in app/constants.py) */
   --route-EV3:  #e74c3c;
   --route-EV4:  #3498db;
-  --route-EV5:  #e67e22;
+  --route-EV5:  #00bcd4;
   --route-EV6:  #9b59b6;
   --route-EV8:  #1abc9c;
   --route-EV15: #f39c12;
   --route-EV19: #2ecc71;
   --route-VEL:  #e91e63;
-  --route-VIA:  #00bcd4;
+  --route-VIA:  #e67e22;
 }
 
 body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -875,6 +875,18 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 
 .detail-section--carbon { margin-bottom: 0; text-align: center; }
 
+/* Train/bike legs are clickable to focus the map on that leg */
+.detail-section--train,
+.detail-section--bike { cursor: pointer; }
+
+/* Direction arrows drawn along itinerary legs on the map */
+.leg-arrow {
+  font-size: 15px;
+  line-height: 1;
+  text-shadow: 0 0 2px var(--white), 0 0 2px var(--white);
+  pointer-events: none;
+}
+
 /* Row carrying the mode pill and, for train legs, the leg date on its right */
 .leg-pill-row {
   display: flex;
@@ -986,6 +998,7 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   font-size: 12px;
   line-height: 1.6;
   color: #2c3e50;
+  text-align: left;
   z-index: 10;
 }
 

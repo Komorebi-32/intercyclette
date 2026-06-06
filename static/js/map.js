@@ -43,8 +43,31 @@
    */
   const routeColors = {};
 
-  /** Neutral color used for train segments. */
-  const TRAIN_SEGMENT_COLOR = "#6b7280";
+  /**
+   * Candidate colors for train legs, in priority order
+   * (green, orange, blue, violet, red). Two distinct colors are picked per
+   * itinerary — one for the outbound leg, one for the return leg — while
+   * avoiding any color too close to the selected Eurovelo route color.
+   * @type {string[]}
+   */
+  // const TRAIN_COLOR_PALETTE = ["#16a34a", "#ea580c", "#2563eb", "#7c3aed", "#dc2626"];
+  const TRAIN_COLOR_PALETTE = ["#f536a5","#2563eb", "#7c3aed", "#dc2626"];
+
+  /**
+   * Minimum RGB Euclidean distance a train color must keep from the route color
+   * to be considered visually distinct.
+   * @type {number}
+   */
+  const MIN_TRAIN_ROUTE_COLOR_DISTANCE = 90;
+
+  /** Number of direction arrows distributed along each itinerary leg. */
+  const ARROWS_PER_LEG = 6;
+
+  /** Breathing-room margin (px) kept around a leg when focusing the map. */
+  const FOCUS_EDGE_MARGIN = 24;
+
+  /** Vertical padding (px) kept above/below a leg when focusing the map. */
+  const FOCUS_VERTICAL_PADDING = 40;
 
   /**
    * Persistent route overlay layers, keyed by route_id.
@@ -467,6 +490,167 @@
     });
   }
 
+  // ── Train leg colors ───────────────────────────────────────────────────────
+
+  /**
+   * Convert a "#rrggbb" hex color to an {r, g, b} object.
+   *
+   * @param {string} hex - Hex color string, e.g. "#2ecc71".
+   * @returns {{r:number, g:number, b:number}|null} RGB components (0-255), or
+   *   null when the string is not a valid 6-digit hex color.
+   */
+  function hexToRgb(hex) {
+    if (typeof hex !== "string") return null;
+    const match = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+    if (!match) return null;
+    const intVal = parseInt(match[1], 16);
+    return { r: (intVal >> 16) & 255, g: (intVal >> 8) & 255, b: intVal & 255 };
+  }
+
+  /**
+   * Euclidean distance between two RGB colors.
+   *
+   * @param {{r:number,g:number,b:number}} a - First color.
+   * @param {{r:number,g:number,b:number}} b - Second color.
+   * @returns {number} Distance in RGB space (0–441).
+   */
+  function colorDistance(a, b) {
+    return Math.sqrt((a.r - b.r) ** 2 + (a.g - b.g) ** 2 + (a.b - b.b) ** 2);
+  }
+
+  /**
+   * Pick two distinct train-leg colors that do not clash with the route color.
+   *
+   * Palette colors within MIN_TRAIN_ROUTE_COLOR_DISTANCE of the selected route
+   * color are excluded; the first two survivors are returned. Falls back to the
+   * full palette if fewer than two colors survive.
+   *
+   * @param {string} routeId - Route ID for route-color lookup (e.g. "EV6").
+   * @returns {{outbound:string, return:string}} Hex colors for each train leg.
+   */
+  function getTrainLegColors(routeId) {
+    const routeRgb = hexToRgb(routeColors[routeId] || "");
+    const usable = routeRgb
+      ? TRAIN_COLOR_PALETTE.filter(function (c) {
+          return colorDistance(hexToRgb(c), routeRgb) > MIN_TRAIN_ROUTE_COLOR_DISTANCE;
+        })
+      : TRAIN_COLOR_PALETTE.slice();
+    const pool = usable.length >= 2 ? usable : TRAIN_COLOR_PALETTE;
+    return { outbound: pool[0], return: pool[1] };
+  }
+
+  // ── Direction arrows ───────────────────────────────────────────────────────
+
+  /**
+   * Compute the compass bearing (degrees, 0 = north) from one point to another.
+   *
+   * @param {[number, number]} from - [lat, lon] start point.
+   * @param {[number, number]} to - [lat, lon] end point.
+   * @returns {number} Bearing in degrees, 0–360.
+   */
+  function computeBearing(from, to) {
+    const lat1 = (from[0] * Math.PI) / 180;
+    const lat2 = (to[0] * Math.PI) / 180;
+    const dLon = ((to[1] - from[1]) * Math.PI) / 180;
+    const y = Math.sin(dLon) * Math.cos(lat2);
+    const x = Math.cos(lat1) * Math.sin(lat2)
+      - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+    return (((Math.atan2(y, x) * 180) / Math.PI) + 360) % 360;
+  }
+
+  /**
+   * Build a non-interactive arrowhead icon rotated to a travel bearing.
+   *
+   * The "➤" glyph points east (90° bearing), so it is rotated by
+   * (bearing − 90) to align with the direction of travel.
+   *
+   * @param {string} color - CSS color for the arrow.
+   * @param {number} bearingDeg - Travel bearing in degrees (0 = north).
+   * @returns {L.DivIcon}
+   */
+  function buildArrowIcon(color, bearingDeg) {
+    return L.divIcon({
+      className: "",
+      html: `<div class="leg-arrow" style="color:${color};transform:rotate(${bearingDeg - 90}deg)">➤</div>`,
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    });
+  }
+
+  /**
+   * Interpolate a point and local bearing at a fractional distance along a path.
+   *
+   * @param {Array<[number, number]>} geometry - Polyline vertices.
+   * @param {Array<number>} cumulative - Cumulative segment lengths (length n).
+   * @param {number} targetDistance - Distance along the path to sample.
+   * @returns {{point:[number, number], bearing:number}} The interpolated point
+   *   and the bearing of the segment it falls on.
+   */
+  function sampleAlongPath(geometry, cumulative, targetDistance) {
+    let i = 1;
+    while (i < cumulative.length && cumulative[i] < targetDistance) i += 1;
+    const segStart = geometry[i - 1];
+    const segEnd = geometry[i];
+    const segLen = cumulative[i] - cumulative[i - 1];
+    const t = segLen > 0 ? (targetDistance - cumulative[i - 1]) / segLen : 0;
+    const point = [
+      segStart[0] + (segEnd[0] - segStart[0]) * t,
+      segStart[1] + (segEnd[1] - segStart[1]) * t,
+    ];
+    return { point: point, bearing: computeBearing(segStart, segEnd) };
+  }
+
+  /**
+   * Place evenly spaced direction arrows along a leg's geometry.
+   *
+   * Arrows are positioned by arc length (not vertex index) so spacing stays
+   * even regardless of vertex density, and they are non-interactive so they do
+   * not capture pointer events meant for the underlying polyline.
+   *
+   * @param {Array<[number, number]>} geometry - Polyline vertices.
+   * @param {string} color - Arrow color.
+   */
+  function addDirectionArrows(geometry, color) {
+    if (!geometry || geometry.length < 2) return;
+    const cumulative = [0];
+    for (let i = 0; i < geometry.length - 1; i += 1) {
+      const dLat = geometry[i + 1][0] - geometry[i][0];
+      const dLon = geometry[i + 1][1] - geometry[i][1];
+      cumulative.push(cumulative[i] + Math.hypot(dLat, dLon));
+    }
+    const total = cumulative[cumulative.length - 1];
+    if (total === 0) return;
+    for (let k = 1; k <= ARROWS_PER_LEG; k += 1) {
+      const targetDistance = (total * k) / (ARROWS_PER_LEG + 1);
+      const sample = sampleAlongPath(geometry, cumulative, targetDistance);
+      const marker = L.marker(sample.point, {
+        icon: buildArrowIcon(color, sample.bearing),
+        interactive: false,
+        keyboard: false,
+      });
+      itineraryLayer.addLayer(marker);
+    }
+  }
+
+  /**
+   * Collect all section geometry coordinates of a train journey into one array.
+   *
+   * @param {Object|null} journey - Journey object with a `sections` array.
+   * @returns {Array<[number, number]>} Flattened [lat, lon] coordinates (empty
+   *   when the journey or its geometry is missing).
+   */
+  function collectJourneyCoords(journey) {
+    const coords = [];
+    if (journey && journey.sections) {
+      journey.sections.forEach(function (section) {
+        if (section.geometry && section.geometry.length >= 2) {
+          coords.push(...section.geometry);
+        }
+      });
+    }
+    return coords;
+  }
+
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
   /**
@@ -486,21 +670,26 @@
   /**
    * Render train segments for a journey onto the itinerary layer.
    *
+   * Each section is drawn as a dashed polyline in the given leg color with
+   * direction arrows indicating the travel direction.
+   *
    * @param {Object|null} journey - Journey object with a `sections` array.
    * @param {Array<[number, number]>} bounds - Bounds accumulator for fitBounds.
+   * @param {string} color - Hex color for this train leg.
    */
-  function renderTrainSegments(journey, bounds) {
+  function renderTrainSegments(journey, bounds, color) {
     if (!journey || !journey.sections) return;
     journey.sections.forEach(function (section) {
       const geometry = section.geometry;
       if (!geometry || geometry.length < 2) return;
       const polyline = L.polyline(geometry, {
-        color: TRAIN_SEGMENT_COLOR,
+        color: color,
         weight: 4,
         opacity: 0.85,
         dashArray: "6 6",
       });
       itineraryLayer.addLayer(polyline);
+      addDirectionArrows(geometry, color);
       bounds.push(...geometry);
     });
   }
@@ -510,10 +699,11 @@
     setRoutesHidden(true);
 
     const segmentColor = routeColors[itinerary.route_id] || "#2ecc71";
+    const trainColors = getTrainLegColors(itinerary.route_id);
     const bounds = [];
 
-    renderTrainSegments(itinerary.outbound, bounds);
-    renderTrainSegments(itinerary.return_train, bounds);
+    renderTrainSegments(itinerary.outbound, bounds, trainColors.outbound);
+    renderTrainSegments(itinerary.return_train, bounds, trainColors.return);
 
     if (itinerary.geometry && itinerary.geometry.length > 1) {
       const polyline = L.polyline(itinerary.geometry, {
@@ -522,6 +712,7 @@
         opacity: 0.9,
       });
       itineraryLayer.addLayer(polyline);
+      addDirectionArrows(itinerary.geometry, segmentColor);
       bounds.push(...itinerary.geometry);
     }
 
@@ -547,6 +738,56 @@
 
     if (bounds.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40] });
+    }
+  }
+
+  /**
+   * Left inset (px) the map must keep clear so a focused leg is not hidden
+   * behind the floating left panel.
+   *
+   * Measured from the live `.panel-left` element's right edge plus a margin, so
+   * it adapts to the panel's actual width. Falls back to the bare margin when
+   * the panel is absent.
+   *
+   * @returns {number} Left padding in pixels.
+   */
+  function leftPanelInset() {
+    const panel = document.querySelector(".panel-left");
+    if (!panel) return FOCUS_EDGE_MARGIN;
+    return panel.getBoundingClientRect().right + FOCUS_EDGE_MARGIN;
+  }
+
+  /**
+   * Fit the map to a single leg of an itinerary without redrawing it.
+   *
+   * Used when the user clicks one detail-section so the map zooms to the
+   * concerned leg. The bike leg also includes its departure/arrival station
+   * coordinates in the bounds. The leg is framed in the space between the
+   * floating left panel and the right edge of the page (asymmetric padding) so
+   * the panel never hides part of it.
+   *
+   * @param {Object} itinerary - Itinerary object assembled by search.js.
+   * @param {string} legType - One of "outbound", "return", or "bike".
+   */
+  function focusOnLeg(itinerary, legType) {
+    if (!map) return;
+    let coords = [];
+    if (legType === "outbound") {
+      coords = collectJourneyCoords(itinerary.outbound);
+    } else if (legType === "return") {
+      coords = collectJourneyCoords(itinerary.return_train);
+    } else if (legType === "bike") {
+      coords = (itinerary.geometry || []).slice();
+      const dep = itinerary.departure_station;
+      const arr = itinerary.arrival_station;
+      if (dep && dep.lat && dep.lon) coords.push([dep.lat, dep.lon]);
+      if (arr && arr.lat && arr.lon) coords.push([arr.lat, arr.lon]);
+    }
+    if (coords.length > 0) {
+      map.fitBounds(coords, {
+        paddingTopLeft: [leftPanelInset(), FOCUS_VERTICAL_PADDING],
+        paddingBottomRight: [FOCUS_EDGE_MARGIN, FOCUS_VERTICAL_PADDING],
+      });
     }
   }
 
@@ -887,6 +1128,8 @@
     setRoutesHidden,
     clearMap,
     showItineraryOnMap,
+    focusOnLeg,
+    getTrainLegColors,
     centerOn,
     loadHousingPoints,
     toggleHousingPoints,
