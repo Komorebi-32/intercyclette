@@ -31,7 +31,6 @@
   const autocompleteList  = document.getElementById("autocomplete-list");
   const daysSelect        = document.getElementById("days-select");
   const travelDateInput   = document.getElementById("travel-date");
-  const travelDateDisplay = document.getElementById("travel-date-display");
   const searchBtn         = document.getElementById("search-btn");
   const searchStatus      = document.getElementById("search-status");
   const resultsContainer  = document.getElementById("results-container");
@@ -464,64 +463,29 @@
     });
   }
 
-  // ── French date input ──────────────────────────────────────────────────────
+  // ── Travel date input ────────────────────────────────────────────────────
 
   /**
-   * Convert an ISO date string (YYYY-MM-DD) to French display format (DD/MM/YYYY).
+   * Initialise the native date picker.
    *
-   * @param {string} iso - Date string in YYYY-MM-DD format.
-   * @returns {string} Date string in DD/MM/YYYY format.
+   * Sets the minimum selectable date to today and defaults the value to
+   * tomorrow. The native `<input type="date">` shows a calendar on click and
+   * stores its value directly in ISO YYYY-MM-DD format (read via
+   * `travelDateInput.value`), so no display/ISO conversion is needed.
+   *
+   * Inputs: reads `#travel-date` from the DOM. Outputs: none (side effects on
+   * the input's `min` and `value` attributes).
    */
-  function isoToFrench(iso) {
-    if (!iso || iso.length < 10) return "";
-    return iso.slice(8, 10) + "/" + iso.slice(5, 7) + "/" + iso.slice(0, 4);
-  }
+  function initTravelDateInput() {
+    if (!travelDateInput) return;
 
-  /**
-   * Convert a French display date (DD/MM/YYYY) to ISO format (YYYY-MM-DD).
-   *
-   * Returns empty string if the input is not a valid complete date.
-   *
-   * @param {string} french - Date string in DD/MM/YYYY format.
-   * @returns {string} ISO date string, or empty string if invalid.
-   */
-  function frenchToIso(french) {
-    const parts = french.split("/");
-    if (parts.length !== 3 || parts[2].length !== 4) return "";
-    const [dd, mm, yyyy] = parts;
-    if (dd.length !== 2 || mm.length !== 2) return "";
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  /**
-   * Wire the French date display input to the hidden ISO date field.
-   *
-   * Auto-inserts slashes as the user types (after 2 digits for day and month).
-   * Syncs the hidden field on every valid keystroke.
-   */
-  function initFrenchDateInput() {
-    if (!travelDateDisplay || !travelDateInput) return;
-
+    const today = new Date().toISOString().split("T")[0];
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const isoTomorrow = tomorrow.toISOString().split("T")[0];
-    travelDateInput.value = isoTomorrow;
-    travelDateDisplay.value = isoToFrench(isoTomorrow);
 
-    travelDateDisplay.addEventListener("input", function () {
-      let v = this.value.replace(/[^\d/]/g, "");
-      const digits = v.replace(/\//g, "");
-      if (digits.length <= 2) {
-        v = digits;
-      } else if (digits.length <= 4) {
-        v = digits.slice(0, 2) + "/" + digits.slice(2);
-      } else {
-        v = digits.slice(0, 2) + "/" + digits.slice(2, 4) + "/" + digits.slice(4, 8);
-      }
-      this.value = v;
-      const iso = frenchToIso(v);
-      travelDateInput.value = iso || "";
-    });
+    travelDateInput.min = today;
+    travelDateInput.value = isoTomorrow;
   }
 
   // ── Help modal ─────────────────────────────────────────────────────────────
@@ -639,7 +603,7 @@
 
   // ── Initialisation ─────────────────────────────────────────────────────────
 
-  initFrenchDateInput();
+  initTravelDateInput();
   initWelcomeModal();
   initHelpModal();
   initOverlayModal("btn-roadmap", "roadmap-modal", "roadmap-modal-close");
