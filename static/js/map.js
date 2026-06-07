@@ -652,21 +652,7 @@
 
   // ── Itinerary rendering ────────────────────────────────────────────────────
 
-  /**
-   * Draw the train legs, biked segment, and station markers for a selected itinerary.
-   *
-   * The segment polyline uses the route's own color at a heavier weight (6) to
-   * distinguish it from the always-on thin overlay. Departure and arrival
-   * stations use blue and red markers respectively. The map is fitted to all
-   * visible elements.
-   *
-   * @param {Object} itinerary - Itinerary object assembled by search.js.
-   * @param {string} itinerary.route_id - Route ID for color lookup.
-   * @param {Array<[number, number]>} itinerary.geometry - [[lat,lon], …].
-   * @param {Object} itinerary.departure_station - {nom, lat, lon}.
-   * @param {Object} itinerary.arrival_station - {nom, lat, lon}.
-   */
-  /**
+    /**
    * Render train segments for a journey onto the itinerary layer.
    *
    * Each section is drawn as a dashed polyline in the given leg color with
