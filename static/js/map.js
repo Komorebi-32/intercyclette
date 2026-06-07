@@ -184,7 +184,7 @@
     EV3: {
       description: "La Scandibérique traverse la France en diagonale depuis la frontière belge jusqu'à l'Espagne, à travers l'Île-de-France, la vallée de la Loire, le Poitou et la Gascogne.",
       distance: "1 700 km",
-      status: "Véloroute réalisée à 95 %",
+      // status: "Véloroute réalisée à 95 %",
       connections: "EuroVelo 6 (Orléans-Tours), EuroVelo 1 (Bayonne)",
       url: "https://www.francevelotourisme.com/itineraire/la-scandiberique-eurovelo-3",
       // img: BASE_IMG + "eurovelo-3-landes-scandiberique.jpg.webp",
@@ -192,7 +192,7 @@
     EV4: {
       description: "La Vélomaritime relie Roscoff en Bretagne à Bray-Dunes à la frontière belge, longeant les côtes de la Manche et de la mer du Nord.",
       distance: "1 518 km",
-      status: "Véloroute réalisée à 99,3 %",
+      // status: "Véloroute réalisée à 99,3 %",
       connections: "EV 1 (Roscoff), EV 5 et 12 (Calais)",
       url: "https://www.francevelotourisme.com/itineraire/la-velomaritime-eurovelo-4",
       // img: BASE_IMG + "Velo_au_Mont-Saint-Michel-Les_valises_de_Sarah_Calvados_Attractivite-11037.JPG.webp",
@@ -200,7 +200,7 @@
     EV5: {
       description: "L'EuroVelo 5 traverse la France en deux sections : par Lille au nord et par Strasbourg et la route des vins d'Alsace au sud, vers Rome.",
       distance: "669 km",
-      status: "Véloroute réalisée à 77 %",
+      // status: "Véloroute réalisée à 77 %",
       connections: "EV 15 (Strasbourg-Bâle), EV 6 (Mulhouse-Bâle)",
       url: "https://www.francevelotourisme.com/itineraire/eurovelo-5-moselle-alsace",
       // img: BASE_IMG + "eurovelo-5-vignes.jpg.webp",
@@ -208,7 +208,7 @@
     EV6: {
       description: "L'EuroVelo 6 suit la vallée du Doubs puis la Loire à Vélo, de la Suisse jusqu'à l'Atlantique, à travers vignobles et châteaux.",
       distance: "1 300 km",
-      status: "Véloroute réalisée à 100 %",
+      // status: "Véloroute réalisée à 100 %",
       connections: "EV 1 (Nantes), EV 3 (Orléans-Tours), EV 15 (Kembs)",
       url: "https://www.francevelotourisme.com/itineraire/eurovelo-6-bale-nevers",
       // img: BASE_IMG + "eurovelo-6-loire-a-velo.jpg.webp",
@@ -216,7 +216,7 @@
     EV8: {
       description: "La Méditerranée à Vélo suit la côte méditerranéenne entre Argelès-sur-Mer et Port-la-Nouvelle, traversant calanques, étangs et cités historiques.",
       distance: "850 km",
-      status: "Véloroute réalisée à 53 %",
+      // status: "Véloroute réalisée à 53 %",
       connections: "ViaRhôna (Sète), Canal du Midi (Agde)",
       url: "https://www.francevelotourisme.com/itineraire/la-mediterranee-a-velo-eurovelo-8",
       // img: BASE_IMG + "eurovelo-8-mediterranee.jpg.webp",
@@ -224,7 +224,7 @@
     EV15: {
       description: "La Véloroute du Rhin côtoie le canal du Rhône au Rhin et la citadelle de Vauban (Patrimoine Mondial), de Bâle à Strasbourg.",
       distance: "180 km",
-      status: "Véloroute réalisée à 100 %",
+      // status: "Véloroute réalisée à 100 %",
       connections: "EV 6 (Kembs), EV 5 (Strasbourg-Bâle)",
       url: "https://www.francevelotourisme.com/itineraire/eurovelo-15-veloroute-rhin",
       // img: BASE_IMG + "eurovelo-15_strasbourg.jpg.webp",
@@ -232,7 +232,7 @@
     EV19: {
       description: "La Meuse à Vélo longe ce fleuve européen sur plus de 1 000 km, depuis sa source à Langres jusqu'aux Pays-Bas, en traversant les Ardennes.",
       distance: "443 km (en France)",
-      status: "Véloroute réalisée à 100 %",
+      // status: "Véloroute réalisée à 100 %",
       connections: "—",
       url: "https://www.francevelotourisme.com/itineraire/la-meuse-a-velo",
       // img: BASE_IMG + "meuse-a-velo-en-famille-revin-voie-verte-trans-ardennes.jpg.webp",
@@ -240,7 +240,7 @@
     VEL: {
       description: "De Roscoff à Hendaye, la Vélodyssée® se déploie le long de l'Atlantique sur plus de 1 250 km. Découvrez le meilleur des régions traversées avec l'océan comme toile de fond !",
       distance: "1 250 km",
-      status: "Véloroute réalisée à 99 %",
+      // status: "Véloroute réalisée à 99 %",
       connections: "EV 4 (Roscoff), EV 6 (Nantes), EV 3 (Bayonne)",
       url: "https://www.francevelotourisme.com/itineraire/la-velodyssee",
       // img: "https://fr.wikipedia.org/wiki/EuroVelo_1#/media/Fichier:258_La_Grande_Tranch%C3%A9e_de_Glomel.jpg",
@@ -248,7 +248,7 @@
     VIA: {
       description: "La ViaRhôna longe le Rhône depuis sa source dans les Alpes suisses jusqu'à sa double embouchure en Méditerranée, traversant lacs, gorges et vignes.",
       distance: "815 km",
-      status: "Véloroute réalisée à 100 %",
+      // status: "Véloroute réalisée à 100 %",
       connections: "EV 8 (Sète-Beaucaire)",
       url: "https://www.francevelotourisme.com/itineraire/viarhona",
       // img: BASE_IMG + "eurovelo-17-rhone-route.jpg.webp",
@@ -307,7 +307,6 @@
         <p class="route-panel-desc">${info.description}</p>
         <ul class="route-panel-meta">
           <li><span>📏</span> ${info.distance}</li>
-          <li><span>✅</span> ${info.status}</li>
           <li><span>🔗</span> <strong>Connexions :</strong> ${info.connections}</li>
         </ul>
         <a href="${info.url}" target="_blank" rel="noopener" class="route-panel-link">
