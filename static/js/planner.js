@@ -200,6 +200,27 @@
    * For each outbound candidate station (up to OUTBOUND_CANDIDATE_COUNT):
    * 1. Compute the end station based on total biking km.
    * 2. Assemble a candidate object with segment geometry.
+   * *
+   * 1. Biking budget — `totalBikingKm(nDays, rhythmKey)` converts the trip
+   *    length and pace into a distance: a half day for a 1-day trip, otherwise
+   *    `(nDays - 1)` full days, each full day being `speed_kmh * hours_per_day`
+   *    for the chosen rhythm (escargot / randonneur / athlète).
+   * 2. Start point — the outbound station's position along the route is known as
+   *    its `cumulative_km` (precomputed offset from the route start). This is
+   *    `startKm`; `endKm = startKm + bikingKm`.
+   * 3. End station — `computeEndStation` scans the route's stations for the one
+   *    whose `cumulative_km` is closest to `endKm`, so the biked segment begins
+   *    and ends at real reachable stations.
+   * 4. Segment extraction — `extractSegmentPoints` takes the route's full
+   *    `track_points` polyline, computes per-vertex cumulative distance with
+   *    `cumulativeDistancesKm` (haversine between consecutive points), then keeps
+   *    only the vertices whose cumulative distance falls within
+   *    `[startKm, endKm]` (both clamped to the route length).
+   * 5. Downsampling — `downsampleGeometry` thins that slice to at most
+   *    `MAP_GEOMETRY_MAX_POINTS` vertices (keeping the last point) to keep the
+   *    payload light, yielding `candidate.geometry`.
+   * 6. Hand-off — `search.js.buildItineraryCard` copies `candidate.geometry`
+   *    onto the itinerary as `itinerary.geometry`, which is what arrives here.
    *
    * @param {string} routeId - Eurovelo route ID (e.g. 'EV6').
    * @param {Object} routeData - Route entry from the proximity index.

@@ -679,6 +679,43 @@
     });
   }
 
+  /**
+   * Draw a full itinerary (two train legs + the biked segment + station
+   * markers) onto the itinerary layer and fit the map to it.
+   *
+   * Existing itinerary layers are cleared first and the persistent route
+   * overlays are hidden (`setRoutesHidden(true)`) so only the selected trip is
+   * shown. Each train leg is delegated to `renderTrainSegments` (dashed, per-leg
+   * color); the bike leg is drawn here as a solid route-colored polyline. A
+   * 🚴 marker is placed at the bike departure (outbound train arrival) and a 🏁
+   * marker at the bike arrival (return train departure). Finally `map.fitBounds`
+   * frames every drawn coordinate with a 40px padding.
+   *
+   * ── How the bike leg is produced and drawn ────────────────────────────────
+   *
+   * The polyline drawn here (`itinerary.geometry`) is the tail end of a pipeline
+   * that runs in `planner.js` at search time; this function only renders the
+   * already-computed coordinates.
+   *
+   * The rendering step proper: when `itinerary.geometry` has at least two
+   * points, it is drawn as an `L.polyline` in the route color
+   * (`routeColors[route_id]`, falling back to green) at weight 6 / opacity 0.9 —
+   * heavier than the dashed train legs and the thin always-on route overlay so
+   * the biked portion stands out. `addDirectionArrows` overlays travel-direction
+   * arrows along it, and every vertex is pushed into `bounds` so the bike leg is
+   * included in the final `fitBounds`.
+   *
+   * @param {Object} itinerary - Itinerary object assembled by search.js.
+   * @param {string} itinerary.route_id - Route ID for bike-leg color lookup.
+   * @param {Array<[number, number]>} itinerary.geometry - Biked segment polyline
+   *   ([[lat, lon], …]), already extracted and downsampled by planner.js.
+   * @param {Object|null} itinerary.outbound - Outbound train journey (sections).
+   * @param {Object|null} itinerary.return_train - Return train journey (sections).
+   * @param {{nom:string, lat:number, lon:number}} itinerary.departure_station -
+   *   Bike departure / outbound train arrival station.
+   * @param {{nom:string, lat:number, lon:number}} itinerary.arrival_station -
+   *   Bike arrival / return train departure station.
+   */
   function showItineraryOnMap(itinerary) {
     clearMap();
     setRoutesHidden(true);
