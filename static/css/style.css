@@ -684,21 +684,6 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .welcome-modal-content {
   padding-bottom: 14px;
 }
-.welcome-modal-content .panel-intro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-align: center;
-}
-.welcome-modal-content .panel-intro-text {
-  font-size: 14px;
-  line-height: 1.45;
-  margin-left: auto;
-  margin-right: auto;
-}
 .welcome-modal-content .benefit-pills {
   justify-content: center;
 }
