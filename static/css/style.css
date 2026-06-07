@@ -325,33 +325,46 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   flex-wrap: wrap;
 }
 .hiw-step {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  flex-direction: column;
   flex: 1 1 140px;
   background: var(--grey-bg);
   border: 1px solid var(--grey-border);
   border-radius: var(--radius);
   padding: 10px 12px;
 }
+.hiw-step-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 .hiw-step-icon {
+  position: absolute;
+  top: 10px;
+  left: 12px;
   font-size: 22px;
   line-height: 1;
-  flex-shrink: 0;
-  margin-top: 1px;
 }
+/* Title sits to the right of the absolutely-positioned emoji… */
 .hiw-step-body strong {
   display: block;
+  margin-left: 32px;
+  min-height: 22px;
   font-size: 14px;
   font-weight: 700;
   color: #2c3e50;
   margin-bottom: 4px;
 }
-.hiw-step-body p {
+/* …while the paragraph spans the full card width, below the emoji, and is
+   centered vertically in the space between the title and the card bottom.
+   The descendant selector raises specificity above `.overlay-modal-content p`,
+   which would otherwise force a bottom margin and break the auto-centering. */
+.how-it-works .hiw-step-body p {
   font-size: 13px;
   color: var(--grey-text);
   line-height: 1.5;
-  margin: 0;
+  margin: auto 0;
 }
 
 /* Benefit pills */
