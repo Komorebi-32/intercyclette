@@ -208,7 +208,10 @@ gares-de-voyageurs.geojson  +  Eurovelo_France_gpx/*.gpx
      puis calcul de distance exacte à la polyligne (≤ 5 km)
                   │
                   ▼
-         route_stations.json  (index gares ↔ routes, track_points)
+         route_stations.json  (index gares ↔ routes, track_points pleine résolution)
+                  ·  track_points = tous les points GPX (coordonnées arrondies à
+                     GEOMETRY_COORD_DECIMALS décimales) pour un tracé précis ;
+                     rendu via le moteur Canvas de Leaflet (preferCanvas)
 
 housing.geojson  +  Eurovelo_France_gpx/*.gpx
          │                 │

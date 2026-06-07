@@ -63,6 +63,17 @@
   /** Number of direction arrows distributed along each itinerary leg. */
   const ARROWS_PER_LEG = 6;
 
+  /**
+   * Per-zoom simplification tolerance (px) for the nine always-on route
+   * overlays. The overlays now carry every GPX vertex (tens of thousands of
+   * points each), so a slightly higher-than-default smoothFactor lets Leaflet
+   * drop sub-pixel detail when zoomed out — keeping pan/zoom smooth — while
+   * still drawing full detail when zoomed in onto a route. Combined with the
+   * Canvas renderer (preferCanvas), this keeps all nine routes fluid.
+   * @type {number}
+   */
+  const ROUTE_SMOOTH_FACTOR = 1.5;
+
   /** Breathing-room margin (px) kept around a leg when focusing the map. */
   const FOCUS_EDGE_MARGIN = 24;
 
@@ -263,11 +274,15 @@
    * OSM France tiles display labels in French and provide a clean light background
    * that contrasts well with the vivid Eurovelo route colors.
    *
+   * The map uses a Canvas renderer (`preferCanvas: true`) so the full-resolution
+   * route overlays (tens of thousands of vertices each, nine at once) render and
+   * pan smoothly.
+   *
    * @param {string} containerId - ID of the HTML element that will hold the map.
    * @returns {L.Map} The created Leaflet map instance.
    */
   function initMap(containerId) {
-    map = L.map(containerId, { zoomControl: false }).setView([46.8, 2.3], 6);
+    map = L.map(containerId, { zoomControl: false, preferCanvas: true }).setView([46.8, 2.3], 6);
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
@@ -342,6 +357,7 @@
           color: color,
           weight: 3,
           opacity: 0.8,
+          smoothFactor: ROUTE_SMOOTH_FACTOR,
         });
 
         polyline.on("mouseover", function (e) {

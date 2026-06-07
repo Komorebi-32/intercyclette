@@ -29,7 +29,7 @@ from app.constants import (
     STATIONS_GEOJSON,
     PROCESSED_OUTPUT,
     STATION_PROXIMITY_KM,
-    ROUTE_DISPLAY_MAX_POINTS,
+    GEOMETRY_COORD_DECIMALS,
 )
 from app.geo.gpx_parser import parse_gpx_file
 from app.geo.station_matcher import (
@@ -37,7 +37,7 @@ from app.geo.station_matcher import (
     find_stations_near_route,
     serialize_route_stations,
 )
-from app.itinerary.planner import downsample_geometry
+from app.itinerary.planner import round_geometry
 
 
 def write_index(index: dict, output_path: str) -> None:
@@ -91,8 +91,9 @@ def build_route_stations_index(
        a. Parse the GPX file into a GpxTrack.
        b. Find all stations within max_distance_km of the route.
        c. Serialize the result to a dict.
-       d. Embed downsampled track_points (≤ROUTE_DISPLAY_MAX_POINTS) for the
-          always-on map overlay in the static frontend.
+       d. Embed full-resolution track_points (all GPX vertices, coordinates
+          rounded to GEOMETRY_COORD_DECIMALS places) for the always-on map
+          overlay in the static frontend.
     3. Assemble the full index and write it to output_path.
 
     Args:
@@ -132,8 +133,8 @@ def build_route_stations_index(
             total_km=track.total_km,
             stations=nearby,
         )
-        routes_index[route_id]["track_points"] = downsample_geometry(
-            track.points, ROUTE_DISPLAY_MAX_POINTS
+        routes_index[route_id]["track_points"] = round_geometry(
+            track.points, GEOMETRY_COORD_DECIMALS
         )
 
     index = {

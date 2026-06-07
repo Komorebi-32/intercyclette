@@ -194,6 +194,30 @@ def downsample_geometry(
     return [[lat, lon] for lat, lon in sampled]
 
 
+def round_geometry(
+    points: list[tuple[float, float]],
+    decimals: int,
+) -> list[list[float]]:
+    """
+    Return every point as a [lat, lon] list with coordinates rounded.
+
+    Unlike downsample_geometry, NO vertices are dropped — the full GPX
+    resolution is preserved so the drawn line follows the real itinerary.
+    Coordinates are only rounded to `decimals` places to reduce JSON size
+    (5 dp ≈ 1.1 m, well below visible map precision).
+
+    Args:
+        points: Full list of (lat, lon) tuples.
+        decimals: Number of decimal places to keep for each coordinate.
+
+    Returns:
+        List of [lat, lon] lists (JSON-serializable). Empty if points is empty.
+    """
+    if not points:
+        return []
+    return [[round(lat, decimals), round(lon, decimals)] for lat, lon in points]
+
+
 def _extract_segment_points(
     route_data: dict,
     start_km: float,

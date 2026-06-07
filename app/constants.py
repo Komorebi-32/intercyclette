@@ -106,10 +106,12 @@ EARTH_RADIUS_KM = 6371.0
 # Maximum number of [lat, lon] points sent to the browser per itinerary
 # segment (downsampled from raw GPX).
 MAP_GEOMETRY_MAX_POINTS = 1000
-# Number of track points embedded per route in route_stations.json for the
-# always-on map overlay (fewer than MAP_GEOMETRY_MAX_POINTS since all 9 routes
-# are loaded simultaneously).
-ROUTE_DISPLAY_MAX_POINTS = 300
+# Decimal places kept for displayed route coordinates. Route overlays and the
+# embedded track_points keep ALL raw GPX vertices (full precision so the drawn
+# line follows the real itinerary); coordinates are only rounded to this many
+# places (~1.1 m at 5 dp) to curb file size. The browser renders this dense
+# geometry with a Canvas renderer, which stays smooth.
+GEOMETRY_COORD_DECIMALS = 5
 
 # ---------------------------------------------------------------------------
 # Route display colors (map overlay + checkbox labels + itinerary badges)

@@ -22,16 +22,16 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.constants import EUROVELO_ROUTES, GPX_DIR, ROUTE_COLORS, ROUTE_DISPLAY_MAX_POINTS
+from app.constants import EUROVELO_ROUTES, GPX_DIR, ROUTE_COLORS, GEOMETRY_COORD_DECIMALS
 from app.geo.gpx_parser import parse_gpx_file
-from app.itinerary.planner import downsample_geometry
+from app.itinerary.planner import round_geometry
 
 OUTPUT_DIR = "static/data/routes"
 
 
 def export_route(route_id: str, route_meta: dict, gpx_dir: str, output_dir: str) -> str:
     """
-    Parse one GPX route and write its downsampled geometry to a JSON file.
+    Parse one GPX route and write its full-resolution geometry to a JSON file.
 
     Args:
         route_id: Eurovelo route key, e.g. "EV3".
@@ -47,7 +47,7 @@ def export_route(route_id: str, route_meta: dict, gpx_dir: str, output_dir: str)
     """
     gpx_path = os.path.join(gpx_dir, route_meta["file"])
     track = parse_gpx_file(gpx_path, route_id)
-    points = downsample_geometry(track.points, ROUTE_DISPLAY_MAX_POINTS)
+    points = round_geometry(track.points, GEOMETRY_COORD_DECIMALS)
 
     payload = {
         "route_id": route_id,
