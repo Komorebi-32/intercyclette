@@ -25,6 +25,10 @@
   const EARTH_RADIUS_KM           = 6371.0;
   const HALF_DAY_FRACTION         = 0.5;
 
+  /** Max distance (km) from a night's route point to accept an Accueil Vélo
+   *  stay before falling back to the nearest OSM accommodation. */
+  const HOUSING_RADIUS_KM         = 5.0;
+
   // ── Geometry helpers ──────────────────────────────────────────────────────
 
   /**
@@ -72,6 +76,51 @@
       }
     }
     return bestIdx;
+  }
+
+  /**
+   * Compute cumulative distances (km) along a polyline.
+   *
+   * @param {Array<[number, number]>} polyline - Array of [lat, lon] pairs.
+   * @returns {number[]} Cumulative km, same length as polyline; first value 0.
+   */
+  function cumulativeDistancesKm(polyline) {
+    const cum = [0];
+    for (let i = 1; i < polyline.length; i++) {
+      cum.push(cum[i - 1] + haversineKm(
+        polyline[i - 1][0], polyline[i - 1][1], polyline[i][0], polyline[i][1]
+      ));
+    }
+    return cum;
+  }
+
+  /**
+   * Interpolate the [lat, lon] at a target cumulative distance along a polyline.
+   *
+   * Walks the precomputed cumulative array to the segment containing targetKm,
+   * then linearly interpolates within it. Clamps to the polyline endpoints.
+   *
+   * @param {Array<[number, number]>} polyline - Array of [lat, lon] pairs.
+   * @param {number[]} cumulative - Cumulative km from cumulativeDistancesKm.
+   * @param {number} targetKm - Distance along the route to sample.
+   * @returns {[number, number]|null} Interpolated [lat, lon], or null if the
+   *   polyline is empty.
+   */
+  function interpolatePointAtKm(polyline, cumulative, targetKm) {
+    if (!polyline || polyline.length === 0) return null;
+    const total = cumulative[cumulative.length - 1];
+    const clamped = Math.max(0, Math.min(targetKm, total));
+    let i = 1;
+    while (i < cumulative.length && cumulative[i] < clamped) i += 1;
+    if (i >= polyline.length) return polyline[polyline.length - 1].slice();
+    const segStart = polyline[i - 1];
+    const segEnd = polyline[i];
+    const segLen = cumulative[i] - cumulative[i - 1];
+    const t = segLen > 0 ? (clamped - cumulative[i - 1]) / segLen : 0;
+    return [
+      segStart[0] + (segEnd[0] - segStart[0]) * t,
+      segStart[1] + (segEnd[1] - segStart[1]) * t,
+    ];
   }
 
   // ── Rhythm helpers ────────────────────────────────────────────────────────
@@ -180,6 +229,95 @@
     return trackPoints.slice(Math.min(i1, i2), Math.max(i1, i2) + 1);
   }
 
+  // ── Overnight housing ─────────────────────────────────────────────────────
+
+  /**
+   * Return the nearest point of a pool to (lat, lon) and its distance.
+   *
+   * @param {number} lat - Target latitude.
+   * @param {number} lon - Target longitude.
+   * @param {Array<Object>} pool - Housing points with numeric lat/lon.
+   * @returns {{point: Object, distKm: number}|null} Nearest point + distance, or
+   *   null if the pool is empty.
+   */
+  function nearestInPool(lat, lon, pool) {
+    if (!pool || pool.length === 0) return null;
+    let best = null;
+    let bestDist = Infinity;
+    for (let i = 0; i < pool.length; i++) {
+      const d = haversineKm(lat, lon, pool[i].lat, pool[i].lon);
+      if (d < bestDist) {
+        bestDist = d;
+        best = pool[i];
+      }
+    }
+    return { point: best, distKm: bestDist };
+  }
+
+  /**
+   * Pick one housing for a point, preferring Accueil Vélo, falling back to OSM.
+   *
+   * The nearest Accueil Vélo stay is used when it lies within HOUSING_RADIUS_KM;
+   * otherwise the nearest OSM accommodation is used.
+   *
+   * @param {number} lat - Target latitude (a point on the route).
+   * @param {number} lon - Target longitude.
+   * @param {{osm: Array<Object>, av: Array<Object>}} pools - Housing pools.
+   * @returns {{point: Object, source: 'av'|'osm'}|null} Chosen housing + source,
+   *   or null if both pools are empty.
+   */
+  function nearestHousing(lat, lon, pools) {
+    const av = nearestInPool(lat, lon, pools && pools.av);
+    if (av && av.distKm <= HOUSING_RADIUS_KM) {
+      return { point: av.point, source: "av" };
+    }
+    const osm = nearestInPool(lat, lon, pools && pools.osm);
+    if (osm) return { point: osm.point, source: "osm" };
+    if (av) return { point: av.point, source: "av" };
+    return null;
+  }
+
+  /**
+   * Compute one overnight housing stop per night along the bike leg.
+   *
+   * Nights = nDays - 1 (the last day is the return). Day 1 and the last day are
+   * half-days (train), middle days full. Night k (1..nDays-1) is reached at
+   * cumulative distance startStation.cumulative_km + (k - 0.5) * dailyKm along
+   * the route; its [lat, lon] is interpolated on the route track_points and the
+   * nearest housing is chosen (Accueil Vélo first, OSM fallback).
+   *
+   * @param {Object} routeData - Route entry with a `track_points` polyline.
+   * @param {{cumulative_km:number}} startStation - Bike departure station.
+   * @param {number} nDays - Total trip days (feature applies when nDays >= 2).
+   * @param {string} rhythmKey - Rhythm key string.
+   * @param {{osm: Array<Object>, av: Array<Object>}} pools - Housing pools.
+   * @returns {Array<{night:number, cumulativeKm:number, lat:number, lon:number,
+   *   point:Object|null, source:('av'|'osm'|null)}>} One entry per night; `point`
+   *   is null when no housing was found.
+   */
+  function computeNightlyHousing(routeData, startStation, nDays, rhythmKey, pools) {
+    const track = routeData && routeData.track_points;
+    if (nDays < 2 || !track || track.length === 0) return [];
+    const dailyKm = kmPerFullDay(rhythmKey);
+    const cumulative = cumulativeDistancesKm(track);
+    const nights = [];
+    for (let k = 1; k <= nDays - 1; k++) {
+      const cumulativeKm = startStation.cumulative_km + (k - HALF_DAY_FRACTION) * dailyKm;
+      const point = interpolatePointAtKm(track, cumulative, cumulativeKm);
+      if (!point) continue;
+      const chosen = nearestHousing(point[0], point[1], pools);
+      nights.push({
+        night: k,
+        cumulativeKm: cumulativeKm,
+        lat: point[0],
+        lon: point[1],
+        point: chosen ? chosen.point : null,
+        source: chosen ? chosen.source : null,
+      });
+    }
+    return nights;
+  }
+
   // ── Candidate assembly ────────────────────────────────────────────────────
 
   /**
@@ -279,6 +417,8 @@
     computeEndStation,
     nearestPointIndex,
     extractSegmentPoints,
+    nearestHousing,
+    computeNightlyHousing,
     findItineraryCandidates,
     findAllItineraries,
   };

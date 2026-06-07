@@ -198,17 +198,19 @@
   /**
    * Read current form state and return a search parameters object.
    *
-   * @returns {{departure_uic:string,n_days:number,rhythm:string,routes:string[],travel_date:string}}
+   * @returns {{departure_uic:string,n_days:number,rhythm:string,routes:string[],travel_date:string,propose_housing:boolean}}
    */
   function getFormValues() {
     const routes   = [...document.querySelectorAll(".route-checkbox:checked")].map((cb) => cb.value);
     const rhythmEl = document.querySelector('input[name="rhythm"]:checked');
+    const housingEl = document.getElementById("propose-housing");
     return {
       departure_uic: departureUicInput.value.trim(),
       n_days: parseInt(daysSelect.value, 10),
       rhythm: rhythmEl ? rhythmEl.value : "randonneur",
       routes,
       travel_date: travelDateInput.value || "",
+      propose_housing: housingEl ? housingEl.checked : false,
     };
   }
 
@@ -308,9 +310,11 @@
    * @param {Object} candidate - TripCandidate from InterPlanner.
    * @param {Object|null} outboundJourney - Journey from queryOutboundJourney().
    * @param {Object|null} returnJourney - Journey from queryReturnJourney().
+   * @param {Array<Object>} [housing] - Optional per-night housing stops from
+   *   InterPlanner.computeNightlyHousing (empty when the feature is off).
    * @returns {Object} Card object suitable for InterResults.renderResults().
    */
-  function buildItineraryCard(candidate, outboundJourney, returnJourney) {
+  function buildItineraryCard(candidate, outboundJourney, returnJourney, housing) {
     function journeyDict(j) {
       if (!j) return null;
       return {
@@ -354,6 +358,7 @@
       geometry: candidate.geometry,
       outbound: journeyDict(outboundJourney),
       return_train: journeyDict(returnJourney),
+      housing: housing || [],
     };
   }
 
@@ -418,7 +423,17 @@
         ),
       ]);
 
-      return buildItineraryCard(candidate, outboundJourney, returnJourney);
+      const housing = (params.propose_housing && candidate.n_days >= 2)
+        ? window.InterPlanner.computeNightlyHousing(
+            routeIndex.routes[candidate.route_id],
+            candidate.departure_station,
+            candidate.n_days,
+            candidate.rhythm_key,
+            window.InterMap.getHousingPools()
+          )
+        : [];
+
+      return buildItineraryCard(candidate, outboundJourney, returnJourney, housing);
     });
 
     return Promise.all(cardPromises);

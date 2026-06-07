@@ -37,6 +37,19 @@
   let accueilVeloRestaurantsLayer = null;
 
   /**
+   * Raw OSM housing points, retained after load so the housing-proposal feature
+   * can search for the nearest accommodation to a point client-side.
+   * @type {Array<Object>}
+   */
+  let housingPointsRaw = [];
+
+  /**
+   * Raw Accueil Vélo housing points, retained after load (same purpose).
+   * @type {Array<Object>}
+   */
+  let accueilVeloHousingRaw = [];
+
+  /**
    * Route color map loaded from the JSON files.
    * Key: route_id (e.g. 'EV3'), value: hex color string.
    * @type {Object.<string, string>}
@@ -778,9 +791,46 @@
       bounds.push([arr.lat, arr.lon]);
     }
 
+    renderNightHousingMarkers(itinerary, bounds);
+
     if (bounds.length > 0) {
       map.fitBounds(bounds, { padding: [40, 40] });
     }
+  }
+
+  /**
+   * Draw a 🛏️ marker for each computed overnight housing stop of an itinerary.
+   *
+   * No-op when the housing-proposal feature is off (no `itinerary.housing`).
+   * Each marker hovers the same info box used by the standalone housing layers
+   * and carries a "Nuit N" popup. Markers are added to itineraryLayer so they
+   * clear on the next selection.
+   *
+   * @param {Object} itinerary - Itinerary object; may carry a `housing` array of
+   *   { night, lat, lon, point, source } entries (point null when none found).
+   * @param {Array<[number, number]>} bounds - Bounds accumulator for fitBounds.
+   */
+  function renderNightHousingMarkers(itinerary, bounds) {
+    if (!itinerary.housing || itinerary.housing.length === 0) return;
+    itinerary.housing.forEach(function (stop) {
+      if (!stop.point) return;
+      const panelHtml = buildHousingInfoHtml(stop.point, stop.source);
+      const marker = L.marker([stop.point.lat, stop.point.lon], {
+        icon: buildEmojiStationIcon("🛏️", 22),
+        title: "Nuit " + stop.night + " : " + (stop.point.name || ""),
+      }).bindPopup("<b>Nuit " + stop.night + "</b><br>" + (stop.point.name || ""));
+      marker.on("mouseover", function (e) {
+        showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+      });
+      marker.on("mousemove", function (e) {
+        positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+      });
+      marker.on("mouseout", function () {
+        scheduleClosePanel();
+      });
+      itineraryLayer.addLayer(marker);
+      bounds.push([stop.point.lat, stop.point.lon]);
+    });
   }
 
   /**
@@ -842,6 +892,27 @@
    */
   function centerOn(lat, lon, zoom) {
     if (map) map.setView([lat, lon], zoom, { animate: true });
+  }
+
+  /**
+   * Pan and zoom the map to a housing point (used when a housing name is clicked
+   * in a results card).
+   *
+   * @param {number} lat - Housing latitude.
+   * @param {number} lon - Housing longitude.
+   */
+  function focusHousing(lat, lon) {
+    centerOn(lat, lon, 13);
+  }
+
+  /**
+   * Return the retained raw housing point pools for nearest-housing search.
+   *
+   * @returns {{osm: Array<Object>, av: Array<Object>}} OSM and Accueil Vélo
+   *   housing point arrays (empty until the respective layers have loaded).
+   */
+  function getHousingPools() {
+    return { osm: housingPointsRaw, av: accueilVeloHousingRaw };
   }
 
   /**
@@ -917,6 +988,21 @@
   }
 
   /**
+   * Build the hover info-box HTML for a housing point, dispatching on its
+   * source so the same box used on map markers can be reused elsewhere (e.g. the
+   * housing names in a results card).
+   *
+   * @param {Object} point - Housing point object.
+   * @param {string} source - "av" for Accueil Vélo, anything else for OSM.
+   * @returns {string} HTML string for the hover panel.
+   */
+  function buildHousingInfoHtml(point, source) {
+    return source === "av"
+      ? buildAccueilVeloHousingPanelHtml(point)
+      : buildHousingPanelHtml(point);
+  }
+
+  /**
    * Fetch housing.json and add a pale-blue circle marker for each point.
    *
    * Markers are added directly to the map (not to itineraryLayer) so they
@@ -936,6 +1022,7 @@
     return fetch("static/data/housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
+        housingPointsRaw = points;
         points.forEach(function (p) {
           const marker = L.marker([p.lat, p.lon], {
             icon: buildDotIcon("housing-dot housing-dot--osm"),
@@ -1027,6 +1114,7 @@
     return fetch("static/data/accueil_velo_housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
+        accueilVeloHousingRaw = points;
         points.forEach(function (p) {
           const marker = L.marker([p.lat, p.lon], {
             icon: buildDotIcon("housing-dot housing-dot--av"),
@@ -1182,5 +1270,11 @@
     buildEmojiStationIcon,
     addMarker,
     setDepartureMarker,
+    getHousingPools,
+    buildHousingInfoHtml,
+    focusHousing,
+    showHoverPanel: showPanel,
+    positionHoverPanel: positionPanel,
+    scheduleCloseHoverPanel: scheduleClosePanel,
   };
 })();

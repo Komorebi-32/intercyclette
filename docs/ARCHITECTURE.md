@@ -139,12 +139,22 @@ Manages several layer groups:
 - **accueilVeloRestaurantsLayer** — Accueil Vélo restaurants from
   `accueil_velo_restaurants.json`; toggled by `toggleAccueilVeloRestaurants`.
 
+The raw OSM and Accueil Vélo housing arrays are **retained** after load
+(`housingPointsRaw` / `accueilVeloHousingRaw`) and exposed via
+`getHousingPools()` so the housing-proposal feature can search them client-side.
+`buildHousingInfoHtml(point, source)` plus the `showHoverPanel` /
+`positionHoverPanel` / `scheduleCloseHoverPanel` aliases let the results card
+reuse the exact map hover box; `focusHousing(lat, lon)` pans to a housing point.
+When an opened itinerary carries a `housing` array, `showItineraryOnMap` drops a
+🛏️ marker per night (`renderNightHousingMarkers`).
+
 Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible,
 setRoutesHidden, clearMap, showItineraryOnMap, focusOnLeg, getTrainLegColors,
 centerOn, loadHousingPoints,
 toggleHousingPoints, loadAccueilVeloHousing, loadAccueilVeloRestaurants,
 toggleAccueilVeloHousing, toggleAccueilVeloRestaurants, buildEmojiStationIcon,
-addMarker, setDepartureMarker }`
+addMarker, setDepartureMarker, getHousingPools, buildHousingInfoHtml,
+focusHousing, showHoverPanel, positionHoverPanel, scheduleCloseHoverPanel }`
 
 ### `static/js/planner.js`
 
@@ -160,6 +170,13 @@ Key functions:
 - `extractSegmentPoints(trackPoints, startStation, endStation)` — slices the
   full-resolution route `track_points` between the vertices nearest the two
   stations (so the bike line spans station→station and traces the GPX exactly)
+- `interpolatePointAtKm(polyline, cumulative, targetKm)` — `[lat,lon]` at a
+  distance along the route (with `cumulativeDistancesKm`)
+- `nearestHousing(lat, lon, pools)` — nearest Accueil Vélo within
+  `HOUSING_RADIUS_KM`, else nearest OSM accommodation
+- `computeNightlyHousing(routeData, startStation, nDays, rhythmKey, pools)` —
+  one overnight stop per night (`nDays-1` nights; night *k* at
+  `start + (k-0.5)·dailyKm`); drives the optional housing-proposal feature
 - `findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythmKey)`
 
 Public API: `window.InterPlanner`
@@ -241,11 +258,22 @@ Key helper functions:
 - `buildTrainLegHtml(journey, label, color)` — renders one train leg with a pill
   row (colored pill + departure date), stop rows (time + station), duration
   connector, and booking button.
-- `buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)`
-  — renders the bike leg with colored pill, station km markers, and conditional
-  dates.
+- `buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate,
+  bikeStartIso)` — renders the bike leg with colored pill, station km markers,
+  and conditional dates. When `itinerary.housing` is non-empty it also renders a
+  `benefit-pill` "Voir les hébergements" that toggles a per-night list
+  (`buildHousingListHtml`): each night shows the distance ridden and a
+  hoverable/clickable housing name.
+- `attachHousingHandlers(card, itinerary)` — toggles the night list and wires
+  each housing name to the shared map hover box (`InterMap.buildHousingInfoHtml`
+  + hover-panel aliases) and to `InterMap.focusHousing` on click.
 - `buildDetailHtml(itinerary)` — composes the full expanded card detail from the
   above helpers and `InterCo2.buildCarbonInfoHtml()`.
+
+The optional housing-proposal feature (checkbox `#propose-housing`, active for
+`n_days ≥ 2`) is computed in `search.js` via
+`InterPlanner.computeNightlyHousing(...)` using `InterMap.getHousingPools()`, and
+attached as `itinerary.housing`.
 
 Public API: `window.InterResults`
 

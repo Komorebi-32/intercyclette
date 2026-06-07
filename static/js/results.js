@@ -54,6 +54,25 @@
   }
 
   /**
+   * Format the date `days` days after an ISO datetime, in French display.
+   *
+   * @param {string|null} isoStr - Base ISO datetime, e.g. "2026-04-09T08:15:00".
+   * @param {number} days - Number of days to add (>= 0).
+   * @returns {string} e.g. "11/04/2026" or "—" when the input is invalid.
+   */
+  function formatDatePlusDays(isoStr, days) {
+    if (!isoStr) return "—";
+    const datePart = isoStr.split("T")[0];
+    const d = new Date(datePart + "T00:00:00");
+    if (isNaN(d.getTime())) return "—";
+    d.setDate(d.getDate() + days);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  /**
    * Build an anchor-styled booking button linking to SNCF Connect search.
    *
    * @param {string} from - Departure station name.
@@ -125,9 +144,11 @@
    *   departure (typically the outbound train arrival date), or null.
    * @param {string|null} bikeArrivalDate - Formatted date string for bike
    *   arrival (typically the return train departure date), or null.
+   * @param {string|null} bikeStartIso - Raw ISO datetime of bike departure (the
+   *   outbound train arrival), used to date each night. May be null.
    * @returns {string} Inner HTML string for the bike detail section.
    */
-  function buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate) {
+  function buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate, bikeStartIso) {
     const routeId = itinerary.route_id;
     const datesAreDifferent = bikeDepartureDate !== null
       && bikeArrivalDate !== null
@@ -137,6 +158,16 @@
       ? `<span class="leg-date">${bikeDepartureDate}</span>` : "";
     const arrDateHtml = datesAreDifferent
       ? `<span class="leg-date">${bikeArrivalDate}</span>` : "";
+
+    const hasHousing = itinerary.housing && itinerary.housing.length > 0;
+    const housingHtml = hasHousing
+      ? `
+        <div class="leg-pill-row">
+          <button type="button" class="benefit-pill housing-pill" aria-expanded="false">🛏️ Voir les hébergements</button>
+        </div>
+        ${buildHousingListHtml(itinerary, bikeStartIso)}
+      `
+      : "";
 
     return `
       <div class="leg-pill-row">
@@ -151,6 +182,7 @@
         <div class="leg-connector">
           <span class="leg-duration-text">${formatKm(itinerary.total_biking_km)} · ${rhythmLabel}</span>
         </div>
+        ${housingHtml}
         <div class="leg-stop">
           ${arrDateHtml}
           <span class="leg-station">${itinerary.arrival_station.nom}</span>
@@ -158,6 +190,43 @@
         </div>
       </div>
     `;
+  }
+
+  /**
+   * Build the (initially hidden) per-night housing breakdown for the bike leg.
+   *
+   * Each night shows the distance ridden that day and a clickable/hoverable
+   * housing name, interleaved between the departure and arrival stops. Nights
+   * with no housing found show a plain "aucun hébergement trouvé" label. The
+   * `data-night` index lets attachHousingHandlers wire hover/click to the
+   * matching `itinerary.housing` entry.
+   *
+   * @param {Object} itinerary - Itinerary with a `housing` array.
+   * @param {string|null} bikeStartIso - ISO datetime of the bike departure.
+   * @returns {string} HTML string for the `.housing-list` block.
+   */
+  function buildHousingListHtml(itinerary, bikeStartIso) {
+    const housing = itinerary.housing || [];
+    let prevKm = itinerary.biking_start_km;
+    let rows = "";
+    housing.forEach(function (stop, i) {
+      const segKm = Math.max(0, Math.round(stop.cumulativeKm - prevKm));
+      prevKm = stop.cumulativeKm;
+      const nightDate = formatDatePlusDays(bikeStartIso, i);
+      const nameHtml = stop.point
+        ? `<span class="housing-name" data-night="${i}">Nuit ${stop.night} : ${stop.point.name || "Hébergement"}</span>`
+        : `<span class="housing-none">Nuit ${stop.night} : aucun hébergement trouvé</span>`;
+      rows += `
+        <div class="leg-connector"><span class="leg-duration-text">${segKm} km</span></div>
+        <div class="leg-stop housing-night-row">
+          <span class="leg-date">${nightDate}</span>
+          ${nameHtml}
+        </div>
+      `;
+    });
+    const lastSeg = Math.max(0, Math.round(itinerary.biking_end_km - prevKm));
+    rows += `<div class="leg-connector"><span class="leg-duration-text">${lastSeg} km</span></div>`;
+    return `<div class="housing-list" hidden>${rows}</div>`;
   }
 
   /**
@@ -180,6 +249,7 @@
     const ret = itinerary.return_train;
     const bikeDepartureDate = ob ? formatDate(ob.arrival) : null;
     const bikeArrivalDate = ret ? formatDate(ret.departure) : null;
+    const bikeStartIso = ob ? ob.arrival : null;
     const trainColors = window.InterMap.getTrainLegColors(itinerary.route_id);
 
     return `
@@ -188,7 +258,7 @@
           ${buildTrainLegHtml(ob, "Train aller", trainColors.outbound)}
         </div>
         <div class="detail-section detail-section--bike" data-leg="bike" data-route="${itinerary.route_id}">
-          ${buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate)}
+          ${buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate, bikeStartIso)}
         </div>
         <div class="detail-section detail-section--train" data-leg="return" style="border-left-color:${trainColors.return}">
           ${buildTrainLegHtml(ret, "Train retour", trainColors.return)}
@@ -213,7 +283,58 @@
       section.addEventListener("click", function (event) {
         event.stopPropagation();
         if (event.target.closest(".btn-book")) return;
+        if (event.target.closest(".housing-pill")) return;
+        if (event.target.closest(".housing-name")) return;
         window.InterMap.focusOnLeg(itinerary, section.dataset.leg);
+      });
+    });
+  }
+
+  /**
+   * Wire the housing pill (expand/collapse the night list) and the per-night
+   * housing names (hover shows the same info box as the map markers; click
+   * focuses the map on that housing). All handlers stop propagation so they
+   * neither collapse the card nor refocus the bike leg.
+   *
+   * @param {HTMLElement} card - The expanded itinerary card element.
+   * @param {Object} itinerary - The itinerary object backing the card.
+   */
+  function attachHousingHandlers(card, itinerary) {
+    const pill = card.querySelector(".housing-pill");
+    const list = card.querySelector(".housing-list");
+    if (pill && list) {
+      pill.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isHidden = list.hasAttribute("hidden");
+        if (isHidden) {
+          list.removeAttribute("hidden");
+          pill.setAttribute("aria-expanded", "true");
+          pill.textContent = "🛏️ Masquer les hébergements";
+        } else {
+          list.setAttribute("hidden", "");
+          pill.setAttribute("aria-expanded", "false");
+          pill.textContent = "🛏️ Voir les hébergements";
+        }
+      });
+    }
+
+    card.querySelectorAll(".housing-name").forEach(function (el) {
+      const idx = parseInt(el.dataset.night, 10);
+      const stop = (itinerary.housing || [])[idx];
+      if (!stop || !stop.point) return;
+      const panelHtml = window.InterMap.buildHousingInfoHtml(stop.point, stop.source);
+      el.addEventListener("mouseover", function (event) {
+        window.InterMap.showHoverPanel(panelHtml, event.clientX, event.clientY);
+      });
+      el.addEventListener("mousemove", function (event) {
+        window.InterMap.positionHoverPanel(event.clientX, event.clientY);
+      });
+      el.addEventListener("mouseout", function () {
+        window.InterMap.scheduleCloseHoverPanel();
+      });
+      el.addEventListener("click", function (event) {
+        event.stopPropagation();
+        window.InterMap.focusHousing(stop.point.lat, stop.point.lon);
       });
     });
   }
@@ -274,6 +395,7 @@
         detailEl.innerHTML = buildDetailHtml(itinerary);
         card.appendChild(detailEl.firstElementChild);
         attachLegFocusHandlers(card, itinerary);
+        attachHousingHandlers(card, itinerary);
         const icon = card.querySelector(".card-expand-icon");
         if (icon) icon.textContent = "▲";
 
