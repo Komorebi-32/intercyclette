@@ -12,6 +12,8 @@ from app.itinerary.planner import (
     get_stations_near_route_start,
     compute_end_station,
     downsample_geometry,
+    _nearest_point_index,
+    _extract_segment_points,
     find_itinerary_candidates,
     find_all_itineraries,
     TripCandidate,
@@ -35,13 +37,26 @@ def _station_dict(nom: str, cum_km: float, lat: float = 48.0, lon: float = 2.0) 
     }
 
 
-def _route_data(total_km: float, stations: list[dict], name: str = "Test Route") -> dict:
-    return {
+def _route_data(
+    total_km: float,
+    stations: list[dict],
+    name: str = "Test Route",
+    track_points: list[list[float]] | None = None,
+) -> dict:
+    data = {
         "route_id": "TST",
         "name": name,
         "total_km": total_km,
         "stations": stations,
     }
+    if track_points is not None:
+        data["track_points"] = track_points
+    return data
+
+
+def _meridian_track(n: int, lon: float = 2.0) -> list[list[float]]:
+    """A simple south-to-north track of n points along a meridian (lat 48..49)."""
+    return [[48.0 + i * (1.0 / (n - 1)), lon] for i in range(n)]
 
 
 def _make_index(routes: dict) -> dict:
@@ -197,6 +212,73 @@ class TestDownsampleGeometry:
 
 
 # ---------------------------------------------------------------------------
+# _nearest_point_index
+# ---------------------------------------------------------------------------
+
+class TestNearestPointIndex:
+    def test_empty_polyline_returns_minus_one(self):
+        assert _nearest_point_index([], 48.0, 2.0) == -1
+
+    def test_exact_vertex_match(self):
+        poly = [(48.0, 2.0), (48.5, 2.0), (49.0, 2.0)]
+        assert _nearest_point_index(poly, 48.5, 2.0) == 1
+
+    def test_closest_of_several(self):
+        poly = [(48.0, 2.0), (48.5, 2.0), (49.0, 2.0)]
+        # 48.9 is nearest to the third vertex (49.0)
+        assert _nearest_point_index(poly, 48.9, 2.0) == 2
+
+    def test_first_vertex_when_before_start(self):
+        poly = [(48.0, 2.0), (48.5, 2.0), (49.0, 2.0)]
+        assert _nearest_point_index(poly, 47.0, 2.0) == 0
+
+
+# ---------------------------------------------------------------------------
+# _extract_segment_points
+# ---------------------------------------------------------------------------
+
+class TestExtractSegmentPoints:
+    def _track(self) -> list[list[float]]:
+        # 11 vertices: lat 48.0, 48.1, … 49.0 at lon 2.0
+        return _meridian_track(11)
+
+    def _station(self, lat: float, lon: float = 2.0) -> StationOnRoute:
+        return StationOnRoute("S", "S", ["1"], lat, lon, 0.1, 0.0)
+
+    def test_segment_spans_nearest_vertices_inclusive(self):
+        track = self._track()
+        start = self._station(48.2)   # nearest vertex index 2
+        end = self._station(48.7)     # nearest vertex index 7
+        seg = _extract_segment_points({"track_points": track}, start, end)
+        assert seg[0] == tuple(track[2])
+        assert seg[-1] == tuple(track[7])
+        assert len(seg) == 6  # indices 2..7 inclusive
+
+    def test_full_resolution_no_points_dropped(self):
+        track = self._track()
+        start = self._station(48.0)   # index 0
+        end = self._station(49.0)     # index 10
+        seg = _extract_segment_points({"track_points": track}, start, end)
+        assert len(seg) == len(track)  # every vertex kept
+
+    def test_reversed_stations_still_min_max_slice(self):
+        track = self._track()
+        start = self._station(48.7)   # index 7
+        end = self._station(48.2)     # index 2
+        seg = _extract_segment_points({"track_points": track}, start, end)
+        # Slice is ordered along the track regardless of station order
+        assert seg[0] == tuple(track[2])
+        assert seg[-1] == tuple(track[7])
+        assert len(seg) == 6
+
+    def test_missing_track_points_returns_empty(self):
+        start = self._station(48.2)
+        end = self._station(48.7)
+        assert _extract_segment_points({}, start, end) == []
+        assert _extract_segment_points({"track_points": []}, start, end) == []
+
+
+# ---------------------------------------------------------------------------
 # find_itinerary_candidates
 # ---------------------------------------------------------------------------
 
@@ -230,6 +312,21 @@ class TestFindItineraryCandidates:
         result = find_itinerary_candidates("TST", route, 48.0, 2.0, 3, "escargot")
         for c in result:
             assert c.biking_end_km >= c.biking_start_km
+
+    def test_geometry_endpoints_snap_to_stations(self):
+        track = [[48.0 + i * 0.1, 2.0] for i in range(21)]  # lat 48.0..50.0
+        route = _route_data(300.0, [
+            _station_dict("Start", 5.0, lat=48.0, lon=2.0),
+            _station_dict("End", 180.0, lat=49.5, lon=2.0),
+        ], track_points=track)
+        result = find_itinerary_candidates("TST", route, 48.0, 2.0, 3, "escargot")
+        assert result
+        poly = [(p[0], p[1]) for p in track]
+        for c in result:
+            i1 = _nearest_point_index(poly, c.departure_station.lat, c.departure_station.lon)
+            i2 = _nearest_point_index(poly, c.arrival_station.lat, c.arrival_station.lon)
+            assert c.geometry[0] == poly[min(i1, i2)]
+            assert c.geometry[-1] == poly[max(i1, i2)]
 
     def test_no_start_stations_returns_empty(self):
         route = _route_data(300.0, [_station_dict("Only End", 200.0)])

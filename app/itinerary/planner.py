@@ -14,13 +14,8 @@ from app.constants import (
     OUTBOUND_CANDIDATE_COUNT,
     ROUTE_START_ZONE_FRACTION,
     ROUTE_START_ZONE_MAX_KM,
-    MAP_GEOMETRY_MAX_POINTS,
 )
-from app.geo.distance import (
-    haversine_km,
-    cumulative_distances_km,
-    interpolate_point_at_km,
-)
+from app.geo.distance import haversine_km
 from app.geo.station_matcher import StationOnRoute
 from app.itinerary.rhythm import get_rhythm, total_biking_km
 
@@ -40,8 +35,9 @@ class TripCandidate:
         total_biking_km: Total distance cycled (km).
         n_days: Number of days for the whole trip.
         rhythm_key: Rhythm key used to compute the biking distance.
-        geometry: Downsampled list of [lat, lon] pairs for the biked segment
-                  (for map rendering). At most MAP_GEOMETRY_MAX_POINTS points.
+        geometry: Full-resolution list of [lat, lon] pairs for the biked segment
+                  (for map rendering), sliced from the route's track_points
+                  between the start and end stations.
     """
 
     route_id: str
@@ -218,40 +214,69 @@ def round_geometry(
     return [[round(lat, decimals), round(lon, decimals)] for lat, lon in points]
 
 
-def _extract_segment_points(
-    route_data: dict,
-    start_km: float,
-    end_km: float,
-) -> list[tuple[float, float]]:
+def _nearest_point_index(
+    polyline: list[tuple[float, float]],
+    lat: float,
+    lon: float,
+) -> int:
     """
-    Extract the subset of route track points between start_km and end_km.
+    Find the index of the polyline vertex closest to a geographic point.
 
-    Uses the 'track_points' field if present in route_data. If absent,
-    returns an empty list (geometry will be omitted from the candidate).
+    Linear argmin of the haversine distance over every vertex; used to snap a
+    station to the nearest point on the route polyline.
 
     Args:
-        route_data: Single route dict from the index.
-        start_km: Cumulative km at the start of the biked segment.
-        end_km: Cumulative km at the end of the biked segment.
+        polyline: Ordered list of (lat, lon) tuples.
+        lat: Target point latitude in decimal degrees.
+        lon: Target point longitude in decimal degrees.
 
     Returns:
-        List of (lat, lon) tuples for the segment. May be empty.
+        Index of the nearest vertex, or -1 if the polyline is empty.
+    """
+    if not polyline:
+        return -1
+    best_idx = 0
+    best_dist = math.inf
+    for i, (p_lat, p_lon) in enumerate(polyline):
+        dist = haversine_km(lat, lon, p_lat, p_lon)
+        if dist < best_dist:
+            best_dist = dist
+            best_idx = i
+    return best_idx
+
+
+def _extract_segment_points(
+    route_data: dict,
+    start_station: StationOnRoute,
+    end_station: StationOnRoute,
+) -> list[tuple[float, float]]:
+    """
+    Extract the route track points between two stations.
+
+    Snaps each station to the nearest vertex of the route's 'track_points'
+    polyline and returns the inclusive slice between those two indices. Slicing
+    the same full-resolution polyline that is drawn guarantees the segment ends
+    land on the route line next to the station markers, regardless of station
+    spacing. The result is full-resolution (no downsampling).
+
+    Args:
+        route_data: Single route dict from the index (with 'track_points').
+        start_station: Bike departure station (carries lat/lon).
+        end_station: Bike arrival station (carries lat/lon).
+
+    Returns:
+        List of (lat, lon) tuples for the segment. Empty if track_points is
+        absent.
     """
     raw_points = route_data.get("track_points")
     if not raw_points:
         return []
     polyline = [(p[0], p[1]) for p in raw_points]
-    cum = cumulative_distances_km(polyline)
-    total = cum[-1]
-    # Clamp to valid range
-    clamped_start = max(0.0, min(start_km, total))
-    clamped_end = max(0.0, min(end_km, total))
-    segment = [
-        polyline[i]
-        for i in range(len(polyline))
-        if clamped_start <= cum[i] <= clamped_end
-    ]
-    return segment
+    i1 = _nearest_point_index(polyline, start_station.lat, start_station.lon)
+    i2 = _nearest_point_index(polyline, end_station.lat, end_station.lon)
+    if i1 == -1 or i2 == -1:
+        return []
+    return polyline[min(i1, i2): max(i1, i2) + 1]
 
 
 def find_itinerary_candidates(
@@ -267,7 +292,10 @@ def find_itinerary_candidates(
 
     For each outbound candidate station (up to OUTBOUND_CANDIDATE_COUNT):
     1. Compute the end station based on total biking km.
-    2. Assemble a TripCandidate with geometry for the biked segment.
+    2. Build the biked-segment geometry by slicing the route's full-resolution
+       track_points between the start and end stations' nearest vertices
+       (see _extract_segment_points), so the line spans station to station.
+    3. Assemble a TripCandidate.
 
     Args:
         route_id: Eurovelo route identifier.
@@ -297,8 +325,7 @@ def find_itinerary_candidates(
             continue
         start_km = start_station.cumulative_km
         end_km = start_km + biking_km
-        segment_points = _extract_segment_points(route_data, start_km, end_km)
-        geometry = downsample_geometry(segment_points, MAP_GEOMETRY_MAX_POINTS)
+        geometry = _extract_segment_points(route_data, start_station, end_station)
         candidates.append(
             TripCandidate(
                 route_id=route_id,

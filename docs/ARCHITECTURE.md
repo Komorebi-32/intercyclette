@@ -117,7 +117,9 @@ Manages several layer groups:
     `getTrainLegColors(routeId)` (green/orange/blue/violet/red palette, filtered
     to stay visually distinct from the selected route color via an RGB-distance
     threshold)
-  - biked segment in route color (weight 6)
+  - biked segment in route color (weight 6); full-resolution, spanning the
+    departure→arrival stations (sliced from the route track_points between the
+    vertices nearest each station, so it sits exactly on the route line)
   - direction arrows (`addDirectionArrows`) placed at even arc-length intervals
     along every train leg and the bike leg, rotated to the local travel bearing
   - blue circle marker at departure station
@@ -154,7 +156,10 @@ Key functions:
 - `totalBikingKm(nDays, rhythmKey)`
 - `getStationsNearRouteStart(routeData, depLat, depLon, n)`
 - `computeEndStation(routeData, startStation, bikingKm)`
-- `extractSegmentPoints(trackPoints, startKm, endKm)`
+- `nearestPointIndex(polyline, lat, lon)` — argmin haversine vertex lookup
+- `extractSegmentPoints(trackPoints, startStation, endStation)` — slices the
+  full-resolution route `track_points` between the vertices nearest the two
+  stations (so the bike line spans station→station and traces the GPX exactly)
 - `findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythmKey)`
 
 Public API: `window.InterPlanner`

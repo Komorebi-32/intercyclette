@@ -709,9 +709,12 @@
    *
    * ── How the bike leg is produced and drawn ────────────────────────────────
    *
-   * The polyline drawn here (`itinerary.geometry`) is the tail end of a pipeline
-   * that runs in `planner.js` at search time; this function only renders the
-   * already-computed coordinates.
+   * The polyline drawn here (`itinerary.geometry`) is produced in `planner.js`
+   * at search time by `extractSegmentPoints`, which snaps the departure and
+   * arrival stations to their nearest vertices on the route's full-resolution
+   * `track_points` and returns the slice between them — so the line spans
+   * station to station and traces the GPX exactly. This function only renders
+   * those coordinates.
    *
    * The rendering step proper: when `itinerary.geometry` has at least two
    * points, it is drawn as an `L.polyline` in the route color
@@ -724,7 +727,8 @@
    * @param {Object} itinerary - Itinerary object assembled by search.js.
    * @param {string} itinerary.route_id - Route ID for bike-leg color lookup.
    * @param {Array<[number, number]>} itinerary.geometry - Biked segment polyline
-   *   ([[lat, lon], …]), already extracted and downsampled by planner.js.
+   *   ([[lat, lon], …]), sliced full-resolution from the route track_points
+   *   between the two stations by planner.js.
    * @param {Object|null} itinerary.outbound - Outbound train journey (sections).
    * @param {Object|null} itinerary.return_train - Return train journey (sections).
    * @param {{nom:string, lat:number, lon:number}} itinerary.departure_station -

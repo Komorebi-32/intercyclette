@@ -24,7 +24,6 @@
   const OUTBOUND_CANDIDATE_COUNT  = 3;
   const EARTH_RADIUS_KM           = 6371.0;
   const HALF_DAY_FRACTION         = 0.5;
-  const MAP_GEOMETRY_MAX_POINTS   = 1000;
 
   // ── Geometry helpers ──────────────────────────────────────────────────────
 
@@ -51,43 +50,28 @@
   }
 
   /**
-   * Compute cumulative distances along a polyline.
+   * Find the index of the polyline vertex closest to a geographic point.
+   *
+   * Linear argmin of the haversine distance over every vertex. Used to snap a
+   * station to the nearest point on the route polyline.
    *
    * @param {Array<[number, number]>} polyline - Array of [lat, lon] pairs.
-   * @returns {number[]} Array of cumulative km values, same length as polyline.
-   *   First value is always 0.
+   * @param {number} lat - Target point latitude in decimal degrees.
+   * @param {number} lon - Target point longitude in decimal degrees.
+   * @returns {number} Index of the nearest vertex, or -1 if the polyline is empty.
    */
-  function cumulativeDistancesKm(polyline) {
-    const cum = [0];
-    for (let i = 1; i < polyline.length; i++) {
-      cum.push(cum[i - 1] + haversineKm(polyline[i - 1][0], polyline[i - 1][1], polyline[i][0], polyline[i][1]));
+  function nearestPointIndex(polyline, lat, lon) {
+    if (!polyline || polyline.length === 0) return -1;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < polyline.length; i++) {
+      const d = haversineKm(lat, lon, polyline[i][0], polyline[i][1]);
+      if (d < bestDist) {
+        bestDist = d;
+        bestIdx = i;
+      }
     }
-    return cum;
-  }
-
-  /**
-   * Downsample a polyline to at most maxPoints entries.
-   *
-   * Selects every N-th point where N = ceil(len / maxPoints).
-   * Always includes the first and last point.
-   *
-   * @param {Array<[number, number]>} points - Full array of [lat, lon] pairs.
-   * @param {number} maxPoints - Maximum number of points to return.
-   * @returns {Array<[number, number]>} Downsampled array. Empty if input is empty.
-   */
-  function downsampleGeometry(points, maxPoints) {
-    if (!points || points.length === 0) return [];
-    if (points.length <= maxPoints) return points.slice();
-    const step = Math.ceil(points.length / maxPoints);
-    const sampled = [];
-    for (let i = 0; i < points.length; i += step) {
-      sampled.push(points[i]);
-    }
-    const last = points[points.length - 1];
-    if (sampled[sampled.length - 1] !== last) {
-      sampled.push(last);
-    }
-    return sampled;
+    return bestIdx;
   }
 
   // ── Rhythm helpers ────────────────────────────────────────────────────────
@@ -172,24 +156,28 @@
   }
 
   /**
-   * Extract route track points between startKm and endKm (cumulative).
+   * Extract the route track points between two stations.
    *
-   * Uses track_points embedded in routeData (added by preprocess.py).
-   * Returns an empty array if track_points is absent.
+   * Snaps each station to the nearest vertex of the route's `track_points`
+   * polyline and returns the (inclusive) slice between those two indices. Slicing
+   * the same full-resolution polyline that is drawn guarantees the segment ends
+   * land exactly on the route line next to the station markers, regardless of
+   * station spacing. The result is full-resolution (no downsampling) so the bike
+   * leg traces the GPX exactly.
    *
-   * @param {Object} routeData - Single route object from the index.
-   * @param {number} startKm - Cumulative km where the biked segment begins.
-   * @param {number} endKm - Cumulative km where the biked segment ends.
-   * @returns {Array<[number, number]>} Array of [lat, lon] pairs for the segment.
+   * @param {Array<[number, number]>} trackPoints - Route polyline ([lat, lon]),
+   *   ordered along the route. Empty/absent yields an empty result.
+   * @param {{lat:number, lon:number}} startStation - Bike departure station.
+   * @param {{lat:number, lon:number}} endStation - Bike arrival station.
+   * @returns {Array<[number, number]>} [lat, lon] pairs for the biked segment,
+   *   or [] if trackPoints is empty.
    */
-  function extractSegmentPoints(routeData, startKm, endKm) {
-    const raw = routeData.track_points;
-    if (!raw || raw.length === 0) return [];
-    const cum = cumulativeDistancesKm(raw);
-    const total = cum[cum.length - 1];
-    const clampedStart = Math.max(0, Math.min(startKm, total));
-    const clampedEnd = Math.max(0, Math.min(endKm, total));
-    return raw.filter((_, i) => cum[i] >= clampedStart && cum[i] <= clampedEnd);
+  function extractSegmentPoints(trackPoints, startStation, endStation) {
+    if (!trackPoints || trackPoints.length === 0) return [];
+    const i1 = nearestPointIndex(trackPoints, startStation.lat, startStation.lon);
+    const i2 = nearestPointIndex(trackPoints, endStation.lat, endStation.lon);
+    if (i1 === -1 || i2 === -1) return [];
+    return trackPoints.slice(Math.min(i1, i2), Math.max(i1, i2) + 1);
   }
 
   // ── Candidate assembly ────────────────────────────────────────────────────
@@ -198,29 +186,21 @@
    * Build TripCandidate objects for a single Eurovelo route.
    *
    * For each outbound candidate station (up to OUTBOUND_CANDIDATE_COUNT):
-   * 1. Compute the end station based on total biking km.
-   * 2. Assemble a candidate object with segment geometry.
-   * *
+   *
    * 1. Biking budget — `totalBikingKm(nDays, rhythmKey)` converts the trip
    *    length and pace into a distance: a half day for a 1-day trip, otherwise
    *    `(nDays - 1)` full days, each full day being `speed_kmh * hours_per_day`
    *    for the chosen rhythm (escargot / randonneur / athlète).
-   * 2. Start point — the outbound station's position along the route is known as
-   *    its `cumulative_km` (precomputed offset from the route start). This is
-   *    `startKm`; `endKm = startKm + bikingKm`.
-   * 3. End station — `computeEndStation` scans the route's stations for the one
-   *    whose `cumulative_km` is closest to `endKm`, so the biked segment begins
-   *    and ends at real reachable stations.
-   * 4. Segment extraction — `extractSegmentPoints` takes the route's full
-   *    `track_points` polyline, computes per-vertex cumulative distance with
-   *    `cumulativeDistancesKm` (haversine between consecutive points), then keeps
-   *    only the vertices whose cumulative distance falls within
-   *    `[startKm, endKm]` (both clamped to the route length).
-   * 5. Downsampling — `downsampleGeometry` thins that slice to at most
-   *    `MAP_GEOMETRY_MAX_POINTS` vertices (keeping the last point) to keep the
-   *    payload light, yielding `candidate.geometry`.
-   * 6. Hand-off — `search.js.buildItineraryCard` copies `candidate.geometry`
-   *    onto the itinerary as `itinerary.geometry`, which is what arrives here.
+   * 2. End station — `computeEndStation` scans the route's stations for the one
+   *    whose `cumulative_km` is closest to `startStation.cumulative_km + bikingKm`,
+   *    so the biked segment begins and ends at real reachable stations.
+   * 3. Segment geometry — `extractSegmentPoints` snaps the start and end stations
+   *    to their nearest vertices on the route's full-resolution `track_points`
+   *    and returns the slice between them. The geometry is kept full-resolution
+   *    so the bike leg traces the GPX exactly and its ends land on the station
+   *    markers. (`startKm`/`endKm` are still used for the distance labels.)
+   * 4. Hand-off — `search.js.buildItineraryCard` copies `candidate.geometry`
+   *    onto the itinerary as `itinerary.geometry`, which map.js draws.
    *
    * @param {string} routeId - Eurovelo route ID (e.g. 'EV6').
    * @param {Object} routeData - Route entry from the proximity index.
@@ -241,8 +221,7 @@
       if (!endStation) return acc;
       const startKm = startStation.cumulative_km;
       const endKm = startKm + bikingKm;
-      const segmentPoints = extractSegmentPoints(routeData, startKm, endKm);
-      const geometry = downsampleGeometry(segmentPoints, MAP_GEOMETRY_MAX_POINTS);
+      const geometry = extractSegmentPoints(routeData.track_points, startStation, endStation);
       acc.push({
         route_id: routeId,
         route_name: routeName,
@@ -298,8 +277,8 @@
     totalBikingKm,
     getStationsNearRouteStart,
     computeEndStation,
+    nearestPointIndex,
     extractSegmentPoints,
-    downsampleGeometry,
     findItineraryCandidates,
     findAllItineraries,
   };
