@@ -94,15 +94,18 @@
    *   the connection was not found.
    * @param {string} label - Human-readable label, e.g. "Train aller".
    * @param {string} color - Hex color for the train pill (per-leg color).
+   * @param {string|null} [noTrainMessage] - Message to show when journey is null
+   *   (e.g. "no train needed"); defaults to "connexion non trouvée".
    * @returns {string} Inner HTML string for the train detail section.
    */
-  function buildTrainLegHtml(journey, label, color) {
+  function buildTrainLegHtml(journey, label, color, noTrainMessage) {
     if (!journey) {
+      const msg = noTrainMessage || `${label} : connexion non trouvée`;
       return `
         <div class="leg-pill-row">
           <div class="leg-pill leg-pill--train" style="background:${color}">🚂 ${label}</div>
         </div>
-        <p class="journey-missing">${label} : connexion non trouvée</p>
+        <p class="journey-missing">${msg}</p>
       `;
     }
     const transfersText = journey.nb_transfers > 0
@@ -282,7 +285,7 @@
     return `
       <div class="card-detail">
         <div class="detail-section detail-section--train" data-leg="outbound" style="border-left-color:${trainColors.outbound}">
-          ${buildTrainLegHtml(ob, "Train aller", trainColors.outbound)}
+          ${buildTrainLegHtml(ob, "Train aller", trainColors.outbound, itinerary.no_train ? "🚲 Départ direct à vélo — aucun train nécessaire" : null)}
         </div>
         <div class="detail-section detail-section--bike" data-leg="bike" data-route="${itinerary.route_id}">
           ${buildBikeLegHtml(itinerary, rhythmLabel, bikeDepartureDate, bikeArrivalDate, bikeStartIso)}

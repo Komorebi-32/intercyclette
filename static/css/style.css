@@ -422,6 +422,10 @@ details[open] > .route-category-summary::after { transform: rotate(90deg); }
   color: #2c3e50;
   margin-bottom: 14px;
 }
+.placeholder-progress {
+  font-size: 13px;
+  color: var(--grey-text);
+}
 
 /* How it works — 3 step cards in the placeholder */
 .how-it-works {

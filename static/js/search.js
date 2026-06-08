@@ -20,6 +20,9 @@
   /** Full proximity index loaded from static/data/route_stations.json. */
   let routeIndex = null;
 
+  /** Big-city hub stations per route, from static/data/route_big_cities.json. */
+  let bigCities = {};
+
   /** Currently selected station UIC code. */
   let selectedUic = "";
 
@@ -315,67 +318,18 @@
     return `${y2}-${m2}-${d2}`;
   }
 
-  // ── Transitous journey queries ─────────────────────────────────────────────
-
-  /**
-   * Query the Transitous API for the best outbound journey and return a
-   * journey result object, or null if no train is found.
-   *
-   * Station names in the result come from the API response itself (actual
-   * boarding and alighting stations), not from the passed coordinates.
-   *
-   * @param {number} fromLat - Departure latitude.
-   * @param {number} fromLon - Departure longitude.
-   * @param {number} toLat - Arrival latitude.
-   * @param {number} toLon - Arrival longitude.
-   * @param {string} localIsoDatetime - Desired local departure datetime,
-   *   e.g. "2026-05-02T08:00:00".
-   * @returns {Promise<Object|null>} Journey result object, or null if not found.
-   */
-  async function queryOutboundJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
-    const itineraries = await window.InterTimetable.queryJourney(
-      fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
-    );
-    if (!itineraries.length) return null;
-    return window.InterTimetable.buildJourneyResult(itineraries[0]);
-  }
-
-  /**
-   * Query the Transitous API for the best return journey and return a
-   * journey result object, or null if no train is found.
-   *
-   * Station names in the result come from the API response itself (actual
-   * boarding and alighting stations), not from the passed coordinates.
-   *
-   * @param {number} fromLat - Return origin latitude (route end station).
-   * @param {number} fromLon - Return origin longitude.
-   * @param {number} toLat - Return destination latitude (home city).
-   * @param {number} toLon - Return destination longitude.
-   * @param {string} localIsoDatetime - Desired local departure datetime,
-   *   e.g. "2026-05-05T16:00:00".
-   * @returns {Promise<Object|null>} Journey result object, or null if not found.
-   */
-  async function queryReturnJourney(fromLat, fromLon, toLat, toLon, localIsoDatetime) {
-    const itineraries = await window.InterTimetable.queryJourney(
-      fromLat, fromLon, toLat, toLon, localIsoDatetime, 1
-    );
-    if (!itineraries.length) return null;
-    return window.InterTimetable.buildJourneyResult(itineraries[0]);
-  }
-
   // ── Itinerary card assembly ────────────────────────────────────────────────
 
   /**
-   * Assemble an itinerary card object from a TripCandidate and two journeys.
+   * Assemble an itinerary card object from an optimized trip (InterTrip).
    *
-   * @param {Object} candidate - TripCandidate from InterPlanner.
-   * @param {Object|null} outboundJourney - Journey from queryOutboundJourney().
-   * @param {Object|null} returnJourney - Journey from queryReturnJourney().
-   * @param {Array<Object>} [housing] - Optional per-night housing stops from
-   *   InterPlanner.computeNightlyHousing (empty when the feature is off).
+   * @param {Object} trip - Trip from InterTrip.optimize: { routeId, routeName,
+   *   entry, bikeLeg, endStation, outboundJourney, returnJourney, noTrain }.
+   * @param {Object} params - Form values from getFormValues() (n_days, rhythm).
+   * @param {Array<Object>} [housing] - Optional per-night housing stops.
    * @returns {Object} Card object suitable for InterResults.renderResults().
    */
-  function buildItineraryCard(candidate, outboundJourney, returnJourney, housing) {
+  function buildItineraryCard(trip, params, housing) {
     function journeyDict(j) {
       if (!j) return null;
       return {
@@ -391,51 +345,52 @@
       };
     }
 
-    const dep = candidate.departure_station;
-    const arr = candidate.arrival_station;
+    const entry = trip.entry;
+    const end = trip.endStation;
+    const bike = trip.bikeLeg;
 
     return {
-      route_id: candidate.route_id,
-      route_name: candidate.route_name,
+      route_id: trip.routeId,
+      route_name: trip.routeName,
       departure_station: {
-        nom: dep.nom,
-        uic: (dep.codes_uic && dep.codes_uic[0]) || "",
-        lat: dep.lat,
-        lon: dep.lon,
-        cumulative_km: dep.cumulative_km,
+        nom: entry.nom || "Départ",
+        uic: entry.uic || "",
+        lat: entry.lat,
+        lon: entry.lon,
+        cumulative_km: entry.cumulative_km,
       },
       arrival_station: {
-        nom: arr.nom,
-        uic: (arr.codes_uic && arr.codes_uic[0]) || "",
-        lat: arr.lat,
-        lon: arr.lon,
-        cumulative_km: arr.cumulative_km,
+        nom: end.nom,
+        uic: (end.codes_uic && end.codes_uic[0]) || "",
+        lat: end.lat,
+        lon: end.lon,
+        cumulative_km: end.cumulative_km,
       },
-      biking_start_km: candidate.biking_start_km,
-      biking_end_km: candidate.biking_end_km,
-      total_biking_km: candidate.total_biking_km,
-      n_days: candidate.n_days,
-      rhythm_key: candidate.rhythm_key,
-      geometry: candidate.geometry,
-      outbound: journeyDict(outboundJourney),
-      return_train: journeyDict(returnJourney),
+      biking_start_km: Math.round(bike.startKm * 10) / 10,
+      biking_end_km: Math.round(bike.endKm * 10) / 10,
+      total_biking_km: Math.round(bike.totalKm * 10) / 10,
+      n_days: params.n_days,
+      rhythm_key: params.rhythm,
+      geometry: bike.geometry,
+      outbound: journeyDict(trip.outboundJourney),
+      return_train: journeyDict(trip.returnJourney),
       housing: housing || [],
+      no_train: !!trip.noTrain,
     };
   }
 
   // ── Search orchestration ───────────────────────────────────────────────────
 
   /**
-   * Run the full itinerary search: plan locally, then query the Transitous API
-   * for outbound and return train times for each candidate.
-   *
-   * Outbound and return queries for each candidate run in parallel; all
-   * candidates are processed concurrently.
+   * Run the full itinerary search: a hub-based, scored outbound + return train
+   * search (InterTrip), returning the 3 best trips as cards.
    *
    * @param {Object} params - Form values from getFormValues().
-   * @returns {Promise<Object[]>} Array of itinerary card objects.
+   * @param {function(number, number): void} [onProgress] - (done, total) callback
+   *   for the API-call progress indicator.
+   * @returns {Promise<Object[]>} Array of itinerary card objects (≤3).
    */
-  async function runSearch(params) {
+  async function runSearch(params, onProgress) {
     if (!routeIndex) {
       throw new Error("Index des routes non chargé. Rechargez la page.");
     }
@@ -446,58 +401,37 @@
     }
 
     const travelDate = params.travel_date || new Date().toISOString().split("T")[0];
+    const returnDate = addDaysIso(travelDate, params.n_days - 1);
 
-    const outboundDate = travelDate;
-    const returnDate   = addDaysIso(travelDate, params.n_days - 1);
+    const trips = await window.InterTrip.optimize({
+      routeIndex: routeIndex,
+      bigCities: bigCities,
+      routes: params.routes,
+      depStation: {
+        lat: depStation.lat,
+        lon: depStation.lon,
+        nom: depStation.nom,
+        uic: depStation.uic,
+      },
+      nDays: params.n_days,
+      rhythm: params.rhythm,
+      outboundIso: `${travelDate}T08:00:00`,
+      returnIso: `${returnDate}T16:00:00`,
+      onProgress: onProgress,
+    });
 
-    const outboundIso = `${outboundDate}T08:00:00`;
-    const returnIso   = `${returnDate}T16:00:00`;
-
-    // Compute itinerary candidates (pure JS, no network)
-    const candidates = window.InterPlanner.findAllItineraries(
-      params.routes,
-      routeIndex,
-      depStation.lat,
-      depStation.lon,
-      params.n_days,
-      params.rhythm
-    );
-
-    if (candidates.length === 0) return [];
-
-    // For each candidate, query outbound and return journeys in parallel via
-    // the Transitous API, then assemble a card from the results.
-    const cardPromises = candidates.map(async function (candidate) {
-      const dep = candidate.departure_station;
-      const arr = candidate.arrival_station;
-
-      const [outboundJourney, returnJourney] = await Promise.all([
-        queryOutboundJourney(
-          depStation.lat, depStation.lon,
-          dep.lat, dep.lon,
-          outboundIso
-        ),
-        queryReturnJourney(
-          arr.lat, arr.lon,
-          depStation.lat, depStation.lon,
-          returnIso
-        ),
-      ]);
-
-      const housing = (params.propose_housing && candidate.n_days >= 2)
+    return trips.map(function (trip) {
+      const housing = (params.propose_housing && params.n_days >= 2)
         ? window.InterPlanner.computeNightlyHousing(
-            routeIndex.routes[candidate.route_id],
-            candidate.departure_station,
-            candidate.n_days,
-            candidate.rhythm_key,
+            routeIndex.routes[trip.routeId],
+            { cumulative_km: trip.entry.cumulative_km, lat: trip.entry.lat, lon: trip.entry.lon },
+            params.n_days,
+            params.rhythm,
             window.InterMap.getHousingPools()
           )
         : [];
-
-      return buildItineraryCard(candidate, outboundJourney, returnJourney, housing);
+      return buildItineraryCard(trip, params, housing);
     });
-
-    return Promise.all(cardPromises);
   }
 
   // ── Event handlers ─────────────────────────────────────────────────────────
@@ -519,14 +453,19 @@
 
             // Switch to results view and show loading state
       showResultsView();
-      resultsContainer.innerHTML = '<div class="results-placeholder"><p class="placeholder-lead">Recherche en cours…</p></div>';
+      resultsContainer.innerHTML = '<div class="results-placeholder"><p class="placeholder-lead">Recherche des meilleurs trains…</p><p class="placeholder-progress" id="search-progress"></p></div>';
       searchBtn.disabled = true;
       window.InterMap.clearMap();
       if (window.InterMap.setRoutesHidden) {
         window.InterMap.setRoutesHidden(false);
       }
 
-      runSearch(params)
+      const progressNode = document.getElementById("search-progress");
+      const onProgress = (done, total) => {
+        if (progressNode) progressNode.textContent = `${done} / ${total} requêtes`;
+      };
+
+      runSearch(params, onProgress)
         .then((itineraries) => {
           resultsContainer.innerHTML = "";
           window.InterResults.renderResults(itineraries, resultsContainer);
@@ -692,6 +631,15 @@
     })
     .catch(() => {
       console.warn("Could not load route_stations.json.");
+    });
+
+  fetch("static/data/route_big_cities.json")
+    .then((r) => r.json())
+    .then((data) => {
+      bigCities = data;
+    })
+    .catch(() => {
+      console.warn("Could not load route_big_cities.json.");
     });
 
   if (window.InterMap) {

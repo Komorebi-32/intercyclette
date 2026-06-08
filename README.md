@@ -149,6 +149,7 @@ intercyclette/
 │   ├── preprocess.py                  Pré-traitement GPX + gares (exécuté une fois)
 │   ├── export_stations_json.py        Export → static/data/stations.json
 │   ├── export_route_geometries.py     Export → static/data/routes/*.json
+│   ├── export_route_big_cities.py     Export gares "grandes villes" → static/data/route_big_cities.json
 │   ├── export_housing_json.py         Export hébergements OSM → static/data/housing.json
 │   └── export_accueil_velo_json.py    Export Accueil Vélo → housing + restaurants JSON
 ├── app/
@@ -168,6 +169,7 @@ intercyclette/
 │   ├── data/
 │   │   ├── stations.json              Gares SNCF (autocomplete)
 │   │   ├── route_stations.json        Index gares ↔ routes (site statique)
+│   │   ├── route_big_cities.json      Gares "grandes villes" (hubs) par route
 │   │   ├── housing.json               Hébergements OSM ≤ 5 km des routes
 │   │   ├── accueil_velo_housing.json  Hébergements Accueil Vélo ≤ 5 km des routes
 │   │   ├── accueil_velo_restaurants.json  Restaurants Accueil Vélo ≤ 5 km des routes
@@ -175,7 +177,8 @@ intercyclette/
 │   └── js/
 │       ├── map.js                     Carte Leaflet, overlays colorés, points hébergement
 │       ├── planner.js                 Port JS du planificateur Python
-│       ├── transitous.js              Client API Transitous (horaires en temps réel)
+│       ├── transitous.js              Client API Transitous + notation des trajets
+│       ├── trip_optimizer.js          Recherche train aller/retour par hubs, notée (3 meilleurs)
 │       ├── co2.js                     Calcul d'empreinte carbone et émissions évitées
 │       ├── results.js                 Rendu des cartes itinéraires
 │       └── search.js                  Formulaire, autocomplétion, date FR, aide, orchestration
@@ -249,19 +252,23 @@ accueil-velo.csv  +  Eurovelo_France_gpx/*.gpx
 [Formulaire utilisateur]
         │
         ▼
-[Chargement local route_stations.json + stations.json]
+[Chargement local route_stations.json + stations.json + route_big_cities.json]
         │
         ▼
-[planner.js — calcul pur JS, sans réseau]
-   Stations de départ dans la "zone initiale" (15 %, max 100 km)
-   Triées par distance à la gare de départ
-   Distance vélo = (n_jours - 1) × km_par_jour  [pour n_jours ≥ 2]
+[trip_optimizer.js — recherche par "hubs", notée]
+   Pour chaque route sélectionnée :
+     · route à ≤10 km de l'utilisateur → pas de train aller, vélo direct
+     · sinon → requêtes vers les 5 gares "grandes villes" les plus proches
+   Notation : [correspondances, présence TGV, durée]  (sans train = meilleur)
+   → 10 meilleurs allers → calcul du vélo + gare d'arrivée → requêtes retour
+   → tri par somme des notes aller+retour → 3 meilleurs trajets
+   (appels concurrents plafonnés, avec indicateur de progression)
         │
         ▼
-[transitous.js — appels API Transitous]
-   queryJourney(fromLat, fromLon, toLat, toLon, isoDatetime)
+[transitous.js — appels API Transitous + notation]
+   queryJourney(fromLat, fromLon, toLat, toLon, isoDatetime, maxResults)
    GET https://api.transitous.org/api/v5/plan
-   → meilleurs itinéraires (avec correspondances)
+   journeyScoreKey / compareJourneys
         │
         ▼
 [co2.js — calcul pur JS, sans réseau]

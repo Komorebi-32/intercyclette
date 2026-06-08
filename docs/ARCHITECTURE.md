@@ -61,17 +61,20 @@ browser
 user fills form → search.js reads form values
   │
   ▼
-planner.js.findAllItineraries(routeIds, index, depLat, depLon, nDays, rhythm)
-  │  pure JS, no network — reads route_stations.json already in memory
+trip_optimizer.js.optimize({ routeIndex, bigCities, routes, depStation, … })
+  │  Hub-based, scored search (replaces the old 3/N-candidate rule):
+  │  · per selected route: if it passes ≤10 km from the user (planner.js
+  │    nearestRoutePoint) → NO outbound train, bike from that point;
+  │    else query user → the 5 hub stations nearest the user
+  │    (route_big_cities.json), maxResults≈5, keep the best-scored journey/hub
+  │  · score = [transfers, anyTGV?1:0, durationMin] (transitous.js
+  │    journeyScoreKey); no-train = [0,0,0] (best). Keep the 10 best outbound.
+  │  · for each: planner.js buildBikeLegFromEntry → end station; query the
+  │    return (bike-end → user) and score it the same way.
+  │  · rank trips by the elementwise SUM of outbound+return keys; keep the top 3.
+  │  All Transitous calls run through a concurrency pool (≤6) with onProgress.
   │
-  ▼  for each TripCandidate (up to 3 per single route, 1 per multi-route)
-  │
-  ├─ transitous.js.queryJourney(fromLat, fromLon, toLat, toLon, "YYYY-MM-DDTHH:MM:SS")
-  │    outbound: 08:00 on the outbound date
-  ├─ transitous.js.queryJourney(fromLat, fromLon, toLat, toLon, "YYYY-MM-DDTHH:MM:SS")
-  │    return:   16:00 on the return date
-  │  both async — issue GET to https://api.transitous.org/api/v5/plan
-  │
+  ├─ transitous.js.queryJourney(..., maxResults≈5)  → GET …/api/v5/plan
   ▼
 transitous.js.buildJourneyResult(itinerary)
   │  strips WALK legs; reads station names from first/last transit leg;
@@ -80,7 +83,7 @@ transitous.js.buildJourneyResult(itinerary)
   │  REGIONAL_RAIL→TER) and computes segment distance from legGeometry polyline
   │
   ▼
-search.js.buildItineraryCard(candidate, outboundJourney, returnJourney)
+search.js.buildItineraryCard(trip, params, housing)   // 3 best trips
   │
   ▼
 results.js.renderResults(itineraries, container)
@@ -172,6 +175,10 @@ Key functions:
   stations (so the bike line spans station→station and traces the GPX exactly)
 - `interpolatePointAtKm(polyline, cumulative, targetKm)` — `[lat,lon]` at a
   distance along the route (with `cumulativeDistancesKm`)
+- `nearestRoutePoint(routeData, lat, lon)` — nearest route vertex to a point with
+  its distance + cumulative km (drives the ≤10 km "no outbound train" rule)
+- `buildBikeLegFromEntry(routeData, entry, bikingKm)` — bike leg (end station +
+  geometry) from any entry point biking forward (used by the trip optimizer)
 - `nearestHousing(lat, lon, pools)` — nearest Accueil Vélo within
   `HOUSING_RADIUS_KM`, else nearest OSM accommodation
 - `computeNightlyHousing(routeData, startStation, nDays, rhythmKey, pools)` —
@@ -206,7 +213,26 @@ Each section in the returned `sections` array includes:
 The browser sends a `Referer` header automatically on every cross-origin
 request, satisfying the Transitous attribution requirement.
 
-Public API: `window.InterTimetable = { queryJourney, buildJourneyResult, formatDurationMinutes, minutesToTime }`
+Journey **scoring** lives here too: `journeyScoreKey(journey)` →
+`[nb_transfers, anyTGV?1:0, duration_minutes]` (a null journey = no train =
+`[0,0,0]`, best), with `journeyHasTGV`, `compareScoreKeys`, and `compareJourneys`.
+
+Public API: `window.InterTimetable = { queryJourney, buildJourneyResult,
+formatDurationMinutes, minutesToTime, journeyHasTGV, journeyScoreKey,
+compareScoreKeys, compareJourneys }`
+
+### `static/js/trip_optimizer.js`
+
+Hub-based, scored outbound + return search (`window.InterTrip.optimize`). For
+each selected route it either skips the train (route ≤10 km from the user → bike
+from the nearest route point) or queries the user → the **5 hub stations nearest
+the user** on that route (from `route_big_cities.json`), scoring every journey
+with `InterTimetable.journeyScoreKey`. It keeps the **10 best outbound** legs,
+computes each bike leg + end station (`InterPlanner.buildBikeLegFromEntry`),
+queries + scores the **return** (bike-end → user), and ranks final trips by the
+**sum** of both legs' score keys, returning the **top 3**. All API calls run
+through a bounded concurrency pool (`mapWithConcurrency`, ≤6) with an
+`onProgress(done, total)` callback. Depends on `InterPlanner` + `InterTimetable`.
 
 ### `static/js/co2.js`
 
@@ -287,7 +313,9 @@ Orchestrates the search flow:
 3. Initialises the native date picker (`#travel-date`, `initTravelDateInput`):
    sets `min` to today, defaults to tomorrow; value is read directly as ISO
    YYYY-MM-DD (browser renders it in the user's locale format)
-4. On submit: calls `InterPlanner`, then awaits `InterTimetable.queryJourney` for each candidate
+4. On submit: delegates to `InterTrip.optimize(...)` (hub-based scored outbound +
+   return search, top-3 trips), shows an API-call progress count, then maps each
+   trip through `buildItineraryCard(trip, params, housing)`
 5. Wires route checkbox changes to `InterMap.setRouteVisible` (including Select All).
    The landscape **criteria pills** (`.route-criteria-pill[data-criteria]`,
    river/sea/mountain) — `ROUTE_CRITERIA` + `applyCriteriaSelection` /
@@ -323,6 +351,7 @@ journey search is handled entirely in the browser.
 |---|---|---|
 | `static/data/stations.json` | ~350 KB | `scripts/export_stations_json.py` |
 | `static/data/route_stations.json` | ~14 MB (~1.5 MB gzip) | `scripts/preprocess.py` |
+| `static/data/route_big_cities.json` | ~26 KB | `scripts/export_route_big_cities.py` |
 | `static/data/routes/ev*.json` (×9) | ~0.6 MB each, ~5 MB total (~1.2 MB gzip) | `scripts/export_route_geometries.py` |
 | `static/data/housing.json` | ~3.2 MB | `scripts/export_housing_json.py` |
 | `static/data/accueil_velo_housing.json` | ~420 KB | `scripts/export_accueil_velo_json.py` |

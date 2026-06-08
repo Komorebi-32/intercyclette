@@ -229,6 +229,64 @@
     return trackPoints.slice(Math.min(i1, i2), Math.max(i1, i2) + 1);
   }
 
+  /**
+   * Find the route point nearest a geographic location, with its distance and
+   * cumulative distance along the route.
+   *
+   * Used to decide whether a route passes close enough to the user (≤ a few km)
+   * to skip the outbound train and start biking directly, and to seed a bike leg
+   * from that point.
+   *
+   * @param {Object} routeData - Route object with a `track_points` polyline.
+   * @param {number} lat - Target latitude.
+   * @param {number} lon - Target longitude.
+   * @returns {{index:number, point:[number,number], cumulativeKm:number,
+   *   distanceKm:number}|null} Nearest vertex info, or null if no track points.
+   */
+  function nearestRoutePoint(routeData, lat, lon) {
+    const track = routeData && routeData.track_points;
+    if (!track || track.length === 0) return null;
+    const idx = nearestPointIndex(track, lat, lon);
+    let cumulativeKm = 0;
+    for (let i = 1; i <= idx; i++) {
+      cumulativeKm += haversineKm(track[i - 1][0], track[i - 1][1], track[i][0], track[i][1]);
+    }
+    const point = track[idx];
+    return {
+      index: idx,
+      point: [point[0], point[1]],
+      cumulativeKm: cumulativeKm,
+      distanceKm: haversineKm(lat, lon, point[0], point[1]),
+    };
+  }
+
+  /**
+   * Build a bike leg starting at an arbitrary entry point and biking forward.
+   *
+   * The entry may be a real station or a synthetic route point (no-train case);
+   * it only needs `lat`, `lon` and `cumulative_km`. The end station is the route
+   * station nearest `entry.cumulative_km + bikingKm`; the geometry is the
+   * full-resolution slice between entry and end.
+   *
+   * @param {Object} routeData - Route object (`stations` + `track_points`).
+   * @param {{lat:number, lon:number, cumulative_km:number}} entry - Bike start.
+   * @param {number} bikingKm - Total biking budget (km).
+   * @returns {{endStation:Object, geometry:Array<[number,number]>, startKm:number,
+   *   endKm:number, totalKm:number}|null} Bike leg, or null if no end station.
+   */
+  function buildBikeLegFromEntry(routeData, entry, bikingKm) {
+    const endStation = computeEndStation(routeData, entry, bikingKm);
+    if (!endStation) return null;
+    const startKm = entry.cumulative_km;
+    return {
+      endStation: endStation,
+      geometry: extractSegmentPoints(routeData.track_points, entry, endStation),
+      startKm: startKm,
+      endKm: startKm + bikingKm,
+      totalKm: bikingKm,
+    };
+  }
+
   // ── Overnight housing ─────────────────────────────────────────────────────
 
   /**
@@ -417,6 +475,8 @@
     computeEndStation,
     nearestPointIndex,
     extractSegmentPoints,
+    nearestRoutePoint,
+    buildBikeLegFromEntry,
     nearestHousing,
     computeNightlyHousing,
     findItineraryCandidates,

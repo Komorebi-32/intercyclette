@@ -393,6 +393,63 @@
     return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
   }
 
+  // ── Journey scoring (prefer fewer transfers, then TER/IC over TGV, then time) ─
+
+  /**
+   * Whether a journey uses any high-speed (TGV) leg.
+   *
+   * @param {Object} journey - A journey result from buildJourneyResult.
+   * @returns {boolean} True if any transit section is classified "TGV".
+   */
+  function journeyHasTGV(journey) {
+    return !!(journey && journey.sections
+      && journey.sections.some(function (s) { return s.train_type === "TGV"; }));
+  }
+
+  /**
+   * Score key for ranking journeys, best-first when sorted ascending.
+   *
+   * Ordering (per the product spec): fewest transfers, then trips avoiding TGV
+   * (TER/Intercités preferred), then shortest duration. A null journey (no train
+   * needed) returns the minimal key [0, 0, 0] so it ranks best of all.
+   *
+   * @param {Object|null} journey - Journey result, or null for "no train".
+   * @returns {[number, number, number]} [transfers, hasTGV?1:0, durationMinutes].
+   */
+  function journeyScoreKey(journey) {
+    if (!journey) return [0, 0, 0];
+    return [
+      journey.nb_transfers || 0,
+      journeyHasTGV(journey) ? 1 : 0,
+      journey.duration_minutes || 0,
+    ];
+  }
+
+  /**
+   * Lexicographically compare two score keys (arrays of numbers).
+   *
+   * @param {number[]} a - First key.
+   * @param {number[]} b - Second key.
+   * @returns {number} <0 if a ranks better, >0 if worse, 0 if equal.
+   */
+  function compareScoreKeys(a, b) {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return a[i] - b[i];
+    }
+    return 0;
+  }
+
+  /**
+   * Compare two journeys by their score keys (best-first).
+   *
+   * @param {Object|null} a - First journey.
+   * @param {Object|null} b - Second journey.
+   * @returns {number} <0 if a is better, >0 if worse, 0 if equal.
+   */
+  function compareJourneys(a, b) {
+    return compareScoreKeys(journeyScoreKey(a), journeyScoreKey(b));
+  }
+
   // ── Public API ──────────────────────────────────────────────────────────────
 
   window.InterTimetable = {
@@ -400,5 +457,9 @@
     buildJourneyResult,
     formatDurationMinutes,
     minutesToTime,
+    journeyHasTGV,
+    journeyScoreKey,
+    compareScoreKeys,
+    compareJourneys,
   };
 })();

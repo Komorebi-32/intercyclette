@@ -1,0 +1,1305 @@
+{
+ "EV3": [
+  {
+   "city": "Maubeuge",
+   "nom": "Maubeuge",
+   "uic": "87295006",
+   "lat": 50.27298,
+   "lon": 3.96677,
+   "cumulative_km": 32.975,
+   "distance_to_route_km": 0.126,
+   "stations": [
+    {
+     "nom": "Maubeuge",
+     "uic": "87295006",
+     "lat": 50.27298,
+     "lon": 3.96677,
+     "cumulative_km": 32.975,
+     "distance_to_route_km": 0.126
+    }
+   ]
+  },
+  {
+   "city": "Hirson",
+   "nom": "Hirson",
+   "uic": "87295063",
+   "lat": 49.91455,
+   "lon": 4.08432,
+   "cumulative_km": 97.414,
+   "distance_to_route_km": 0.029,
+   "stations": [
+    {
+     "nom": "Hirson Écoles",
+     "uic": "87324335",
+     "lat": 49.9288321,
+     "lon": 4.0861491,
+     "cumulative_km": 94.749,
+     "distance_to_route_km": 0.405
+    },
+    {
+     "nom": "Hirson",
+     "uic": "87295063",
+     "lat": 49.91455,
+     "lon": 4.08432,
+     "cumulative_km": 97.414,
+     "distance_to_route_km": 0.029
+    }
+   ]
+  },
+  {
+   "city": "Compiegne",
+   "nom": "Compiègne",
+   "uic": "87276691",
+   "lat": 49.422005,
+   "lon": 2.823679,
+   "cumulative_km": 240.458,
+   "distance_to_route_km": 0.214,
+   "stations": [
+    {
+     "nom": "Compiègne",
+     "uic": "87276691",
+     "lat": 49.422005,
+     "lon": 2.823679,
+     "cumulative_km": 240.458,
+     "distance_to_route_km": 0.214
+    }
+   ]
+  },
+  {
+   "city": "Paris",
+   "nom": "Paris Gare de Lyon",
+   "uic": "87686006",
+   "lat": 48.844888,
+   "lon": 2.37352,
+   "cumulative_km": 357.237,
+   "distance_to_route_km": 0.321,
+   "stations": [
+    {
+     "nom": "Paris Gare du Nord",
+     "uic": "87271023",
+     "lat": 48.880185,
+     "lon": 2.355151,
+     "cumulative_km": 351.001,
+     "distance_to_route_km": 0.79
+    },
+    {
+     "nom": "Paris Est",
+     "uic": "87113001",
+     "lat": 48.876742,
+     "lon": 2.358424,
+     "cumulative_km": 351.12,
+     "distance_to_route_km": 0.391
+    },
+    {
+     "nom": "Paris Saint-Lazare",
+     "uic": "87384008",
+     "lat": 48.876242,
+     "lon": 2.325331,
+     "cumulative_km": 353.195,
+     "distance_to_route_km": 2.319
+    },
+    {
+     "nom": "Paris Montparnasse",
+     "uic": "87391011",
+     "lat": 48.841172,
+     "lon": 2.320514,
+     "cumulative_km": 354.498,
+     "distance_to_route_km": 2.234
+    },
+    {
+     "nom": "Paris Austerlitz",
+     "uic": "87547026",
+     "lat": 48.842285,
+     "lon": 2.364891,
+     "cumulative_km": 357.116,
+     "distance_to_route_km": 0.333
+    },
+    {
+     "nom": "Paris Gare de Lyon",
+     "uic": "87686006",
+     "lat": 48.844888,
+     "lon": 2.37352,
+     "cumulative_km": 357.237,
+     "distance_to_route_km": 0.321
+    },
+    {
+     "nom": "Paris Bercy Bourgogne - Pays d'Auvergne",
+     "uic": "87686667",
+     "lat": 48.83917,
+     "lon": 2.38278,
+     "cumulative_km": 358.201,
+     "distance_to_route_km": 0.449
+    }
+   ]
+  },
+  {
+   "city": "Corbeil",
+   "nom": "Corbeil-Essonnes",
+   "uic": "87681007",
+   "lat": 48.61403,
+   "lon": 2.47401,
+   "cumulative_km": 395.089,
+   "distance_to_route_km": 0.606,
+   "stations": [
+    {
+     "nom": "Corbeil-Essonnes",
+     "uic": "87681007",
+     "lat": 48.61403,
+     "lon": 2.47401,
+     "cumulative_km": 395.089,
+     "distance_to_route_km": 0.606
+    }
+   ]
+  },
+  {
+   "city": "Melun",
+   "nom": "Melun",
+   "uic": "87682005",
+   "lat": 48.527662,
+   "lon": 2.655404,
+   "cumulative_km": 423.006,
+   "distance_to_route_km": 0.456,
+   "stations": [
+    {
+     "nom": "Melun",
+     "uic": "87682005",
+     "lat": 48.527662,
+     "lon": 2.655404,
+     "cumulative_km": 423.006,
+     "distance_to_route_km": 0.456
+    }
+   ]
+  },
+  {
+   "city": "Fontainebleau",
+   "nom": "Fontainebleau - Avon",
+   "uic": "87682211",
+   "lat": 48.416371,
+   "lon": 2.72634,
+   "cumulative_km": 443.273,
+   "distance_to_route_km": 1.818,
+   "stations": [
+    {
+     "nom": "Fontainebleau - Avon",
+     "uic": "87682211",
+     "lat": 48.416371,
+     "lon": 2.72634,
+     "cumulative_km": 443.273,
+     "distance_to_route_km": 1.818
+    }
+   ]
+  },
+  {
+   "city": "Orleans",
+   "nom": "Orléans",
+   "uic": "87543009",
+   "lat": 47.90796,
+   "lon": 1.904666,
+   "cumulative_km": 653.472,
+   "distance_to_route_km": 1.107,
+   "stations": [
+    {
+     "nom": "Orléans",
+     "uic": "87543009",
+     "lat": 47.90796,
+     "lon": 1.904666,
+     "cumulative_km": 653.472,
+     "distance_to_route_km": 1.107
+    }
+   ]
+  },
+  {
+   "city": "Blois",
+   "nom": "Blois - Chambord",
+   "uic": "87574004",
+   "lat": 47.585445,
+   "lon": 1.323823,
+   "cumulative_km": 717.062,
+   "distance_to_route_km": 0.895,
+   "stations": [
+    {
+     "nom": "Blois - Chambord",
+     "uic": "87574004",
+     "lat": 47.585445,
+     "lon": 1.323823,
+     "cumulative_km": 717.062,
+     "distance_to_route_km": 0.895
+    }
+   ]
+  },
+  {
+   "city": "Tours",
+   "nom": "Tours",
+   "uic": "87571000",
+   "lat": 47.389781,
+   "lon": 0.693703,
+   "cumulative_km": 786.948,
+   "distance_to_route_km": 0.123,
+   "stations": [
+    {
+     "nom": "Tours",
+     "uic": "87571000",
+     "lat": 47.389781,
+     "lon": 0.693703,
+     "cumulative_km": 786.948,
+     "distance_to_route_km": 0.123
+    }
+   ]
+  },
+  {
+   "city": "Angouleme",
+   "nom": "Angoulême",
+   "uic": "87583005",
+   "lat": 45.653572,
+   "lon": 0.164608,
+   "cumulative_km": 1087.007,
+   "distance_to_route_km": 0.718,
+   "stations": [
+    {
+     "nom": "Angoulême",
+     "uic": "87583005",
+     "lat": 45.653572,
+     "lon": 0.164608,
+     "cumulative_km": 1087.007,
+     "distance_to_route_km": 0.718
+    }
+   ]
+  },
+  {
+   "city": "Bordeaux",
+   "nom": "Bordeaux Saint-Jean",
+   "uic": "87581009",
+   "lat": 44.825873,
+   "lon": -0.556697,
+   "cumulative_km": 1283.573,
+   "distance_to_route_km": 0.184,
+   "stations": [
+    {
+     "nom": "Bordeaux Saint-Jean",
+     "uic": "87581009",
+     "lat": 44.825873,
+     "lon": -0.556697,
+     "cumulative_km": 1283.573,
+     "distance_to_route_km": 0.184
+    }
+   ]
+  },
+  {
+   "city": "Dax",
+   "nom": "Dax",
+   "uic": "87673202",
+   "lat": 43.720472,
+   "lon": -1.050301,
+   "cumulative_km": 1630.452,
+   "distance_to_route_km": 0.157,
+   "stations": [
+    {
+     "nom": "Dax",
+     "uic": "87673202",
+     "lat": 43.720472,
+     "lon": -1.050301,
+     "cumulative_km": 1630.452,
+     "distance_to_route_km": 0.157
+    }
+   ]
+  }
+ ],
+ "EV4": [
+  {
+   "city": "Morlaix",
+   "nom": "Morlaix",
+   "uic": "87474338",
+   "lat": 48.57797,
+   "lon": -3.832514,
+   "cumulative_km": 30.509,
+   "distance_to_route_km": 0.375,
+   "stations": [
+    {
+     "nom": "Morlaix",
+     "uic": "87474338",
+     "lat": 48.57797,
+     "lon": -3.832514,
+     "cumulative_km": 30.509,
+     "distance_to_route_km": 0.375
+    }
+   ]
+  },
+  {
+   "city": "Saint-Brieuc",
+   "nom": "Saint-Brieuc",
+   "uic": "87473009",
+   "lat": 48.50758,
+   "lon": -2.765,
+   "cumulative_km": 246.899,
+   "distance_to_route_km": 2.527,
+   "stations": [
+    {
+     "nom": "Saint-Brieuc",
+     "uic": "87473009",
+     "lat": 48.50758,
+     "lon": -2.765,
+     "cumulative_km": 246.899,
+     "distance_to_route_km": 2.527
+    }
+   ]
+  },
+  {
+   "city": "Le Havre",
+   "nom": "Le Havre",
+   "uic": "87413013",
+   "lat": 49.492996,
+   "lon": 0.125677,
+   "cumulative_km": 1065.463,
+   "distance_to_route_km": 0.129,
+   "stations": [
+    {
+     "nom": "Le Havre",
+     "uic": "87413013",
+     "lat": 49.492996,
+     "lon": 0.125677,
+     "cumulative_km": 1065.463,
+     "distance_to_route_km": 0.129
+    }
+   ]
+  },
+  {
+   "city": "Boulogne",
+   "nom": "Boulogne Tintelleries",
+   "uic": "87317016",
+   "lat": 50.72729,
+   "lon": 1.60904,
+   "cumulative_km": 1388.279,
+   "distance_to_route_km": 0.614,
+   "stations": [
+    {
+     "nom": "Boulogne-sur-Mer",
+     "uic": "87317586",
+     "lat": 50.7157,
+     "lon": 1.60964,
+     "cumulative_km": 1387.949,
+     "distance_to_route_km": 0.812
+    },
+    {
+     "nom": "Boulogne Tintelleries",
+     "uic": "87317016",
+     "lat": 50.72729,
+     "lon": 1.60904,
+     "cumulative_km": 1388.279,
+     "distance_to_route_km": 0.614
+    }
+   ]
+  },
+  {
+   "city": "Calais",
+   "nom": "Calais",
+   "uic": "87317263",
+   "lat": 50.953481,
+   "lon": 1.850819,
+   "cumulative_km": 1439.215,
+   "distance_to_route_km": 0.029,
+   "stations": [
+    {
+     "nom": "Calais - Fréthun",
+     "uic": "87281071",
+     "lat": 50.901221,
+     "lon": 1.810891,
+     "cumulative_km": 1425.59,
+     "distance_to_route_km": 4.603
+    },
+    {
+     "nom": "Calais",
+     "uic": "87317263",
+     "lat": 50.953481,
+     "lon": 1.850819,
+     "cumulative_km": 1439.215,
+     "distance_to_route_km": 0.029
+    }
+   ]
+  },
+  {
+   "city": "Dunkerque",
+   "nom": "Dunkerque",
+   "uic": "87281006",
+   "lat": 51.03047,
+   "lon": 2.368961,
+   "cumulative_km": 1496.398,
+   "distance_to_route_km": 0.152,
+   "stations": [
+    {
+     "nom": "Dunkerque",
+     "uic": "87281006",
+     "lat": 51.03047,
+     "lon": 2.368961,
+     "cumulative_km": 1496.398,
+     "distance_to_route_km": 0.152
+    }
+   ]
+  }
+ ],
+ "EV5": [
+  {
+   "city": "Strasbourg",
+   "nom": "Strasbourg",
+   "uic": "87212027",
+   "lat": 48.584967,
+   "lon": 7.734584,
+   "cumulative_km": 169.587,
+   "distance_to_route_km": 1.122,
+   "stations": [
+    {
+     "nom": "Strasbourg",
+     "uic": "87212027",
+     "lat": 48.584967,
+     "lon": 7.734584,
+     "cumulative_km": 169.587,
+     "distance_to_route_km": 1.122
+    },
+    {
+     "nom": "Strasbourg Roethig",
+     "uic": "87212191",
+     "lat": 48.5632897,
+     "lon": 7.6950455,
+     "cumulative_km": 172.507,
+     "distance_to_route_km": 1.123
+    }
+   ]
+  },
+  {
+   "city": "Selestat",
+   "nom": "Sélestat",
+   "uic": "87214056",
+   "lat": 48.2601166,
+   "lon": 7.443278,
+   "cumulative_km": 241.342,
+   "distance_to_route_km": 2.759,
+   "stations": [
+    {
+     "nom": "Sélestat",
+     "uic": "87214056",
+     "lat": 48.2601166,
+     "lon": 7.443278,
+     "cumulative_km": 241.342,
+     "distance_to_route_km": 2.759
+    }
+   ]
+  },
+  {
+   "city": "Colmar",
+   "nom": "Colmar Mésanges",
+   "uic": "87402297",
+   "lat": 48.0860048,
+   "lon": 7.3336703,
+   "cumulative_km": 263.873,
+   "distance_to_route_km": 1.957,
+   "stations": [
+    {
+     "nom": "Colmar Saint-Joseph",
+     "uic": "87181222",
+     "lat": 48.0816399,
+     "lon": 7.3453397,
+     "cumulative_km": 263.847,
+     "distance_to_route_km": 2.911
+    },
+    {
+     "nom": "Colmar Mésanges",
+     "uic": "87402297",
+     "lat": 48.0860048,
+     "lon": 7.3336703,
+     "cumulative_km": 263.873,
+     "distance_to_route_km": 1.957
+    },
+    {
+     "nom": "Colmar",
+     "uic": "87182014",
+     "lat": 48.073201,
+     "lon": 7.346967,
+     "cumulative_km": 270.946,
+     "distance_to_route_km": 3.208
+    }
+   ]
+  },
+  {
+   "city": "Mulhouse",
+   "nom": "Mulhouse",
+   "uic": "87182063",
+   "lat": 47.742224,
+   "lon": 7.342396,
+   "cumulative_km": 351.997,
+   "distance_to_route_km": 1.22,
+   "stations": [
+    {
+     "nom": "Mulhouse Dornach",
+     "uic": "87182055",
+     "lat": 47.74713,
+     "lon": 7.308477,
+     "cumulative_km": 351.16,
+     "distance_to_route_km": 2.776
+    },
+    {
+     "nom": "Mulhouse Musées",
+     "uic": "87534339",
+     "lat": 47.75136,
+     "lon": 7.29478,
+     "cumulative_km": 351.16,
+     "distance_to_route_km": 3.561
+    },
+    {
+     "nom": "Mulhouse Zu Rhein Tram-Train",
+     "uic": "87472639",
+     "lat": 47.743561,
+     "lon": 7.317015,
+     "cumulative_km": 351.773,
+     "distance_to_route_km": 2.421
+    },
+    {
+     "nom": "Mulhouse",
+     "uic": "87182063",
+     "lat": 47.742224,
+     "lon": 7.342396,
+     "cumulative_km": 351.997,
+     "distance_to_route_km": 1.22
+    }
+   ]
+  }
+ ],
+ "EV6": [
+  {
+   "city": "Mulhouse",
+   "nom": "Mulhouse",
+   "uic": "87182063",
+   "lat": 47.742224,
+   "lon": 7.342396,
+   "cumulative_km": 34.776,
+   "distance_to_route_km": 0.051,
+   "stations": [
+    {
+     "nom": "Mulhouse",
+     "uic": "87182063",
+     "lat": 47.742224,
+     "lon": 7.342396,
+     "cumulative_km": 34.776,
+     "distance_to_route_km": 0.051
+    },
+    {
+     "nom": "Mulhouse Zu Rhein Tram-Train",
+     "uic": "87472639",
+     "lat": 47.743561,
+     "lon": 7.317015,
+     "cumulative_km": 36.36,
+     "distance_to_route_km": 1.207
+    },
+    {
+     "nom": "Mulhouse Dornach",
+     "uic": "87182055",
+     "lat": 47.74713,
+     "lon": 7.308477,
+     "cumulative_km": 36.36,
+     "distance_to_route_km": 1.937
+    },
+    {
+     "nom": "Mulhouse Musées",
+     "uic": "87534339",
+     "lat": 47.75136,
+     "lon": 7.29478,
+     "cumulative_km": 36.36,
+     "distance_to_route_km": 3.028
+    }
+   ]
+  },
+  {
+   "city": "Belfort",
+   "nom": "Belfort - Montbéliard TGV",
+   "uic": "87300822",
+   "lat": 47.585937,
+   "lon": 6.897687,
+   "cumulative_km": 76.721,
+   "distance_to_route_km": 3.785,
+   "stations": [
+    {
+     "nom": "Belfort - Montbéliard TGV",
+     "uic": "87300822",
+     "lat": 47.585937,
+     "lon": 6.897687,
+     "cumulative_km": 76.721,
+     "distance_to_route_km": 3.785
+    }
+   ]
+  },
+  {
+   "city": "Montbeliard",
+   "nom": "Montbéliard",
+   "uic": "87184523",
+   "lat": 47.5105086,
+   "lon": 6.8013763,
+   "cumulative_km": 89.841,
+   "distance_to_route_km": 0.603,
+   "stations": [
+    {
+     "nom": "Montbéliard",
+     "uic": "87184523",
+     "lat": 47.5105086,
+     "lon": 6.8013763,
+     "cumulative_km": 89.841,
+     "distance_to_route_km": 0.603
+    }
+   ]
+  },
+  {
+   "city": "Besancon",
+   "nom": "Besançon Mouillère",
+   "uic": "87718015",
+   "lat": 47.240372,
+   "lon": 6.03391,
+   "cumulative_km": 181.013,
+   "distance_to_route_km": 1.002,
+   "stations": [
+    {
+     "nom": "Besançon Mouillère",
+     "uic": "87718015",
+     "lat": 47.240372,
+     "lon": 6.03391,
+     "cumulative_km": 181.013,
+     "distance_to_route_km": 1.002
+    },
+    {
+     "nom": "Besançon Viotte",
+     "uic": "87718007",
+     "lat": 47.247019,
+     "lon": 6.022003,
+     "cumulative_km": 181.459,
+     "distance_to_route_km": 2.013
+    }
+   ]
+  },
+  {
+   "city": "Chalon",
+   "nom": "Chalon-sur-Saône",
+   "uic": "87725002",
+   "lat": 46.781612,
+   "lon": 4.843454,
+   "cumulative_km": 329.982,
+   "distance_to_route_km": 3.035,
+   "stations": [
+    {
+     "nom": "Chalon-sur-Saône",
+     "uic": "87725002",
+     "lat": 46.781612,
+     "lon": 4.843454,
+     "cumulative_km": 329.982,
+     "distance_to_route_km": 3.035
+    }
+   ]
+  },
+  {
+   "city": "Nevers",
+   "nom": "Nevers",
+   "uic": "87696005",
+   "lat": 46.987282,
+   "lon": 3.150743,
+   "cumulative_km": 563.98,
+   "distance_to_route_km": 3.767,
+   "stations": [
+    {
+     "nom": "Nevers",
+     "uic": "87696005",
+     "lat": 46.987282,
+     "lon": 3.150743,
+     "cumulative_km": 563.98,
+     "distance_to_route_km": 3.767
+    }
+   ]
+  }
+ ],
+ "EV8": [
+  {
+   "city": "Narbonne",
+   "nom": "Narbonne",
+   "uic": "87781104",
+   "lat": 43.190387,
+   "lon": 3.00591,
+   "cumulative_km": 128.052,
+   "distance_to_route_km": 0.311,
+   "stations": [
+    {
+     "nom": "Narbonne",
+     "uic": "87781104",
+     "lat": 43.190387,
+     "lon": 3.00591,
+     "cumulative_km": 128.052,
+     "distance_to_route_km": 0.311
+    }
+   ]
+  },
+  {
+   "city": "Beziers",
+   "nom": "Béziers",
+   "uic": "87781005",
+   "lat": 43.33633,
+   "lon": 3.218873,
+   "cumulative_km": 187.399,
+   "distance_to_route_km": 0.202,
+   "stations": [
+    {
+     "nom": "Béziers",
+     "uic": "87781005",
+     "lat": 43.33633,
+     "lon": 3.218873,
+     "cumulative_km": 187.399,
+     "distance_to_route_km": 0.202
+    }
+   ]
+  },
+  {
+   "city": "Agde",
+   "nom": "Agde",
+   "uic": "87781278",
+   "lat": 43.31728,
+   "lon": 3.466203,
+   "cumulative_km": 213.54,
+   "distance_to_route_km": 0.297,
+   "stations": [
+    {
+     "nom": "Agde",
+     "uic": "87781278",
+     "lat": 43.31728,
+     "lon": 3.466203,
+     "cumulative_km": 213.54,
+     "distance_to_route_km": 0.297
+    }
+   ]
+  },
+  {
+   "city": "Sete",
+   "nom": "Sète",
+   "uic": "87773200",
+   "lat": 43.412485,
+   "lon": 3.69656,
+   "cumulative_km": 240.543,
+   "distance_to_route_km": 0.612,
+   "stations": [
+    {
+     "nom": "Sète",
+     "uic": "87773200",
+     "lat": 43.412485,
+     "lon": 3.69656,
+     "cumulative_km": 240.543,
+     "distance_to_route_km": 0.612
+    }
+   ]
+  },
+  {
+   "city": "Beaucaire",
+   "nom": "Beaucaire",
+   "uic": "87775023",
+   "lat": 43.80209,
+   "lon": 4.6470865,
+   "cumulative_km": 362.042,
+   "distance_to_route_km": 0.302,
+   "stations": [
+    {
+     "nom": "Beaucaire",
+     "uic": "87775023",
+     "lat": 43.80209,
+     "lon": 4.6470865,
+     "cumulative_km": 362.042,
+     "distance_to_route_km": 0.302
+    }
+   ]
+  },
+  {
+   "city": "Tarascon",
+   "nom": "Tarascon",
+   "uic": "87765354",
+   "lat": 43.801331,
+   "lon": 4.657206,
+   "cumulative_km": 363.295,
+   "distance_to_route_km": 0.01,
+   "stations": [
+    {
+     "nom": "Tarascon",
+     "uic": "87765354",
+     "lat": 43.801331,
+     "lon": 4.657206,
+     "cumulative_km": 363.295,
+     "distance_to_route_km": 0.01
+    }
+   ]
+  },
+  {
+   "city": "Nice",
+   "nom": "Nice Saint-Augustin",
+   "uic": "87756254",
+   "lat": 43.670728,
+   "lon": 7.216199,
+   "cumulative_km": 770.041,
+   "distance_to_route_km": 0.433,
+   "stations": [
+    {
+     "nom": "Nice Saint-Augustin",
+     "uic": "87756254",
+     "lat": 43.670728,
+     "lon": 7.216199,
+     "cumulative_km": 770.041,
+     "distance_to_route_km": 0.433
+    },
+    {
+     "nom": "Nice",
+     "uic": "87756056",
+     "lat": 43.704556,
+     "lon": 7.261904,
+     "cumulative_km": 775.057,
+     "distance_to_route_km": 1.091
+    },
+    {
+     "nom": "Nice Riquier",
+     "uic": "87756353",
+     "lat": 43.705554,
+     "lon": 7.290175,
+     "cumulative_km": 777.457,
+     "distance_to_route_km": 0.861
+    },
+    {
+     "nom": "Nice Pont Michel",
+     "uic": "87590299",
+     "lat": 43.72175,
+     "lon": 7.29144,
+     "cumulative_km": 787.135,
+     "distance_to_route_km": 1.801
+    }
+   ]
+  }
+ ],
+ "EV15": [
+  {
+   "city": "Strasbourg",
+   "nom": "Strasbourg",
+   "uic": "87212027",
+   "lat": 48.584967,
+   "lon": 7.734584,
+   "cumulative_km": 127.572,
+   "distance_to_route_km": 1.21,
+   "stations": [
+    {
+     "nom": "Strasbourg Roethig",
+     "uic": "87212191",
+     "lat": 48.5632897,
+     "lon": 7.6950455,
+     "cumulative_km": 125.889,
+     "distance_to_route_km": 2.886
+    },
+    {
+     "nom": "Strasbourg",
+     "uic": "87212027",
+     "lat": 48.584967,
+     "lon": 7.734584,
+     "cumulative_km": 127.572,
+     "distance_to_route_km": 1.21
+    }
+   ]
+  }
+ ],
+ "EV19": [
+  {
+   "city": "Verdun",
+   "nom": "Verdun",
+   "uic": "87175778",
+   "lat": 49.165406,
+   "lon": 5.379701,
+   "cumulative_km": 229.805,
+   "distance_to_route_km": 0.541,
+   "stations": [
+    {
+     "nom": "Verdun",
+     "uic": "87175778",
+     "lat": 49.165406,
+     "lon": 5.379701,
+     "cumulative_km": 229.805,
+     "distance_to_route_km": 0.541
+    }
+   ]
+  },
+  {
+   "city": "Sedan",
+   "nom": "Sedan",
+   "uic": "87172254",
+   "lat": 49.695024,
+   "lon": 4.930373,
+   "cumulative_km": 334.406,
+   "distance_to_route_km": 0.246,
+   "stations": [
+    {
+     "nom": "Sedan",
+     "uic": "87172254",
+     "lat": 49.695024,
+     "lon": 4.930373,
+     "cumulative_km": 334.406,
+     "distance_to_route_km": 0.246
+    }
+   ]
+  },
+  {
+   "city": "Charleville",
+   "nom": "Charleville-Mézières",
+   "uic": "87172007",
+   "lat": 49.767915,
+   "lon": 4.724952,
+   "cumulative_km": 362.521,
+   "distance_to_route_km": 0.378,
+   "stations": [
+    {
+     "nom": "Charleville-Mézières",
+     "uic": "87172007",
+     "lat": 49.767915,
+     "lon": 4.724952,
+     "cumulative_km": 362.521,
+     "distance_to_route_km": 0.378
+    }
+   ]
+  },
+  {
+   "city": "Givet",
+   "nom": "Givet",
+   "uic": "87172130",
+   "lat": 50.14025067,
+   "lon": 4.81798595,
+   "cumulative_km": 448.905,
+   "distance_to_route_km": 0.543,
+   "stations": [
+    {
+     "nom": "Givet",
+     "uic": "87172130",
+     "lat": 50.14025067,
+     "lon": 4.81798595,
+     "cumulative_km": 448.905,
+     "distance_to_route_km": 0.543
+    }
+   ]
+  }
+ ],
+ "VEL": [
+  {
+   "city": "Morlaix",
+   "nom": "Morlaix",
+   "uic": "87474338",
+   "lat": 48.57797,
+   "lon": -3.832514,
+   "cumulative_km": 29.804,
+   "distance_to_route_km": 0.232,
+   "stations": [
+    {
+     "nom": "Morlaix",
+     "uic": "87474338",
+     "lat": 48.57797,
+     "lon": -3.832514,
+     "cumulative_km": 29.804,
+     "distance_to_route_km": 0.232
+    }
+   ]
+  },
+  {
+   "city": "Nantes",
+   "nom": "Nantes",
+   "uic": "87481002",
+   "lat": 47.216148,
+   "lon": -1.542356,
+   "cumulative_km": 377.004,
+   "distance_to_route_km": 0.912,
+   "stations": [
+    {
+     "nom": "Nantes",
+     "uic": "87481002",
+     "lat": 47.216148,
+     "lon": -1.542356,
+     "cumulative_km": 377.004,
+     "distance_to_route_km": 0.912
+    }
+   ]
+  },
+  {
+   "city": "La Rochelle",
+   "nom": "La Rochelle",
+   "uic": "87485003",
+   "lat": 46.15269,
+   "lon": -1.145305,
+   "cumulative_km": 736.725,
+   "distance_to_route_km": 0.089,
+   "stations": [
+    {
+     "nom": "La Rochelle Porte Dauphine",
+     "uic": "87437798",
+     "lat": 46.16755,
+     "lon": -1.1518412,
+     "cumulative_km": 736.219,
+     "distance_to_route_km": 1.408
+    },
+    {
+     "nom": "La Rochelle",
+     "uic": "87485003",
+     "lat": 46.15269,
+     "lon": -1.145305,
+     "cumulative_km": 736.725,
+     "distance_to_route_km": 0.089
+    }
+   ]
+  },
+  {
+   "city": "Bayonne",
+   "nom": "Bayonne",
+   "uic": "87673004",
+   "lat": 43.496801,
+   "lon": -1.470306,
+   "cumulative_km": 1227.994,
+   "distance_to_route_km": 0.172,
+   "stations": [
+    {
+     "nom": "Bayonne",
+     "uic": "87673004",
+     "lat": 43.496801,
+     "lon": -1.470306,
+     "cumulative_km": 1227.994,
+     "distance_to_route_km": 0.172
+    }
+   ]
+  },
+  {
+   "city": "Biarritz",
+   "nom": "Biarritz",
+   "uic": "87673400",
+   "lat": 43.459397,
+   "lon": -1.545915,
+   "cumulative_km": 1247.063,
+   "distance_to_route_km": 2.008,
+   "stations": [
+    {
+     "nom": "Biarritz",
+     "uic": "87673400",
+     "lat": 43.459397,
+     "lon": -1.545915,
+     "cumulative_km": 1247.063,
+     "distance_to_route_km": 2.008
+    }
+   ]
+  },
+  {
+   "city": "Hendaye",
+   "nom": "Hendaye",
+   "uic": "87677005",
+   "lat": 43.353132,
+   "lon": -1.781724,
+   "cumulative_km": 1278.522,
+   "distance_to_route_km": 0.316,
+   "stations": [
+    {
+     "nom": "Hendaye",
+     "uic": "87677005",
+     "lat": 43.353132,
+     "lon": -1.781724,
+     "cumulative_km": 1278.522,
+     "distance_to_route_km": 0.316
+    }
+   ]
+  }
+ ],
+ "VIA": [
+  {
+   "city": "Lyon",
+   "nom": "Lyon Perrache",
+   "uic": "87722025",
+   "lat": 45.748476,
+   "lon": 4.825733,
+   "cumulative_km": 324.785,
+   "distance_to_route_km": 0.537,
+   "stations": [
+    {
+     "nom": "Lyon Vaise",
+     "uic": "87721001",
+     "lat": 45.779938,
+     "lon": 4.80396,
+     "cumulative_km": 321.677,
+     "distance_to_route_km": 2.969
+    },
+    {
+     "nom": "Lyon Gorge de Loup",
+     "uic": "87721175",
+     "lat": 45.766078,
+     "lon": 4.804631,
+     "cumulative_km": 322.157,
+     "distance_to_route_km": 2.806
+    },
+    {
+     "nom": "Lyon Saint-Paul",
+     "uic": "87721159",
+     "lat": 45.76601,
+     "lon": 4.827057,
+     "cumulative_km": 322.283,
+     "distance_to_route_km": 1.075
+    },
+    {
+     "nom": "Lyon Part Dieu",
+     "uic": "87723197",
+     "lat": 45.760559,
+     "lon": 4.859355,
+     "cumulative_km": 322.931,
+     "distance_to_route_km": 1.446
+    },
+    {
+     "nom": "Lyon Jean Macé",
+     "uic": "87282624",
+     "lat": 45.74495,
+     "lon": 4.84139,
+     "cumulative_km": 324.59,
+     "distance_to_route_km": 0.709
+    },
+    {
+     "nom": "Lyon Perrache",
+     "uic": "87722025",
+     "lat": 45.748476,
+     "lon": 4.825733,
+     "cumulative_km": 324.785,
+     "distance_to_route_km": 0.537
+    }
+   ]
+  },
+  {
+   "city": "Vienne",
+   "nom": "Vienne",
+   "uic": "87722587",
+   "lat": 45.521207,
+   "lon": 4.874211,
+   "cumulative_km": 359.724,
+   "distance_to_route_km": 0.573,
+   "stations": [
+    {
+     "nom": "Vienne",
+     "uic": "87722587",
+     "lat": 45.521207,
+     "lon": 4.874211,
+     "cumulative_km": 359.724,
+     "distance_to_route_km": 0.573
+    }
+   ]
+  },
+  {
+   "city": "Tain",
+   "nom": "Tain-l'Hermitage - Tournon",
+   "uic": "87761163",
+   "lat": 45.072183,
+   "lon": 4.839967,
+   "cumulative_km": 429.082,
+   "distance_to_route_km": 0.637,
+   "stations": [
+    {
+     "nom": "Tain-l'Hermitage - Tournon",
+     "uic": "87761163",
+     "lat": 45.072183,
+     "lon": 4.839967,
+     "cumulative_km": 429.082,
+     "distance_to_route_km": 0.637
+    }
+   ]
+  },
+  {
+   "city": "Valence",
+   "nom": "Valence",
+   "uic": "87761007",
+   "lat": 44.928049,
+   "lon": 4.893273,
+   "cumulative_km": 452.875,
+   "distance_to_route_km": 0.594,
+   "stations": [
+    {
+     "nom": "Valence",
+     "uic": "87761007",
+     "lat": 44.928049,
+     "lon": 4.893273,
+     "cumulative_km": 452.875,
+     "distance_to_route_km": 0.594
+    }
+   ]
+  },
+  {
+   "city": "Avignon",
+   "nom": "Avignon Centre",
+   "uic": "87765008",
+   "lat": 43.9419,
+   "lon": 4.805281,
+   "cumulative_km": 613.813,
+   "distance_to_route_km": 1.352,
+   "stations": [
+    {
+     "nom": "Avignon Centre",
+     "uic": "87765008",
+     "lat": 43.9419,
+     "lon": 4.805281,
+     "cumulative_km": 613.813,
+     "distance_to_route_km": 1.352
+    },
+    {
+     "nom": "Avignon TGV",
+     "uic": "87981902",
+     "lat": 43.921586,
+     "lon": 4.786079,
+     "cumulative_km": 615.866,
+     "distance_to_route_km": 3.054
+    }
+   ]
+  },
+  {
+   "city": "Tarascon",
+   "nom": "Tarascon",
+   "uic": "87765354",
+   "lat": 43.801331,
+   "lon": 4.657206,
+   "cumulative_km": 650.234,
+   "distance_to_route_km": 0.799,
+   "stations": [
+    {
+     "nom": "Tarascon",
+     "uic": "87765354",
+     "lat": 43.801331,
+     "lon": 4.657206,
+     "cumulative_km": 650.234,
+     "distance_to_route_km": 0.799
+    }
+   ]
+  },
+  {
+   "city": "Beaucaire",
+   "nom": "Beaucaire",
+   "uic": "87775023",
+   "lat": 43.80209,
+   "lon": 4.6470865,
+   "cumulative_km": 650.332,
+   "distance_to_route_km": 0.35,
+   "stations": [
+    {
+     "nom": "Beaucaire",
+     "uic": "87775023",
+     "lat": 43.80209,
+     "lon": 4.6470865,
+     "cumulative_km": 650.332,
+     "distance_to_route_km": 0.35
+    }
+   ]
+  },
+  {
+   "city": "Sete",
+   "nom": "Sète",
+   "uic": "87773200",
+   "lat": 43.412485,
+   "lon": 3.69656,
+   "cumulative_km": 772.871,
+   "distance_to_route_km": 0.612,
+   "stations": [
+    {
+     "nom": "Sète",
+     "uic": "87773200",
+     "lat": 43.412485,
+     "lon": 3.69656,
+     "cumulative_km": 772.871,
+     "distance_to_route_km": 0.612
+    }
+   ]
+  }
+ ]
+}
