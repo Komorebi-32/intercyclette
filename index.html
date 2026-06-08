@@ -163,50 +163,63 @@
           <span class="form-step-label">Routes Eurovelo</span>
         </div>
         <div class="form-group">
-          <div class="route-select-all">
-            <label>
-              <input type="checkbox" id="select-all-routes" />
-              Tout sélectionner / Tout désélectionner
-            </label>
+          <div class="route-criteria-pills">
+            <button type="button" class="map-pill route-criteria-pill" data-criteria="river">🌊 Au fil de l'eau</button>
+            <button type="button" class="map-pill route-criteria-pill" data-criteria="sea">🏖️ Bord de mer</button>
+            <span class="criteria-tooltip-wrapper">
+              <button type="button" class="map-pill route-criteria-pill is-disabled" data-criteria="mountain">⛰️ Montagne</button>
+              <span class="criteria-tooltip">Bientôt disponible !</span>
+            </span>
           </div>
-          <div class="route-checkboxes">
-            <label class="route-label" style="color: #e74c3c;">
-              <input type="checkbox" class="route-checkbox" value="EV3" checked />
-              La Scandibérique
-            </label>
-            <label class="route-label" style="color: #3498db;">
-              <input type="checkbox" class="route-checkbox" value="EV4" checked />
-              La Vélomaritime
-            </label>
-            <label class="route-label" style="color: #00bcd4;">
-              <input type="checkbox" class="route-checkbox" value="EV5" checked />
-              Eurovelo 5 Moselle Alsace
-            </label>
-            <label class="route-label" style="color: #9b59b6;">
-              <input type="checkbox" class="route-checkbox" value="EV6" checked />
-              Entre Rhin et Loire à Vélo
-            </label>
-            <label class="route-label" style="color: #1abc9c;">
-              <input type="checkbox" class="route-checkbox" value="EV8" checked />
-              La Méditerranée à Vélo
-            </label>
-            <label class="route-label" style="color: #f39c12;">
-              <input type="checkbox" class="route-checkbox" value="EV15" checked />
-              Véloroute du Rhin
-            </label>
-            <label class="route-label" style="color: #2ecc71;">
-              <input type="checkbox" class="route-checkbox" value="EV19" checked />
-              La Meuse à Vélo
-            </label>
-            <label class="route-label" style="color: #e91e63;">
-              <input type="checkbox" class="route-checkbox" value="VEL" checked />
-              La Vélodyssée
-            </label>
-            <label class="route-label" style="color: #e67e22;">
-              <input type="checkbox" class="route-checkbox" value="VIA" checked />
-              ViaRhôna
-            </label>
-          </div>
+          <details class="route-category">
+            <summary class="route-category-summary">Sélectionner des routes Eurovelo</summary>
+            <div class="route-category-body">
+              <div class="route-select-all">
+                <label>
+                  <input type="checkbox" id="select-all-routes" />
+                  Tout sélectionner / Tout désélectionner
+                </label>
+              </div>
+              <div class="route-checkboxes">
+                <label class="route-label" style="color: #e74c3c;">
+                  <input type="checkbox" class="route-checkbox" value="EV3" checked />
+                  La Scandibérique
+                </label>
+                <label class="route-label" style="color: #3498db;">
+                  <input type="checkbox" class="route-checkbox" value="EV4" checked />
+                  La Vélomaritime
+                </label>
+                <label class="route-label" style="color: #00bcd4;">
+                  <input type="checkbox" class="route-checkbox" value="EV5" checked />
+                  Eurovelo 5 Moselle Alsace
+                </label>
+                <label class="route-label" style="color: #9b59b6;">
+                  <input type="checkbox" class="route-checkbox" value="EV6" checked />
+                  Entre Rhin et Loire à Vélo
+                </label>
+                <label class="route-label" style="color: #1abc9c;">
+                  <input type="checkbox" class="route-checkbox" value="EV8" checked />
+                  La Méditerranée à Vélo
+                </label>
+                <label class="route-label" style="color: #f39c12;">
+                  <input type="checkbox" class="route-checkbox" value="EV15" checked />
+                  Véloroute du Rhin
+                </label>
+                <label class="route-label" style="color: #2ecc71;">
+                  <input type="checkbox" class="route-checkbox" value="EV19" checked />
+                  La Meuse à Vélo
+                </label>
+                <label class="route-label" style="color: #e91e63;">
+                  <input type="checkbox" class="route-checkbox" value="VEL" checked />
+                  La Vélodyssée
+                </label>
+                <label class="route-label" style="color: #e67e22;">
+                  <input type="checkbox" class="route-checkbox" value="VIA" checked />
+                  ViaRhôna
+                </label>
+              </div>
+            </div>
+          </details>
         </div>
 
         <button type="submit" id="search-btn" class="btn-search">

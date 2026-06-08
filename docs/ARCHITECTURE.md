@@ -288,7 +288,13 @@ Orchestrates the search flow:
    sets `min` to today, defaults to tomorrow; value is read directly as ISO
    YYYY-MM-DD (browser renders it in the user's locale format)
 4. On submit: calls `InterPlanner`, then awaits `InterTimetable.queryJourney` for each candidate
-5. Wires route checkbox changes to `InterMap.setRouteVisible` (including Select All)
+5. Wires route checkbox changes to `InterMap.setRouteVisible` (including Select All).
+   The landscape **criteria pills** (`.route-criteria-pill[data-criteria]`,
+   river/sea/mountain) — `ROUTE_CRITERIA` + `applyCriteriaSelection` /
+   `initRouteCriteriaPills` — drive the checkbox selection and map overlays to the
+   union of the active criteria's routes (none active = all routes); the
+   checkbox list is collapsed under a `<details>` "Sélectionner des routes
+   Eurovelo". `mountain` is a not-yet-available placeholder (inert, hover tooltip)
 6. Wires the bottom-right map layer pills (`.map-pill[data-layer]`, via
    `initMapLayerPills`) to the map's `toggleHousingPoints` /
    `toggleAccueilVeloHousing` / `toggleAccueilVeloRestaurants`; pills start

@@ -158,7 +158,31 @@
     });
   }
 
-  // ── Select All / Deselect All ──────────────────────────────────────────────
+  // ── Route selection (criteria pills + checkboxes) ──────────────────────────
+
+  /**
+   * Eurovelo routes grouped by landscape criterion. The criteria pills check the
+   * matching routes; `mountain` has no routes yet (placeholder pill).
+   * @type {Object.<string, string[]>}
+   */
+  const ROUTE_CRITERIA = {
+    river: ["EV3", "EV5", "EV6", "EV15", "EV19", "VIA"],
+    sea: ["EV4", "EV8", "VEL"],
+    mountain: [],
+  };
+
+  /**
+   * Update the master "Tout sélectionner" checkbox to reflect the route boxes
+   * (checked when all are, indeterminate when some are).
+   */
+  function syncSelectAllState() {
+    if (!selectAllCheckbox) return;
+    const boxes = [...document.querySelectorAll(".route-checkbox")];
+    const allChecked = boxes.every((c) => c.checked);
+    const noneChecked = boxes.every((c) => !c.checked);
+    selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+    selectAllCheckbox.checked = allChecked;
+  }
 
   /**
    * Toggle all route checkboxes to a given checked state and sync map overlays.
@@ -174,6 +198,46 @@
     });
   }
 
+  /**
+   * Apply the active criteria pills to the route checkboxes and map overlays.
+   *
+   * With no pill active, every route is selected (default). Otherwise the
+   * selection is the union of the active criteria's routes. Updates each
+   * checkbox, the map visibility, and the master checkbox state.
+   */
+  function applyCriteriaSelection() {
+    const active = [...document.querySelectorAll(".route-criteria-pill.is-active")]
+      .map((p) => p.dataset.criteria);
+    let selected = null; // null = all routes
+    if (active.length > 0) {
+      selected = new Set();
+      active.forEach((c) => (ROUTE_CRITERIA[c] || []).forEach((r) => selected.add(r)));
+    }
+    document.querySelectorAll(".route-checkbox").forEach((cb) => {
+      const checked = selected === null || selected.has(cb.value);
+      cb.checked = checked;
+      if (window.InterMap) {
+        window.InterMap.setRouteVisible(cb.value, checked);
+      }
+    });
+    syncSelectAllState();
+  }
+
+  /**
+   * Wire the landscape criteria pills: clicking a (non-disabled) pill toggles its
+   * active state and re-applies the selection. The disabled `mountain` pill is a
+   * placeholder and has no click behaviour.
+   */
+  function initRouteCriteriaPills() {
+    document.querySelectorAll(".route-criteria-pill").forEach((pill) => {
+      if (pill.classList.contains("is-disabled")) return;
+      pill.addEventListener("click", function () {
+        this.classList.toggle("is-active");
+        applyCriteriaSelection();
+      });
+    });
+  }
+
   if (selectAllCheckbox) {
     selectAllCheckbox.checked = true;
     selectAllCheckbox.addEventListener("change", function () {
@@ -182,10 +246,7 @@
 
     document.querySelectorAll(".route-checkbox").forEach((cb) => {
       cb.addEventListener("change", function () {
-        const allChecked  = [...document.querySelectorAll(".route-checkbox")].every((c) => c.checked);
-        const noneChecked = [...document.querySelectorAll(".route-checkbox")].every((c) => !c.checked);
-        selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
-        selectAllCheckbox.checked = allChecked;
+        syncSelectAllState();
         if (window.InterMap) {
           window.InterMap.setRouteVisible(this.value, this.checked);
         }
@@ -642,6 +703,7 @@
   }
 
   initMapLayerPills();
+  initRouteCriteriaPills();
   initStationAutocomplete();
 
   // Expose for testing
@@ -677,10 +739,13 @@
         if (deptUic) deptUic.value = "";
       }
       // Back to the landing state: drop any itinerary detail, reset the map
-      // view, and re-highlight every Eurovelo route, with all checkboxes checked.
+      // view, clear the criteria pills, and re-highlight every Eurovelo route
+      // with all checkboxes checked.
       window.InterMap.clearMap();
       window.InterMap.resetView();
       window.InterMap.setRoutesHidden(false);
+      document.querySelectorAll(".route-criteria-pill.is-active")
+        .forEach((pill) => pill.classList.remove("is-active"));
       handleSelectAll(true);
       if (selectAllCheckbox) {
         selectAllCheckbox.checked = true;

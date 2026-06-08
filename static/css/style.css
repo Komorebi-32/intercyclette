@@ -285,6 +285,66 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   flex-shrink: 0;
 }
 
+/* Landscape criteria pills (river / sea / mountain) — reuse .map-pill on/off look */
+.route-criteria-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+.route-criteria-pill { font-family: var(--font); }
+/* "Montagne" placeholder: looks like an off pill but is inert, shows a tooltip */
+.route-criteria-pill.is-disabled { cursor: help; }
+.route-criteria-pill.is-disabled:hover { border-color: #d4e6dc; }
+
+.criteria-tooltip-wrapper { position: relative; display: inline-block; }
+.criteria-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  background: var(--white);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  font-size: 12px;
+  font-weight: 600;
+  color: #2c3e50;
+  z-index: 10;
+}
+.criteria-tooltip-wrapper:hover .criteria-tooltip { display: block; }
+
+/* Collapsible "Sélectionner des routes Eurovelo" category */
+.route-category {
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.route-category-summary {
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 12px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--grey-bg);
+  user-select: none;
+}
+.route-category-summary::-webkit-details-marker { display: none; }
+.route-category-summary::after {
+  content: "▶";
+  font-size: 10px;
+  color: var(--grey-text);
+  transition: transform .2s;
+}
+details[open] > .route-category-summary::after { transform: rotate(90deg); }
+.route-category-summary:hover { background: #eaf7f0; }
+.route-category-body { padding: 12px; border-top: 1px solid var(--grey-border); }
+
 /* Route checkboxes */
 .route-select-all {
   margin-bottom: 8px;
