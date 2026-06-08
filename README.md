@@ -272,8 +272,7 @@ accueil-velo.csv  +  Eurovelo_France_gpx/*.gpx
         ▼
 [Frontend : affichage liste + carte Leaflet/OSM]
    9 overlays colorés permanents (un par route Eurovelo)
-   Points hébergements OSM bleus pâles (housing.json)
-   Points hébergements Accueil Vélo verts pâles (accueil_velo_housing.json)
+   Points hébergements OSM et Accueil Vélo bleus pâles, unifiés (housing.json + accueil_velo_housing.json ; doublons OSM/Accueil Vélo dédupliqués)
    Points restaurants Accueil Vélo 🍴 (accueil_velo_restaurants.json)
    Segment bikeable en couleur de la route sélectionnée
 ```
@@ -329,4 +328,4 @@ Voir [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) pour les détails.
 - Certains horaires de train identifiés ne sont pas valides (communication avec l'API Transitous à améliorer).
 - Pour un séjour d'1 jour, le train retour peut partir avant que le cycliste ait le temps d'arriver à la gare.
 - Les segments proposés partent toujours de la même gare SNCF ; il serait plus pertinent de varier selon la proximité géographique du départ ou l'intérêt touristique.
-- Certains hébergements apparaissent en doublon (présents à la fois dans OpenStreetMap et DATAtourisme via le label Accueil Vélo).
+- Les doublons d'hébergements (présents à la fois dans OpenStreetMap et DATAtourisme via le label Accueil Vélo) sont dédupliqués à l'affichage : le point OSM est masqué et seul le point Accueil Vélo est conservé lorsque les deux coïncident géographiquement.

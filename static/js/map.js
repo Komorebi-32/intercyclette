@@ -1012,6 +1012,108 @@
     return 'gite';
   }
 
+  // ── OSM / Accueil Vélo deduplication ─────────────────────────────────────────
+
+  /**
+   * Number of decimal places used to bucket coordinates into a grid for
+   * duplicate detection. 4 decimals ≈ 11 m per cell; checking a point against
+   * the 3×3 neighbourhood of cells gives a ~33 m match radius, enough to treat
+   * an OSM point and an Accueil Vélo point as the same physical establishment.
+   * @type {number}
+   */
+  const DUP_COORD_DECIMALS = 4;
+
+  /**
+   * Cached grid of Accueil Vélo coordinate keys for duplicate lookup, or null
+   * when it must be (re)built. Invalidated when AV data (re)loads.
+   * @type {Set<string>|null}
+   */
+  let avCoordKeySet = null;
+
+  /**
+   * Round a coordinate value to a fixed number of decimal places.
+   *
+   * @param {number} value - Latitude or longitude in decimal degrees.
+   * @param {number} decimals - Number of decimal places to round to (>= 0).
+   * @returns {number} The rounded value.
+   */
+  function roundCoord(value, decimals) {
+    const factor = Math.pow(10, decimals);
+    return Math.round(value * factor) / factor;
+  }
+
+  /**
+   * Build the grid-cell key for a coordinate pair at a given precision.
+   *
+   * @param {number} lat - Latitude in decimal degrees.
+   * @param {number} lon - Longitude in decimal degrees.
+   * @param {number} decimals - Number of decimal places defining the grid cell.
+   * @returns {string} A "lat,lon" key string for the cell.
+   */
+  function coordKey(lat, lon, decimals) {
+    return roundCoord(lat, decimals) + ',' + roundCoord(lon, decimals);
+  }
+
+  /**
+   * Build a Set of grid-cell keys covering all valid Accueil Vélo points.
+   *
+   * @param {Array<Object>} avPoints - Accueil Vélo points ({lat, lon, …}).
+   * @param {number} decimals - Grid precision in decimal places.
+   * @returns {Set<string>} Set of "lat,lon" cell keys (skips points without
+   *   numeric coordinates).
+   */
+  function buildAvCoordKeySet(avPoints, decimals) {
+    const keys = new Set();
+    avPoints.forEach(function (p) {
+      if (typeof p.lat === 'number' && typeof p.lon === 'number') {
+        keys.add(coordKey(p.lat, p.lon, decimals));
+      }
+    });
+    return keys;
+  }
+
+  /**
+   * Decide whether an OSM housing point duplicates an Accueil Vélo point.
+   *
+   * The point's own cell and its 8 neighbours are checked against the AV key
+   * set, so a small coordinate offset between the two sources still matches.
+   *
+   * @param {Object} osmPoint - OSM housing point ({lat, lon, …}).
+   * @param {Set<string>} avKeySet - AV grid-cell keys from buildAvCoordKeySet.
+   * @param {number} decimals - Grid precision in decimal places.
+   * @returns {boolean} True when an AV point lies in the point's neighbourhood
+   *   (also false when the point lacks numeric coordinates).
+   */
+  function isOsmDuplicateOfAv(osmPoint, avKeySet, decimals) {
+    if (typeof osmPoint.lat !== 'number' || typeof osmPoint.lon !== 'number') {
+      return false;
+    }
+    const step = 1 / Math.pow(10, decimals);
+    for (let dLat = -1; dLat <= 1; dLat += 1) {
+      for (let dLon = -1; dLon <= 1; dLon += 1) {
+        const key = coordKey(
+          osmPoint.lat + dLat * step,
+          osmPoint.lon + dLon * step,
+          decimals
+        );
+        if (avKeySet.has(key)) return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Return the cached AV coordinate-key grid, building it on first use.
+   *
+   * @returns {Set<string>} AV grid-cell keys for duplicate detection.
+   */
+  function getAvCoordKeySet() {
+    if (avCoordKeySet === null) {
+      avCoordKeySet = buildAvCoordKeySet(accueilVeloHousingRaw, DUP_COORD_DECIMALS);
+    }
+    return avCoordKeySet;
+  }
+
   // ── Housing points ─────────────────────────────────────────────────────────
 
   /**
@@ -1107,7 +1209,10 @@
   /**
    * Rebuild both housing layers from raw data to match the current category and
    * AV-only filter state. Points whose name falls outside the active categories
-   * are excluded. When avOnlyFilter is true, the OSM layer is suppressed entirely.
+   * are excluded. OSM points that duplicate an Accueil Vélo point (same physical
+   * establishment, by coordinate proximity) are dropped so the establishment is
+   * kept only as its Accueil Vélo point. When avOnlyFilter is true, the OSM
+   * layer is suppressed entirely.
    *
    * No-op when data has not yet loaded (raw arrays are empty).
    */
@@ -1130,8 +1235,10 @@
     if (avMatched.length > 0) accueilVeloHousingLayer.addTo(map);
 
     if (!avOnlyFilter) {
+      const avKeySet = getAvCoordKeySet();
       const osmMatched = housingPointsRaw.filter(function (p) {
-        return activeHousingCategories.has(classifyHousingType(p.name));
+        return activeHousingCategories.has(classifyHousingType(p.name))
+          && !isOsmDuplicateOfAv(p, avKeySet, DUP_COORD_DECIMALS);
       });
       osmMatched.forEach(function (p) {
         housingLayer.addLayer(buildOsmHousingMarker(p));
@@ -1234,13 +1341,14 @@
     accueilVeloHousingLayer = L.markerClusterGroup({
       disableClusteringAtZoom: 10,
       iconCreateFunction: function (cluster) {
-        return buildClusterIcon(cluster, "🏠", "rgba(163, 228, 190, 0.6)");
+        return buildClusterIcon(cluster, "🏠", "rgba(174, 214, 241, 0.6)");
       },
     });
     return fetch("static/data/accueil_velo_housing.json")
       .then(function (r) { return r.json(); })
       .then(function (points) {
         accueilVeloHousingRaw = points;
+        avCoordKeySet = null; // force the dedup grid to rebuild from fresh data
         // Layer stays hidden until a category is selected via setHousingCategories().
       })
       .catch(function (err) {

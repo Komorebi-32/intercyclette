@@ -151,10 +151,6 @@
               </span>
             </label>
           </div>
-          <label class="housing-option-label">
-            <input type="checkbox" id="propose-housing" />
-            <span class="rhythm-name">🛏️ Proposer des hébergements</span>
-          </label>
         </div>
 
         <!-- Step 3: Eurovelo routes -->
@@ -221,6 +217,11 @@
             </div>
           </details>
         </div>
+
+        <label class="housing-option-label">
+          <input type="checkbox" id="propose-housing" />
+          <span class="rhythm-name">🛏️ Proposer des étapes</span>
+        </label>
 
         <button type="submit" id="search-btn" class="btn-search">
           🔍 Trouver votre prochain séjour
@@ -354,7 +355,10 @@
       <!-- Map layer toggles (overlaid center-top) -->
       <div class="map-pills-top">
         <div class="map-pill-group" id="hebergements-pill-group">
-          <button type="button" class="map-pill" id="pill-hebergements">🏠 Hébergements</button>
+          <button type="button" class="map-pill" id="pill-hebergements" aria-expanded="false">
+            <span class="map-pill-label">🏠 Hébergements</span>
+            <span class="map-pill-arrow" aria-hidden="true">▾</span>
+          </button>
           <div class="hebergements-dropdown" id="hebergements-dropdown" hidden>
             <label class="housing-filter-label">
               <input type="checkbox" class="housing-cat-checkbox" value="camping" />
@@ -369,7 +373,7 @@
               Hôtels
             </label>
             <div class="housing-filter-av-row">
-              <button type="button" class="map-pill map-pill--av" id="pill-accueil-velo">🟢 Accueil Vélo uniquement</button>
+              <button type="button" class="map-pill map-pill--av" id="pill-accueil-velo">Accueil Vélo uniquement</button>
             </div>
           </div>
         </div>

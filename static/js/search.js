@@ -676,7 +676,9 @@
   /**
    * Wire the Hébergements pill and its expandable checklist.
    *
-   * The pill opens/closes the dropdown. Each category checkbox triggers a call to
+   * The pill opens/closes the dropdown (hidden by default) and flips its
+   * aria-expanded state, which rotates the arrow indicator. Each category
+   * checkbox triggers a call to
    * InterMap.setHousingCategories(). The Accueil Vélo toggle pill calls
    * InterMap.setAccueilVeloFilter(). Clicking outside the dropdown closes it.
    */
@@ -690,6 +692,7 @@
     pillHebergements.addEventListener("click", function (e) {
       e.stopPropagation();
       dropdown.hidden = !dropdown.hidden;
+      pillHebergements.setAttribute("aria-expanded", String(!dropdown.hidden));
     });
 
     document.querySelectorAll(".housing-cat-checkbox").forEach(function (cb) {
@@ -710,8 +713,9 @@
     }
 
     document.addEventListener("click", function (e) {
-      if (!dropdown.hidden && !dropdown.contains(e.target) && e.target !== pillHebergements) {
+      if (!dropdown.hidden && !dropdown.contains(e.target) && !pillHebergements.contains(e.target)) {
         dropdown.hidden = true;
+        pillHebergements.setAttribute("aria-expanded", "false");
       }
     });
   }

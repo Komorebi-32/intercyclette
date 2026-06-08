@@ -136,6 +136,9 @@ Manages several layer groups:
 - **accueilVeloHousingLayer** — Accueil Vélo accommodations from
   `accueil_velo_housing.json`, hover panel via
   `buildAccueilVeloHousingPanelHtml(point)`. Same lazy-filter approach as above.
+  Both housing layers share the **same blue dot style** (`housing-dot--osm` and
+  `housing-dot--av` map to one rule) so OSM and Accueil Vélo points are visually
+  unified.
 - **accueilVeloRestaurantsLayer** — Accueil Vélo restaurants from
   `accueil_velo_restaurants.json`; toggled by `toggleAccueilVeloRestaurants`.
 
@@ -144,6 +147,14 @@ Manages several layer groups:
 `setHousingCategories(categories)` sets the active category set and calls
 `applyHousingFilter()` to rebuild both layers. `setAccueilVeloFilter(avOnly)`
 restricts the visible layer to only Accueil Vélo points when `avOnly` is true.
+
+**OSM/Accueil Vélo deduplication.** When both sources are shown, OSM points that
+duplicate an Accueil Vélo point (same physical establishment) are dropped so the
+establishment is kept only as its Accueil Vélo point. Detection is grid-based:
+`buildAvCoordKeySet` buckets AV coordinates into ~11 m cells
+(`DUP_COORD_DECIMALS = 4`, cached in `avCoordKeySet`, invalidated when AV data
+loads) and `isOsmDuplicateOfAv` matches an OSM point against the 3×3
+neighbourhood of cells (~33 m radius). Tested in `tests/test_housing_dedup.js`.
 
 The raw OSM and Accueil Vélo housing arrays are **retained** after load
 (`housingPointsRaw` / `accueilVeloHousingRaw`) and exposed via
@@ -303,7 +314,9 @@ Orchestrates the search flow:
    Eurovelo". `mountain` is a not-yet-available placeholder (inert, hover tooltip)
 6. Wires the **center-top map layer pills** via `initMapLayerPills`:
    - `initHousingPills` wires the single "Hébergements" pill (toggles the
-     dropdown), three category checkboxes (Campings / Gîtes / Hôtels), and the
+     left-aligned dropdown, hidden by default; the pill carries an arrow that
+     rotates via `aria-expanded` when expanded/collapsed), three category
+     checkboxes (Campings / Gîtes / Hôtels), and the
      "Accueil Vélo uniquement" sub-pill; category changes call
      `InterMap.setHousingCategories()`; the AV pill calls
      `InterMap.setAccueilVeloFilter()`

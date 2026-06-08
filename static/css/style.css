@@ -184,15 +184,31 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
-/* Expandable checklist below the Hébergements pill */
+/* Hébergements pill: label on the left, expand/collapse arrow on the right */
+#pill-hebergements {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Arrow rotates from ▾ (collapsed) to ▴ (expanded) via aria-expanded */
+.map-pill-arrow {
+  font-size: 10px;
+  line-height: 1;
+  transition: transform .15s;
+}
+#pill-hebergements[aria-expanded="true"] .map-pill-arrow {
+  transform: rotate(180deg);
+}
+
+/* Expandable checklist below the Hébergements pill, left-aligned with it */
 .hebergements-dropdown {
   position: absolute;
   top: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   background: var(--white);
   border: 1px solid var(--grey-border);
   border-radius: var(--radius);
@@ -203,6 +219,10 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   flex-direction: column;
   gap: 4px;
   z-index: 1001;
+}
+/* The `hidden` attribute must win over the flex display above */
+.hebergements-dropdown[hidden] {
+  display: none;
 }
 
 /* Category checkbox rows inside the dropdown */
@@ -231,11 +251,13 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   margin-top: 2px;
 }
 
-/* AV pill fills the full dropdown width */
+/* AV pill fills the full dropdown width; smaller font kept on one line */
 .map-pill--av {
   font-family: var(--font);
   width: 100%;
   text-align: center;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .map-pill {
@@ -253,6 +275,9 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   transition: background .15s, border-color .15s, color .15s;
 }
 .map-pill:hover { border-color: #9fccb6; }
+/* Darker font on the housing & restaurant pills while toggled off */
+#pill-hebergements:not(.is-active),
+#pill-restaurants:not(.is-active) { color: #2f4a3c; }
 .map-pill.is-active {
   /* On state: darker colors */
   background: #1a5c38;
@@ -325,7 +350,9 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
 .rhythm-name { font-weight: 600; font-size: 13px; }
 .rhythm-detail { font-size: 12px; color: var(--grey-text); }
 
-/* "Proposer des hébergements" checkbox, below the rhythm radios */
+/* "Proposer des étapes" checkbox, sticky just above the search button so it
+   stays visible alongside it. The white background hides content scrolling
+   underneath, and the bottom offset clears the sticky search button's height. */
 .housing-option-label {
   display: flex;
   flex-direction: row;
@@ -335,6 +362,9 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   margin-top: 8px;
   padding: 6px 8px;
   border-radius: var(--radius);
+  position: sticky;
+  bottom: 54px;
+  background: var(--white);
   border: 1px solid transparent;
   transition: border-color .15s;
 }
@@ -997,8 +1027,9 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
   border-radius: 50%;
   border: 1.5px solid;
 }
-.housing-dot--osm { background: #AED6F1; border-color: #5DADE2; }
-.housing-dot--av  { background: #A9DFBF; border-color: #1E8449; }
+/* Both OSM and Accueil Vélo housing points share one blue style */
+.housing-dot--osm,
+.housing-dot--av { background: #AED6F1; border-color: #5DADE2; }
 
 /* ── Cluster bubble ───────────────────────────────────────────────────────── */
 .cluster-bubble {
