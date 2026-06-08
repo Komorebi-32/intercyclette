@@ -351,11 +351,29 @@
       </div>
       <div id="map" class="map-container"></div>
 
-      <!-- Map layer toggles (overlaid bottom-right, above the zoom control) -->
-      <div class="map-pills">
-        <button type="button" class="map-pill" data-layer="housing-osm">🔵 Hébergements OSM</button>
-        <button type="button" class="map-pill" data-layer="housing-av">🟢 Hébergements Accueil Vélo</button>
-        <button type="button" class="map-pill" data-layer="restaurants">😋 Restaurants</button>
+      <!-- Map layer toggles (overlaid center-top) -->
+      <div class="map-pills-top">
+        <div class="map-pill-group" id="hebergements-pill-group">
+          <button type="button" class="map-pill" id="pill-hebergements">🏠 Hébergements</button>
+          <div class="hebergements-dropdown" id="hebergements-dropdown" hidden>
+            <label class="housing-filter-label">
+              <input type="checkbox" class="housing-cat-checkbox" value="camping" />
+              Campings
+            </label>
+            <label class="housing-filter-label">
+              <input type="checkbox" class="housing-cat-checkbox" value="gite" />
+              Gîtes
+            </label>
+            <label class="housing-filter-label">
+              <input type="checkbox" class="housing-cat-checkbox" value="hotel" />
+              Hôtels
+            </label>
+            <div class="housing-filter-av-row">
+              <button type="button" class="map-pill map-pill--av" id="pill-accueil-velo">🟢 Accueil Vélo uniquement</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="map-pill" id="pill-restaurants">😋 Restaurants</button>
       </div>
     </main>
   </div>

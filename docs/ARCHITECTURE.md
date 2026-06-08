@@ -130,14 +130,20 @@ Manages several layer groups:
   detail-section in a results card.
 - **housingLayer** — an `L.markerClusterGroup` of OSM accommodations from
   `housing.json`, rendered as pale-blue dots (`housing-dot housing-dot--osm`).
-  Each marker shows a hover panel built by `buildHousingPanelHtml(point)`
-  (name, contact, website; missing fields shown as "non renseigné"). Toggled by
-  `toggleHousingPoints(visible)`.
+  Each marker shows a hover panel built by `buildHousingPanelHtml(point)`.
+  Layer is rebuilt by `applyHousingFilter()` whenever category or AV-only state
+  changes — it is not pre-populated at load time.
 - **accueilVeloHousingLayer** — Accueil Vélo accommodations from
   `accueil_velo_housing.json`, hover panel via
-  `buildAccueilVeloHousingPanelHtml(point)`; toggled by `toggleAccueilVeloHousing`.
+  `buildAccueilVeloHousingPanelHtml(point)`. Same lazy-filter approach as above.
 - **accueilVeloRestaurantsLayer** — Accueil Vélo restaurants from
   `accueil_velo_restaurants.json`; toggled by `toggleAccueilVeloRestaurants`.
+
+**Housing category filter.** Each housing point is classified by name into
+`'camping'`, `'hotel'`, or `'gite'` (default) via `classifyHousingType(name)`.
+`setHousingCategories(categories)` sets the active category set and calls
+`applyHousingFilter()` to rebuild both layers. `setAccueilVeloFilter(avOnly)`
+restricts the visible layer to only Accueil Vélo points when `avOnly` is true.
 
 The raw OSM and Accueil Vélo housing arrays are **retained** after load
 (`housingPointsRaw` / `accueilVeloHousingRaw`) and exposed via
@@ -150,11 +156,11 @@ When an opened itinerary carries a `housing` array, `showItineraryOnMap` drops a
 
 Public API: `window.InterMap = { initMap, loadAllRoutes, setRouteVisible,
 setRoutesHidden, clearMap, showItineraryOnMap, focusOnLeg, getTrainLegColors,
-centerOn, loadHousingPoints,
-toggleHousingPoints, loadAccueilVeloHousing, loadAccueilVeloRestaurants,
-toggleAccueilVeloHousing, toggleAccueilVeloRestaurants, buildEmojiStationIcon,
-addMarker, setDepartureMarker, getHousingPools, buildHousingInfoHtml,
-focusHousing, showHoverPanel, positionHoverPanel, scheduleCloseHoverPanel }`
+centerOn, loadHousingPoints, loadAccueilVeloHousing, loadAccueilVeloRestaurants,
+toggleAccueilVeloRestaurants, setHousingCategories, setAccueilVeloFilter,
+classifyHousingType, buildEmojiStationIcon, addMarker, setDepartureMarker,
+getHousingPools, buildHousingInfoHtml, focusHousing, showHoverPanel,
+positionHoverPanel, scheduleCloseHoverPanel }`
 
 ### `static/js/planner.js`
 
@@ -295,10 +301,14 @@ Orchestrates the search flow:
    union of the active criteria's routes (none active = all routes); the
    checkbox list is collapsed under a `<details>` "Sélectionner des routes
    Eurovelo". `mountain` is a not-yet-available placeholder (inert, hover tooltip)
-6. Wires the bottom-right map layer pills (`.map-pill[data-layer]`, via
-   `initMapLayerPills`) to the map's `toggleHousingPoints` /
-   `toggleAccueilVeloHousing` / `toggleAccueilVeloRestaurants`; pills start
-   inactive (layers off) and gain `is-active` (darker styling) when enabled
+6. Wires the **center-top map layer pills** via `initMapLayerPills`:
+   - `initHousingPills` wires the single "Hébergements" pill (toggles the
+     dropdown), three category checkboxes (Campings / Gîtes / Hôtels), and the
+     "Accueil Vélo uniquement" sub-pill; category changes call
+     `InterMap.setHousingCategories()`; the AV pill calls
+     `InterMap.setAccueilVeloFilter()`
+   - `initRestaurantPill` wires the Restaurants pill to
+     `InterMap.toggleAccueilVeloRestaurants`; pills gain `is-active` when enabled
 7. Wires the modals: the **welcome** modal (shown on load), the **help** modal
    (`btn-help`), and via the generic `initOverlayModal(btnId, modalId, closeId)`
    the **roadmap** (`btn-roadmap`) and **credits** (`btn-credits`) modals — each

@@ -50,6 +50,20 @@
   let accueilVeloHousingRaw = [];
 
   /**
+   * Active housing category filters. An empty Set means no housing is shown.
+   * Values: 'camping' | 'gite' | 'hotel'
+   * @type {Set<string>}
+   */
+  let activeHousingCategories = new Set();
+
+  /**
+   * When true, only Accueil Vélo housing (accueil_velo_housing.json) is shown.
+   * When false, both OSM and Accueil Vélo sources are shown.
+   * @type {boolean}
+   */
+  let avOnlyFilter = false;
+
+  /**
    * Route color map loaded from the JSON files.
    * Key: route_id (e.g. 'EV3'), value: hex color string.
    * @type {Object.<string, string>}
@@ -964,6 +978,40 @@
     departureLayer.addLayer(marker);
   }
 
+  // ── Housing classification ─────────────────────────────────────────────────
+
+  /**
+   * Keywords that identify a camping accommodation in a name string.
+   * @type {string[]}
+   */
+  const CAMPING_KEYWORDS = ['camping', 'bivouac', 'motorhome', 'camping-car'];
+
+  /**
+   * Keywords that identify a hotel accommodation in a name string.
+   * @type {string[]}
+   */
+  const HOTEL_KEYWORDS = [
+    'hôtel', 'hotel', 'ibis', 'novotel', 'mercure', 'kyriad',
+    'première classe', 'premiere classe', 'b&b hotel', 'formule 1', 'etap hotel',
+  ];
+
+  /**
+   * Classify an accommodation name into one of three categories.
+   *
+   * Checks name against keyword lists for camping and hotel. Defaults to
+   * 'gite' when no keyword matches (catches gîtes, chambres d'hôtes, etc.).
+   *
+   * @param {string|null} name - Accommodation name from housing data.
+   * @returns {'camping'|'hotel'|'gite'} Inferred category.
+   */
+  function classifyHousingType(name) {
+    if (!name) return 'gite';
+    const n = name.toLowerCase();
+    if (CAMPING_KEYWORDS.some(function (k) { return n.includes(k); })) return 'camping';
+    if (HOTEL_KEYWORDS.some(function (k) { return n.includes(k); })) return 'hotel';
+    return 'gite';
+  }
+
   // ── Housing points ─────────────────────────────────────────────────────────
 
   /**
@@ -1015,14 +1063,115 @@
   }
 
   /**
-   * Fetch housing.json and add a pale-blue circle marker for each point.
+   * Build a Leaflet marker for an OSM housing point with hover panel wiring.
    *
-   * Markers are added directly to the map (not to itineraryLayer) so they
-   * remain visible regardless of itinerary selection state. Hovering a marker
-   * shows the floating info panel via the shared showPanel / scheduleClosePanel
-   * helpers.
+   * @param {Object} p - Housing point from housing.json.
+   * @returns {L.Marker}
+   */
+  function buildOsmHousingMarker(p) {
+    const marker = L.marker([p.lat, p.lon], {
+      icon: buildDotIcon("housing-dot housing-dot--osm"),
+    });
+    const panelHtml = buildHousingPanelHtml(p);
+    marker.on("mouseover", function (e) {
+      showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+    });
+    marker.on("mousemove", function (e) {
+      positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+    });
+    marker.on("mouseout", function () { scheduleClosePanel(); });
+    return marker;
+  }
+
+  /**
+   * Build a Leaflet marker for an Accueil Vélo housing point with hover panel wiring.
    *
-   * @returns {Promise<void>} Resolves when all markers have been added.
+   * @param {Object} p - Housing point from accueil_velo_housing.json.
+   * @returns {L.Marker}
+   */
+  function buildAvHousingMarker(p) {
+    const marker = L.marker([p.lat, p.lon], {
+      icon: buildDotIcon("housing-dot housing-dot--av"),
+    });
+    const panelHtml = buildAccueilVeloHousingPanelHtml(p);
+    marker.on("mouseover", function (e) {
+      showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
+    });
+    marker.on("mousemove", function (e) {
+      positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
+    });
+    marker.on("mouseout", function () { scheduleClosePanel(); });
+    return marker;
+  }
+
+  /**
+   * Rebuild both housing layers from raw data to match the current category and
+   * AV-only filter state. Points whose name falls outside the active categories
+   * are excluded. When avOnlyFilter is true, the OSM layer is suppressed entirely.
+   *
+   * No-op when data has not yet loaded (raw arrays are empty).
+   */
+  function applyHousingFilter() {
+    if (!housingLayer || !accueilVeloHousingLayer || !map) return;
+
+    housingLayer.clearLayers();
+    accueilVeloHousingLayer.clearLayers();
+    if (map.hasLayer(housingLayer)) map.removeLayer(housingLayer);
+    if (map.hasLayer(accueilVeloHousingLayer)) map.removeLayer(accueilVeloHousingLayer);
+
+    if (activeHousingCategories.size === 0) return;
+
+    const avMatched = accueilVeloHousingRaw.filter(function (p) {
+      return activeHousingCategories.has(classifyHousingType(p.name));
+    });
+    avMatched.forEach(function (p) {
+      accueilVeloHousingLayer.addLayer(buildAvHousingMarker(p));
+    });
+    if (avMatched.length > 0) accueilVeloHousingLayer.addTo(map);
+
+    if (!avOnlyFilter) {
+      const osmMatched = housingPointsRaw.filter(function (p) {
+        return activeHousingCategories.has(classifyHousingType(p.name));
+      });
+      osmMatched.forEach(function (p) {
+        housingLayer.addLayer(buildOsmHousingMarker(p));
+      });
+      if (osmMatched.length > 0) housingLayer.addTo(map);
+    }
+  }
+
+  /**
+   * Set the active housing category filters and refresh the map layers.
+   *
+   * @param {string[]} categories - Array of active categories: 'camping', 'hotel', 'gite'.
+   *   Pass an empty array to hide all housing.
+   */
+  function setHousingCategories(categories) {
+    activeHousingCategories = new Set(categories);
+    applyHousingFilter();
+  }
+
+  /**
+   * Toggle the Accueil Vélo–only restriction and refresh the map layers.
+   *
+   * When avOnly is true, only housing points from accueil_velo_housing.json
+   * matching the active categories are displayed; OSM housing is hidden.
+   *
+   * @param {boolean} avOnly - True to restrict to Accueil Vélo points only.
+   */
+  function setAccueilVeloFilter(avOnly) {
+    avOnlyFilter = avOnly;
+    applyHousingFilter();
+  }
+
+  /**
+   * Fetch housing.json and store points for category-filtered display.
+   *
+   * Points are not added to the map immediately; the category filter controls
+   * visibility via applyHousingFilter(). The raw array is also retained for the
+   * housing-proposal nearest-neighbour search.
+   *
+   * @returns {Promise<void>} Resolves when data has been loaded and the layer group created.
    */
   function loadHousingPoints() {
     housingLayer = L.markerClusterGroup({
@@ -1035,44 +1184,11 @@
       .then(function (r) { return r.json(); })
       .then(function (points) {
         housingPointsRaw = points;
-        points.forEach(function (p) {
-          const marker = L.marker([p.lat, p.lon], {
-            icon: buildDotIcon("housing-dot housing-dot--osm"),
-          });
-
-          const panelHtml = buildHousingPanelHtml(p);
-
-          marker.on("mouseover", function (e) {
-            showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
-          });
-          marker.on("mousemove", function (e) {
-            positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
-          });
-          marker.on("mouseout", function () {
-            scheduleClosePanel();
-          });
-
-          housingLayer.addLayer(marker);
-        });
-        // Layer loaded but hidden by default; toggled by checkbox.
+        // Layer stays hidden until a category is selected via setHousingCategories().
       })
       .catch(function (err) {
         console.warn("Could not load housing points:", err);
       });
-  }
-
-  /**
-   * Show or hide the housing points layer.
-   *
-   * @param {boolean} visible - True to show the layer, false to hide it.
-   */
-  function toggleHousingPoints(visible) {
-    if (!housingLayer || !map) return;
-    if (visible) {
-      if (!map.hasLayer(housingLayer)) housingLayer.addTo(map);
-    } else {
-      if (map.hasLayer(housingLayer)) map.removeLayer(housingLayer);
-    }
   }
 
   // ── Accueil Vélo housing ───────────────────────────────────────────────────
@@ -1106,15 +1222,13 @@
   }
 
   /**
-   * Fetch accueil_velo_housing.json and add a pale green circle marker for
-   * each point.
+   * Fetch accueil_velo_housing.json and store points for category-filtered display.
    *
-   * Markers are added to a dedicated cluster group (accueilVeloHousingLayer) so
-   * they can be toggled independently of the OSM housing layer.  Hovering a
-   * marker shows the floating info panel via the shared showPanel /
-   * scheduleClosePanel helpers.
+   * Points are not added to the map immediately; the category filter controls
+   * visibility via applyHousingFilter(). The raw array is also retained for the
+   * housing-proposal nearest-neighbour search.
    *
-   * @returns {Promise<void>} Resolves when all markers have been added.
+   * @returns {Promise<void>} Resolves when data has been loaded and the layer group created.
    */
   function loadAccueilVeloHousing() {
     accueilVeloHousingLayer = L.markerClusterGroup({
@@ -1127,44 +1241,11 @@
       .then(function (r) { return r.json(); })
       .then(function (points) {
         accueilVeloHousingRaw = points;
-        points.forEach(function (p) {
-          const marker = L.marker([p.lat, p.lon], {
-            icon: buildDotIcon("housing-dot housing-dot--av"),
-          });
-
-          const panelHtml = buildAccueilVeloHousingPanelHtml(p);
-
-          marker.on("mouseover", function (e) {
-            showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);
-          });
-          marker.on("mousemove", function (e) {
-            positionPanel(e.originalEvent.clientX, e.originalEvent.clientY);
-          });
-          marker.on("mouseout", function () {
-            scheduleClosePanel();
-          });
-
-          accueilVeloHousingLayer.addLayer(marker);
-        });
-        // Layer loaded but hidden by default; toggled by pill.
+        // Layer stays hidden until a category is selected via setHousingCategories().
       })
       .catch(function (err) {
         console.warn("Could not load Accueil Vélo housing points:", err);
       });
-  }
-
-  /**
-   * Show or hide the Accueil Vélo housing layer.
-   *
-   * @param {boolean} visible - True to show the layer, false to hide it.
-   */
-  function toggleAccueilVeloHousing(visible) {
-    if (!accueilVeloHousingLayer || !map) return;
-    if (visible) {
-      if (!map.hasLayer(accueilVeloHousingLayer)) accueilVeloHousingLayer.addTo(map);
-    } else {
-      if (map.hasLayer(accueilVeloHousingLayer)) map.removeLayer(accueilVeloHousingLayer);
-    }
   }
 
   // ── Accueil Vélo restaurants ───────────────────────────────────────────────
@@ -1275,11 +1356,12 @@
     centerOn,
     resetView,
     loadHousingPoints,
-    toggleHousingPoints,
     loadAccueilVeloHousing,
     loadAccueilVeloRestaurants,
-    toggleAccueilVeloHousing,
     toggleAccueilVeloRestaurants,
+    setHousingCategories,
+    setAccueilVeloFilter,
+    classifyHousingType,
     buildEmojiStationIcon,
     addMarker,
     setDepartureMarker,

@@ -650,31 +650,97 @@
   }
 
   /**
-   * Wire the map layer toggle pills (bottom-right overlay).
+   * Return the set of currently checked housing category values.
    *
-   * Each `.map-pill` carries a `data-layer` value mapping to an `InterMap`
-   * toggle function. Pills start inactive (layers hidden by default); clicking
-   * a pill flips its layer visibility and toggles the `is-active` class, which
-   * switches the pill from its lighter (off) to darker (on) styling.
-   *
-   * Inputs: reads `.map-pill[data-layer]` elements from the DOM; requires
-   * `window.InterMap`. Outputs: none (side effects on the map and DOM classes).
+   * @returns {string[]} Array of checked category values (e.g. ['camping', 'hotel']).
    */
-  function initMapLayerPills() {
-    const layerToggles = {
-      "housing-osm": "toggleHousingPoints",
-      "housing-av": "toggleAccueilVeloHousing",
-      "restaurants": "toggleAccueilVeloRestaurants",
-    };
+  function getCheckedHousingCategories() {
+    return [...document.querySelectorAll(".housing-cat-checkbox:checked")].map(
+      function (cb) { return cb.value; }
+    );
+  }
 
-    document.querySelectorAll(".map-pill").forEach(function (pill) {
-      pill.addEventListener("click", function () {
-        const toggleFn = layerToggles[pill.dataset.layer];
-        if (!window.InterMap || !toggleFn) return;
-        const active = pill.classList.toggle("is-active");
-        window.InterMap[toggleFn](active);
+  /**
+   * Update the visual active state of the Hébergements pill.
+   *
+   * The pill appears active (darker) when at least one category checkbox is
+   * checked, inactive otherwise.
+   *
+   * @param {HTMLElement} pillEl - The Hébergements pill button element.
+   */
+  function syncHebergementsPillState(pillEl) {
+    const anyChecked = getCheckedHousingCategories().length > 0;
+    pillEl.classList.toggle("is-active", anyChecked);
+  }
+
+  /**
+   * Wire the Hébergements pill and its expandable checklist.
+   *
+   * The pill opens/closes the dropdown. Each category checkbox triggers a call to
+   * InterMap.setHousingCategories(). The Accueil Vélo toggle pill calls
+   * InterMap.setAccueilVeloFilter(). Clicking outside the dropdown closes it.
+   */
+  function initHousingPills() {
+    const pillHebergements = document.getElementById("pill-hebergements");
+    const dropdown = document.getElementById("hebergements-dropdown");
+    const pillAccueilVelo = document.getElementById("pill-accueil-velo");
+
+    if (!pillHebergements || !dropdown) return;
+
+    pillHebergements.addEventListener("click", function (e) {
+      e.stopPropagation();
+      dropdown.hidden = !dropdown.hidden;
+    });
+
+    document.querySelectorAll(".housing-cat-checkbox").forEach(function (cb) {
+      cb.addEventListener("change", function () {
+        if (!window.InterMap) return;
+        const categories = getCheckedHousingCategories();
+        window.InterMap.setHousingCategories(categories);
+        syncHebergementsPillState(pillHebergements);
       });
     });
+
+    if (pillAccueilVelo) {
+      pillAccueilVelo.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const active = pillAccueilVelo.classList.toggle("is-active");
+        if (window.InterMap) window.InterMap.setAccueilVeloFilter(active);
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      if (!dropdown.hidden && !dropdown.contains(e.target) && e.target !== pillHebergements) {
+        dropdown.hidden = true;
+      }
+    });
+  }
+
+  /**
+   * Wire the Restaurants toggle pill.
+   *
+   * The pill starts inactive (layer hidden by default); clicking it flips
+   * the Accueil Vélo restaurants layer visibility and toggles `is-active`.
+   */
+  function initRestaurantPill() {
+    const pillRestaurants = document.getElementById("pill-restaurants");
+    if (!pillRestaurants) return;
+    pillRestaurants.addEventListener("click", function () {
+      if (!window.InterMap) return;
+      const active = pillRestaurants.classList.toggle("is-active");
+      window.InterMap.toggleAccueilVeloRestaurants(active);
+    });
+  }
+
+  /**
+   * Wire all map layer toggle pills (center-top overlay).
+   *
+   * Delegates to initHousingPills() for the Hébergements dropdown and
+   * initRestaurantPill() for the Restaurants pill.
+   */
+  function initMapLayerPills() {
+    initHousingPills();
+    initRestaurantPill();
   }
 
   // ── Initialisation ─────────────────────────────────────────────────────────
@@ -707,7 +773,13 @@
   initStationAutocomplete();
 
   // Expose for testing
-  window.InterSearch = { filterStations, getFormValues, handleSelectAll };
+  window.InterSearch = {
+    filterStations,
+    getFormValues,
+    handleSelectAll,
+    getCheckedHousingCategories,
+    syncHebergementsPillState,
+  };
 
   // ── View switching ────────────────────────────────────────────────────────
 

@@ -167,17 +167,77 @@ body { font-family: var(--font); color: #2c3e50; font-size: 14px; height: 100vh;
   letter-spacing: 0.04em;
 }
 
-/* Map layer toggle pills — overlaid on the map, above the bottom-right zoom control */
-.map-pills {
+/* Map layer toggle pills — overlaid center-top on the map */
+.map-pills-top {
   position: absolute;
-  right: 10px;
-  bottom: 110px;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 8px;
 }
+
+/* Hébergements pill + dropdown wrapper */
+.map-pill-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Expandable checklist below the Hébergements pill */
+.hebergements-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--white);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  padding: 8px;
+  min-width: 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1001;
+}
+
+/* Category checkbox rows inside the dropdown */
+.housing-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  user-select: none;
+  font-family: var(--font);
+}
+.housing-filter-label:hover { background: var(--grey-bg); }
+.housing-filter-label input[type="checkbox"] {
+  accent-color: var(--green);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* AV-only pill row — separated from the category checkboxes */
+.housing-filter-av-row {
+  padding-top: 6px;
+  border-top: 1px solid var(--grey-border);
+  margin-top: 2px;
+}
+
+/* AV pill fills the full dropdown width */
+.map-pill--av {
+  font-family: var(--font);
+  width: 100%;
+  text-align: center;
+}
+
 .map-pill {
   display: inline-block;
   padding: 5px 12px;
