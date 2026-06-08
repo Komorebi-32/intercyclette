@@ -676,8 +676,16 @@
         const deptUic = document.getElementById("departure-uic");
         if (deptUic) deptUic.value = "";
       }
+      // Back to the landing state: drop any itinerary detail, reset the map
+      // view, and re-highlight every Eurovelo route, with all checkboxes checked.
       window.InterMap.clearMap();
-      if (window.InterMap.setRoutesHidden) window.InterMap.setRoutesHidden(false);
+      window.InterMap.resetView();
+      window.InterMap.setRoutesHidden(false);
+      handleSelectAll(true);
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = true;
+        selectAllCheckbox.indeterminate = false;
+      }
       hideStatus();
     });
   }
@@ -685,6 +693,11 @@
   if (btnEditSearch) {
     btnEditSearch.addEventListener("click", () => {
       showSearchView();
+      // Drop any itinerary detail, reset the map view, and re-show the overlays
+      // for the routes currently selected (kept in sync via the checkbox handlers).
+      window.InterMap.clearMap();
+      window.InterMap.resetView();
+      window.InterMap.setRoutesHidden(false);
     });
   }
 

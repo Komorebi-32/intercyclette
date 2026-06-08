@@ -281,6 +281,10 @@
 
   // ── Map initialisation ─────────────────────────────────────────────────────
 
+  /** Default map view (France-wide) used on page load and on map reset. */
+  const DEFAULT_MAP_CENTER = [46.8, 2.3];
+  const DEFAULT_MAP_ZOOM = 6;
+
   /**
    * Initialise the Leaflet map centred on France using OpenStreetMap France tiles.
    *
@@ -295,7 +299,7 @@
    * @returns {L.Map} The created Leaflet map instance.
    */
   function initMap(containerId) {
-    map = L.map(containerId, { zoomControl: false, preferCanvas: true }).setView([46.8, 2.3], 6);
+    map = L.map(containerId, { zoomControl: false, preferCanvas: true }).setView(DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM);
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", {
@@ -896,6 +900,13 @@
   }
 
   /**
+   * Reset the map to the default France-wide view shown on page load.
+   */
+  function resetView() {
+    if (map) map.setView(DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM);
+  }
+
+  /**
    * Pan and zoom the map to a housing point (used when a housing name is clicked
    * in a results card).
    *
@@ -1262,6 +1273,7 @@
     focusOnLeg,
     getTrainLegColors,
     centerOn,
+    resetView,
     loadHousingPoints,
     toggleHousingPoints,
     loadAccueilVeloHousing,
