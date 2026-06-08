@@ -437,9 +437,18 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   font-family: var(--font);
   font-size: 11px;
 }
-.housing-list { margin: 2px 0; }
-.housing-date-row { margin-bottom: 2px; }
-.housing-night-row { margin: 2px 0 6px; }
+.housing-list { margin: 4px 0; }
+
+/* One connector per day: date, 🚲 distance and the "Nuit k" pill stack
+   left-aligned, with the dashed line running to the left of all of them. */
+.housing-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.housing-connector .leg-duration-text { margin-left: 0; }
 
 /* "Nuit k : name" rendered as a one-line pill, truncated with an ellipsis */
 .housing-name {

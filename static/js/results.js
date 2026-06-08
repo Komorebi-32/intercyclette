@@ -165,7 +165,7 @@
         <div class="leg-pill-row">
           <button type="button" class="benefit-pill housing-toggle" aria-expanded="false">🛏️ Voir les hébergements</button>
         </div>
-        ${buildHousingListHtml(itinerary, bikeStartIso)}
+        ${buildHousingListHtml(itinerary, bikeStartIso, bikeArrivalDate)}
       `
       : "";
 
@@ -210,17 +210,19 @@
   /**
    * Build the (initially hidden) per-night housing breakdown for the bike leg.
    *
-   * Each day is rendered as: the date (omitted for day 1, already shown on the
-   * train leg) → a 🚲 distance connector → a "Nuit k : name" pill (styled like
-   * the housing pill, truncated to one line by attachHousingHandlers). A final
-   * 🚲 connector covers the ride to the arrival station (whose date is shown by
-   * the arrival stop below). Nights with no housing found show a plain label.
+   * Each day is one connector (dashed line to the left of all its rows): the
+   * date (omitted for day 1, already shown on the train leg) → a 🚲 distance
+   * row → a "Nuit k : name" pill (styled like the housing pill, truncated to one
+   * line by attachHousingHandlers). A final connector covers the ride to the
+   * arrival station and repeats that day's date below the last housing. Nights
+   * with no housing found show a plain label.
    *
    * @param {Object} itinerary - Itinerary with a `housing` array.
    * @param {string|null} bikeStartIso - ISO datetime of the bike departure.
+   * @param {string|null} bikeArrivalDate - Formatted arrival (last-day) date.
    * @returns {string} HTML string for the `.housing-list` block.
    */
-  function buildHousingListHtml(itinerary, bikeStartIso) {
+  function buildHousingListHtml(itinerary, bikeStartIso, bikeArrivalDate) {
     const housing = itinerary.housing || [];
     let prevKm = itinerary.biking_start_km;
     let rows = "";
@@ -229,16 +231,28 @@
       prevKm = stop.cumulativeKm;
       const dateHtml = i === 0
         ? ""
-        : `<div class="leg-stop housing-date-row"><span class="leg-date">${formatDatePlusDays(bikeStartIso, i)}</span></div>`;
-      const distHtml = `<div class="leg-connector"><span class="leg-duration-text">🚲 ${segKm} km</span></div>`;
+        : `<span class="leg-date">${formatDatePlusDays(bikeStartIso, i)}</span>`;
       const name = stop.point ? (stop.point.name || "Hébergement") : "";
-      const nightHtml = stop.point
-        ? `<div class="housing-night-row"><span class="benefit-pill housing-pill housing-name" data-night="${i}" data-prefix="Nuit ${stop.night} :" data-name="${escapeHtml(name)}">Nuit ${stop.night} : ${escapeHtml(name)}</span></div>`
-        : `<div class="housing-night-row"><span class="housing-none">Nuit ${stop.night} : aucun hébergement trouvé</span></div>`;
-      rows += dateHtml + distHtml + nightHtml;
+      const pillHtml = stop.point
+        ? `<span class="benefit-pill housing-pill housing-name" data-night="${i}" data-prefix="Nuit ${stop.night} :" data-name="${escapeHtml(name)}">Nuit ${stop.night} : ${escapeHtml(name)}</span>`
+        : `<span class="housing-none">Nuit ${stop.night} : aucun hébergement trouvé</span>`;
+      rows += `
+        <div class="leg-connector housing-connector">
+          ${dateHtml}
+          <span class="leg-duration-text">🚲 ${segKm} km</span>
+          ${pillHtml}
+        </div>
+      `;
     });
     const lastSeg = Math.max(0, Math.round(itinerary.biking_end_km - prevKm));
-    rows += `<div class="leg-connector"><span class="leg-duration-text">🚲 ${lastSeg} km</span></div>`;
+    const lastDateHtml = bikeArrivalDate
+      ? `<span class="leg-date">${bikeArrivalDate}</span>` : "";
+    rows += `
+      <div class="leg-connector housing-connector">
+        ${lastDateHtml}
+        <span class="leg-duration-text">🚲 ${lastSeg} km</span>
+      </div>
+    `;
     return `<div class="housing-list" hidden>${rows}</div>`;
   }
 
