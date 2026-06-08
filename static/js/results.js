@@ -163,7 +163,7 @@
     const housingHtml = hasHousing
       ? `
         <div class="leg-pill-row">
-          <button type="button" class="benefit-pill housing-pill" aria-expanded="false">🛏️ Voir les hébergements</button>
+          <button type="button" class="benefit-pill housing-toggle" aria-expanded="false">🛏️ Voir les hébergements</button>
         </div>
         ${buildHousingListHtml(itinerary, bikeStartIso)}
       `
@@ -179,7 +179,7 @@
           <span class="leg-station">${itinerary.departure_station.nom}</span>
           <span class="leg-km">km ${Math.round(itinerary.biking_start_km)}</span>
         </div>
-        <div class="leg-connector">
+        <div class="leg-connector bike-summary">
           <span class="leg-duration-text">${formatKm(itinerary.total_biking_km)} · ${rhythmLabel}</span>
         </div>
         ${housingHtml}
@@ -193,13 +193,28 @@
   }
 
   /**
+   * Escape a string for safe interpolation into HTML text or an attribute.
+   *
+   * @param {string} s - Raw string.
+   * @returns {string} HTML-escaped string.
+   */
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /**
    * Build the (initially hidden) per-night housing breakdown for the bike leg.
    *
-   * Each night shows the distance ridden that day and a clickable/hoverable
-   * housing name, interleaved between the departure and arrival stops. Nights
-   * with no housing found show a plain "aucun hébergement trouvé" label. The
-   * `data-night` index lets attachHousingHandlers wire hover/click to the
-   * matching `itinerary.housing` entry.
+   * Each day is rendered as: the date (omitted for day 1, already shown on the
+   * train leg) → a 🚲 distance connector → a "Nuit k : name" pill (styled like
+   * the housing pill, truncated to one line by attachHousingHandlers). A final
+   * 🚲 connector covers the ride to the arrival station (whose date is shown by
+   * the arrival stop below). Nights with no housing found show a plain label.
    *
    * @param {Object} itinerary - Itinerary with a `housing` array.
    * @param {string|null} bikeStartIso - ISO datetime of the bike departure.
@@ -212,20 +227,18 @@
     housing.forEach(function (stop, i) {
       const segKm = Math.max(0, Math.round(stop.cumulativeKm - prevKm));
       prevKm = stop.cumulativeKm;
-      const nightDate = formatDatePlusDays(bikeStartIso, i);
-      const nameHtml = stop.point
-        ? `<span class="housing-name" data-night="${i}">Nuit ${stop.night} : ${stop.point.name || "Hébergement"}</span>`
-        : `<span class="housing-none">Nuit ${stop.night} : aucun hébergement trouvé</span>`;
-      rows += `
-        <div class="leg-connector"><span class="leg-duration-text">${segKm} km</span></div>
-        <div class="leg-stop housing-night-row">
-          <span class="leg-date">${nightDate}</span>
-          ${nameHtml}
-        </div>
-      `;
+      const dateHtml = i === 0
+        ? ""
+        : `<div class="leg-stop housing-date-row"><span class="leg-date">${formatDatePlusDays(bikeStartIso, i)}</span></div>`;
+      const distHtml = `<div class="leg-connector"><span class="leg-duration-text">🚲 ${segKm} km</span></div>`;
+      const name = stop.point ? (stop.point.name || "Hébergement") : "";
+      const nightHtml = stop.point
+        ? `<div class="housing-night-row"><span class="benefit-pill housing-pill housing-name" data-night="${i}" data-prefix="Nuit ${stop.night} :" data-name="${escapeHtml(name)}">Nuit ${stop.night} : ${escapeHtml(name)}</span></div>`
+        : `<div class="housing-night-row"><span class="housing-none">Nuit ${stop.night} : aucun hébergement trouvé</span></div>`;
+      rows += dateHtml + distHtml + nightHtml;
     });
     const lastSeg = Math.max(0, Math.round(itinerary.biking_end_km - prevKm));
-    rows += `<div class="leg-connector"><span class="leg-duration-text">${lastSeg} km</span></div>`;
+    rows += `<div class="leg-connector"><span class="leg-duration-text">🚲 ${lastSeg} km</span></div>`;
     return `<div class="housing-list" hidden>${rows}</div>`;
   }
 
@@ -283,7 +296,7 @@
       section.addEventListener("click", function (event) {
         event.stopPropagation();
         if (event.target.closest(".btn-book")) return;
-        if (event.target.closest(".housing-pill")) return;
+        if (event.target.closest(".housing-toggle")) return;
         if (event.target.closest(".housing-name")) return;
         window.InterMap.focusOnLeg(itinerary, section.dataset.leg);
       });
@@ -291,29 +304,59 @@
   }
 
   /**
-   * Wire the housing pill (expand/collapse the night list) and the per-night
-   * housing names (hover shows the same info box as the map markers; click
-   * focuses the map on that housing). All handlers stop propagation so they
-   * neither collapse the card nor refocus the bike leg.
+   * Truncate a "Nuit k : name" pill to a single line at a word boundary.
+   *
+   * Starts from the full text; while it overflows its one-line box, drops the
+   * last word of the name and appends "…", so words are never sliced in half.
+   * Requires the pill to be laid out (visible), and the CSS to set nowrap +
+   * a bounded max-width.
+   *
+   * @param {HTMLElement} el - The `.housing-name` pill element.
+   */
+  function fitHousingPill(el) {
+    const prefix = el.dataset.prefix || "";
+    const name = el.dataset.name || "";
+    const full = (prefix ? prefix + " " : "") + name;
+    el.textContent = full;
+    if (el.scrollWidth <= el.clientWidth) return;
+    const words = name.split(/\s+/);
+    while (words.length > 1) {
+      words.pop();
+      el.textContent = (prefix ? prefix + " " : "") + words.join(" ") + "…";
+      if (el.scrollWidth <= el.clientWidth) return;
+    }
+    // A single over-long word: leave it; the CSS ellipsis clips it.
+  }
+
+  /**
+   * Wire the housing toggle (expand/collapse the night list, hiding the summary
+   * line while open) and the per-night housing pills (hover shows the same info
+   * box as the map markers; click focuses the map on that housing). All handlers
+   * stop propagation so they neither collapse the card nor refocus the bike leg.
    *
    * @param {HTMLElement} card - The expanded itinerary card element.
    * @param {Object} itinerary - The itinerary object backing the card.
    */
   function attachHousingHandlers(card, itinerary) {
-    const pill = card.querySelector(".housing-pill");
+    const toggle = card.querySelector(".housing-toggle");
     const list = card.querySelector(".housing-list");
-    if (pill && list) {
-      pill.addEventListener("click", function (event) {
+    const summary = card.querySelector(".detail-section--bike .bike-summary");
+    if (toggle && list) {
+      toggle.addEventListener("click", function (event) {
         event.stopPropagation();
         const isHidden = list.hasAttribute("hidden");
         if (isHidden) {
           list.removeAttribute("hidden");
-          pill.setAttribute("aria-expanded", "true");
-          pill.textContent = "🛏️ Masquer les hébergements";
+          if (summary) summary.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "true");
+          toggle.textContent = "🛏️ Masquer les hébergements";
+          // Truncate the night pills now the list is visible (needs layout).
+          card.querySelectorAll(".housing-name").forEach(fitHousingPill);
         } else {
           list.setAttribute("hidden", "");
-          pill.setAttribute("aria-expanded", "false");
-          pill.textContent = "🛏️ Voir les hébergements";
+          if (summary) summary.removeAttribute("hidden");
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.textContent = "🛏️ Voir les hébergements";
         }
       });
     }

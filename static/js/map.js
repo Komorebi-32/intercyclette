@@ -815,9 +815,10 @@
     itinerary.housing.forEach(function (stop) {
       if (!stop.point) return;
       const panelHtml = buildHousingInfoHtml(stop.point, stop.source);
+      // No `title` option: it renders a second, native (dark) tooltip on top of
+      // the custom hover panel. The hover panel below is the only info box.
       const marker = L.marker([stop.point.lat, stop.point.lon], {
         icon: buildEmojiStationIcon("🛏️", 22),
-        title: "Nuit " + stop.night + " : " + (stop.point.name || ""),
       }).bindPopup("<b>Nuit " + stop.night + "</b><br>" + (stop.point.name || ""));
       marker.on("mouseover", function (e) {
         showPanel(panelHtml, e.originalEvent.clientX, e.originalEvent.clientY);

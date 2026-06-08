@@ -430,22 +430,25 @@ input[type="text"]:focus, select:focus, input[type="date"]:focus {
   color: #1a5c38;
 }
 
-/* Housing proposal: pill toggling the per-night list inside the bike section */
+/* Housing proposal: toggle button + per-night "Nuit k" pills */
+.housing-toggle,
 .housing-pill {
   cursor: pointer;
   font-family: var(--font);
   font-size: 11px;
 }
 .housing-list { margin: 2px 0; }
-.housing-night-row { align-items: baseline; }
+.housing-date-row { margin-bottom: 2px; }
+.housing-night-row { margin: 2px 0 6px; }
+
+/* "Nuit k : name" rendered as a one-line pill, truncated with an ellipsis */
 .housing-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--green-dark);
-  cursor: pointer;
-  text-decoration: underline dotted;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.housing-name:hover { color: var(--green); }
+.housing-name:hover { background: #d8f0e2; }
 .housing-none {
   font-size: 13px;
   font-style: italic;
@@ -1040,7 +1043,7 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 }
 
 .leg-duration-text {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--grey-text);
   margin-left: 4px;
 }
