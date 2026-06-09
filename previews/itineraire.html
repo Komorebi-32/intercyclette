@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercyclette — Aperçu : Itinéraire A → B</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="preview.css" />
+</head>
+<body>
+  <nav class="top-nav">
+    <button class="btn-header-link">Aide</button>
+    <button class="btn-header-link">Développements futurs</button>
+    <button class="btn-header-link">Crédits</button>
+  </nav>
+
+  <div class="app-layout">
+    <!-- ── Left panel: point A → point B search ── -->
+    <aside class="panel-left">
+      <h1 class="panel-title">🚲 Intercyclette — Randovélo + Train</h1>
+
+      <p class="preview-subtitle">Itinéraire personnalisé</p>
+
+      <form id="search-form" onsubmit="return false;">
+        <div class="form-group">
+          <label for="ab-depart">Départ</label>
+          <input type="text" id="ab-depart" value="Paris Gare de Lyon" autocomplete="off" />
+        </div>
+
+        <div class="form-group">
+          <label for="ab-arrivee">Arrivée</label>
+          <input type="text" id="ab-arrivee" value="Nantes" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn-search">🔍 Trouver votre prochain séjour</button>
+      </form>
+    </aside>
+
+    <!-- ── Right panel: greyscale map backdrop ── -->
+    <main class="panel-right">
+      <div id="map" class="map-container"></div>
+
+      <div class="map-pills-top">
+        <div class="map-pill-group">
+          <button type="button" class="map-pill" aria-expanded="false">
+            <span class="map-pill-label">🏠 Hébergements</span>
+            <span class="map-pill-arrow" aria-hidden="true">▾</span>
+          </button>
+        </div>
+        <button type="button" class="map-pill">😋 Restaurants</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="preview-map.js"></script>
+  <script>
+    window.PreviewMap.initPreviewMap("map", { center: [46.8, 2.3], zoom: 6 });
+  </script>
+</body>
+</html>

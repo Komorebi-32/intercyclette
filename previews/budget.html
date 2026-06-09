@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercyclette — Aperçu : Budget</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="preview.css" />
+</head>
+<body>
+  <nav class="top-nav">
+    <button class="btn-header-link">Aide</button>
+    <button class="btn-header-link">Développements futurs</button>
+    <button class="btn-header-link">Crédits</button>
+  </nav>
+
+  <div class="app-layout">
+    <!-- ── Left panel: results detail (budget variant) ── -->
+    <aside class="panel-left">
+      <h1 class="panel-title">🚲 Intercyclette — Randovélo + Train</h1>
+
+      <div id="results-view">
+        <div class="results-actions">
+          <button type="button" class="btn-result-action">🔍 Nouvelle recherche</button>
+          <button type="button" class="btn-result-action">✏️ Modifier</button>
+        </div>
+
+        <div class="results-container">
+          <h2 class="results-heading">Départ de Paris Austerlitz - 155 km à vélo - 3 jours</h2>
+          <h2 class="results-heading">1 itinéraire trouvé</h2>
+
+          <article class="itinerary-card expanded">
+            <div class="card-header">
+              <div class="card-title">
+                <span class="route-badge" data-route="EV3">EV3</span>
+                <span class="route-name">La Scandibérique</span>
+              </div>
+              <div class="card-meta">
+                <span class="card-expand-icon">▲</span>
+              </div>
+            </div>
+
+            <div class="card-detail">
+              <!-- Benefit pill: budget category, at the very top of the detail -->
+              <div class="leg-pill-row budget-row">
+                <span class="benefit-pill budget-pill">💸 Budget : éco+</span>
+              </div>
+
+              <!-- Train aller -->
+              <div class="detail-section detail-section--train" style="border-left-color:#3498db">
+                <div class="leg-pill-row">
+                  <div class="leg-pill leg-pill--train" style="background:#3498db">🚂 Train aller</div>
+                  <span class="leg-date">09/04/2026</span>
+                  <span class="leg-price">32 €</span>
+                </div>
+                <div class="leg-body">
+                  <div class="leg-stop">
+                    <span class="leg-time">08h22</span>
+                    <span class="leg-station">Paris Austerlitz</span>
+                  </div>
+                  <div class="leg-connector">
+                    <span class="leg-duration-text">1h 02 · direct</span>
+                  </div>
+                  <div class="leg-stop">
+                    <span class="leg-time">09h24</span>
+                    <span class="leg-station">Montargis</span>
+                  </div>
+                  <div class="journey-book">
+                    <a href="#" class="btn-book">Réserver sur SNCF Connect</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bike leg with camping-only night list (expanded) -->
+              <div class="detail-section detail-section--bike" data-route="EV3">
+                <div class="leg-pill-row">
+                  <div class="leg-pill leg-pill--bike" data-route="EV3">🚲 La Scandibérique</div>
+                </div>
+                <div class="leg-body">
+                  <div class="leg-stop">
+                    <span class="leg-date">09/04/2026</span>
+                    <span class="leg-station">Montargis</span>
+                    <span class="leg-km">km 110</span>
+                  </div>
+                  <div class="leg-connector bike-summary" hidden>
+                    <span class="leg-duration-text">155 km · Escargot tranquille</span>
+                  </div>
+                  <div class="leg-pill-row">
+                    <button type="button" class="benefit-pill housing-toggle" aria-expanded="true">🛏️ Masquer les hébergements</button>
+                  </div>
+                  <div class="housing-list">
+                    <div class="leg-connector housing-connector">
+                      <span class="leg-duration-text">🚲 52 km</span>
+                      <span class="benefit-pill housing-pill housing-name">Nuit 1 : Camping des Rives du Loing</span>
+                    </div>
+                    <div class="leg-connector housing-connector">
+                      <span class="leg-date">10/04/2026</span>
+                      <span class="leg-duration-text">🚲 51 km</span>
+                      <span class="benefit-pill housing-pill housing-name">Nuit 2 : Camping de la Forêt</span>
+                    </div>
+                    <div class="leg-connector housing-connector">
+                      <span class="leg-date">11/04/2026</span>
+                      <span class="leg-duration-text">🚲 52 km</span>
+                    </div>
+                  </div>
+                  <div class="leg-stop">
+                    <span class="leg-date">11/04/2026</span>
+                    <span class="leg-station">Gien</span>
+                    <span class="leg-km">km 265</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Train retour -->
+              <div class="detail-section detail-section--train" style="border-left-color:#27ae60">
+                <div class="leg-pill-row">
+                  <div class="leg-pill leg-pill--train" style="background:#27ae60">🚂 Train retour</div>
+                  <span class="leg-date">11/04/2026</span>
+                  <span class="leg-price">29 €</span>
+                </div>
+                <div class="leg-body">
+                  <div class="leg-stop">
+                    <span class="leg-time">17h05</span>
+                    <span class="leg-station">Gien</span>
+                  </div>
+                  <div class="leg-connector">
+                    <span class="leg-duration-text">2h 10 · 1 correspondance(s)</span>
+                  </div>
+                  <div class="leg-stop">
+                    <span class="leg-time">19h15</span>
+                    <span class="leg-station">Paris Austerlitz</span>
+                  </div>
+                  <div class="journey-book">
+                    <a href="#" class="btn-book">Réserver sur SNCF Connect</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Right panel: greyscale map backdrop with EV3 overlay ── -->
+    <main class="panel-right">
+      <div id="map" class="map-container"></div>
+
+      <div class="map-pills-top">
+        <div class="map-pill-group">
+          <button type="button" class="map-pill is-active" aria-expanded="false">
+            <span class="map-pill-label">🏠 Hébergements</span>
+            <span class="map-pill-arrow" aria-hidden="true">▾</span>
+          </button>
+        </div>
+        <button type="button" class="map-pill">😋 Restaurants</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="preview-map.js"></script>
+  <script>
+    window.PreviewMap.initPreviewMap("map", { center: [47.95, 2.78], zoom: 10, routeId: "EV3" });
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intercyclette — Aperçu : Communauté</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="preview.css" />
+</head>
+<body>
+  <nav class="top-nav">
+    <button class="btn-header-link">Aide</button>
+    <button class="btn-header-link">Développements futurs</button>
+    <button class="btn-header-link">Crédits</button>
+  </nav>
+
+  <!-- App shell behind the modal (dimmed by the overlay) -->
+  <div class="app-layout">
+    <aside class="panel-left">
+      <h1 class="panel-title">🚲 Intercyclette — Randovélo + Train</h1>
+      <div class="form-step-header">
+        <span class="form-step-num">1</span>
+        <span class="form-step-label">Votre point de départ</span>
+      </div>
+      <div class="form-group">
+        <label for="depart">Gare ou ville 🏠</label>
+        <input type="text" id="depart" value="Paris Gare de Lyon" autocomplete="off" />
+      </div>
+      <button type="button" class="btn-search">🔍 Trouver votre prochain séjour</button>
+    </aside>
+
+    <main class="panel-right">
+      <div id="map" class="map-container"></div>
+      <div class="map-pills-top">
+        <div class="map-pill-group">
+          <button type="button" class="map-pill" aria-expanded="false">
+            <span class="map-pill-label">🏠 Hébergements</span>
+            <span class="map-pill-arrow" aria-hidden="true">▾</span>
+          </button>
+        </div>
+        <button type="button" class="map-pill">😋 Restaurants</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Community modal (collaborative features) ── -->
+  <div class="overlay-modal">
+    <div class="overlay-modal-box community-modal-box">
+      <button class="overlay-modal-close" title="Fermer">✕</button>
+      <h2 class="overlay-modal-title">Rejoignez la communauté Intercyclette !</h2>
+      <div class="overlay-modal-content">
+        <p>Bientôt, partagez vos parcours, trouvez des compagnons de route et échangez des conseils entre cyclistes.</p>
+        <div class="community-grid">
+          <div class="community-card">
+            <span class="community-card-emoji">🗺️</span>
+            <span class="community-card-text">Proposer un itinéraire vélo</span>
+          </div>
+          <div class="community-card">
+            <span class="community-card-emoji">🚴</span>
+            <span class="community-card-text">Rejoignez une randovélo</span>
+          </div>
+          <div class="community-card">
+            <span class="community-card-emoji">💬</span>
+            <span class="community-card-text">Demandez des conseils pour votre voyage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="preview-map.js"></script>
+  <script>
+    window.PreviewMap.initPreviewMap("map", { center: [46.8, 2.3], zoom: 6 });
+  </script>
+</body>
+</html>

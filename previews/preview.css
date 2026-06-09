@@ -1,0 +1,82 @@
+/* preview.css — Showcase-only styles for the feature-preview mockups.
+ *
+ * Adds the handful of new classes the previews need on TOP of the app's real
+ * static/css/style.css (loaded first). Nothing here belongs to the production
+ * app; if a feature ships for real, these rules move into style.css.
+ *
+ *   Feature 1 : .preview-subtitle
+ *   Feature 2 : .leg-price, .budget-pill, .budget-row
+ *   Feature 3 : .community-grid, .community-card, .community-card-emoji,
+ *               .community-card-text, .community-modal-box
+ */
+
+/* ── Feature 1 — A→B search ──────────────────────────────────────────────── */
+/* Subtitle sitting in the panel body, just under the green title bar. */
+.preview-subtitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0 0 14px;
+}
+
+/* ── Feature 2 — budget in results ───────────────────────────────────────── */
+/* Price pushed to the right edge of a train leg's pill row. */
+.leg-price {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green-dark);
+  white-space: nowrap;
+}
+
+/* Budget benefit pill: a subtle gold tint over the base .benefit-pill. */
+.budget-pill {
+  background: #fff6df;
+  border-color: #f0d089;
+  color: #8a6d1a;
+}
+
+/* Row holding the budget pill at the very top of the card detail. */
+.budget-row {
+  margin-bottom: 14px;
+}
+
+/* ── Feature 3 — collaborative features ──────────────────────────────────── */
+/* Three cards, emoji centered on top, text centered below. */
+.community-grid {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.community-card {
+  flex: 1 1 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  background: var(--grey-bg);
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  padding: 22px 14px;
+}
+.community-card-emoji {
+  font-size: 34px;
+  line-height: 1;
+}
+.community-card-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+/* Modal box sizing + centered title, matching the welcome/credits modals. */
+.community-modal-box {
+  width: min(56vw, 660px);
+  max-height: 80vh;
+}
+.community-modal-box .overlay-modal-title {
+  text-align: center;
+}
