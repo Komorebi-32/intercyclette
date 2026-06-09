@@ -1236,3 +1236,116 @@ details[open] > .roadmap-summary::after { transform: rotate(90deg); }
 }
 
 .carbon-pill-wrapper:hover .carbon-tooltip { display: block; }
+
+/* ── Roadmap modal: "coming soon" feature slideshow ──────────────────────── */
+/* Fills the visible modal area on first view; the roadmap accordion below it
+   stays reachable by scrolling. One slide shown at a time (`.is-active`). */
+.roadmap-slideshow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: calc(88vh - 132px);
+  min-height: 340px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--grey-border);
+}
+
+/* Slide track — horizontal gutters leave room for the arrows */
+.slideshow-track {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  padding: 0 56px;
+}
+
+.slideshow-slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 12px;
+}
+.slideshow-slide.is-active { display: flex; }
+
+/* Per-slide subtitle introducing the feature */
+.slideshow-caption {
+  flex-shrink: 0;
+  text-align: center;
+}
+.slideshow-caption strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin-bottom: 4px;
+}
+.slideshow-caption span {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--grey-text);
+}
+
+/* Screenshot area — image scaled to fit without distortion (varied aspects) */
+.slideshow-figure {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slideshow-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 1px solid var(--grey-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--white);
+}
+
+/* Prev / next arrows, vertically centered in the gutters */
+.slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: var(--white);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background .15s;
+}
+.slideshow-arrow:hover { background: var(--green); }
+.slideshow-arrow--prev { left: 6px; }
+.slideshow-arrow--next { right: 6px; }
+
+/* Position dots */
+.slideshow-dots {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 12px;
+}
+.slideshow-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--grey-border);
+  cursor: pointer;
+  transition: background .15s;
+}
+.slideshow-dot:hover { background: #9fccb6; }
+.slideshow-dot.is-active { background: var(--green-dark); }

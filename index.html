@@ -388,6 +388,51 @@
       <h2 class="overlay-modal-title">🗺️ Développements futurs</h2>
       <div class="overlay-modal-content">
 
+        <!-- ── Aperçu des prochaines fonctionnalités (diaporama) ── -->
+        <section class="roadmap-slideshow" id="roadmap-slideshow" aria-roledescription="diaporama" aria-label="Aperçu des prochaines fonctionnalités">
+          <button type="button" class="slideshow-arrow slideshow-arrow--prev" id="slideshow-prev" aria-label="Aperçu précédent">‹</button>
+
+          <div class="slideshow-track">
+            <figure class="slideshow-slide is-active">
+              <figcaption class="slideshow-caption">
+                <strong>Recherche d'un point A à un point B</strong>
+                <span>Choisissez une ville de départ et une ville d'arrivée : l'outil identifie la route EuroVelo la plus adaptée et compose votre trajet train + vélo.</span>
+              </figcaption>
+              <div class="slideshow-figure">
+                <img class="slideshow-img" src="previews/preview_itineraire.png" alt="Aperçu : panneau de recherche d'un itinéraire personnalisé d'un point A à un point B" />
+              </div>
+            </figure>
+
+            <figure class="slideshow-slide">
+              <figcaption class="slideshow-caption">
+                <strong>Budget du séjour</strong>
+                <span>Un budget estimé pour chaque trajet en train, et des hébergements filtrés par type (ici, uniquement des campings) proposés pour chaque nuit.</span>
+              </figcaption>
+              <div class="slideshow-figure">
+                <img class="slideshow-img" src="previews/preview_budget.png" alt="Aperçu : détail d'un itinéraire avec un budget par trajet en train et un camping proposé pour chaque nuit" />
+              </div>
+            </figure>
+
+            <figure class="slideshow-slide">
+              <figcaption class="slideshow-caption">
+                <strong>Fonctionnalités collaboratives</strong>
+                <span>Proposez vos itinéraires, rejoignez des randovélos et demandez conseil à la communauté Intercyclette.</span>
+              </figcaption>
+              <div class="slideshow-figure">
+                <img class="slideshow-img" src="previews/preview_communaute.png" alt="Aperçu : rejoindre la communauté Intercyclette" />
+              </div>
+            </figure>
+          </div>
+
+          <button type="button" class="slideshow-arrow slideshow-arrow--next" id="slideshow-next" aria-label="Aperçu suivant">›</button>
+
+          <div class="slideshow-dots" id="slideshow-dots">
+            <button type="button" class="slideshow-dot is-active" data-index="0" aria-label="Aller à l'aperçu 1"></button>
+            <button type="button" class="slideshow-dot" data-index="1" aria-label="Aller à l'aperçu 2"></button>
+            <button type="button" class="slideshow-dot" data-index="2" aria-label="Aller à l'aperçu 3"></button>
+          </div>
+        </section>
+
         <details class="roadmap-item">
           <summary class="roadmap-summary">Affichage des émissions de Gaz à Effet de Serre (GES) évitées</summary>
 
@@ -555,5 +600,6 @@
   <script src="static/js/co2.js"></script>
   <script src="static/js/results.js"></script>
   <script src="static/js/search.js"></script>
+  <script src="static/js/slideshow.js"></script>
 </body>
 </html>

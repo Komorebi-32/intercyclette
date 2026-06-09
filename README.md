@@ -29,7 +29,7 @@ Site statique (GitHub Pages / http.server)
   static/data/accueil_velo_housing.json     ← hébergements Accueil Vélo ≤ 5 km
   static/data/accueil_velo_restaurants.json ← restaurants Accueil Vélo ≤ 5 km
   static/js/{map,planner,transitous,
-    co2,results,search}.js
+    co2,results,search,slideshow}.js
   static/css/style.css
 ```
 
@@ -178,7 +178,8 @@ intercyclette/
 │       ├── transitous.js              Client API Transitous (horaires en temps réel)
 │       ├── co2.js                     Calcul d'empreinte carbone et émissions évitées
 │       ├── results.js                 Rendu des cartes itinéraires
-│       └── search.js                  Formulaire, autocomplétion, date FR, aide, orchestration
+│       ├── search.js                  Formulaire, autocomplétion, date FR, aide, orchestration
+│       └── slideshow.js               Diaporama d'aperçu en haut de la modale « Développements futurs »
 ├── templates/
 │   └── index.html                     Template Jinja2 (développement local Flask)
 ├── docs/

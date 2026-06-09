@@ -26,6 +26,7 @@ modals.
 │    results.js      Render itinerary cards                           │
 │    search.js       Form, autocomplete, modals, layer toggles,       │
 │                    orchestrates search                              │
+│    slideshow.js    Roadmap modal feature-preview carousel           │
 │  static/data/                                                       │
 │    stations.json                  All SNCF stations (autocomplete)  │
 │    route_stations.json            Route–station proximity index     │
@@ -328,6 +329,21 @@ Orchestrates the search flow:
    closeable by ✕, backdrop click, or Escape
 
 Public API: `window.InterSearch`
+
+---
+
+### `static/js/slideshow.js`
+
+Drives the feature-preview carousel at the top of the **roadmap** modal
+("Développements futurs"): one slide at a time, navigated by prev/next arrows,
+dots, or the arrow keys. `nextIndex(current, total, direction)` is the pure
+wrap-around index helper (unit-tested in `tests/test_slideshow.js`);
+`initSlideshow` wires the DOM and self-initialises on `DOMContentLoaded`. Slides
+toggle an `is-active` class — nothing is measured or moved — so it behaves
+correctly whether the modal is open or still hidden. The three preview images
+live in `previews/preview_*.png` (generated from the mockups in `previews/`).
+
+Public API: `window.InterSlideshow`
 
 ---
 
